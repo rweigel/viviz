@@ -1,0 +1,103 @@
+.ui-widget {font-size:1.0em;}
+
+.ui-widget-content { border: 1px solid #666666; background: white url(ui-darkness/images/ui-bg_inset-soft_25_000000_1x100.png) 50% bottom repeat-x; color: #ffffff; }
+
+.ui-widget-content a {color:black;}
+
+.ui-menu .ui-menu-item a {
+	text-decoration:none;
+	display:block;
+	padding:.2em .4em;
+	line-height:1.0;
+	zoom:1;
+}
+
+.ui-autocomplete {
+		max-height: 600px;
+		overflow-y: auto;
+		/* prevent horizontal scrollbar */
+		overflow-x: hidden;
+		/* add padding to account for vertical scrollbar */
+		padding-right: 1em;
+}
+
+body {
+	//background-color:white;
+	background-color:black;
+	color:white;
+}
+a:link, a:active, a:visited, a strong {
+	color: #96F179;
+}
+button {
+//	background-color: white;
+	background-color: black;
+	padding: 0px 0px;
+	border:0px;
+//	color: black;
+	color: white;
+	font-weight:bold;
+	font-size:12pt;
+	cursor:pointer;
+}
+option {
+	background-color:black;
+	color:white;	
+}
+select {
+	background-color:black;
+	color:white;
+	//background-color:black;
+	//color:white;
+	font-weight:bold;
+	font-size:12pt;
+}
+table {
+	border:solid;
+	table-layout: fixed;
+}
+td {
+	border:solid;
+}
+#numvisible {
+    font-size:12pt;
+}
+#console {
+}
+#dropdowns {
+    float:right;
+}
+#fullframe,#fullframeoverlay {
+	white-space: nowrap;
+	overflow: auto;
+//	position:relative;
+}
+#thumbframe {
+	overflow-y: auto;
+	overflow-x: hidden;
+	width:0px;
+    float: left;
+    text-align:center;
+}
+.thumbbrowse {
+    width:150px;
+    margin:auto;
+    border: 3px solid white;
+}
+.inactive {
+    border: 3px solid white;
+}
+.active {
+    border: 3px solid blue;
+}
+img.full {
+	z-index:0;
+}
+img.top {
+	filter:alpha(opacity=50);
+	opacity:0.5;
+	top:0px;
+	position: absolute;
+//	display:none;
+	z-index:1;
+} 
