@@ -66,6 +66,11 @@ function extractattributes(galleryid) {
 }
 
 function extractfiles(URLFiles) {
+	
+	extractfiles.cache = {};
+	if (extractfiles.cache[URLFiles])
+		return extractfiles.cache[URLFiles];
+		
 	var FILES = new Array();
 	//var Proxy = "proxy.php?url=";
 	var Proxy = "";
@@ -86,6 +91,7 @@ function extractfiles(URLFiles) {
 					}
 		});
 		$("#status").text("");
+		extractfiles.cache[URLFiles] = FILES;
 		return FILES;
 	}
 
@@ -114,6 +120,7 @@ function extractfiles(URLFiles) {
 					}
 		});
 		$("#status").text("");
+		extractfiles.cache[URLFiles] = FILES;
 		return FILES;
 	}
 
@@ -140,6 +147,7 @@ function extractfiles(URLFiles) {
 					}
 		});
 		$("#status").text("");
+		extractfiles.cache[URLFiles] = FILES;
 		return FILES;
 }
 

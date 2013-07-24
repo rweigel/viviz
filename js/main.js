@@ -13,8 +13,8 @@ $(document).ready(function(){
 	})
 	
 	// TODO: $.gallery({"showdropdowns":true,"showfilmstrip":true,"showattributes":true,"showconfiguration":true,"showprint",true,"showgrid",true,"showabout":true,"compact","false"]})
-	gallery("#gallery1");
 	thumb("#thumb1");
+	gallery("#gallery1");
 	$("#thumbbrowsebutton").click();
 	
 	$("#skin").change(function() {
