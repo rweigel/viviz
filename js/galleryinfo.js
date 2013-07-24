@@ -70,6 +70,7 @@ function extractfiles(URLFiles) {
 	//var Proxy = "proxy.php?url=";
 	var Proxy = "";
 	URLFiles = Proxy + URLFiles;
+	$("#status").text("Retrieving list of files");
 	
 	if (URLFiles.match(/\.txt$/)) {
 		$.ajax({
@@ -84,6 +85,7 @@ function extractfiles(URLFiles) {
 						//FILES = data.split(/\n/); Use this instead.
 					}
 		});
+		$("#status").text("");
 		return FILES;
 	}
 
@@ -111,8 +113,10 @@ function extractfiles(URLFiles) {
 						}
 					}
 		});
+		$("#status").text("");
 		return FILES;
 	}
+
 
 		// A service request that returns a JSON array of files.
 		$.ajax({
@@ -120,7 +124,7 @@ function extractfiles(URLFiles) {
 			url: URLFiles,
 			async: false,
 			dataType: "json",
-			error: function () {error("catalog.js: Error reading " + URLFiles,true)},
+			error: function () {error("galleryinfo.js: Error reading " + URLFiles,true)},
 			success: function (data) {
 						console.log('galleryinfo.js: Extracting files from ' + URLFiles);
 						
@@ -135,6 +139,7 @@ function extractfiles(URLFiles) {
 						
 					}
 		});
+		$("#status").text("");
 		return FILES;
 }
 
