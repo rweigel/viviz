@@ -27,19 +27,19 @@ function thumb(wrapper) {
     //console.log(INFOG);
     
     	var HEADER = cataloginfo(galleryid);   
-    	$(wrapper + " #about").attr('title',HEADER["About"]).show();
+    	$(wrapper + " #about").attr('title',HEADER["about"]).show();
 
-	if ((HEADER["Aboutlink"]) && (!HEADER["About"])) {
-		$(wrapper + " #about").attr("onclick","window.location='" + HEADER["Aboutlink"]+"'");
+	if ((HEADER["aboutlink"]) && (!HEADER["about"])) {
+		$(wrapper + " #about").attr("onclick","window.location='" + HEADER["aboutlink"]+"'");
 	}	
-	if ((!HEADER["Aboutlink"]) && (HEADER["About"])) {
+	if ((!HEADER["aboutlink"]) && (HEADER["about"])) {
 		//$(wrapper + " #about").attr("onclick","window.location='" + HEADER["Fulldir"]+"'");
 		$(wrapper + " #about").show();
-		if (HEADER["About"].match(/^http/)) {
+		if (HEADER["about"].match(/^http/)) {
 			//$(wrapper + " #about").html('<a style="color:white"	>About this gallery</a>');
-			$(wrapper + " #about").attr('onclick',"window.location='" + HEADER["About"] + "'");
+			$(wrapper + " #about").attr('onclick',"window.location='" + HEADER["about"] + "'");
 		} else {
-			$(wrapper + " #about").attr('title',HEADER["About"]);
+			$(wrapper + " #about").attr('title',HEADER["about"]);
 		}
 	}
 	$(wrapper + ' #catalogxmlopen').show();
@@ -47,7 +47,7 @@ function thumb(wrapper) {
 	$(wrapper + " #catalogxmlopen").unbind('click');
 	$(wrapper + " #catalogxmlopen").click(
 			function () {
-				CodeMirror($('#thumb1 #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["Xml"]});
+				CodeMirror($('#thumb1 #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["xml"]});
 				$(wrapper + ' #catalogxmlopen').hide();
 				$(wrapper + ' #catalogxmlclose').show();
 				//$('#catalogxmltest').show();

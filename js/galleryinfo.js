@@ -217,64 +217,64 @@ function galleryinfo(galleryid) {
 	
 	var CATALOGINFO = cataloginfo(galleryid);
 
-	if (CATALOGINFO["Script"]) {
-		_GALLERYINFO["files"] = eval(CATALOGINFO["Script"])(); 
+	if (CATALOGINFO["script"]) {
+		_GALLERYINFO["files"] = eval(CATALOGINFO["script"])(); 
 	}
 	
-	if (CATALOGINFO["Fullfiles"]) {
-		_GALLERYINFO["files"]  = extractfiles(CATALOGINFO["Fullfiles"]);
+	if (CATALOGINFO["fullfiles"]) {
+		_GALLERYINFO["files"]  = extractfiles(CATALOGINFO["fullfiles"]);
 		//console.log(_GALLERYINFO["files"]);
 	}
 	
-	if (CATALOGINFO["Thumbfiles"]) {
-		_GALLERYINFO["thumbfiles"]  = extractfiles(CATALOGINFO["Thumbfiles"]);
+	if (CATALOGINFO["thumbfiles"]) {
+		_GALLERYINFO["thumbfiles"]  = extractfiles(CATALOGINFO["thumbfiles"]);
 		//console.log(_GALLERYINFO["files"]);
 	}
 
 
-	if (CATALOGINFO["Strftime"]) {
-		_GALLERYINFO["Strftime"]      = CATALOGINFO["Strftime"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["StrftimeStart"] = CATALOGINFO["StrftimeStart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["StrftimeStop"]  = CATALOGINFO["StrftimeStop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
+	if (CATALOGINFO["strftime"]) {
+		_GALLERYINFO["strftime"]      = CATALOGINFO["strftime"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
+		_GALLERYINFO["strftimestart"] = CATALOGINFO["strftimestart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
+		_GALLERYINFO["strftimestop"]  = CATALOGINFO["strftimestop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		
 		// Create regexps based on time information
-		_GALLERYINFO["autoattributes"]  = menulist(CATALOGINFO["StrftimeStart"],CATALOGINFO["StrftimeStop"],CATALOGINFO["Strftime"]);
+		_GALLERYINFO["autoattributes"]  = menulist(CATALOGINFO["strftimestart"],CATALOGINFO["strftimestop"],CATALOGINFO["strftime"]);
 
 		// Generate list of files based on template, start, and stop.
 		// TODO: Generalize to handle hours, minutes, seconds.
 		
-		if (CATALOGINFO["StrftimeStart"].match(/^[0-9]{4}-[0-9]{3}$/)) {
+		if (CATALOGINFO["strftimestart"].match(/^[0-9]{4}-[0-9]{3}$/)) {
 			// YYYY-DOY
-			var START_year = CATALOGINFO["StrftimeStart"].substr(0,4);
-			var START_day  = CATALOGINFO["StrftimeStart"].substr(5,3);
+			var START_year = CATALOGINFO["strftimestart"].substr(0,4);
+			var START_day  = CATALOGINFO["strftimestart"].substr(5,3);
 			var START_date = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}).toString('yyyy-MM-dd'));
 			var START_ms   = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}));
 		} else {
-			var START_ms   = new Date(Date.parse(CATALOGINFO["StrftimeStart"]));
-			var START_date = new Date(Date.parse(CATALOGINFO["StrftimeStart"]));
-			var STOP_date = new Date(Date.parse(CATALOGINFO["StrftimeStop"]));
+			var START_ms   = new Date(Date.parse(CATALOGINFO["strftimestart"]));
+			var START_date = new Date(Date.parse(CATALOGINFO["strftimestart"]));
+			var STOP_date = new Date(Date.parse(CATALOGINFO["strftimestop"]));
 			//console.log(START_ms)
 		}
 			
-		if (CATALOGINFO["StrftimeStop"].match(/^[0-9]{4}-[0-9]{3}$/)) {
+		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/)) {
 			// YYY-DOY
-			var STOP_year = CATALOGINFO["StrftimeStop"].substr(0,4);
-			var STOP_day  = CATALOGINFO["StrftimeStop"].substr(5,3);
+			var STOP_year = CATALOGINFO["strftimestop"].substr(0,4);
+			var STOP_day  = CATALOGINFO["strftimestop"].substr(5,3);
 			var STOP_ms   = new Date(Date.parse(STOP_year+"-01-01").add({days:parseInt(STOP_day)-1}));
 		} else {
-			var STOP_ms    = new Date(Date.parse(CATALOGINFO["StrftimeStop"]));
+			var STOP_ms    = new Date(Date.parse(CATALOGINFO["strftimestop"]));
 		}
 
-		if (CATALOGINFO["StrftimeStop"].match(/^[0-9]{4}-[0-9]{3}$/) || CATALOGINFO["StrftimeStop"].match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
+		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/) || CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
 			var Ndays = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
 		}
 
 		// YYYY-MM
 		var incr = false;
-		if (CATALOGINFO["StrftimeStop"].match(/^[0-9]{4}-[0-9]{2}$/)) {
+		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}$/)) {
 			incr = {months:1};			
 		}
-		if (CATALOGINFO["StrftimeStop"].match(/^[0-9]{4}$/)) {
+		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}$/)) {
 			incr = {years:1};			
 		}
 		//console.log("Number of days: " + Ndays)
@@ -290,7 +290,7 @@ function galleryinfo(galleryid) {
 		//console.log(incr);
 		if (incr) {
 			while (Date.compare(START_date,STOP_date) <= 0) {
-				fname = START_date.strftime(CATALOGINFO["Strftime"]);
+				fname = START_date.strftime(CATALOGINFO["strftime"]);
 				//console.log(Date.compare(START_date,STOP_date));
 				//console.log(fname);
 				_GALLERYINFO["files"][i] = [fname];
@@ -300,7 +300,7 @@ function galleryinfo(galleryid) {
 		} else {	
 			// Faster to not use Date.compare().
 			while (i < Ndays) {
-				fname = START_date.strftime(CATALOGINFO["Strftime"]);
+				fname = START_date.strftime(CATALOGINFO["strftime"]);
 				//console.log(Date.compare(START_date,STOP_date));
 				//console.log(fname);
 				_GALLERYINFO["files"][i] = [fname];
@@ -312,14 +312,14 @@ function galleryinfo(galleryid) {
 		//console.log("galleryinfo.js: Creation of file list of length " + Ndays + " took " + elapsed + " ms");
 	} 
 
-	if (CATALOGINFO["Sprintf"]) {
-		_GALLERYINFO["SprintfStart"] = CATALOGINFO["SprintfStart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["SprintfStop"]  = CATALOGINFO["SprintfStop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["Sprintf"]      = CATALOGINFO["Sprintf"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
+	if (CATALOGINFO["sprintf"]) {
+		_GALLERYINFO["sprintfstart"] = CATALOGINFO["sprintfstart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
+		_GALLERYINFO["sprintfstop"]  = CATALOGINFO["sprintfstop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
+		_GALLERYINFO["sprintf"]      = CATALOGINFO["sprintf"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		var files = new Array();
-		io = parseInt(_GALLERYINFO["SprintfStart"]);
-		for (i = io; i < parseInt(_GALLERYINFO["SprintfStop"]) + 1; i++) {
-			var tmps = _GALLERYINFO["Sprintf"];
+		io = parseInt(_GALLERYINFO["sprintfstart"]);
+		for (i = io; i < parseInt(_GALLERYINFO["sprintfstop"]) + 1; i++) {
+			var tmps = _GALLERYINFO["sprintf"];
 			files[i-io] = [sprintf(tmps,i)];
 		}
 		_GALLERYINFO["files"] = files;
@@ -329,26 +329,26 @@ function galleryinfo(galleryid) {
 		//console.log("galleryinfo.js: Creation of file list failed.");
 	}
     
-	if (CATALOGINFO["Fulldir"]) {
-		_GALLERYINFO["fulldir"] = CATALOGINFO["Fulldir"];
+	if (CATALOGINFO["fulldir"]) {
+		_GALLERYINFO["fulldir"] = CATALOGINFO["fulldir"];
 	} else {
 		_GALLERYINFO["fulldir"] = "";			
 	}
 
-	if (CATALOGINFO["Fullfiles"]) {
-		_GALLERYINFO["fullfiles"] = CATALOGINFO["Fullfiles"];
+	if (CATALOGINFO["fullfiles"]) {
+		_GALLERYINFO["fullfiles"] = CATALOGINFO["fullfiles"];
 	} else {
 		_GALLERYINFO["fullfiles"] = "";			
 	}
 	
-	if (CATALOGINFO["Fullpreprocess"]) {
-		_GALLERYINFO["fullpreprocess"] = CATALOGINFO["Fullpreprocess"];
+	if (CATALOGINFO["fullpreprocess"]) {
+		_GALLERYINFO["fullpreprocess"] = CATALOGINFO["fullpreprocess"];
 	} else {
 		_GALLERYINFO["fullpreprocess"] = "";			
 	}
 
-	if (CATALOGINFO["Thumbdir"]) {
-		_GALLERYINFO["thumbdir"] = CATALOGINFO["Thumbdir"];
+	if (CATALOGINFO["thumbdir"]) {
+		_GALLERYINFO["thumbdir"] = CATALOGINFO["thumbdir"];
 	} else {
 		_GALLERYINFO["thumbdir"] = "";			
 	}
@@ -361,8 +361,8 @@ function galleryinfo(galleryid) {
 		_GALLERYINFO["thumbdir"] = _GALLERYINFO["fulldir"] + _GALLERYINFO["thumbdir"];
 	}
 	
-	if (CATALOGINFO["Thumbpreprocess"]) {
-		_GALLERYINFO["thumbpreprocess"] = CATALOGINFO["Thumbpreprocess"];
+	if (CATALOGINFO["thumbpreprocess"]) {
+		_GALLERYINFO["thumbpreprocess"] = CATALOGINFO["thumbpreprocess"];
 	} else {
 		_GALLERYINFO["thumbpreprocess"] = "";			
 	}
@@ -370,13 +370,13 @@ function galleryinfo(galleryid) {
 	if (_GALLERYINFO["thumbpreprocess"]) { _GALLERYINFO['thumbdir'] = _GALLERYINFO["thumbpreprocess"] + _GALLERYINFO['thumbdir']; }
 	if (_GALLERYINFO["fullpreprocess"]) { _GALLERYINFO['fulldir'] = _GALLERYINFO["fullpreprocess"] + _GALLERYINFO['fulldir']; }
 
-	if (CATALOGINFO["Fullpostprocess"]) {
-		_GALLERYINFO["fullpostprocess"] = CATALOGINFO["Fullpostprocess"];
+	if (CATALOGINFO["fullpostprocess"]) {
+		_GALLERYINFO["fullpostprocess"] = CATALOGINFO["fullpostprocess"];
 	} else {
 		_GALLERYINFO["fullpostprocess"] = "";			
 	}
-	if (CATALOGINFO["Thumbpostprocess"]) {
-		_GALLERYINFO["thumbpostprocess"] = CATALOGINFO["Thumbpostprocess"];
+	if (CATALOGINFO["thumbpostprocess"]) {
+		_GALLERYINFO["thumbpostprocess"] = CATALOGINFO["thumbpostprocess"];
 	} else {
 		_GALLERYINFO["thumbpostprocess"] = "";			
 	}

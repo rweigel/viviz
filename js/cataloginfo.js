@@ -1,6 +1,10 @@
 function cataloginfo(galleryid) {
 
 	// Read XML catalog file.
+	if (typeof(cataloginfo.json) != 'object') {
+		cataloginfo.json = new Object();
+		cataloginfo.json = catalogjson;
+	}
 	if (typeof(cataloginfo.xml) != 'object') {
 		//console.log("cataloginfo.js: No cached xml/catalog.xml");
 		cataloginfo.xml = new Object();
@@ -57,7 +61,7 @@ function cataloginfo(galleryid) {
 		if (typeof(cataloginfo.GALLERIES) != 'object') {
 			cataloginfo.GALLERIES = new Object();
 		} else {
-			//console.log('cataloginfo: Using cached gallery list');
+			console.log('cataloginfo: Using cached gallery list');
 			return cataloginfo.GALLERIES;
 		}
 
@@ -66,17 +70,33 @@ function cataloginfo(galleryid) {
 		GALLERIES["Titleshort"] = "-Galleries-";
 		GALLERIES["Class"]      = "updatelglobal";
 		GALLERIES["Values"]     = new Array();
+		var j = 0;
+		var cat = [];
 		$(cataloginfo.xml).find("catalog > gallery").each(
 				function (i) {
 					GALLERIES["Values"][i]          = new Object();
 					GALLERIES["Values"][i]["Title"] = $(this).children("title").text();
 					GALLERIES["Values"][i]["Value"] = $(this).attr("id");
 					GALLERIES["Values"][i]["Id"]    = $(this).attr('id');
+					j = j+1;
 				});
-	
-		//console.log("cataloginfo.js: Returning list of all galleries in xml/catalog.xml");
-		//console.log(GALLERIES);
+		
+		cataloginfo.json.forEach(
+				function (el,i) {
+					GALLERIES["Values"][i+j]          = new Object();
+					GALLERIES["Values"][i+j]["Title"] = el.title;
+					GALLERIES["Values"][i+j]["Value"] = el.id;
+					GALLERIES["Values"][i+j]["Id"]    = el.id;					
+				});
+		
+		console.log("cataloginfo.js: Returning list of all galleries in xml/catalog.xml");
 		cataloginfo.GALLERIES = GALLERIES;
+		
+		for (i = 0;i < GALLERIES["Values"].length;i++) {
+			console.log(GALLERIES["Values"][i]["Id"])
+			//$("#cat").append(GALLERIES["Values"][i]["Id"] + "\n")
+			$("#cat").append(JSON.stringify(cataloginfo(GALLERIES["Values"][0]["Id"])) + "\n")
+		}
 		return GALLERIES;
 	}
 
@@ -109,44 +129,44 @@ function cataloginfo(galleryid) {
 					var key = paramarr[0].charAt(0).toUpperCase() + paramarr[0].slice(1);
 					_CATALOGINFO[key] = paramarr[1];
 				}
-				if (_CATALOGINFO["Fulldir"])					
-					galleryid = _CATALOGINFO["Fulldir"];
+				if (_CATALOGINFO["fulldir"])					
+					galleryid = _CATALOGINFO["fulldir"];
 			}
 			//console.log('cataloginfo.js: galleryid = ' + galleryid);
 
-			if (_CATALOGINFO["Strftime"])
-				_CATALOGINFO["Strftime"] = _CATALOGINFO["Strftime"].replace(/\$/g,"%");
-			if (_CATALOGINFO["Sprintf"])
-				_CATALOGINFO["Sprintf"] = _CATALOGINFO["Sprintf"].replace(/\$/g,"%");
+			if (_CATALOGINFO["strftime"])
+				_CATALOGINFO["strftime"] = _CATALOGINFO["strftime"].replace(/\$/g,"%");
+			if (_CATALOGINFO["sprintf"])
+				_CATALOGINFO["sprintf"] = _CATALOGINFO["sprintf"].replace(/\$/g,"%");
 		
-			if (_CATALOGINFO["Strftime"] && _CATALOGINFO["Stop"]) {
-				_CATALOGINFO["StrftimeStop"] = _CATALOGINFO["Stop"];
+			if (_CATALOGINFO["strftime"] && _CATALOGINFO["stop"]) {
+				_CATALOGINFO["strftimestop"] = _CATALOGINFO["stop"];
 			}
-			if (_CATALOGINFO["Strftime"] && _CATALOGINFO["Start"]) {
-				_CATALOGINFO["StrftimeStart"] = _CATALOGINFO["Start"];
+			if (_CATALOGINFO["strftime"] && _CATALOGINFO["start"]) {
+				_CATALOGINFO["strftimestart"] = _CATALOGINFO["start"];
 			}
-			if (_CATALOGINFO["Sprintf"] && _CATALOGINFO["Stop"]) {
-				_CATALOGINFO["SprintfStop"] = _CATALOGINFO["Stop"];
+			if (_CATALOGINFO["sprintf"] && _CATALOGINFO["stop"]) {
+				_CATALOGINFO["sprintfStop"] = _CATALOGINFO["stop"];
 			}
-			if (_CATALOGINFO["Sprintf"] && _CATALOGINFO["Start"]) {
-				_CATALOGINFO["SprintfStart"] = _CATALOGINFO["Start"];
+			if (_CATALOGINFO["sprintf"] && _CATALOGINFO["start"]) {
+				_CATALOGINFO["sprintfstart"] = _CATALOGINFO["start"];
 			}
 			
-			if (!_CATALOGINFO["Galleryid"])
-				_CATALOGINFO["Galleryid"] = galleryid;
+			if (!_CATALOGINFO["galleryid"])
+				_CATALOGINFO["galleryid"] = galleryid;
 
-			if (!_CATALOGINFO["Files"] && !_CATALOGINFO["Sprintf"] && !_CATALOGINFO["Strftime"])
-				_CATALOGINFO["Files"] = galleryid;
+			if (!_CATALOGINFO["files"] && !_CATALOGINFO["sprintf"] && !_CATALOGINFO["strftime"])
+				_CATALOGINFO["files"] = galleryid;
 			
-			if (!_CATALOGINFO["Fulldir"])
-				_CATALOGINFO["Fulldir"] = galleryid;
+			if (!_CATALOGINFO["fulldir"])
+				_CATALOGINFO["fulldir"] = galleryid;
 			
-			if (!_CATALOGINFO["Thumbdir"])
-				_CATALOGINFO["Thumbdir"]  = galleryid;
+			if (!_CATALOGINFO["thumbdir"])
+				_CATALOGINFO["thumbdir"]  = galleryid;
 
-			_CATALOGINFO["Title"]     = galleryid;
-			_CATALOGINFO["About"]     = "Gallery auto-generated based on URL."
-			_CATALOGINFO["Aboutlink"] = galleryid;
+			_CATALOGINFO["title"]     = galleryid;
+			_CATALOGINFO["about"]     = "Gallery auto-generated based on URL."
+			_CATALOGINFO["aboutlink"] = galleryid;
 			//_CATALOGINFO["Fullpreprocess"] = "http://aurora.gmu.edu/cgi-bin/convert.cgi?scale=4";
 
 			// Place auto-generated information at front of gallery list
@@ -164,45 +184,47 @@ function cataloginfo(galleryid) {
 	
 			//console.log('cataloginfo.js: Evaluating ' + query);
 
-			_CATALOGINFO["Galleryid"]  = $(cataloginfo.xml).find(query).attr('id');
-			if (!_CATALOGINFO["Galleryid"]) {
+			_CATALOGINFO["galleryid"]  = $(cataloginfo.xml).find(query).attr('id');
+			if (!_CATALOGINFO["galleryid"]) {
 				error("Error: Gallery with id " + galleryid + " not found in <a href='xml/catalog.xml'>catalog.xml</a>. Redirecting.");
 				setTimeout(function () {location.hash = "#"},3000);
 				//$("#error").html("");
 			}
 			_CATALOGINFO["Title"]      = $(cataloginfo.xml).find(query).siblings('title').text();
 			if (_CATALOGINFO["Title"] == "")
-				_CATALOGINFO["Title"] = _CATALOGINFO["Galleryid"]
+				_CATALOGINFO["Title"] = _CATALOGINFO["galleryid"]
 			
 			_CATALOGINFO["Titleshort"] = $(cataloginfo.xml).find(query).siblings('titleshort').text();
 			if (_CATALOGINFO["Titleshort"] == "")
 				_CATALOGINFO["Titleshort"] = _CATALOGINFO["Title"]
 	
-			_CATALOGINFO["Files"]         = $(cataloginfo.xml).find(query).children('files').text();
+			_CATALOGINFO["files"]         = $(cataloginfo.xml).find(query).children('files').text();
 			// TODO: change this because this will match "aboutlink" too. Syntax is ":children['about']" ? 
-			_CATALOGINFO["About"]         = $(cataloginfo.xml).find(query).children('about').text();	
-			_CATALOGINFO["Aboutlink"]     = $(cataloginfo.xml).find(query).children('aboutlink').text();
-			_CATALOGINFO["Script"]        = $(cataloginfo.xml).find(query).children('script').text();
-			_CATALOGINFO["Script"]        = $(cataloginfo.xml).find(query).children('code').text();
-			_CATALOGINFO["Strftime"]      = $(cataloginfo.xml).find(query).children('strftime').text();
-			_CATALOGINFO["StrftimeStart"] = $(cataloginfo.xml).find(query).children('strftimestart').text();
-			_CATALOGINFO["StrftimeStop"]  = $(cataloginfo.xml).find(query).children('strftimestop').text();
-			_CATALOGINFO["Sprintf"]       = $(cataloginfo.xml).find(query).children('sprintf').text();
-			_CATALOGINFO["SprintfStart"]  = $(cataloginfo.xml).find(query).children('sprintfstart').text();
-			_CATALOGINFO["SprintfStop"]   = $(cataloginfo.xml).find(query).children('sprintfstop').text();
-			_CATALOGINFO["Fullfiles"]    = $(cataloginfo.xml).find(query).children('fullfiles').text();
+			_CATALOGINFO["about"]         = $(cataloginfo.xml).find(query).children('about').text();	
+			_CATALOGINFO["aboutlink"]     = $(cataloginfo.xml).find(query).children('aboutlink').text();
+			_CATALOGINFO["script"]        = $(cataloginfo.xml).find(query).children('script').text();
+			_CATALOGINFO["script"]        = $(cataloginfo.xml).find(query).children('code').text();
+			_CATALOGINFO["strftime"]      = $(cataloginfo.xml).find(query).children('strftime').text();
+			_CATALOGINFO["strftimestart"] = $(cataloginfo.xml).find(query).children('strftimestart').text();
+			_CATALOGINFO["strftimestop"]  = $(cataloginfo.xml).find(query).children('strftimestop').text();
+			_CATALOGINFO["sprintf"]       = $(cataloginfo.xml).find(query).children('sprintf').text();
+			_CATALOGINFO["sprintfstart"]  = $(cataloginfo.xml).find(query).children('sprintfstart').text();
+			_CATALOGINFO["sprintfstop"]   = $(cataloginfo.xml).find(query).children('sprintfstop').text();
+			_CATALOGINFO["fullfiles"]    = $(cataloginfo.xml).find(query).children('fullfiles').text();
 			//console.log((cataloginfo.xml).find(query).children('fullfiles').text());
 
-			_CATALOGINFO["Fulldir"]       = $(cataloginfo.xml).find(query).children('fulldir').text();
+			_CATALOGINFO["fulldir"]       = $(cataloginfo.xml).find(query).children('fulldir').text();
 
-			_CATALOGINFO["Thumbdir"]      = $(cataloginfo.xml).find(query).children('thumbdir').text();
-			_CATALOGINFO["Thumbfiles"]      = $(cataloginfo.xml).find(query).children('thumbfiles').text();
-			_CATALOGINFO["Fullpreprocess"]  = $(cataloginfo.xml).find(query).children('fullpreprocess').text();
-			_CATALOGINFO["Thumbpreprocess"] = $(cataloginfo.xml).find(query).children('thumbpreprocess').text();
-			_CATALOGINFO["Fullpostprocess"]  = $(cataloginfo.xml).find(query).children('fullpostprocess').text();
-			_CATALOGINFO["Thumbpostprocess"] = $(cataloginfo.xml).find(query).children('thumbpostprocess').text();
+			_CATALOGINFO["thumbdir"]      = $(cataloginfo.xml).find(query).children('thumbdir').text();
+			_CATALOGINFO["thumbfiles"]      = $(cataloginfo.xml).find(query).children('thumbfiles').text();
+			_CATALOGINFO["fullpreprocess"]  = $(cataloginfo.xml).find(query).children('fullpreprocess').text();
+			_CATALOGINFO["thumbpreprocess"] = $(cataloginfo.xml).find(query).children('thumbpreprocess').text();
+			_CATALOGINFO["fullpostprocess"]  = $(cataloginfo.xml).find(query).children('fullpostprocess').text();
+			_CATALOGINFO["thumbpostprocess"] = $(cataloginfo.xml).find(query).children('thumbpostprocess').text();
 		
 		}
+		//console.log("-----")
+		//console.log(_CATALOGINFO)
 		//console.log(query)
 		//console.log($(cataloginfo.xml).find(query).children('fulldir').text())
 		// Extract gallery node (there must be a way to do this without using a RegEx, for example, using find() ...)
@@ -210,8 +232,8 @@ function cataloginfo(galleryid) {
 		//console.log(galleryid);
 
 		re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
-		_CATALOGINFO["Xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
-		_CATALOGINFO["Xml"] = _CATALOGINFO["Xml"].replace(/\n\t/g,'\n');
+		_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
+		_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
 		
 		cataloginfo.CATALOGINFO[galleryid] = _CATALOGINFO;
 		//console.log("cataloginfo.js: _CATALOGINFO =");
