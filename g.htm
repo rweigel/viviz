@@ -1105,6 +1105,304 @@ instead of http://.
 		<strftimestart>2012-256</strftimestart>
 		<strftimestop>2013-137</strftimestop>			
 	</gallery>
+
+	<gallery id="Test/2">
+		<title>Test/2</title>
+		<about>Test with missing file</about>
+		<files>xml/Test-filelist2.xml</files>
+		<fulldir>http://viviz.org/demo/images/demo/full/</fulldir>
+		<thumbdir>http://viviz.org/demo/images/demo/thumb/</thumbdir>	
+		<attributes>
+			<attribute id="$0">
+				<name>Filename</name>
+				<filters>
+					<filter>
+						<title>All</title>
+						<value>.*</value>
+					</filter>
+					<filter>
+						<title>T1.*</title>
+						<value>T1.*</value>
+					</filter>
+				</filters>
+			</attribute>		
+			<attribute id="$1">
+				<name>Duration</name>
+				<unit>hour</unit>
+				<format>%d</format>
+				<filters>
+					<filter>
+						<title>All</title>
+						<value>true</value>
+					</filter>
+					<filter>
+						<title>Duration &gt; 10</title>
+						<value>this gt 10</value>
+					</filter>
+				</filters>
+			</attribute>
+			<attribute>
+				<name>Integral 1</name>
+				<unit>nT&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+			<attribute>
+				<name>Integral 2</name>
+				<unit>nT&#183;km/s&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+			<attribute>
+				<name>Integral 3</name>
+				<unit>#/cc&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+		</attributes>			
+	</gallery>
+	<gallery id="Test/3">
+		<title>Test/3</title>
+		<about>Test using thumbpreprocess</about>
+		<files>xml/Test-filelist.xml</files>
+		<fulldir>http://viviz.org/demo/images/demo/full/</fulldir>
+		<thumbdir>http://viviz.org/demo/images/demo/full/</thumbdir>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>		
+		<attributes>
+			<attribute id="$0">
+				<name>Filename</name>
+				<filters>
+					<filter>
+						<title>All</title>
+						<value>.*</value>
+					</filter>
+					<filter>
+						<title>T1.*</title>
+						<value>T1.*</value>
+					</filter>
+				</filters>
+			</attribute>		
+			<attribute id="$1">
+				<name>Duration</name>
+				<unit>hour</unit>
+				<format>%d</format>
+				<filters>
+					<filter>
+						<title>All</title>
+						<value>true</value>
+					</filter>
+					<filter>
+						<title>Duration &gt; 10</title>
+						<value>this gt 10</value>
+					</filter>
+				</filters>
+			</attribute>
+			<attribute>
+				<name>Integral 1</name>
+				<unit>nT&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+			<attribute>
+				<name>Integral 2</name>
+				<unit>nT&#183;km/s&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+			<attribute>
+				<name>Integral 3</name>
+				<unit>#/cc&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+		</attributes>			
+	</gallery>
+	<gallery id="Test/Storms">
+		<title>Test/Storms</title>
+		<about>First 17 images of Storms/All</about>
+		<files>xml/Storms-filelist.xml</files>
+		<fulldir>http://aurora.gmu.edu/viviz/demo/images/demo/full/</fulldir>
+		<thumbdir>http://aurora.gmu.edu/viviz/demo/images/demo/thumb/</thumbdir>
+		<attributes>
+			<attribute id="$0">
+				<name>Filename</name>
+				<filters>
+					<filter>
+						<title>All</title>
+						<value>.*</value>
+					</filter>
+					<filter>
+						<title>T1.*</title>
+						<value>T1.*</value>
+					</filter>
+				</filters>
+			</attribute>		
+			<attribute id="$1">
+				<name>Duration</name>
+				<unit>hour</unit>
+				<format>%d</format>
+				<filters>
+					<filter>
+						<title>All</title>
+						<value>true</value>
+					</filter>
+					<filter>
+						<title>Duration &gt; 10</title>
+						<value>this gt 10</value>
+					</filter>
+				</filters>
+			</attribute>
+			<attribute>
+				<name>Integral 1</name>
+				<unit>nT&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+			<attribute>
+				<name>Integral 2</name>
+				<unit>nT&#183;km/s&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+			<attribute>
+				<name>Integral 3</name>
+				<unit>#/cc&#183;hr</unit>
+				<format>%.0f</format>
+			</attribute>
+		</attributes>
+	</gallery>
+	<gallery id="Test/Spectra/Synoptic/SS/WSO">
+		<title>Test/Spectra/Synoptic/SS/WSO</title>
+		<about></about>
+		<aboutlink></aboutlink>
+		<fulldir>http://aurora.gmu.edu/viviz/demo/images/spectra/WSO/</fulldir>
+		<fullpreprocess></fullpreprocess>
+		<thumbdir>http://aurora.gmu.edu/viviz/demo/images/spectra/WSO/</thumbdir>
+		<thumbpreprocess></thumbpreprocess>		
+		<sprintf>WSO_spectrogram_%02d.png</sprintf>
+		<sprintfstart>1</sprintfstart>
+		<sprintfstop>32</sprintfstop>
+	</gallery>
+	<gallery id="Test/Spectra/OMNI2/Yearly">
+		<title>Test/Spectra/OMNI2/Yearly</title>
+		<about></about>
+		<aboutlink></aboutlink>
+		<fulldir>http://aurora.gmu.edu/viviz/demo/images/spectra/OMNI/OMNI2/yearlys/</fulldir>
+		<fullpreprocess></fullpreprocess>
+		<thumbdir>http://aurora.gmu.edu/viviz/demo/images/spectra/OMNI/OMNI2/yearlys/</thumbdir>
+		<thumbpreprocess></thumbpreprocess>
+		<files>xml/OMNI/OMNI2/yearlys.txt</files>
+		<attributes>
+			<attribute id="$0">
+				<name>Filename</name>
+				<filters>
+					<filter>
+						<title>2008</title>
+						<value>_2008</value>
+					</filter>
+					<filter>
+						<title>All</title>
+						<value>.*</value>
+					</filter>
+				</filters>
+			</attribute>		
+			<attribute id="$1">
+				<name>Year</name>
+				<format>%d</format>				
+				<filters>
+					<filter>
+						<title>2008</title>
+						<value>2008</value>
+					</filter>
+				</filters>
+			</attribute>
+			<attribute id="$2">
+				<name>Parameter number</name>
+				<format>%d</format>
+			</attribute>
+			<attribute id="$3">
+				<name>Parameter name</name>
+			</attribute>
+		</attributes>
+	</gallery>
+	<gallery id="Test/Spectra/OMNI2/AllYears">
+		<title>Test/Spectra/OMNI2/AllYears</title>
+		<about></about>
+		<aboutlink></aboutlink>
+		<fulldir>http://aurora.gmu.edu/viviz/demo/images/spectra/OMNI/OMNI2/allyears/</fulldir>
+		<fullpreprocess></fullpreprocess>
+		<thumbdir>http://aurora.gmu.edu/viviz/demo/images/spectra/OMNI/OMNI2/allyears/</thumbdir>
+		<thumbpreprocess></thumbpreprocess>
+		<files>xml/OMNI/OMNI2/allyears.txt</files>
+	</gallery>
+	<gallery id="SuperMAG/AAA">
+		<title>SuperMAG/AAA</title>
+		<about>http://supermag.jhuapl.edu/</about>
+		<fulldir>http://autoplot.org/plot/SimpleServlet?&amp;drawGrid=true&amp;plot.xaxis.drawTickLabels=true&amp;width=800&amp;height=200&amp;url=http%3A%2F%2Fautoplot.org%2Fdata%2Fjyds%2Ftsdsfe.jyds%3Fcatalog%3Dsupermag%26dataset%3DAAA%26parameters%3DB_N%2CB_E%2CB_Z%26out%3Dasc%26fill%3D999999%26timerange%3D</fulldir>
+		<strftime>%Y-%m-%d</strftime>
+		<strftimestart>2008-01-01</strftimestart>
+		<strftimestop>2008-01-31</strftimestop>		
+	</gallery>	
+	<gallery id="Test/WIND/WAVES/RAD2">
+		<title>Test/WIND/WAVES/RAD2</title>
+		<aboutlink>http://stereowaves.gsfc.nasa.gov/cgi/giffer.py?plot=waves_rad2</aboutlink>
+		<fulldir>http://stereowaves.gsfc.nasa.gov/wind_ps/</fulldir>		                
+		<fullpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?in=</fullpreprocess>
+		<fullpostprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/convert.cgi?rotate=90&amp;in=</fullpostprocess>	
+		<thumbdir>http://stereowaves.gsfc.nasa.gov/wind_ps/</thumbdir>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?in=</thumbpreprocess>		
+		<thumbpostprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/convert.cgi?rotate=90&amp;in=</thumbpostprocess>
+		<strftime>rad2_s_%Y%m%d.ps</strftime>
+		<strftimestart>1994-11-11</strftimestart>
+		<strftimestop>1994-11-12</strftimestop>
+	</gallery>
+	<gallery id="Test/CRRES/LOMICS/H+">
+		<title>Test/CRRES/LOMICS/H+</title>
+		<about>http://vseo.space.swri.edu/</about>
+		<files>xml/CRRES-LOMICS-H+.txt</files>
+		<fulldir>http://vseo.space.swri.edu/data/output/H+/</fulldir>
+		<thumbdir>http://vseo.space.swri.edu/data/output/H+/</thumbdir>
+		<fullpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=900&amp;in=</fullpreprocess>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=200&amp;in=</thumbpreprocess>
+	</gallery>
+	<gallery id="Test/CRRES/LOMICS/He+">
+		<title>Test/CRRES/LOMICS/He+</title>
+		<about>http://vseo.space.swri.edu/</about>
+		<files>xml/CRRES-LOMICS-He+.txt</files>
+		<fulldir>http://vseo.space.swri.edu/data/output/He+/</fulldir>
+		<thumbdir>http://vseo.space.swri.edu/data/output/He+/</thumbdir>
+		<fullpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=900&amp;in=</fullpreprocess>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=200&amp;in=</thumbpreprocess>
+	</gallery>
+	<gallery id="Test/CRRES/LOMICS/Hepp">
+		<title>Test/CRRES/LOMICS/He++</title>
+		<about>http://vseo.space.swri.edu/</about>
+		<files>xml/CRRES-LOMICS-He++.txt</files>
+		<fulldir>http://vseo.space.swri.edu/data/output/He++/</fulldir>
+		<thumbdir>http://vseo.space.swri.edu/data/output/He++/</thumbdir>
+		<fullpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=900&amp;in=</fullpreprocess>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=200&amp;in=</thumbpreprocess>
+	</gallery>
+	<gallery id="Test/CRRES/LOMICS/O+">
+		<title>Test/CRRES/LOMICS/O+</title>
+		<about>http://vseo.space.swri.edu/</about>
+		<files>xml/CRRES-LOMICS-O+.txt</files>
+		<fulldir>http://vseo.space.swri.edu/data/output/O+/</fulldir>
+		<thumbdir>http://vseo.space.swri.edu/data/output/O+/</thumbdir>
+		<fullpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=900&amp;in=</fullpreprocess>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=200&amp;in=</thumbpreprocess>
+	</gallery>
+	<gallery id="Test/CRRES/LOMICS/Opp">
+		<title>Test/CRRES/LOMICS/O++</title>
+		<about>http://vseo.space.swri.edu/</about>
+		<files>xml/CRRES-LOMICS-O++.txt</files>
+		<fulldir>http://vseo.space.swri.edu/data/output/O++/</fulldir>
+		<thumbdir>http://vseo.space.swri.edu/data/output/O++/</thumbdir>
+		<fullpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=900&amp;in=</fullpreprocess>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=200&amp;in=</thumbpreprocess>
+	</gallery>
+	<gallery id="Test/CRRES/LOMICS/IonDF">
+		<title>Test/CRRES/LOMICS/IonDist</title>
+		<about>http://vseo.space.swri.edu/</about>
+		<files>xml/CRRES-LOMICS-IonDF.txt</files>
+		<fulldir>http://vseo.space.swri.edu/data/output/IonDF/</fulldir>
+		<thumbdir>http://vseo.space.swri.edu/data/output/IonDF/</thumbdir>
+		<fullpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=900&amp;in=</fullpreprocess>
+		<thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/gs.cgi?width=200&amp;in=</thumbpreprocess>
+	</gallery>
+
 	</catalog>	
 </script>
 

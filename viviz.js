@@ -47,20 +47,20 @@ function parseOptions(req) {
 	function s2i(str) {return parseInt(str)}
 
 	options.id				= req.query.id				|| req.body.id				|| "test/file/id";
-	options.name				= req.query.name				|| req.body.name				|| "";
+	options.name			= req.query.name			|| req.body.name			|| "";
 	options.title			= req.query.title			|| req.body.title			|| "Test Catalog";
 	options.about			= req.query.about			|| req.body.about			|| "";
 	options.script			= req.query.script			|| req.body.script			|| "";
 	options.attributes		= req.query.attibutes		|| req.body.attributes		|| "";
 	options.sprintf			= req.query.sprintf			|| req.body.sprintf			|| "";
-	options.sprintfstart		= req.query.sprintfstart		|| req.body.sprintfstart		|| "";
+	options.sprintfstart	= req.query.sprintfstart	|| req.body.sprintfstart	|| "";
 	options.sprintfstop		= req.query.sprintfstop		|| req.body.sprintfstop		|| "";
-	options.strftime			= req.query.strftime			|| req.body.strftime			|| "";
+	options.strftime		= req.query.strftime		|| req.body.strftime		|| "";
 	options.strftimestart	= req.query.strftimestart	|| req.body.strftimestart	|| "";
-	options.strftimestop		= req.query.strftimestop		|| req.body.strftimestop     || "";
+	options.strftimestop	= req.query.strftimestop	|| req.body.strftimestop    || "";
 
-	options.fulldir			= req.query.fulldir 			|| req.body.fulldir			|| "";
-	options.thumbdir			= req.query.thumbdir			|| req.body.thumbdir			|| "";
+	options.fulldir			= req.query.fulldir 		|| req.body.fulldir			|| "";
+	options.thumbdir		= req.query.thumbdir		|| req.body.thumbdir		|| "";
 	options.fullwidth		= req.query.fullwidth 		|| req.body.fullwidth		|| "";
 	options.thumbwidth		= req.query.thumbwidth		|| req.body.thumbwidth		|| "200";
 	options.fullheight		= req.query.fullheight 		|| req.body.fullheight		|| "";
@@ -77,8 +77,13 @@ app.use('/uploads',express.directory(__dirname + '/uploads'));
 
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/css', express.static(__dirname + '/css'));
+app.use('/xml', express.static(__dirname + '/xml'));
+app.use('/dat', express.static(__dirname + '/dat'));
+
 app.use('/js',express.directory(__dirname + '/js'));
 app.use('/css',express.directory(__dirname + '/css'));
+app.use('/xml',express.directory(__dirname + '/xml'));
+app.use('/dat',express.directory(__dirname + '/dat'));
 
 app.post('/save', function (req, res) {handleRequest(req,res)});
 app.get('/save', function (req, res) {handleRequest(req,res)});
@@ -97,7 +102,7 @@ app.get('/catalogs', function (req, res) {
 	  		//console.log(files);
 	  		//console.log(catalogs);
 	  		res.contentType('application/json');
-	  		res.send("catalogjson="+JSON.stringify(catalogs));
+	  		res.send("catalogjsonuploads="+JSON.stringify(catalogs));
 	  		//res.send(JSON.stringify(files));
 	  	})
 	

@@ -3,7 +3,7 @@ function cataloginfo(galleryid) {
 	// Read XML catalog file.
 	if (typeof(cataloginfo.json) != 'object') {
 		cataloginfo.json = new Object();
-		cataloginfo.json = catalogjson;
+		cataloginfo.json = catalogjsonuploads.concat(catalogjsonbase);
 	}
 	if (typeof(cataloginfo.xml) != 'object') {
 		//console.log("cataloginfo.js: No cached xml/catalog.xml");
@@ -72,6 +72,7 @@ function cataloginfo(galleryid) {
 		GALLERIES["Values"]     = new Array();
 		var j = 0;
 		var cat = [];
+		
 		$(cataloginfo.xml).find("catalog > gallery").each(
 				function (i) {
 					GALLERIES["Values"][i]          = new Object();
@@ -92,11 +93,15 @@ function cataloginfo(galleryid) {
 		console.log("cataloginfo.js: Returning list of all galleries in xml/catalog.xml");
 		cataloginfo.GALLERIES = GALLERIES;
 		
-		for (i = 0;i < GALLERIES["Values"].length;i++) {
-			console.log(GALLERIES["Values"][i]["Id"])
-			$("#cat").append(GALLERIES["Values"][i]["Id"] + "\n")
-			$("#cat").append(JSON.stringify(cataloginfo(GALLERIES["Values"][i]["Id"])) + "\n")
+		// Use to write catalog.xml as JSON (without attributes node).
+		if (0) {
+			for (i = 0;i < GALLERIES["Values"].length;i++) {
+				//console.log(GALLERIES["Values"][i]["Id"])
+				//$("#cat").append(GALLERIES["Values"][i]["Id"] + "\n")
+				$("#cat").append(JSON.stringify(cataloginfo(GALLERIES["Values"][i]["Id"])) + ",\n")
+			}
 		}
+		
 		return GALLERIES;
 	}
 
@@ -118,6 +123,7 @@ function cataloginfo(galleryid) {
 			// Auto-generate catalog information from URL
 			
 			//console.log('cataloginfo.js: URL-based galleryid found URL.  Parsing query parameters to create catalog information.')
+
 			if (galleryid.match("&")) {
 				var querystr = galleryid;
 				var queryarr = querystr.split("&");
@@ -132,7 +138,6 @@ function cataloginfo(galleryid) {
 				if (_CATALOGINFO["fulldir"])					
 					galleryid = _CATALOGINFO["fulldir"];
 			}
-			//console.log('cataloginfo.js: galleryid = ' + galleryid);
 
 			if (_CATALOGINFO["strftime"])
 				_CATALOGINFO["strftime"] = _CATALOGINFO["strftime"].replace(/\$/g,"%");
@@ -167,7 +172,6 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["title"]     = galleryid;
 			_CATALOGINFO["about"]     = "Gallery auto-generated based on URL."
 			_CATALOGINFO["aboutlink"] = galleryid;
-			//_CATALOGINFO["Fullpreprocess"] = "http://aurora.gmu.edu/cgi-bin/convert.cgi?scale=4";
 
 			// Place auto-generated information at front of gallery list
 			//console.log('cataloginfo.js: Adding ' + galleryid + ' to front of gallery list cache.');
@@ -190,20 +194,21 @@ function cataloginfo(galleryid) {
 				setTimeout(function () {location.hash = "#"},3000);
 				//$("#error").html("");
 			}
-			_CATALOGINFO["Title"]      = $(cataloginfo.xml).find(query).siblings('title').text();
-			if (_CATALOGINFO["Title"] == "")
-				_CATALOGINFO["Title"] = _CATALOGINFO["galleryid"]
+			_CATALOGINFO["title"]      = $(cataloginfo.xml).find(query).siblings('title').text();
+			if (_CATALOGINFO["title"] == "")
+				_CATALOGINFO["title"] = _CATALOGINFO["galleryid"]
 			
-			_CATALOGINFO["Titleshort"] = $(cataloginfo.xml).find(query).siblings('titleshort').text();
-			if (_CATALOGINFO["Titleshort"] == "")
-				_CATALOGINFO["Titleshort"] = _CATALOGINFO["Title"]
+			_CATALOGINFO["titleshort"] = $(cataloginfo.xml).find(query).siblings('titleshort').text();
+			if (_CATALOGINFO["titleshort"] == "")
+				_CATALOGINFO["titleshort"] = _CATALOGINFO["title"]
 	
 			_CATALOGINFO["files"]         = $(cataloginfo.xml).find(query).children('files').text();
+			
 			// TODO: change this because this will match "aboutlink" too. Syntax is ":children['about']" ? 
 			_CATALOGINFO["about"]         = $(cataloginfo.xml).find(query).children('about').text();	
 			_CATALOGINFO["aboutlink"]     = $(cataloginfo.xml).find(query).children('aboutlink').text();
 			_CATALOGINFO["script"]        = $(cataloginfo.xml).find(query).children('script').text();
-			_CATALOGINFO["script"]        = $(cataloginfo.xml).find(query).children('code').text();
+			_CATALOGINFO["script"]        = $(cataloginfo.xml).find(query).children('xscript').text();
 			_CATALOGINFO["strftime"]      = $(cataloginfo.xml).find(query).children('strftime').text();
 			_CATALOGINFO["strftimestart"] = $(cataloginfo.xml).find(query).children('strftimestart').text();
 			_CATALOGINFO["strftimestop"]  = $(cataloginfo.xml).find(query).children('strftimestop').text();
@@ -221,23 +226,30 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["thumbpreprocess"] = $(cataloginfo.xml).find(query).children('thumbpreprocess').text();
 			_CATALOGINFO["fullpostprocess"]  = $(cataloginfo.xml).find(query).children('fullpostprocess').text();
 			_CATALOGINFO["thumbpostprocess"] = $(cataloginfo.xml).find(query).children('thumbpostprocess').text();
-		
+
+			for (i = 0;i<cataloginfo.json.length;i++) {
+				if (cataloginfo.json[i]["id"] === galleryid) break;
+			}
+			
+			if (typeof(cataloginfo.json[i]) !== "undefined") {
+				_CATALOGINFO["galleryid"] = cataloginfo.json[i]["id"]
+				for (key in cataloginfo.json[i]) {
+					console.log(key)
+					_CATALOGINFO[key] = cataloginfo.json[i][key];
+				}
+			}
+
 		}
-		console.log("-----")
-		//console.log(_CATALOGINFO)
+		
+		console.log(_CATALOGINFO)
 		//console.log(query)
 		//console.log($(cataloginfo.xml).find(query).children('fulldir').text())
-		// Extract gallery node (there must be a way to do this without using a RegEx, for example, using find() ...)
-		// Will only match id="Test" and not not id = "Test" or id='Test'.
-		//console.log(galleryid);
 
-		re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
-		_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
-		_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
-		console.log("done")
+		//re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
+		//_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
+		//_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
 		cataloginfo.CATALOGINFO[galleryid] = _CATALOGINFO;
-		//console.log("cataloginfo.js: _CATALOGINFO =");
-		//console.log(_CATALOGINFO);
+
 		return _CATALOGINFO;
 		
 	}

@@ -39,14 +39,14 @@ function extractattributes(galleryid) {
 
 	xml = cataloginfo.xml;
 
+	var j = 0;
 	$(xml).find("catalog gallery[id='" + galleryid + "'] attributes attribute").each(
 			function (i) {
 					ATTRIBUTES["Values"][i] = new Object();
 					ATTRIBUTES["Values"][i]["Title"] = $(this).find('name').text();
 					ATTRIBUTES["Values"][i]["Value"] = i;
-
 					ATTRIBUTES["Values"][i]["Filters"] = new Array();
-
+					j = j+1;
 					$(this).find('filters filter').each(
 							function(j) {
 								ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
@@ -55,6 +55,32 @@ function extractattributes(galleryid) {
 								//console.log($(this).text());
 							})
 	});
+
+
+	for (i = 0;i<cataloginfo.json.length;i++) {
+		if (cataloginfo.json[i]["id"] === galleryid) break;
+	}
+
+	console.log(cataloginfo.json[i])
+	if (typeof(cataloginfo.json[i]["attributes"]) !== "undefined") {
+		cataloginfo.json[i]["attributes"].forEach(
+				function (el,i) {
+					ATTRIBUTES["Values"][i] = new Object();
+					ATTRIBUTES["Values"][i]["Title"] = el.name;
+					ATTRIBUTES["Values"][i]["Value"] = i;
+					ATTRIBUTES["Values"][i]["Filters"] = new Array();
+	
+					el.filters.forEach(
+							function (el,j) {
+								ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
+								ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = el.title;
+								ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = el.value;
+							});
+	
+					
+				});
+	}
+	console.log(ATTRIBUTES)
 	if (ATTRIBUTES["Values"].length > 1) {
 		//console.log("galleryinfo.js: Attributes found in " + URLCommon);
 		//console.log(ATTRIBUTES);
@@ -220,7 +246,11 @@ function galleryinfo(galleryid) {
 	if (CATALOGINFO["script"]) {
 		_GALLERYINFO["files"] = eval(CATALOGINFO["script"])(); 
 	}
-	
+
+	if (CATALOGINFO["xscript"]) {
+		_GALLERYINFO["files"] = eval(CATALOGINFO["xscript"])(); 
+	}
+
 	if (CATALOGINFO["fullfiles"]) {
 		_GALLERYINFO["files"]  = extractfiles(CATALOGINFO["fullfiles"]);
 		//console.log(_GALLERYINFO["files"]);
