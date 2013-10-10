@@ -94,8 +94,8 @@ function cataloginfo(galleryid) {
 		
 		for (i = 0;i < GALLERIES["Values"].length;i++) {
 			console.log(GALLERIES["Values"][i]["Id"])
-			//$("#cat").append(GALLERIES["Values"][i]["Id"] + "\n")
-			$("#cat").append(JSON.stringify(cataloginfo(GALLERIES["Values"][0]["Id"])) + "\n")
+			$("#cat").append(GALLERIES["Values"][i]["Id"] + "\n")
+			$("#cat").append(JSON.stringify(cataloginfo(GALLERIES["Values"][i]["Id"])) + "\n")
 		}
 		return GALLERIES;
 	}
@@ -179,7 +179,7 @@ function cataloginfo(galleryid) {
 		} else {
 			// Extract gallery information from from catalog.xml
 
-			//console.log("cataloginfo.js: Returning info for galleryid = " + galleryid);
+			console.log("cataloginfo.js: Returning info for galleryid = " + galleryid);
 			var query = "catalog > gallery[id='" + galleryid + "']";
 	
 			//console.log('cataloginfo.js: Evaluating ' + query);
@@ -223,7 +223,7 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["thumbpostprocess"] = $(cataloginfo.xml).find(query).children('thumbpostprocess').text();
 		
 		}
-		//console.log("-----")
+		console.log("-----")
 		//console.log(_CATALOGINFO)
 		//console.log(query)
 		//console.log($(cataloginfo.xml).find(query).children('fulldir').text())
@@ -234,7 +234,7 @@ function cataloginfo(galleryid) {
 		re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
 		_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
 		_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
-		
+		console.log("done")
 		cataloginfo.CATALOGINFO[galleryid] = _CATALOGINFO;
 		//console.log("cataloginfo.js: _CATALOGINFO =");
 		//console.log(_CATALOGINFO);

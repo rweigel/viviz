@@ -325,8 +325,10 @@ function galleryinfo(galleryid) {
 		_GALLERYINFO["files"] = files;
 	}
 	
-	if (CATALOGINFO.hasOwnProperty("files") && _GALLERYINFO["files"].length == 0) {
-		//console.log("galleryinfo.js: Creation of file list failed.");
+	if (CATALOGINFO.hasOwnProperty("files")) {
+		if (_GALLERYINFO["files"].length == 0) {
+			//console.log("galleryinfo.js: Creation of file list failed.");
+		}
 	}
     
 	if (CATALOGINFO["fulldir"]) {
