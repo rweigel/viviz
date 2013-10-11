@@ -262,9 +262,12 @@ function thumb(wrapper) {
             return str;
         }
         
-        var th = 0;
         thumb.Nloaded = 0;
 		var newWidth = false;
+
+		var seterrorheight = false;
+		
+		var th = false;
 		var tw = false;
 
 		function setslider() {
@@ -306,7 +309,11 @@ function thumb(wrapper) {
 					$(this).addClass("loaderror");
 					$(this).attr("src","http://viviz.org/gallery/css/transparent.png");
 					$(this).css("border","3px solid red");
-					$(this).width(newWidth || tw || 100);							
+					$(this).width(newWidth || tw || 100);
+					//$(this).height(th || 100);
+					if (th) {
+						$('.loaderror').css('height',th);
+					}
 					if (tw > 0 && !fixed) {fixed = true;$(".loaderror").width(tw)}})
 				.load(function () {
 					if (FULLDIR != THUMBDIR) {
@@ -317,6 +324,7 @@ function thumb(wrapper) {
 					} else {
 						tnw = 100;
 						tw = 100;
+						th = $(this).height();
 					}
 					$(this).width(newWidth || tw);
 					setslider()})
