@@ -1,6 +1,5 @@
 // TODO: $.gallery({"showdropdowns":true,"showfilmstrip":true,"showattributes":true,"showconfiguration":true,"showprint",true,"showgrid",true,"showabout":true,"compact","false"]})
 // TODO:
-//     Get images from DataCache.  By default, forceupdate = false.
 //     If vector image, use imgconvert.org.
 //     If raster image and thumbs not available, use imgconvert.org.
 

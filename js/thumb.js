@@ -92,9 +92,10 @@ function thumb(wrapper) {
 		var galleryid = $(wrapper + " #gallery option:selected").val();
 		$(wrapper + " #instructions").html("Scroll down to load more images");
 		
-	    	//console.log('thumb.js: Gallery changed.  galleryid = ' + galleryid);
+	    console.log('thumb.js: Gallery changed.  galleryid = ' + galleryid);
 		$(wrapper + ' #thumbframe').html('');
 		$(wrapper + ' #thumbframe').children().remove();
+		console.log("thumb.js: Changing hash.")
 		location.hash = "/" + galleryid;
 	});
 		
