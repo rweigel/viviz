@@ -61,7 +61,7 @@ function extractattributes(galleryid) {
 		if (cataloginfo.json[i]["id"] === galleryid) break;
 	}
 
-	console.log(cataloginfo.json[i])
+	//console.log(cataloginfo.json[i])
 	if (typeof(cataloginfo.json[i]["attributes"]) !== "undefined") {
 		cataloginfo.json[i]["attributes"].forEach(
 				function (el,i) {
@@ -80,7 +80,7 @@ function extractattributes(galleryid) {
 					
 				});
 	}
-	console.log(ATTRIBUTES)
+	//console.log(ATTRIBUTES)
 	if (ATTRIBUTES["Values"].length > 1) {
 		//console.log("galleryinfo.js: Attributes found in " + URLCommon);
 		//console.log(ATTRIBUTES);
@@ -422,7 +422,7 @@ function galleryinfo(galleryid) {
 	
 	galleryinfo.GALLERYINFO[galleryid] = _GALLERYINFO;
 	//console.log("galleryinfo.js: _GALLERYINFO = ");
-	console.log(_GALLERYINFO);
+	//console.log(_GALLERYINFO);
 	
 	return _GALLERYINFO;
 

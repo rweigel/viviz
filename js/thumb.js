@@ -1,20 +1,14 @@
 function thumb(wrapper) {
 
+	console.log("thumb.js: Called.")
 	$(wrapper + " #error").html();
 	$(wrapper + " #instructions").html("Scroll down to load more images");
 	
-	//$(window).unbind('hashchange');
-	$(window).hashchange(function(){
-		//console.log('thumb.js: Hash has changed to ' + location.hash);
-		thumb(wrapper);
-	});
-
 	var GALLERIES = cataloginfo();
 
-	if (location.hash != "") {
+	if (location.hash !== "") {
 		var hash = location.hash;
 		var galleryid = hash.replace(/^#/,'').replace(/^\//,"");
-		//var galleryid = hash.replace('#/','');
 	} else {
 		var galleryid = GALLERIES["Values"][0]["Id"];
 	}
@@ -26,8 +20,8 @@ function thumb(wrapper) {
 	var ORDERS   = INFOG['orders'];
     //console.log(INFOG);
     
-    	var HEADER = cataloginfo(galleryid);   
-    	$(wrapper + " #about").attr('title',HEADER["about"]).show();
+    var HEADER = cataloginfo(galleryid);   
+    $(wrapper + " #about").attr('title',HEADER["about"]).show();
 
 	if ((HEADER["aboutlink"]) && (!HEADER["about"])) {
 		$(wrapper + " #about").attr("onclick","window.location='" + HEADER["aboutlink"]+"'");
@@ -108,7 +102,7 @@ function thumb(wrapper) {
 	setthumbs();
 	
 	function setthumbbindings() {
-		console.log('thumbbrowse.js: setthumbbindings(): Setting bindings.');
+		console.log('thumb.setthumbbindings(): Setting bindings.');
 			
 		if (!setthumbbindings.active) setthumbbindings.active = {};
 
@@ -288,9 +282,9 @@ function thumb(wrapper) {
 		}
 		
         function loadone(INFOjs,i) {
-	        	var fixed = false;
-	        	if (i > INFOjs.length-1) return;
-	        	thumb.Nloaded = thumb.Nloaded+1;
+	        var fixed = false;
+	        if (i > INFOjs.length-1) return;
+	        thumb.Nloaded = thumb.Nloaded+1;
 			if (thumb.Nloaded == INFOjs.length-1) $("#instructions").html("All images loaded");
 			//console.log(i)
 			if (INFOjs[i]['ThumbFile']) {
@@ -317,6 +311,8 @@ function thumb(wrapper) {
 					if (FULLDIR != THUMBDIR) {
 						tnw = this.naturalWidth;
 						tw = $(this).width();
+						tnw = this.naturalWidth;
+						th = $(this).height();
 					} else {
 						tnw = 100;
 						tw = 100;
@@ -335,10 +331,10 @@ function thumb(wrapper) {
 		for (var j = 0; j < maxLength; j++) {s = loadone(INFOjs,j)}
 		setthumbbindings();        
 		
-		$(window).resize(function () {$.doTimeout('resize', 250, function(){console.log('thumb.loadmore: Resize event');setTimeout(loadmore,1000)})});
+		$(window).resize(function () {$.doTimeout('resize', 250, function(){console.log('thumb.loadmore(): Resize event');setTimeout(loadmore,1000)})});
 
-        console.log("thumb.setthumbs: maxLength = "+maxLength)
-        console.log("thumb.setthumbs: LAZY_LOAD_MAX = "+LAZY_LOAD_MAX)
+        console.log("thumb.setthumbs(): maxLength = "+maxLength)
+        console.log("thumb.setthumbs(): LAZY_LOAD_MAX = "+LAZY_LOAD_MAX)
 	    if (INFOjs.length > LAZY_LOAD_MAX) {
 			loadmore();
 	    } else {
@@ -346,12 +342,12 @@ function thumb(wrapper) {
 	    }
         
 	function loadmore () {
-        		console.log("thumb.loadmore() called. Nloaded="+thumb.Nloaded)
+        	console.log("thumb.loadmore() called. Nloaded="+thumb.Nloaded)
 			//var Npr = Math.floor($(wrapper + ' #thumbbrowseframe').width()/$(wrapper + ' #thumbbrowseframe img').first().width())-1;
-        		console.log("thumbl.loadmore(): " + Math.floor($(wrapper + ' #thumbbrowseframe').width()/$(wrapper + ' #thumbbrowseframe img').first().width())-1);
+        	//console.log("thumb.loadmore(): " + Math.floor($(wrapper + ' #thumbbrowseframe').width()/$(wrapper + ' #thumbbrowseframe img').first().width())-1);
 			if (($(wrapper).height() < $(window).height())) {
 				//if ($(wrapper).height() > 0) {
-					console.log("thumb.loadmore: Loading more images due to resize event or because more space is available.");
+					console.log("thumb.loadmore(): Loading more images due to resize event or because more space is available.");
 					Nl = thumb.Nloaded;
 					for (var j = Nl; j < Nl+maxLength; j++) {loadone(INFOjs,j)}
 					setthumbbindings();        
@@ -359,11 +355,11 @@ function thumb(wrapper) {
 						// Put this in a timeout to allow height to be set.
 						setTimeout(function () {loadmore()},100);
 					} else {
-					    console.log("thumb.loadmore: No more images to load: j="+j+", Nl="+Nl+" INFOjs.length="+INFOjs.length);
+					    console.log("thumb.loadmore(): No more images to load: j="+j+", Nl="+Nl+" INFOjs.length="+INFOjs.length);
 					}
 				//}
 			} else {
-				console.log("thumb.loadmore: Setting scroll trigger.")
+				console.log("thumb.loadmore(): Setting scroll trigger.")
 				setscrolltrigger();
 			}
 		}
@@ -376,10 +372,10 @@ function thumb(wrapper) {
 				console.log("Nl+LAZY_LOAD_MAX="+Nl)
 				maxLength = LAZY_LOAD_MAX;
 				if (Nl + LAZY_LOAD_MAX > INFOjs.length-1) {maxLength = INFOjs.length-Nl;$(window).unbind('scroll');}
-				console.log("thumb.loadmore: maxLength="+maxLength)
-				console.log("thumb.loadmore: $(window).scrollTop() + $(window).height() = "+($(window).scrollTop() + $(window).height()))
-				console.log("thumb.loadmore: $(document).height() - 100 = " + ($(document).height() - 100))
-				if ($(window).scrollTop() + $(window).height() >= $(document).height() - th) {
+				console.log("thumb.loadmore: maxLength="+maxLength+", th="+th)
+				console.log("thumb.loadmore: $(window).scrollTop() + $(window).height() + 2*th = "+(2*th+$(window).scrollTop() + $(window).height()))
+				console.log("thumb.loadmore: $(document).height() = " + ($(document).height()))
+				if ($(window).scrollTop() + $(window).height() + 2*th >= $(document).height()) {
 					for (var j = Nl; j < Nl+maxLength; j++) {loadone(INFOjs,j)}
 					setthumbbindings();
 				} else {

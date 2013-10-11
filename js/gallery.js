@@ -1,5 +1,7 @@
 function gallery(wrapper) {
 	
+	console.log("gallery.js: Called.");
+	
     function settabledims(tw,th) {
 
 		//if (!$("#wrapper").is(":visible")) {return}
@@ -109,7 +111,7 @@ function gallery(wrapper) {
 	        	.load(function(){
 		        	//console.log('gallery.js: ' + wrapper + ' #'+id+' loaded.');
 		        	if (id == 1) {
-		        		console.log('loadfull(): First full image loaded with height = '+$(this).height()+'.  Setting table dimensions.');
+		        		console.log('gallery.loadfull(): First full image loaded with height = '+$(this).height()+'.  Setting table dimensions.');
 		        		settabledims();
 		        	}
 		        	$(wrapper + " #fullframe img").eq(0).click();
@@ -577,7 +579,7 @@ function gallery(wrapper) {
 	
 	//$(window).unbind('hashchange');
 	$(window).hashchange(function() {
-		console.log('thumb.js: Hash has changed to ' + location.hash);
+		console.log('gallery.js: Hash has changed to ' + location.hash);
         $(wrapper).attr('nowvisible', '');
         $(wrapper).attr('lastvisible', '');
         $(wrapper).attr('totalvisible', '');

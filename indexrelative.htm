@@ -44,9 +44,9 @@
 		<script type="text/javascript" src="./js/message.js"></script>
 		<!-- script type="text/javascript" src="js/cors.js"></script-->
 		
-		<!-- Uploaded catalogs -->
+		<!-- Uploaded catalogs (catalogjsonuploads) -->
         <script type="text/javascript" src="/catalogs"></script>
-		<!-- Base catalog -->
+		<!-- Base catalog (catalogjsonbase) -->
         <script type="text/javascript" src="/xml/catalog.json"></script>
 
         <!-- script type="text/javascript" src="js/deps/jsonpath-0.8.0.js"></script-->
@@ -181,7 +181,7 @@
 			</div>
 	     </div>
 	</div>
-<textarea id="cat"></textarea>
+<textarea style="display:none" id="cat"></textarea>
 
 <!--
 Configuration data here is read by default.  If empty, xml/catalog.xml is read.
@@ -191,18 +191,6 @@ instead of http://.
 
 <script id="xml"  type="text/x-jQuery-tmpl">
 
-<catalog>
-	<gallery id="ACE/Multi">
-		<title>ACE/Multi</title>
-		<about>http://virbo.org/gallery#ACE</about>
-		<fulldir>http://virbo.org/images/pngwalk/ACE/Multi/fulls/</fulldir>
-		<!-- thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess-->
-		<thumbdir>http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/</thumbdir>
-		<strftime>product_%Y%m%d.png</strftime>
-		<strftimestart>1998-01-01</strftimestart>
-		<strftimestop>2012-04-30</strftimestop>
-	</gallery>
-</catalog>	
 
 </script>
 

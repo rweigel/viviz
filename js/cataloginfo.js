@@ -1,22 +1,54 @@
 function cataloginfo(galleryid) {
 
-	// Read XML catalog file.
-	if (typeof(cataloginfo.json) != 'object') {
-		cataloginfo.json = new Object();
-		cataloginfo.json = catalogjsonuploads.concat(catalogjsonbase);
+	function defined(v) {
+		if (typeof(v) === "undefined") return false;
+		return true;
 	}
+
+	function setsource(v,source) {
+		for (i = 0;i<v.length;i++) {
+			v[i]["source"] = source;
+		}
+		return v
+	}
+	
+	if (typeof(cataloginfo.json) != 'object') {
+		console.log("cataloginfo.js: No cached cataloginfo.json");
+		cataloginfo.json = new Object();
+		if (defined(catalogjsonuploads) & defined(catalogjsonbase)) {
+			console.log("cataloginfo.js: catalogjsonbase and catalogjsonuploads both are defined.  Using both.");
+			catalogjsonuploads = setsource(catalogjsonuploads,"uploads");
+			catalogjsonbase    = setsource(catalogjsonbase,"xml/catalog.json");
+			cataloginfo.json   = catalogjsonbase.concat(catalogjsonuploads);
+		}
+		if (!defined(catalogjsonuploads) & defined(catalogjsonbase)) {
+			console.log("cataloginfo.js: catalogjsonbase is defined.");
+			catalogjsonbase    = setsource(catalogjsonbase,"xml/catalog.json");
+			cataloginfo.json = catalogjsonbase;
+		}
+		if (defined(catalogjsonuploads) & !defined(catalogjsonbase)) {
+			console.log("cataloginfo.js: catalogjsonuploads is defined.");
+			catalogjsonuploads = setsource(catalogjsonuploads,"uploads");
+			cataloginfo.json = catalogjsonuploads;
+		}
+
+	}
+
+	// Read XML catalog file.
 	if (typeof(cataloginfo.xml) != 'object') {
-		//console.log("cataloginfo.js: No cached xml/catalog.xml");
+		console.log("cataloginfo.js: No cached cataloginfo.xml");
 		cataloginfo.xml = new Object();
 		cataloginfo.jqXHR = new Object();
 
 		var text = $("#xml").text();
-		if (text.length > 0) { 
+		if (text.match("catalog")) { 
+			console.log("cataloginfo.js: Found xml catalog in index.html. Using it and ignoring xml/catalog.xml.")
 			var text2 = $((new DOMParser).parseFromString(text, "text/xml"));
 			cataloginfo.xml = text2;
-			//cataloginfo.xml = $.parseXML(text);
 			cataloginfo.jqXHR.responseText = $("#xml").text();
 			return cataloginfo();
+		} else {
+			console.log("cataloginfo.js: Did not find xml catalog in index.html.")
 		}
 
 		$.ajax({
@@ -27,30 +59,10 @@ function cataloginfo(galleryid) {
 			success: function (data,textStatus, jqXHR) {
 				cataloginfo.jqXHR = jqXHR;
 				cataloginfo.xml = data;
-				//console.log(cataloginfo.xml)
+				console.log("cataloginfo.js: Read xml/catalog.xml.")
 			},
 			error: function (xhr, textStatus, errorThrown) {
-				var text = $("#xml").text();
-				if (text.length) {
-					var text2 = $((new DOMParser).parseFromString(text, "text/xml"));
-					cataloginfo.xml = text2;
-					//cataloginfo.xml = $.parseXML(text);
-					cataloginfo.jqXHR.responseText = $("#xml").text();
-					warning("cataloginfo.js: Could not read xml/catalog.xml.  Using catalog found embedded in g.htm.  See http://viviz.org/#local_machine.")
-					var textError = errorThrown.message;
-					 
-					if (location.href.indexOf("file://")==0) {
-						error(" Some browsers do not allow files to be read from local machine.  A different browser or installation method may be required. http://viviz.org/#Installation");
-					}
-					if (textStatus) {
-						//error("<p>cataloginfo.js: Error reading xml/catalog.xml. Error thrown = <b>" + textError + "</b>. Status = " + textStatus + "</p>");
-					} else {
-						//error("<p>cataloginfo.js: Error reading xml/catalog.xml. Error thrown = <b>" + errorThrown + "</b></p>");
-					}
-				}
-				//console.log("cataloginfo.js: Error reading xml/catalog.xml.");
-				//console.log("cataloginfo.js: status: " + textStatus);
-				//console.log("cataloginfo.js: server error: " + errorThrown);
+				console.log("cataloginfo.js: Could not read xml/catalog.xml.")
 			}
 		});
 	}
@@ -61,7 +73,7 @@ function cataloginfo(galleryid) {
 		if (typeof(cataloginfo.GALLERIES) != 'object') {
 			cataloginfo.GALLERIES = new Object();
 		} else {
-			console.log('cataloginfo: Using cached gallery list');
+			console.log('cataloginfo.js: Using cached gallery list');
 			return cataloginfo.GALLERIES;
 		}
 
@@ -70,6 +82,7 @@ function cataloginfo(galleryid) {
 		GALLERIES["Titleshort"] = "-Galleries-";
 		GALLERIES["Class"]      = "updatelglobal";
 		GALLERIES["Values"]     = new Array();
+		
 		var j = 0;
 		var cat = [];
 		
@@ -90,6 +103,7 @@ function cataloginfo(galleryid) {
 					GALLERIES["Values"][i+j]["Id"]    = el.id;					
 				});
 		
+
 		console.log("cataloginfo.js: Returning list of all galleries in xml/catalog.xml");
 		cataloginfo.GALLERIES = GALLERIES;
 		
@@ -100,6 +114,7 @@ function cataloginfo(galleryid) {
 				//$("#cat").append(GALLERIES["Values"][i]["Id"] + "\n")
 				$("#cat").append(JSON.stringify(cataloginfo(GALLERIES["Values"][i]["Id"])) + ",\n")
 			}
+			$("#cat").show();
 		}
 		
 		return GALLERIES;
@@ -119,10 +134,13 @@ function cataloginfo(galleryid) {
 
 		var _CATALOGINFO = new Object();
 		
-		if ( (galleryid.match(/http/)) || (galleryid.match(/ftp/)) || (galleryid.match(/file/)) ) {
+		if ( galleryid.match(/^ftp\:\//) || galleryid.match(/^http\:\//) || galleryid.match(/^https\:\//) || galleryid.match(/^file\:\//) ) {
 			// Auto-generate catalog information from URL
 			
-			//console.log('cataloginfo.js: URL-based galleryid found URL.  Parsing query parameters to create catalog information.')
+			console.log(galleryid)
+			console.log('cataloginfo.js: URL-based galleryid found URL.  Parsing query parameters to create catalog information.')
+
+			_CATALOGINFO["source"] = "URL";
 
 			if (galleryid.match("&")) {
 				var querystr = galleryid;
@@ -156,7 +174,7 @@ function cataloginfo(galleryid) {
 			if (_CATALOGINFO["sprintf"] && _CATALOGINFO["start"]) {
 				_CATALOGINFO["sprintfstart"] = _CATALOGINFO["start"];
 			}
-			
+
 			if (!_CATALOGINFO["galleryid"])
 				_CATALOGINFO["galleryid"] = galleryid;
 
@@ -183,6 +201,13 @@ function cataloginfo(galleryid) {
 		} else {
 			// Extract gallery information from from catalog.xml
 
+			var text = $("#xml").text();
+			if (text.length > 0) { 
+				_CATALOGINFO["source"] = "index.html";
+			} else {
+				_CATALOGINFO["source"] = "xml/catalog.xml";
+			}
+
 			console.log("cataloginfo.js: Returning info for galleryid = " + galleryid);
 			var query = "catalog > gallery[id='" + galleryid + "']";
 	
@@ -205,51 +230,49 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["files"]         = $(cataloginfo.xml).find(query).children('files').text();
 			
 			// TODO: change this because this will match "aboutlink" too. Syntax is ":children['about']" ? 
-			_CATALOGINFO["about"]         = $(cataloginfo.xml).find(query).children('about').text();	
-			_CATALOGINFO["aboutlink"]     = $(cataloginfo.xml).find(query).children('aboutlink').text();
-			_CATALOGINFO["script"]        = $(cataloginfo.xml).find(query).children('script').text();
-			_CATALOGINFO["script"]        = $(cataloginfo.xml).find(query).children('xscript').text();
-			_CATALOGINFO["strftime"]      = $(cataloginfo.xml).find(query).children('strftime').text();
-			_CATALOGINFO["strftimestart"] = $(cataloginfo.xml).find(query).children('strftimestart').text();
-			_CATALOGINFO["strftimestop"]  = $(cataloginfo.xml).find(query).children('strftimestop').text();
-			_CATALOGINFO["sprintf"]       = $(cataloginfo.xml).find(query).children('sprintf').text();
-			_CATALOGINFO["sprintfstart"]  = $(cataloginfo.xml).find(query).children('sprintfstart').text();
-			_CATALOGINFO["sprintfstop"]   = $(cataloginfo.xml).find(query).children('sprintfstop').text();
-			_CATALOGINFO["fullfiles"]    = $(cataloginfo.xml).find(query).children('fullfiles').text();
-			//console.log((cataloginfo.xml).find(query).children('fullfiles').text());
-
-			_CATALOGINFO["fulldir"]       = $(cataloginfo.xml).find(query).children('fulldir').text();
-
-			_CATALOGINFO["thumbdir"]      = $(cataloginfo.xml).find(query).children('thumbdir').text();
-			_CATALOGINFO["thumbfiles"]      = $(cataloginfo.xml).find(query).children('thumbfiles').text();
-			_CATALOGINFO["fullpreprocess"]  = $(cataloginfo.xml).find(query).children('fullpreprocess').text();
-			_CATALOGINFO["thumbpreprocess"] = $(cataloginfo.xml).find(query).children('thumbpreprocess').text();
+			_CATALOGINFO["about"]            = $(cataloginfo.xml).find(query).children('about').text();	
+			_CATALOGINFO["aboutlink"]        = $(cataloginfo.xml).find(query).children('aboutlink').text();
+			_CATALOGINFO["script"]           = $(cataloginfo.xml).find(query).children('script').text();
+			_CATALOGINFO["script"]           = $(cataloginfo.xml).find(query).children('xscript').text();
+			_CATALOGINFO["strftime"]         = $(cataloginfo.xml).find(query).children('strftime').text();
+			_CATALOGINFO["strftimestart"]    = $(cataloginfo.xml).find(query).children('strftimestart').text();
+			_CATALOGINFO["strftimestop"]     = $(cataloginfo.xml).find(query).children('strftimestop').text();
+			_CATALOGINFO["sprintf"]          = $(cataloginfo.xml).find(query).children('sprintf').text();
+			_CATALOGINFO["sprintfstart"]     = $(cataloginfo.xml).find(query).children('sprintfstart').text();
+			_CATALOGINFO["sprintfstop"]      = $(cataloginfo.xml).find(query).children('sprintfstop').text();
+			_CATALOGINFO["fullfiles"]        = $(cataloginfo.xml).find(query).children('fullfiles').text();
+			_CATALOGINFO["fulldir"]          = $(cataloginfo.xml).find(query).children('fulldir').text();
+			_CATALOGINFO["thumbdir"]         = $(cataloginfo.xml).find(query).children('thumbdir').text();
+			_CATALOGINFO["thumbfiles"]       = $(cataloginfo.xml).find(query).children('thumbfiles').text();
+			_CATALOGINFO["fullpreprocess"]   = $(cataloginfo.xml).find(query).children('fullpreprocess').text();
+			_CATALOGINFO["thumbpreprocess"]  = $(cataloginfo.xml).find(query).children('thumbpreprocess').text();
 			_CATALOGINFO["fullpostprocess"]  = $(cataloginfo.xml).find(query).children('fullpostprocess').text();
 			_CATALOGINFO["thumbpostprocess"] = $(cataloginfo.xml).find(query).children('thumbpostprocess').text();
 
+			// Find catalog with matching id in json array.
 			for (i = 0;i<cataloginfo.json.length;i++) {
 				if (cataloginfo.json[i]["id"] === galleryid) break;
 			}
-			
+
 			if (typeof(cataloginfo.json[i]) !== "undefined") {
 				_CATALOGINFO["galleryid"] = cataloginfo.json[i]["id"]
 				for (key in cataloginfo.json[i]) {
-					console.log(key)
 					_CATALOGINFO[key] = cataloginfo.json[i][key];
 				}
 			}
 
 		}
 		
-		console.log(_CATALOGINFO)
-		//console.log(query)
-		//console.log($(cataloginfo.xml).find(query).children('fulldir').text())
-
-		//re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
-		//_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
-		//_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
+		// There must be a better way of doing this
+		re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
+		if (defined(cataloginfo.jqXHR.responseText)) {
+			_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
+			_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
+		}
 		cataloginfo.CATALOGINFO[galleryid] = _CATALOGINFO;
 
+		// TODO: Validate all catalogs and strip bad ones.
+		
 		return _CATALOGINFO;
 		
 	}

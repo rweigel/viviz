@@ -1,3 +1,9 @@
+// TODO: $.gallery({"showdropdowns":true,"showfilmstrip":true,"showattributes":true,"showconfiguration":true,"showprint",true,"showgrid",true,"showabout":true,"compact","false"]})
+// TODO:
+//     Get images from DataCache.  By default, forceupdate = false.
+//     If vector image, use imgconvert.org.
+//     If raster image and thumbs not available, use imgconvert.org.
+
 LAZY_LOAD_MAX = 12;
 FIT_TO_WINDOW = false; // Code needs work.			
 
@@ -9,12 +15,18 @@ $(document).ready(function(){
 	$("#gallerybrowsebutton").click(function () {
 		$('#t-container').hide();
 		$('#g-container').show();
+		gallery("#gallery1");
 		$("#gallery1 #gallerythumbframe img").first().click(); // To trigger resize of thumb div.
 	})
 	
-	// TODO: $.gallery({"showdropdowns":true,"showfilmstrip":true,"showattributes":true,"showconfiguration":true,"showprint",true,"showgrid",true,"showabout":true,"compact","false"]})
 	thumb("#thumb1");
-	gallery("#gallery1");
+	//gallery("#gallery1"); // Causes interference with hashchange
+
+	$(window).hashchange(function(){
+		console.log('main.js: Hash has changed to ' + location.hash);
+		thumb("#thumb1");
+	});
+
 	$("#thumbbrowsebutton").click();
 	
 	$("#skin").change(function() {
