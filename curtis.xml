@@ -1,0 +1,36 @@
+<gallery id="B">
+    <title>B</title>
+    <about></about>
+    <fulldir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</fulldir>
+    <thumbdir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</thumbdir>
+    <sprintf>/B_File%d.png</sprintf>
+    <sprintfstart>0</sprintfstart>
+    <sprintfstop>72</sprintfstop>           
+</gallery>
+<gallery id="Jx">
+    <title>Jx</title>
+    <about></about>
+    <fulldir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</fulldir>
+    <thumbdir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</thumbdir>
+    <sprintf>/Jx_File%d.png</sprintf>
+    <sprintfstart>0</sprintfstart>
+    <sprintfstop>72</sprintfstop>           
+</gallery>
+<gallery id="Ux">
+    <title>Ux</title>
+    <about></about>
+    <fulldir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</fulldir>
+    <thumbdir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</thumbdir>
+    <sprintf>/Ux_File%d.png</sprintf>
+    <sprintfstart>0</sprintfstart>
+    <sprintfstop>72</sprintfstop>           
+</gallery>
+<gallery id="rho">
+    <title>rho</title>
+    <about></about>
+    <fulldir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</fulldir>
+    <thumbdir>http://mag.gmu.edu/aurora/RunData/Brian_Curtis_042213_1/Results/images/</thumbdir>
+    <sprintf>/rho_File%d.png</sprintf>
+    <sprintfstart>0</sprintfstart>
+    <sprintfstop>72</sprintfstop>           
+</gallery>
