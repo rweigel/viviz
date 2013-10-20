@@ -17,26 +17,34 @@ function handleRequest(req, res) {
 	var options = parseOptions(req);
 	console.log("File content: " + JSON.stringify(options));
 
+	if (options.fulldir === "") {
+		res.send(400,"A URL must be given as fulldir.\n");
+		return;
+	}
+
 	var tmpa = options.id.split("/");
-	console.log(tmpa)
-	if (tmpa.length < 3)
-		res.send(400);
+	//if (debug) console.log(tmpa)
+	
+	//if (tmpa.length < 3) res.send(400);
 	
 	var path  = tmpa.slice(0,tmpa.length-1).join("/");
-	console.log("path: " +__dirname+"/"+ path+"/");
+	if (debug) console.log("path: " +__dirname+"/"+ path + "/");
 
 	var xfname = tmpa[tmpa.length-1];
-	console.log("fname: " + xfname);
+	if (debug) console.log("fname: " + xfname+".json");
 
-	console.log("Creating: "+__dirname+"/uploads/"+path)
+	if (debug) console.log("Creating: "+__dirname+"/uploads/"+path)
 	mkdirp(__dirname+"/uploads/"+path,cb);
 
 	function cb() {
-		var zfname = "/uploads/"+path+"/"+xfname+".json";
+		var zfname = "/uploads/"+path + "/" + xfname+".json";
+		zfname = zfname.replace(/\/\//g,"/")
 		console.log("Saving: " + __dirname + zfname)
-		fs.writeFileSync(__dirname + "var cataloginfo=" + zfname,JSON.stringify(options));
+		fs.writeFileSync(__dirname + zfname,"var cataloginfo=" + JSON.stringify(options));
 		if (debug) console.log("Sent response.");
-		res.send("Catalog saved to "+req.headers.host+zfname+"\n");
+		res.send("Catalog saved to http://"+req.headers.host+zfname+"\n");
+		//res.contentType('application/json');
+		//res.end();
 	}
 }
 
@@ -46,21 +54,33 @@ function parseOptions(req) {
 	function s2b(str) {if (str === "true") {return true} else {return false}}
 	function s2i(str) {return parseInt(str)}
 
-	options.id				= req.query.id				|| req.body.id				|| "test/file/id";
-	options.name			= req.query.name			|| req.body.name			|| "";
+	var tmp = req.originalUrl.replace('/save/?','');
+	
+	if ( tmp.match(/^ftp\:\//) || tmp.match(/^http\:\//) || tmp.match(/^https\:\//) || tmp.match(/^file\:\//) ) {
+		options.fulldir	= tmp;
+		tmp = tmp.replace("\://","/").split('/');
+		//console.log(tmp)
+		tmp[1] = tmp[1].replace(".","/");
+		options.id = tmp.join("/").replace(/([a-z])\/$/i,"$1");
+		if (debug) console.log("id: " + options.id)
+	} else {
+		options.fulldir	= req.query.fulldir 	|| req.body.fulldir	|| "";
+		options.id	    = req.query.id    	|| req.body.id		|| "";
+	}
+	
+	options.name				= req.query.name				|| req.body.name				|| "";
 	options.title			= req.query.title			|| req.body.title			|| "Test Catalog";
 	options.about			= req.query.about			|| req.body.about			|| "";
 	options.script			= req.query.script			|| req.body.script			|| "";
 	options.attributes		= req.query.attibutes		|| req.body.attributes		|| "";
 	options.sprintf			= req.query.sprintf			|| req.body.sprintf			|| "";
-	options.sprintfstart	= req.query.sprintfstart	|| req.body.sprintfstart	|| "";
+	options.sprintfstart		= req.query.sprintfstart		|| req.body.sprintfstart		|| "";
 	options.sprintfstop		= req.query.sprintfstop		|| req.body.sprintfstop		|| "";
-	options.strftime		= req.query.strftime		|| req.body.strftime		|| "";
+	options.strftime			= req.query.strftime			|| req.body.strftime			|| "";
 	options.strftimestart	= req.query.strftimestart	|| req.body.strftimestart	|| "";
-	options.strftimestop	= req.query.strftimestop	|| req.body.strftimestop    || "";
+	options.strftimestop		= req.query.strftimestop		|| req.body.strftimestop    || "";
 
-	options.fulldir			= req.query.fulldir 		|| req.body.fulldir			|| "";
-	options.thumbdir		= req.query.thumbdir		|| req.body.thumbdir		|| "";
+	options.thumbdir			= req.query.thumbdir			|| req.body.thumbdir			|| "";
 	options.fullwidth		= req.query.fullwidth 		|| req.body.fullwidth		|| "";
 	options.thumbwidth		= req.query.thumbwidth		|| req.body.thumbwidth		|| "200";
 	options.fullheight		= req.query.fullheight 		|| req.body.fullheight		|| "";
@@ -85,8 +105,10 @@ app.use('/css',express.directory(__dirname + '/css'));
 app.use('/xml',express.directory(__dirname + '/xml'));
 app.use('/dat',express.directory(__dirname + '/dat'));
 
+//curl "http://localhost:8005/save/?id=test/test2"
 app.post('/save', function (req, res) {handleRequest(req,res)});
 app.get('/save', function (req, res) {handleRequest(req,res)});
+
 app.get('/catalogs', function (req, res) {
 	var files = [];
 	var catalogs = [];
@@ -95,8 +117,8 @@ app.get('/catalogs', function (req, res) {
 	  		console.log(entry);
 	  		var data = fs.readFileSync(entry.fullPath,'utf8');
 	  		//console.log(require(entry.fullPath))
-	  		catalogs.push(require(entry.fullPath))
-	  		files.push(entry.path)
+	  		catalogs.push(require(entry.fullPath));	
+	  		files.push(entry.path);
 	  	})
 	  	.on('end', function () {
 	  		//console.log(files);
