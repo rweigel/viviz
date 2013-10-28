@@ -1,6 +1,30 @@
 var catalogjsonbase =
 	[
 	    {
+	        "id": "SDO/20131017/HMIIC",
+	        "title": "SDO/20131017/HMIIC",
+	        "titleshort": "SDO/20131017/HMIIC",
+	        "files": "",
+	        "about": "http://sdo.gsfc.nasa.gov/",
+	        "aboutlink": "http://sdo.gsfc.nasa.gov/assets/img/browse/",
+	        "script": "",
+	        "strftime": "",
+	        "strftimestart": "",
+	        "strftimestop": "",
+	        "sprintf": "",
+	        "sprintfstart": "",
+	        "sprintfstop": "",
+	        "fullfiles": "http://localhost:8001/lsremote.js?pattern=256_HMIIC.jpg&recursive=false&dir=http://sdo.gsfc.nasa.gov/assets/img/browse/2013/10/17/",
+	        "fulldir": "",
+	        "thumbdir": "",
+	        "thumbfiles": "http://localhost:8001/lsremote.js?pattern=512_HMIIC.jpg&recursive=false&dir=http://sdo.gsfc.nasa.gov/assets/img/browse/2013/10/17/",
+	        "fullpreprocess": "",
+	        "thumbpreprocess": "",
+	        "fullpostprocess": "",
+	        "thumbpostprocess": ""
+	    },
+
+	    {
 	        "id": "ACE/Multi",
 	        "title": "ACE/Multi",
 	        "titleshort": "ACE/Multi",
