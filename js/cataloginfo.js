@@ -1,10 +1,5 @@
 function cataloginfo(galleryid) {
 
-	function defined(v) {
-		if (typeof(v) === "undefined") return false;
-		return true;
-	}
-
 	function setsource(v,source) {
 		for (i = 0;i<v.length;i++) {
 			v[i]["source"] = source;
@@ -15,21 +10,21 @@ function cataloginfo(galleryid) {
 	if (typeof(cataloginfo.json) != 'object') {
 		console.log("cataloginfo.js: No cached cataloginfo.json");
 		cataloginfo.json = new Object();
-		if (defined(catalogjsonuploads) & defined(catalogjsonbase)) {
+		if (typeof(catalogjsonuploads) !== "undefined" && typeof(catalogjsonbase) !== "undefined") {
 			console.log("cataloginfo.js: catalogjsonbase and catalogjsonuploads both are defined.  Using both.");
 			catalogjsonuploads = setsource(catalogjsonuploads,"uploads");
 			catalogjsonbase    = setsource(catalogjsonbase,"xml/catalog.json");
 			cataloginfo.json   = catalogjsonbase.concat(catalogjsonuploads);
-		}
-		if (!defined(catalogjsonuploads) & defined(catalogjsonbase)) {
+		} else if (typeof(catalogjsonuploads) === "undefined" && typeof(catalogjsonbase) !== "undefined") {
 			console.log("cataloginfo.js: catalogjsonbase is defined.");
 			catalogjsonbase    = setsource(catalogjsonbase,"xml/catalog.json");
 			cataloginfo.json = catalogjsonbase;
-		}
-		if (defined(catalogjsonuploads) & !defined(catalogjsonbase)) {
+		} else if (typeof(catalogjsonuploads) !== "undefined" && typeof(catalogjsonbase) === "undefined") {
 			console.log("cataloginfo.js: catalogjsonuploads is defined.");
 			catalogjsonuploads = setsource(catalogjsonuploads,"uploads");
 			cataloginfo.json = catalogjsonuploads;
+		} else {
+			console.log("cataloginfo.js: catalogjsonbase and catalogjsonuploads both are not defined.");
 		}
 
 	}
@@ -86,23 +81,25 @@ function cataloginfo(galleryid) {
 		var j = 0;
 		var cat = [];
 		
-		$(cataloginfo.xml).find("catalog > gallery").each(
-				function (i) {
-					GALLERIES["Values"][i]          = new Object();
-					GALLERIES["Values"][i]["Title"] = $(this).children("title").text();
-					GALLERIES["Values"][i]["Value"] = $(this).attr("id");
-					GALLERIES["Values"][i]["Id"]    = $(this).attr('id');
-					j = j+1;
-				});
-		
-		cataloginfo.json.forEach(
-				function (el,i) {
-					GALLERIES["Values"][i+j]          = new Object();
-					GALLERIES["Values"][i+j]["Title"] = el.title;
-					GALLERIES["Values"][i+j]["Value"] = el.id;
-					GALLERIES["Values"][i+j]["Id"]    = el.id;					
-				});
-		
+		if (cataloginfo.xml) {
+			$(cataloginfo.xml).find("catalog > gallery").each(
+					function (i) {
+						GALLERIES["Values"][i]          = new Object();
+						GALLERIES["Values"][i]["Title"] = $(this).children("title").text();
+						GALLERIES["Values"][i]["Value"] = $(this).attr("id");
+						GALLERIES["Values"][i]["Id"]    = $(this).attr('id');
+						j = j+1;
+					});
+		}
+		if (cataloginfo.json.length > 0) {
+			cataloginfo.json.forEach(
+					function (el,i) {
+						GALLERIES["Values"][i+j]          = new Object();
+						GALLERIES["Values"][i+j]["Title"] = el.title;
+						GALLERIES["Values"][i+j]["Value"] = el.id;
+						GALLERIES["Values"][i+j]["Id"]    = el.id;					
+					});
+		}		
 
 		console.log("cataloginfo.js: Returning list of all galleries in xml/catalog.xml");
 		cataloginfo.GALLERIES = GALLERIES;
@@ -265,7 +262,7 @@ function cataloginfo(galleryid) {
 		
 		// There must be a better way of doing this
 		re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
-		if (defined(cataloginfo.jqXHR.responseText)) {
+		if (typeof(cataloginfo.jqXHR.responseText) === "defined") {
 			_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
 			_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
 		}
