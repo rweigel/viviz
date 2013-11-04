@@ -61,7 +61,7 @@ function extractattributes(galleryid) {
 		if (cataloginfo.json[i]["id"] === galleryid) break;
 	}
 
-	//console.log(cataloginfo.json[i])
+	if (i < cataloginfo.json.length) {
 	if (typeof(cataloginfo.json[i]["attributes"]) !== "undefined") {
 		cataloginfo.json[i]["attributes"].forEach(
 				function (el,i) {
@@ -79,6 +79,7 @@ function extractattributes(galleryid) {
 	
 					
 				});
+	}
 	}
 	//console.log(ATTRIBUTES)
 	if (ATTRIBUTES["Values"].length > 1) {
