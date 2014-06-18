@@ -12,7 +12,8 @@ function extractorders() {
 		    "Title": "Sort order",
 		    "Titleshort": "-Sort order-",
 		    "Class": "updatelocal",
-		    "Values": [{"Title": "Ascending", "Value": "ascending"},
+		    "Values": [{"Title": "No sort", "Value": "none"},
+	                       {"Title": "Ascending", "Value": "ascending"},
 		               {"Title": "Descending","Value": "descending"},
 		               {"Title": "Random","Value": "random"}]
 	}
