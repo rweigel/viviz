@@ -680,6 +680,8 @@ function gallery(wrapper) {
 
 	var GALLERYINFO = galleryinfo(galleryid);
 
+	//console.log(GALLERYINFO);
+	
 	setdropdowns();
 	setthumbs();
 	

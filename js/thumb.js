@@ -25,7 +25,7 @@ function thumb(wrapper) {
 	var SORTBYS  = INFOG['attributes'];
 	var ORDERS   = INFOG['orders'];
     //console.log(INFOG);
-    
+    //return;
     var HEADER = cataloginfo(galleryid);   
     $(wrapper + " #about").attr('title',HEADER["about"]).show();
 
@@ -242,14 +242,7 @@ function thumb(wrapper) {
 		//$(wrapper + " #working").show();
 		
 		var THUMBDIR = INFOG['thumbdir'];
-		if (INFOG["thumbpreprocess"]) {
-			THUMBDIR = INFOG["thumbpreprocess"] + INFOG['thumbdir'];
-		}	
-
 		var FULLDIR = INFOG['fulldir'];
-		if (INFOG["fullpreprocess"]) {
-			FULLDIR = INFOG["fullpreprocess"] + INFOG['fulldir'];
-		}
 
 		var thumbwidth = "";
 		if (FULLDIR == THUMBDIR) {
@@ -303,8 +296,7 @@ function thumb(wrapper) {
 			} else {
 				var src = THUMBDIR + INFOjs[i].FileName;
 			}
-			
-	    	    $('<img class="thumbbrowse" "src=http://viviz.org/gallery/css/transparent.png"/>')
+			$('<img class="thumbbrowse" "src=http://viviz.org/gallery/css/transparent.png"/>')
 				.attr("src", src)
 				.attr("srcfull", srcfull)
 				.attr("id",i)
