@@ -3,6 +3,7 @@
 	<head>
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 		<title>ViViz</title>
+		
 		<link rel="icon" type="image/ico" href="./css/favicon.ico"/>		
         <link rel="stylesheet" type="text/css" href="./css/bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="./css/gallery.css">
@@ -28,7 +29,6 @@
 		<script src="./js/deps/codemirror-2.3/mode/xml/xml.js"></script>
 
 		<script type="text/javascript" src="./js/dropdown.js"></script>
-		<!-- script type="text/javascript" src="js/dropdown2.js"></script -->
 
 		<script type="text/javascript" src="./js/gallery.js"></script>		
 		<script type="text/javascript" src="./js/thumb.js"></script>					    
@@ -49,21 +49,17 @@
 		<!-- script type="text/javascript" src="js/cors.js"></script-->
 		
 		<!-- Uploaded catalogs (catalogjsonuploads) -->
-		<script type="text/javascript">
-			var CATALOG = "xml/curtis.xml";
-		</script>
+
 		<!-- Base catalog (catalogjsonbase) -->
         <!--script type="text/javascript" src="./xml/catalog.json"></script--!>
 
         <!-- script type="text/javascript" src="./js/deps/jsonpath-0.8.0.js"></script-->
 
-		
 		<!--
-		Configuration data here is read by default.  If empty, xml/catalog.xml is read.
-		Place configuration data here if this index.htm was read from a local file (file://) 
-		instead of http://.
+		Configuration data inside this script node is read by default.
+		If empty, xml/catalog.xml is read.  Place configuration data here
+		if this index.htm was read from a local file (file://) instead of http://.
 		-->
-
 		<script id="xml"  type="text/x-jQuery-tmpl">
 		</script>
 
