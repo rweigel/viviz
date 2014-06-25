@@ -5,7 +5,7 @@ function thumblist(wrapper){
 	var ORDER     = $(wrapper + " #order").val();
 	var regexp    = $(wrapper + " #regexp :selected").attr('value');
 
-    var INFOG    = galleryinfo(galleryid);
+	var INFOG    = galleryinfo(galleryid);
 	var SORTBYS  = INFOG['attributes'];
 	var ORDERS   = INFOG['orders'];
 	var THUMBDIR = INFOG['thumbdir'];

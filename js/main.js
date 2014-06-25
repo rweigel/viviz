@@ -3,8 +3,9 @@
 //     If vector image, use imgconvert.org.
 //     If raster image and thumbs not available, use imgconvert.org.
 
-LAZY_LOAD_MAX = 12;
-FIT_TO_WINDOW = false; // Code needs work.			
+LAZY_LOAD_MAX  = 12;
+FIT_TO_WINDOW  = false; // Code needs work.			
+VIVIZ = {"CATALOGXML":"xml/enlil.xml"};
 
 $(document).ready(function(){
 	$("#thumbbrowsebutton").click(function () {

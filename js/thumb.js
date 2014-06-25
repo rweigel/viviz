@@ -1,10 +1,16 @@
 function thumb(wrapper) {
 
 	console.log("thumb.js: Called.")
-	$(wrapper + " #error").html();
-	$(wrapper + " #instructions").html("Scroll down to load more images");
 	
 	var GALLERIES = cataloginfo();
+    if (GALLERIES === "") {
+    	console.log("thumb.js: Aborting because of problem with gallery.");
+    	$(wrapper).hide();
+    	return;
+    }
+
+	$(wrapper + " #error").html();
+	$(wrapper + " #instructions").html("Scroll down to load more images");
 
 	if (location.hash !== "") {
 		var hash = location.hash;

@@ -8,25 +8,24 @@ function cataloginfo(galleryid) {
 	}
 	
 	if (typeof(cataloginfo.json) != 'object') {
-		console.log("cataloginfo.js: No cached cataloginfo.json");
+		console.log("cataloginfo.js: No client-side cache of catalog information.");
 		cataloginfo.json = new Object();
 		if (typeof(catalogjsonuploads) !== "undefined" && typeof(catalogjsonbase) !== "undefined") {
-			console.log("cataloginfo.js: catalogjsonbase and catalogjsonuploads both are defined.  Using both.");
+			console.log("cataloginfo.js: Variables catalogjsonbase and catalogjsonuploads both are defined.  Using both.");
 			catalogjsonuploads = setsource(catalogjsonuploads,"uploads");
 			catalogjsonbase    = setsource(catalogjsonbase,"xml/catalog.json");
 			cataloginfo.json   = catalogjsonbase.concat(catalogjsonuploads);
 		} else if (typeof(catalogjsonuploads) === "undefined" && typeof(catalogjsonbase) !== "undefined") {
-			console.log("cataloginfo.js: catalogjsonbase is defined.");
+			console.log("cataloginfo.js: Variable catalogjsonbase is defined.");
 			catalogjsonbase    = setsource(catalogjsonbase,"xml/catalog.json");
-			cataloginfo.json = catalogjsonbase;
+			cataloginfo.json   = catalogjsonbase;
 		} else if (typeof(catalogjsonuploads) !== "undefined" && typeof(catalogjsonbase) === "undefined") {
-			console.log("cataloginfo.js: catalogjsonuploads is defined.");
+			console.log("cataloginfo.js: Variable catalogjsonuploads is defined.");
 			catalogjsonuploads = setsource(catalogjsonuploads,"uploads");
-			cataloginfo.json = catalogjsonuploads;
+			cataloginfo.json   = catalogjsonuploads;
 		} else {
-			console.log("cataloginfo.js: catalogjsonbase and catalogjsonuploads both are not defined.");
+			console.log("cataloginfo.js: Variables catalogjsonbase and catalogjsonuploads both are not defined.");
 		}
-
 	}
 
 	// Read XML catalog file.
@@ -37,27 +36,31 @@ function cataloginfo(galleryid) {
 
 		var text = $("#xml").text();
 		if (text.match("catalog")) { 
-			console.log("cataloginfo.js: Found xml catalog in index.html. Using it and ignoring xml/catalog.xml.")
+			console.log("cataloginfo.js: Found xml catalog node in index.html. Using it and ignoring xml/catalog.xml.")
 			var text2 = $((new DOMParser).parseFromString(text, "text/xml"));
 			cataloginfo.xml = text2;
 			cataloginfo.jqXHR.responseText = $("#xml").text();
 			return cataloginfo();
 		} else {
-			console.log("cataloginfo.js: Did not find xml catalog in index.html.")
+			console.log("cataloginfo.js: Did not find xml catalog information in index.html.")
 		}
 
+		if (typeof(VIVIZ.CATALOGXML) === "undefined") {
+			VIVIZ.CATALOGXML = "xml/catalog.xml";
+			console.log("cataloginfo.js: Variable VIVIZ.CATALOGXML is not defined.  Using xml/catalog.xml.")
+		}
 		$.ajax({
 			type: "GET",
-			url: "xml/catalog.xml",
+			url: VIVIZ.CATALOGXML,
 			async: false,
 			dataType: "xml",
 			success: function (data,textStatus, jqXHR) {
 				cataloginfo.jqXHR = jqXHR;
 				cataloginfo.xml = data;
-				console.log("cataloginfo.js: Read xml/catalog.xml.")
+				console.log("cataloginfo.js: Finished reading " + VIVIZ.CATALOGXML)
 			},
 			error: function (xhr, textStatus, errorThrown) {
-				console.log("cataloginfo.js: Could not read xml/catalog.xml.")
+				console.log("cataloginfo.js: Could not read " + VIVIZ.CATALOGXML + " " + errorThrown.message.split(":")[0])
 			}
 		});
 	}
@@ -101,7 +104,6 @@ function cataloginfo(galleryid) {
 					});
 		}		
 
-		console.log("cataloginfo.js: Returning list of all galleries in xml/catalog.xml");
 		cataloginfo.GALLERIES = GALLERIES;
 		
 		// Use to write catalog.xml as JSON (without attributes node).
@@ -114,6 +116,13 @@ function cataloginfo(galleryid) {
 			$("#cat").show();
 		}
 		
+		if (GALLERIES.Values.length == 0) {
+			$("#connectionerror").html("Problem reading gallery information.  See console for details.");
+			console.log("cataloginfo.js: Problem reading gallery information.");
+			return "";
+		}
+		console.log("cataloginfo.js: Returning list of galleries.");
+
 		return GALLERIES;
 	}
 
@@ -237,6 +246,8 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["sprintf"]          = $(cataloginfo.xml).find(query).children('sprintf').text();
 			_CATALOGINFO["sprintfstart"]     = $(cataloginfo.xml).find(query).children('sprintfstart').text();
 			_CATALOGINFO["sprintfstop"]      = $(cataloginfo.xml).find(query).children('sprintfstop').text();
+			_CATALOGINFO["sprintfdelta"]     = $(cataloginfo.xml).find(query).children('sprintfdelta').text();
+			
 			_CATALOGINFO["fullfiles"]        = $(cataloginfo.xml).find(query).children('fullfiles').text();
 			_CATALOGINFO["fulldir"]          = $(cataloginfo.xml).find(query).children('fulldir').text();
 			_CATALOGINFO["thumbdir"]         = $(cataloginfo.xml).find(query).children('thumbdir').text();

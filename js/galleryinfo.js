@@ -348,11 +348,22 @@ function galleryinfo(galleryid) {
 		_GALLERYINFO["sprintfstart"] = CATALOGINFO["sprintfstart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		_GALLERYINFO["sprintfstop"]  = CATALOGINFO["sprintfstop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		_GALLERYINFO["sprintf"]      = CATALOGINFO["sprintf"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
+
+		_GALLERYINFO["sprintfdelta"] = parseInt(CATALOGINFO["sprintfdelta"].replace(/\n/,'').replace(/^\s+|\s+$/g,''));
+		
+		if (isNaN(_GALLERYINFO["sprintfdelta"])) {
+			_GALLERYINFO["sprintfdelta"] = 1;
+			console.log("galleryinfo.js: sprintfdelta is not defined or is NaN.  Using value of 1.")
+		}
 		var files = new Array();
 		io = parseInt(_GALLERYINFO["sprintfstart"]);
-		for (i = io; i < parseInt(_GALLERYINFO["sprintfstop"]) + 1; i++) {
+		i = io;
+		z = io;
+		while (i < parseInt(_GALLERYINFO["sprintfstop"]) + 1) {			
 			var tmps = _GALLERYINFO["sprintf"];
-			files[i-io] = [sprintf(tmps,i)];
+			files[z-io] = [sprintf(tmps,i)];
+			z = z+1;
+			i = i + _GALLERYINFO["sprintfdelta"];
 		}
 		_GALLERYINFO["files"] = files;
 	}
