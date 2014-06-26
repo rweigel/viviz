@@ -277,7 +277,7 @@ function thumb(wrapper) {
 				value: 4,
 				slide: function(event, ui) { 
 					console.log(ui.value);
-					newWidth = tnw*ui.value/4;
+					newWidth = tw*ui.value/4;
 					$('.thumbbrowse').css('width', newWidth);
 					$(this).attr('data-curr-img-width', newWidth);
 				}
@@ -314,16 +314,22 @@ function thumb(wrapper) {
 					}
 					if (tw > 0 && !fixed) {fixed = true;$(".loaderror").width(tw)}})
 				.load(function () {
-					if (FULLDIR != THUMBDIR) {
-						tnw = this.naturalWidth;
-						tw = $(this).width();
-						tnw = this.naturalWidth;
-						th = $(this).height();
-					} else {
-						tnw = 100;
-						tw = 100;
-						th = $(this).height();
-					}
+					if (i == 0) {
+						if (FULLDIR != THUMBDIR) {
+							tw = this.naturalWidth;
+							th = $(this).height();
+							//tw = $(this).width(); gives value larger than naturalWidth
+						    //console.log(this)
+						    //console.log("thumb.js: Thumb natural width: " + tw);
+						    //console.log("thumb.js: Thumb width (jquery): " + $(this).width());
+						} else {
+							tnw = 100;
+							tw = 100;
+							th = $(this).height();
+						}
+						setpadding();
+			        }
+
 					$(this).width(newWidth || tw);
 					setslider()})
 				.appendTo($(wrapper + ' #thumbbrowseframe'));			
@@ -337,8 +343,29 @@ function thumb(wrapper) {
 		
 		for (var j = 0; j < maxLength; j++) {s = loadone(INFOjs,j)}
 		setthumbbindings();        
+
+		function setpadding() {
+			x = $("#thumbbrowseframe img:first").width()+2*parseFloat($("#thumbbrowseframe img:first").css('border-width').replace("px",""));
+			console.log("--thumb.js: x = " + x);
+       		a = $("#thumbbrowseframe").width()/x;
+       		$("#thumbbrowseframe").css('padding',0);	
+       		console.log("--thumb.js: w = " + $("#thumbbrowseframe").width());		        		
+			console.log("--thumb.js: a = " + a);
+      		b = (a - Math.floor(a))*x;
+      		console.log("--thumb.js: Fraction of image spacing = " + (a - Math.floor(a))	 );
+      		console.log("--thumb.js: b = " + b);
+      		console.log("--thumb.js: Setting padding to " + b/2);
+      		$("#thumbbrowseframe").css('padding-left',b/2);
+      		//$("#thumbbrowseframe").css('padding-right',b/2);
+		}
 		
-		$(window).resize(function () {$.doTimeout('resize', 250, function(){console.log('thumb.loadmore(): Resize event');setTimeout(loadmore,1000)})});
+		$(window).resize(function () {
+			$.doTimeout('resize', 250, function(){
+					console.log('thumb.loadmore(): Resize event');
+					setpadding();
+					//setTimeout(setpadding,1000);	
+					setTimeout(loadmore,1000);
+				})});
 
         console.log("thumb.setthumbs(): maxLength = "+maxLength)
         console.log("thumb.setthumbs(): LAZY_LOAD_MAX = "+LAZY_LOAD_MAX)
