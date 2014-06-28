@@ -13,9 +13,9 @@ function extractorders() {
 		    "Titleshort": "-Sort order-",
 		    "Class": "updatelocal",
 		    "Values": [{"Title": "No sort", "Value": "none"},
-	                       {"Title": "Ascending", "Value": "ascending"},
-		               {"Title": "Descending","Value": "descending"},
-		               {"Title": "Random","Value": "random"}]
+						{"Title": "Ascending", "Value": "ascending"},
+		               	{"Title": "Descending","Value": "descending"},
+		               	{"Title": "Random","Value": "random"}]
 	}
 	return ORDERS;
 }
@@ -397,13 +397,16 @@ function galleryinfo(galleryid) {
 	} else {
 		_GALLERYINFO["thumbdir"] = "";			
 	}
-
-	//console.log("++");
-	//console.log(_GALLERYINFO["thumbdir"])
 	
-	// Relative paths given
+	// Relative paths given for thumbdir or empty string for thumbdir
 	if ( !(_GALLERYINFO["thumbdir"].match(/^http:/) || _GALLERYINFO["thumbdir"].match(/^ftp:/) || _GALLERYINFO["thumbdir"].match(/^file:/))) {
 		_GALLERYINFO["thumbdir"] = _GALLERYINFO["fulldir"] + _GALLERYINFO["thumbdir"];
+	}
+	
+	if (_GALLERYINFO["thumbdir"] === _GALLERYINFO["fulldir"]) {
+		if (typeof(VIVIZ.thumbwidth) === "undefined") {
+			_GALLERYINFO["thumbwidth"] = "150";
+		}
 	}
 	
 	if (CATALOGINFO["thumbpreprocess"]) {

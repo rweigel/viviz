@@ -4,8 +4,9 @@
 //     If raster image and thumbs not available, use imgconvert.org.
 
 LAZY_LOAD_MAX  = 12;
-FIT_TO_WINDOW  = false; // Code needs work.			
-VIVIZ = {"CATALOGXML":"xml/enlil.xml"};
+FIT_TO_WINDOW  = false; // Code needs work.
+//FIT_TO_WINDOW  = true; // Code needs work.			
+VIVIZ = {"CATALOGXML":"xml/enlil.xml","thumbwidth":150};
 
 $(document).ready(function(){
 	$("#thumbbrowsebutton").click(function () {
@@ -27,7 +28,8 @@ $(document).ready(function(){
 		thumb("#thumb1");
 	});
 
-	$("#thumbbrowsebutton").click();
+	//$("#thumbbrowsebutton").click();
+	$("#gallerybrowsebutton").click();
 	
 	$("#skin").change(function() {
 		var newTheme =  $(this).attr('value');
