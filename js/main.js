@@ -4,14 +4,15 @@
 //     If raster image and thumbs not available, use imgconvert.org.
 
 LAZY_LOAD_MAX  = 12;
-FIT_TO_WINDOW  = false; // Code needs work.
+FIT_TO_WINDOW  = true; // Code needs work.
 //FIT_TO_WINDOW  = true; // Code needs work.			
-VIVIZ = {"CATALOGXML":"xml/enlil.xml","thumbwidth":150};
+VIVIZ = {"CATALOGXML":"xml/enlil.xml","thumbheight":10.15};
 
 $(document).ready(function(){
 	$("#thumbbrowsebutton").click(function () {
 		$('#g-container').hide();
-		$('#t-container').show()
+		$('#t-container').show();
+		thumb("#thumb1");
 	})
 	$("#gallerybrowsebutton").click(function () {
 		$('#t-container').hide();
@@ -20,14 +21,22 @@ $(document).ready(function(){
 		$("#gallery1 #gallerythumbframe img").first().click(); // To trigger resize of thumb div.
 	})
 	
-	thumb("#thumb1");
+	if (FIT_TO_WINDOW) {
+		// Prevent scrollbars as they complicate calculation of dimensions when fitting.
+		//document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+	    //document.body.scroll = "no"; // ie only
+	}
+
+	//thumb("#thumb1");
 	//gallery("#gallery1"); // Causes interference with hashchange
 
 	$(window).hashchange(function(){
 		console.log('main.js: Hash has changed to ' + location.hash);
-		thumb("#thumb1");
+		//thumb("#thumb1");
+		//gallery("#gallery1"); // Causes interference with hashchange
 	});
 
+	
 	//$("#thumbbrowsebutton").click();
 	$("#gallerybrowsebutton").click();
 	
