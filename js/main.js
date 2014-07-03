@@ -7,7 +7,7 @@ LAZY_LOAD_MAX  = 12;
 FIT_TO_WINDOW  = true; // Code needs work.
 //FIT_TO_WINDOW  = true; // Code needs work.			
 VIVIZ = {
-			"CATALOGXML":"xml/enlil.xml",
+		"CATALOGXML":"xml/enlil.xml",
 			"defaultmode":"gallery",
 			"thumbheight":10.15,
 			"thumbwidth":10.15,
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	}
 
 
-if (VIVIZ["CATALOGXML"] === "xml/enlil.xml") {
+if (false && VIVIZ["CATALOGXML"] === "xml/enlil.xml") {
     $('#g-container').detach().appendTo('#ss_img_div');
 	$('#enlil').show();
 	$('#showhidethumb').click();

@@ -135,10 +135,9 @@ function gallery(wrapper) {
 		console.log("gallery.settabledims(): Setting #gallerythumbframe width to be outer width of thumb + scrollbar width + 1 = " + w);
 		$(wrapper + ' #gallerythumbframe').width(w);
 
-		if (typeof(tw) !== "undefined") {
-			console.log("gallery.settabledims(): Setting left margin for #fullframe to thumb width + scroll bar width = " + (w+1))
-			$("#fullframe").css('margin-left',w+1);
-		}
+		console.log("gallery.settabledims(): Setting left margin for #fullframe to thumb width + scroll bar width = " + (w+1))
+		    //$("#fullframe").css('margin-left',w+1);
+		$("#fullframe").css('float','right');
 
 	    // Set heights of thumbframe and fullframe.
         if (VIVIZ["fullNaturalHeight"] > 0) {
@@ -201,6 +200,7 @@ function gallery(wrapper) {
 	        	console.log("gallery.settabledims(): Setting top margin for " + wrapper);
 	        	$(wrapper).css('margin-top',-dh/2);
 	        }
+		// Set this so size stays fixed when image switches.
 	        $(wrapper + " #fullframe").css('width',$(wrapper + " #fullframe").width());
 	        $(wrapper + " #fullframe").css('height',$(wrapper + " #fullframe").height());
         } else {
@@ -292,6 +292,7 @@ function gallery(wrapper) {
 			if ($(wrapper + " #fullframe img[id="+idn+"]").length == 0) {
 				$(wrapper + " #fullframe").prepend('<img id="'+idn+'" class="full" style="display:none"/>');
 				var srcn = $(wrapper + " #gallerythumbframe img[id="+idn+"]").attr('src').replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']);
+				$(wrapper + " #fullframe img[id="+idn+"]").css('height',VIVIZ['fullHeight']);
 				$(wrapper + " #fullframe img[id="+idn+"]").attr('src',srcn);
 			}
 		}
