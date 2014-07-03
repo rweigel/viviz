@@ -28,7 +28,8 @@ $(document).ready(function(){
 		$("#gallery1 #gallerythumbframe img").first().click(); // To trigger resize of thumb div.
 	})
 	
-	if (FIT_TO_WINDOW) {
+	
+	    if (FIT_TO_WINDOW) {
 		// Prevent scrollbars as they complicate calculation of dimensions when fitting.
 		//document.documentElement.style.overflow = 'hidden';  // firefox, chrome
 	    //document.body.scroll = "no"; // ie only
@@ -49,6 +50,13 @@ $(document).ready(function(){
 	} else {
 		$("#thumbbrowsebutton").click();
 	}
+
+
+if (VIVIZ["CATALOGXML"] === "xml/enlil.xml") {
+    $('#g-container').detach().appendTo('#ss_img_div');
+	$('#enlil').show();
+	$('#showhidethumb').click();
+}
 	
 	$("#skin").change(function() {
 		var newTheme =  $(this).attr('value');
