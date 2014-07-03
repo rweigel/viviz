@@ -8,16 +8,14 @@ function gallery(wrapper) {
 	//$(window).unbind('hashchange');
 	$(window).hashchange(function() {
 		console.log('gallery.js: Hash has changed to ' + location.hash);
-        $(wrapper).attr('nowvisible', '');
-        $(wrapper).attr('lastvisible', '');
-        $(wrapper).attr('totalvisible', '');
-        $(wrapper).attr('totalingallery', '');
+        $(wrapper + " #fullframe").html('');
+        $(wrapper).attr('nowvisible', '').attr('lastvisible', '').attr('totalvisible', '').attr('totalingallery', '');
         $(wrapper + " #stats").html('');
         $(wrapper + " #error").html('');
         $(wrapper + " #connectionerror").html('');
-        $(wrapper + " #fullframe img").remove('');
         $(wrapper + " #catalogxml").html('');
         gallery(wrapper);
+        
 	});
 
 	var GALLERIES = cataloginfo();
@@ -130,16 +128,21 @@ function gallery(wrapper) {
 	    // Adjust table dimensions based on large image height.
 	    // TODO: Compute integers used in code below (e.g., 10, 25).
 	    //       (So robust against changes in padding or border widths.)
-	    console.log("gallery.settabledims(): Full img height = " + $(wrapper + " #fullframe img").eq(0).height());
-	    console.log("gallery.settabledims(): Full img width = " + $(wrapper + " #fullframe img").eq(0).width());
-		var ar = $(wrapper + " #fullframe img").eq(0).width()/$(wrapper + " #fullframe img").eq(0).height();
+	    console.log("gallery.settabledims(): Full img height = " + VIVIZ["fullNaturalHeight"]);
+	    console.log("gallery.settabledims(): Full img width = " + VIVIZ["fullNaturalWidth"]);
 
 		var w = $('#gallerythumbframe img').eq(0).outerWidth() + $.scrollbarWidth() + 1;
 		console.log("gallery.settabledims(): Setting #gallerythumbframe width to be outer width of thumb + scrollbar width + 1 = " + w);
 		$(wrapper + ' #gallerythumbframe').width(w);
 
+		if (typeof(tw) !== "undefined") {
+			console.log("gallery.settabledims(): Setting left margin for #fullframe to thumb width + scroll bar width = " + (w+1))
+			$("#fullframe").css('margin-left',w+1);
+		}
+
 	    // Set heights of thumbframe and fullframe.
         if (VIVIZ["fullNaturalHeight"] > 0) {
+			var ar = VIVIZ["fullNaturalHeight"]/VIVIZ["fullNaturalWidth"];
 
 	 		enclosure = $(wrapper).parents().filter('body')[0];
 			console.log("gallery.settabledims(): Window height: "+ $(window).height());
@@ -148,22 +151,61 @@ function gallery(wrapper) {
 
 	        dh = $(enclosure).height() - $(window).height();
 	        console.log("dh="+dh);
+
+	        dwo = ar*dh;
+	        console.log("dwo="+dwo)
+
 	        if (dh > 0) {
 	        	console.log("gallery.settabledims(): Shrinking height of #fullframe.")
 	        	$(wrapper + ' #fullframe img').height(VIVIZ["fullNaturalHeight"]-dh)
 	        	console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe to "+(VIVIZ["fullNaturalHeight"]-dh));
 	        	$(wrapper + ' #gallerythumbframe').height(VIVIZ["fullNaturalHeight"]-dh);
-	        	//console.log($(document).height()))
+	        	VIVIZ['fullHeight'] = VIVIZ["fullNaturalHeight"]-dh;	        	
 	    	} else {
 	        	console.log("gallery.settabledims(): Full image height known.  Setting #gallerythumbframe height to be height of full image + 10 = "+($(wrapper + " #fullframe img").eq(0).height()+10));
-	            $(wrapper + " #gallerythumbframe").height(0+$(wrapper + " #fullframe img").eq(0).height());
-	            $(wrapper + " #fullframe").height(0+$(wrapper + " #fullframe img").eq(0).height());
+	            $(wrapper + " #gallerythumbframe").height(VIVIZ["fullNaturalHeight"]);
+	            VIVIZ['fullHeight'] = VIVIZ["fullNaturalHeight"];
+	            //$(wrapper + " #fullframe").height(VIVIZ["fullNaturalHeight"]);
+	            //$(wrapper + " #fullframe").width(VIVIZ["fullNaturalWidth"]);
 	        }
 
+			console.log("gallery.settabledims(): Window width: "+ $(window).width());
+			console.log("gallery.settabledims(): Document width: "+ $(document).width());
+	        console.log("gallery.settabledims(): Enclosing body width: " + $(enclosure).width());
+
+	        dw = $(document).width()-$(enclosure).width();
+	        console.log("dw*ar="+dw*ar);
+
+	        console.log("ar = "+ar)
+	        if (dw > 0) {
+	        	if (dh > 0) {
+		        	newh = VIVIZ["fullNaturalHeight"]-dh-ar*dw;
+	        	} else {
+	        		newh = VIVIZ["fullNaturalHeight"]-ar*dw;
+	        	}
+	        	console.log("gallery.settabledims(): Shrinking height of #fullframe again because of overlap in width.  New height: "+newh)
+	        	$(wrapper + ' #fullframe img').height(newh)
+	        	console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe again because of overlap in width.  New height: "+newh);
+	        	$(wrapper + ' #gallerythumbframe').height(newh);
+	        	VIVIZ['fullHeight'] = newh;	        		        	
+	        }
+
+
+	        dw = $(document).width()-$(enclosure).width();
+	        console.log("dw*ar="+dw*ar);
+
+	        dh = $(enclosure).height() - $(window).height();
+	        console.log("dh="+dh);
+
+	        if (dh < 0) {
+	        	console.log("gallery.settabledims(): Setting top margin for " + wrapper);
+	        	$(wrapper).css('margin-top',-dh/2);
+	        }
+	        $(wrapper + " #fullframe").css('width',$(wrapper + " #fullframe").width());
+	        $(wrapper + " #fullframe").css('height',$(wrapper + " #fullframe").height());
         } else {
             if ($('#gallerythumbframe img').eq(0).height() > 0) {
-            	console.log("gallery.settabledims(): Full image height unknown.");
-            	console.log("--"+$('#gallerythumbframe img').eq(0).height());
+            	console.log("gallery.settabledims(): Full image height unknown but thumb height known.");
             	var a = 4*$('#gallerythumbframe img').eq(0).outerHeight();
 				console.log("gallery.settabledims(): Setting thumb frame height to be 4*(first thumb outer height) = "+a);
 				console.log("gallery.settabledims(): First thumbnail height = " + $('#gallerythumbframe img').eq(0).height());
@@ -177,116 +219,6 @@ function gallery(wrapper) {
         }
 
 
-        return;
-
-
-		$("#fullframe").css('margin-left',tw+24);
-		// Set widths of thumbframe and fullframe.
-		// 24 leaves room for vertical scroll bar.  If it does not appear and 2*image width is less than
-		// 24, more than one will appear per row.
-
-
-        if ($(wrapper + " #fullframe img").eq(0).height() > 0) {
-            var w = $(wrapper + " #fullframe img").eq(0).width()+6;
-            console.log("gallery.settabledims(): Setting #fullframe width to be " + w);
-            $(wrapper + " #fullframe").width(w);
-        }
-	
-
-       
-
-		console.log("gallery.settabledims(): Window width: "+ $(window).width());
-		console.log("gallery.settabledims(): Document width: "+ $(document).width());
-        console.log("gallery.settabledims(): Enclosing body width: " + $(enclosure).width());
-		console.log("gallery.settabledims(): Window height: "+ $(window).height());
-		console.log("gallery.settabledims(): Document height: "+ $(document).height());
-        console.log("gallery.settabledims(): Enclosing body height: " + $(enclosure).height());
-
-		dw = $(enclosure).width()-$(window).width();
-		console.log("gallery.settabledims(): Needed height - Available height = " + dh);
-
-		if (dh > 0 || dw > 0) {
-			if (dh > 0 && dw <= 0) {
-				console.log("gallery.settabledims(): Adjusting height by "+dh);
-
-				var h =  $(wrapper + " #fullframe img").eq(0).height();
-				console.log("gallery.settabledims(): Full image height = "+h);
-				if (h == 0) {
-					console.log('gallery.settabledims(): Full image height is zero.  Not fitting window.');
-					return;
-				}
-		
-				settabledims.ho = h-dh-1;
-				console.log("gallery.settabledims(): Setting ho = "+settabledims.ho)
-				var h2 = $(wrapper + " #fullframe").height(); 
-				var h3 = $(wrapper + " #gallerythumbframe").height();
-				$(".full").css('height',h-dh-1);
-				$(wrapper + " #fullframe").css('height',h2-dh-1);
-				$(wrapper + " #gallerythumbframe").css('height',h3-dh-1);
-				settabledims();
-			}
-			if (dh < 0 && dw > 0) {
-				console.log("gallery.settabledims(): Need to adjust width only");
-			}
-			if (dh > 0 && dw > 0) {
-				//console.log("gallery.settabledims(): Need to adjust width only");
-			}
-			//
-
-		}
-
-    	
-        // Enclosure resize (Some browsers fire event continually, so use timeout.) 
-        $(window).resize(function(){
-            $.doTimeout('resize', 250, function(){
-                console.log('gallery.settabledims(): Window resize event.');
-                settabledims();
-            });
-        });
- 
-		return;
-		if (!FIT_TO_WINDOW) {return};
-	 
-        // Fit full image to size of enclosure.
-		var isInIframe = (window.location != window.parent.location) ? true : false;
-		console.log("gallery.settabledimensions: isInIframe = " + isInIframe);
-
-		console.log("gallery.settabledims(): Window width: "+ $(window).width());
-		console.log("gallery.settabledims(): Document width: "+ $(document).width());
-        console.log("gallery.settabledims(): Enclosing body width: " + $(enclosure).width());
-		console.log("gallery.settabledims(): Window height: "+ $(window).height());
-		console.log("gallery.settabledims(): Document height: "+ $(document).height());
-        console.log("gallery.settabledims(): Enclosing body height: " + $(enclosure).height());
-
-       
-        if (($(document).width() > $(enclosure).width()) && ($(document).height() <= $(enclosure).height())) {
-            var wo = $(wrapper + " #fullframe img").width();
-            var wf = -50+Math.round(wo*($(enclosure).width()/$(document).width()));
-            $(wrapper + " #fullframe img").width(wf);
-            if (wf > 0) {
-                settabledims();
-            }
-        }
-        
-        if (($(document).height() > $(enclosure).height()) && ($(document).width() <= $(enclosure).width())) {
-            var ho = $(wrapper + " #fullframe img").height();
-            var hf = -10+Math.round(ho*($(enclosure).height()/$(document).height()));
-            $(wrapper + " #fullframe img").height(hf);
-            if (hf > 0) {
-                settabledims();
-            }
-        }
-        
-        if (($(document).height() > $(enclosure).height()) && ($(document).width() > $(enclosure).width())) {
-            var wo = $(wrapper + " #fullframe img").width();
-            var wf = -50+Math.round(wo*($(enclosure).width()/$(document).width()));
-            var ho = $(wrapper + " #fullframe img").height();
-            var hf = -10+Math.round(ho*($(enclosure).height()/$(document).height()));
-            var ar = Math.min(wf/wo,hf/ho);
-            $(wrapper + " #fullframe img").height(Math.round(ho*ar));
-            $(wrapper + " #fullframe img").width(Math.round(wo*ar));
-            //settabledims();
-        }
     }
     
 	function loadfull(jq) {
@@ -300,7 +232,8 @@ function gallery(wrapper) {
 		if ($(wrapper + " #fullframe img[id="+id+"]").length == 1) {
 			console.log('gallery.loadfull(): Found hidden full image in DOM.  Showing.');
 			$(wrapper + " #fullframe img[id=" + id + "]").show();
-			settabledims();
+			prepnext();
+			//settabledims();
 			return;
 		}
 	
@@ -316,16 +249,19 @@ function gallery(wrapper) {
 	    
         $(wrapper + " #fullframe img[id="+id+"]").unbind('load');
         $(wrapper + " #fullframe img[id="+id+"]")
-	        	.error(function () {$(this).remove();$(wrapper + ' #workingfullframe').css('visibility','hidden');})
-	        	.css('height',settabledims.ho || '')
+	        	.error(function () {
+	        		$(wrapper + ' #workingfullframe').css('visibility','hidden');
+	        		$(wrapper + ' #error').html('Could not load <a href="'+$(this).attr('src')+'">'+$(this).attr('src')+'</a>')
+	        		$(this).remove();
+	        	})
 	        	.load(function(){
 		        	//console.log('gallery.js: ' + wrapper + ' #'+id+' loaded.');
 		        	if (id == 1) {
-		        		console.log('gallery.loadfull(): First full image loaded with height = '+$(this).height()+'.  Setting table dimensions.');
+		        		console.log('gallery.loadfull(): First full image loaded with natural height = '+this.naturalHeight+'.  Setting table dimensions.');
 			        	VIVIZ["fullNaturalHeight"] = this.naturalHeight;
 			        	VIVIZ["fullNaturalWidth"] = this.naturalWidth;
 		        		settabledims();
-		        	}
+		        	} 
 		        	
 			        $(wrapper + " #fullframe img").eq(0).click();
 					//console.log('gallery.js: Hiding ' + wrapper + ' #workingfullframe spinner.');
@@ -333,6 +269,9 @@ function gallery(wrapper) {
 		    	    //settabledims();
 					$(wrapper + " #fullframe img[id="+id+"]").unbind("click");
 					$(wrapper + " #fullframe img[id="+id+"]").click(function() {$(wrapper + " #next").click()});
+
+					prepnext();
+
 	        	});
         
         $(wrapper + " #fullframe img[id="+id+"]")
@@ -346,6 +285,17 @@ function gallery(wrapper) {
         		text(jq.src.replace(GALLERYINFO['thumbdir'],""));
         
         if (jq.title) {$(wrapper + ' #fullframe #'+id).attr("title",jq.title)}		 		
+
+		function prepnext() {
+			
+			var idn = parseInt(id) + 1;
+			if ($(wrapper + " #fullframe img[id="+idn+"]").length == 0) {
+				$(wrapper + " #fullframe").prepend('<img id="'+idn+'" class="full" style="display:none"/>');
+				var srcn = $(wrapper + " #gallerythumbframe img[id="+idn+"]").attr('src').replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']);
+				$(wrapper + " #fullframe img[id="+idn+"]").attr('src',srcn);
+			}
+		}
+
 	}
 	
 	function setthumbbindings() {
@@ -426,7 +376,7 @@ function gallery(wrapper) {
     	
 		var thumbheight = 1.0;
 		if (GALLERYINFO['fulldir'] === GALLERYINFO['thumbdir']) {
-			console.log('gallery.setthumbs(): No thumbnails detected.  Setting thumb height to 25% of full height.');
+			console.log('gallery.setthumbs(): No thumbnail directory given.  Setting thumb height to 25% of full height.');
 			var thumbheight = 0.25;
 		} 
 		if (VIVIZ["thumbheight"]) {
@@ -588,6 +538,9 @@ function gallery(wrapper) {
         function findfirstimage(J) {
 	    	
 	    	console.log("gallery.findfirstimage: Looking for first good image.");
+	    	if (!findfirstimage.Nbad) {
+	    		findfirstimage.Nbad = 1;
+	    	}
 
  	   		if (!allbad) return;
 	    	var lastgood = INFOjs.length;
@@ -632,7 +585,16 @@ function gallery(wrapper) {
 			                	},	                			                		
 			                error: function() {
 			                		$(this).remove();
-			                		console.log("Image #" + $(this).attr("id") + " is bad.")}});
+			                		console.log("Image #" + $(this).attr("id") + " is bad.");
+									findfirstimage.Nbad = findfirstimage.Nbad + 1; 
+									console.log("Nbad = " + findfirstimage.Nbad);
+									if (findfirstimage.Nbad == INFOjs.length) {
+			                			$(wrapper + " #error").html("No thumbnails found. First thumbnail: <br/><a href='"+GALLERYINFO['thumbdir'] + INFOjs[0].FileName+"'>"+GALLERYINFO['thumbdir'] + INFOjs[0].FileName+"</a>")
+			                			$("#workingfullframe").hide();
+			                		}
+
+			                	}});
+									
             }
         }        
     }   
@@ -698,7 +660,7 @@ function gallery(wrapper) {
 		dropdown("order", GALLERYINFO['orders'], wrapper + " #dropdowns");
 		
 		// TODO: Set this based on available space.
-		$("#gallery").css('width','15em');
+		$(wrapper + " #gallery").css('width','15em');
 
 		$(wrapper + ' #dropdowns #order').change(function(){
 			setthumbs();
@@ -710,9 +672,9 @@ function gallery(wrapper) {
 				setregexps();
 				setthumbs();
 			});
-		setregexps();	
+			setregexps();	
 		} else {
-			console.log("gallery.setdropdowns: No sort attributes.  Not displaying drop-down.")
+			console.log("gallery.setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
 		}
 
 	    
@@ -720,7 +682,7 @@ function gallery(wrapper) {
 	    //VIVIZ.WindowHeight   = $(window).height();
 	    //VIVIZ.DocumentHeight = $(document).height();
 	    //console.log("setdropdowns.js: Window height: "+ VIVIZ.WindowHeight);
-		console.log("setdropdowns.js: Document height: "+ VIVIZ.DocumentHeight);
+		//console.log("gallery.setdropdowns(): Document height: "+ VIVIZ.DocumentHeight);
 
 		return true;
 

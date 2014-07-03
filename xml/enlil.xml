@@ -12,7 +12,8 @@
       <title>IPSBD-ENLIL Velocity 2</title>
       <about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
       <fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1obs4vel2b/</fulldir>
-      <thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+      <thumbpreprocess>http://imgconvert.org/convert.cgi?interlace=line&amp;width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+      <fullpreprocess>http://imgconvert.org/convert.cgi?interlace=plane&amp;in=</fullpreprocess>
       <sprintf>%04d.gif</sprintf>
       <sprintfstart>0</sprintfstart>
       <sprintfdelta>3</sprintfdelta>
@@ -22,7 +23,7 @@
       <title>IPSBD-ENLIL Velocity 3</title>
       <about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
       <fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim3evo1vel2b/</fulldir>
-      <thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>      
+      <thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
       <sprintf>%04d.gif</sprintf>
       <sprintfstart>0</sprintfstart>
       <sprintfdelta>3</sprintfdelta>
@@ -262,7 +263,7 @@
       <title>WSADT-SWRC-ENLIL Velocity 3</title>
       <about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
       <fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim3evo1vel2b/</fulldir>
-      <thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>      
+      <thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
       <sprintf>%04d.gif</sprintf>
       <sprintfstart>0</sprintfstart>
       <sprintfdelta>3</sprintfdelta>

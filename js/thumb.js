@@ -9,6 +9,12 @@ function thumb(wrapper) {
     	return;
     }
 
+	$(window).hashchange(function() {
+		console.log('thumb.js: Hash has changed to ' + location.hash);
+        $(wrapper + " #thumbbrowseframe").html('');
+        thumb(wrapper);
+	})
+
 	$(wrapper + " #error").html();
 	$(wrapper + " #instructions").html("Scroll down to load more images");
 
@@ -288,7 +294,7 @@ function thumb(wrapper) {
 	        var fixed = false;
 	        if (i > INFOjs.length-1) return;
 	        thumb.Nloaded = thumb.Nloaded+1;
-			if (thumb.Nloaded == INFOjs.length-1) $("#instructions").html("All images loaded");
+			if (thumb.Nloaded == INFOjs.length-1) $("#instructions").html("All images requested.");
 			//console.log(i)
 			if (INFOjs[i]['ThumbFile']) {
 				var src = INFOjs[i]['ThumbFile'];
@@ -327,6 +333,8 @@ function thumb(wrapper) {
 							tw = 100;
 							th = $(this).height();
 						}
+
+						//console.log("bw="+$(this).css('border'))
 						setpadding();
 			        }
 
@@ -345,16 +353,24 @@ function thumb(wrapper) {
 		setthumbbindings();        
 
 		function setpadding() {
-			x = $("#thumbbrowseframe img:first").width()+2*parseFloat($("#thumbbrowseframe img:first").css('border-width').replace("px",""));
-			console.log("--thumb.js: x = " + x);
-       		a = $("#thumbbrowseframe").width()/x;
+
+			bw = 0;
+			if ($("#thumbbrowseframe img:first").css('borderLeftWidth')) {
+				bw = parseFloat($("#thumbbrowseframe img:first").css('borderLeftWidth').replace("px",""));
+			}
+			console.log("bw="+bw)
+			x = $("#thumbbrowseframe img:first").width()+2*bw;
+	
+			console.log("thumb.setpadding(): x = " + x);
+   			a = $("#thumbbrowseframe").width()/x;				
+
        		$("#thumbbrowseframe").css('padding',0);	
-       		console.log("--thumb.js: w = " + $("#thumbbrowseframe").width());		        		
-			console.log("--thumb.js: a = " + a);
+       		console.log("thumb.setpadding(): w = " + $("#thumbbrowseframe").width());		        		
+			console.log("thumb.setpadding(): a = " + a);
       		b = (a - Math.floor(a))*x;
-      		console.log("--thumb.js: Fraction of image spacing = " + (a - Math.floor(a))	 );
-      		console.log("--thumb.js: b = " + b);
-      		console.log("--thumb.js: Setting padding to " + b/2);
+      		console.log("thumb.setpadding(): Fraction of image spacing = " + (a - Math.floor(a))	 );
+      		console.log("thumb.setpadding(): b = " + b);
+      		console.log("thumb.setpadding(): Setting padding to " + b/2);
       		$("#thumbbrowseframe").css('padding-left',b/2);
       		//$("#thumbbrowseframe").css('padding-right',b/2);
 		}
@@ -421,20 +437,30 @@ function thumb(wrapper) {
 
 	function setdropdowns() {
 
+
 		dropdown("order", ORDERS, wrapper + " #dropdowns");
+		
+		// TODO: Set this based on available space.
+		$(wrapper + " #gallery").css('width','15em');
+
 		$(wrapper + ' #dropdowns #order').change(function(){
-		    setthumbs();
-		    setthumbbindings();
-		});
-
-	    dropdown("sortby", SORTBYS, wrapper + " #dropdowns");
-		$(wrapper + ' #dropdowns #sortby').change(function(){
-			setregexps();
 			setthumbs();
-		    setthumbbindings();
+			setthumbbindings();
 		});
 
-	    setregexps();
+		if (INFOG['attributes']["Values"] > 1) {
+		    dropdown("sortby", INFOG['attributes'], wrapper + " #dropdowns");
+			$(wrapper + ' #dropdowns #sortby').change(function(){
+				setregexps();
+				setthumbs();
+			});
+			setregexps();	
+		} else {
+			console.log("gallery.setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
+		}
+
+
+		return true
 
 		function setregexps() {
 			var REGEXPS            = new Object();			

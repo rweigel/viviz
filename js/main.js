@@ -6,7 +6,14 @@
 LAZY_LOAD_MAX  = 12;
 FIT_TO_WINDOW  = true; // Code needs work.
 //FIT_TO_WINDOW  = true; // Code needs work.			
-VIVIZ = {"CATALOGXML":"xml/enlil.xml","thumbheight":10.15};
+VIVIZ = {
+			"CATALOGXML":"xml/enlil.xml",
+			"defaultmode":"gallery",
+			"thumbheight":10.15,
+			"thumbwidth":10.15,
+			"fullwidth":550,
+			"fullheight":880
+		};
 
 $(document).ready(function(){
 	$("#thumbbrowsebutton").click(function () {
@@ -36,9 +43,12 @@ $(document).ready(function(){
 		//gallery("#gallery1"); // Causes interference with hashchange
 	});
 
-	
-	//$("#thumbbrowsebutton").click();
-	$("#gallerybrowsebutton").click();
+
+	if (VIVIZ["defaultmode"] == "gallery") {
+		$("#gallerybrowsebutton").click();
+	} else {
+		$("#thumbbrowsebutton").click();
+	}
 	
 	$("#skin").change(function() {
 		var newTheme =  $(this).attr('value');
