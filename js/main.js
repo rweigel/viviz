@@ -7,7 +7,7 @@ LAZY_LOAD_MAX  = 12;
 FIT_TO_WINDOW  = true; // Code needs work.
 //FIT_TO_WINDOW  = true; // Code needs work.			
 VIVIZ = {
-		"CATALOGXML":"xml/enlil.xml",
+			"CATALOGXML":"xml/enlil.xml",
 			"defaultmode":"gallery",
 			"thumbheight":10.15,
 			"thumbwidth":10.15,
@@ -25,11 +25,10 @@ $(document).ready(function(){
 		$('#t-container').hide();
 		$('#g-container').show();
 		gallery("#gallery1");
-		$("#gallery1 #gallerythumbframe img").first().click(); // To trigger resize of thumb div.
+		//$("#gallery1 #gallerythumbframe img").first().click(); // To trigger resize of thumb div.
 	})
 	
-	
-	    if (FIT_TO_WINDOW) {
+	if (FIT_TO_WINDOW) {
 		// Prevent scrollbars as they complicate calculation of dimensions when fitting.
 		//document.documentElement.style.overflow = 'hidden';  // firefox, chrome
 	    //document.body.scroll = "no"; // ie only
@@ -39,7 +38,7 @@ $(document).ready(function(){
 	//gallery("#gallery1"); // Causes interference with hashchange
 
 	$(window).hashchange(function(){
-		console.log('main.js: Hash has changed to ' + location.hash);
+		//console.log('main.js: Hash has changed to ' + location.hash);
 		//thumb("#thumb1");
 		//gallery("#gallery1"); // Causes interference with hashchange
 	});
@@ -47,16 +46,13 @@ $(document).ready(function(){
 
 	if (VIVIZ["defaultmode"] == "gallery") {
 		$("#gallerybrowsebutton").click();
+		//gallery("#gallery1");$('#g-container').show();
+		//setTimeout(function () {thumb("#thumb1")},1000);
 	} else {
 		$("#thumbbrowsebutton").click();
+		//thumb("#thumb1");$('#t-container').show();
+		//setTimeout(function () {thumb("#gallery1")},1000);
 	}
-
-
-if (false && VIVIZ["CATALOGXML"] === "xml/enlil.xml") {
-    $('#g-container').detach().appendTo('#ss_img_div');
-	$('#enlil').show();
-	$('#showhidethumb').click();
-}
 	
 	$("#skin").change(function() {
 		var newTheme =  $(this).attr('value');
@@ -79,10 +75,16 @@ if (false && VIVIZ["CATALOGXML"] === "xml/enlil.xml") {
 		$("#skin").val(selectedTheme);
 	}
 
+	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
+	console.log("-----xxxx"+$.scrollbarWidth())
+	var neww = $(window).width()-$.scrollbarWidth();
+	$("#t-container").css('width',neww)
+	console.log("----"+neww)
+
 	// Thumb only
-	$('body').css('max-width', $(document).width());
+	$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
 	$(window).resize(function(){
-		$('body').css('max-width', $(document).width());
+		$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
 	});
 
 });

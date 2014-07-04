@@ -68,9 +68,6 @@ td {
     float:right;
 }
 #fullframe,#fullframeoverlay {
-	white-space: nowrap;
-	overflow: auto;
-//	position:relative;
 }
 #gallerythumbframe {
 	overflow-y: auto;

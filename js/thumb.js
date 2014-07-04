@@ -25,6 +25,7 @@ function thumb(wrapper) {
 		var galleryid = GALLERIES["Values"][0]["Id"];
 	}
 
+
 	var INFOG    = galleryinfo(galleryid);
   	var THUMBDIR = INFOG['thumbdir'];
 	var FULLDIR  = INFOG['fulldir'];
@@ -111,6 +112,7 @@ function thumb(wrapper) {
 		location.hash = "/" + galleryid;
 	});
 		
+
 	setdropdowns();
 	setthumbs();
 	
@@ -335,6 +337,7 @@ function thumb(wrapper) {
 						}
 
 						//console.log("bw="+$(this).css('border'))
+						//setTimeout(function() {setpadding();},2000);
 						setpadding();
 			        }
 
@@ -352,6 +355,7 @@ function thumb(wrapper) {
 		for (var j = 0; j < maxLength; j++) {s = loadone(INFOjs,j)}
 		setthumbbindings();        
 
+
 		function setpadding() {
 
 			bw = 0;
@@ -359,18 +363,19 @@ function thumb(wrapper) {
 				bw = parseFloat($("#thumbbrowseframe img:first").css('borderLeftWidth').replace("px",""));
 			}
 			console.log("bw="+bw)
-			x = $("#thumbbrowseframe img:first").width()+2*bw;
+			x = $(wrapper + " #thumbbrowseframe img:first").outerWidth();
 	
-			console.log("thumb.setpadding(): x = " + x);
-   			a = $("#thumbbrowseframe").width()/x;				
+			console.log("thumb.setpadding(): First image outer width = " + x);
+   			a = $("#thumbbrowseframe").innerWidth()/x;				
 
        		$("#thumbbrowseframe").css('padding',0);	
-       		console.log("thumb.setpadding(): w = " + $("#thumbbrowseframe").width());		        		
-			console.log("thumb.setpadding(): a = " + a);
+       		console.log("thumb.setpadding(): Inner width of thumbframe = " + $("#thumbbrowseframe").width());		        		
+			console.log("thumb.setpadding(): # images per row = " + a);
       		b = (a - Math.floor(a))*x;
-      		console.log("thumb.setpadding(): Fraction of image spacing = " + (a - Math.floor(a))	 );
-      		console.log("thumb.setpadding(): b = " + b);
-      		console.log("thumb.setpadding(): Setting padding to " + b/2);
+      		console.log("thumb.setpadding(): Fraction of image spacing left over = " + (a - Math.floor(a)));
+      		console.log("thumb.setpadding(): Total extra space = " + b);
+      		console.log("thumb.setpadding(): Setting left padding to " + b/2);
+      		//$("#thumbbrowseframe").css('width',$("#thumbbrowseframe").width());
       		$("#thumbbrowseframe").css('padding-left',b/2);
       		//$("#thumbbrowseframe").css('padding-right',b/2);
 		}
@@ -378,7 +383,7 @@ function thumb(wrapper) {
 		$(window).resize(function () {
 			$.doTimeout('resize', 250, function(){
 					console.log('thumb.loadmore(): Resize event');
-					setpadding();
+					//setpadding();
 					//setTimeout(setpadding,1000);	
 					setTimeout(loadmore,1000);
 				})});

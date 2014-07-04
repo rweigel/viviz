@@ -8,15 +8,15 @@ function gallery(wrapper) {
 	//$(window).unbind('hashchange');
 	$(window).hashchange(function() {
 		console.log('gallery.js: Hash has changed to ' + location.hash);
+        gallery(wrapper);
+	});
+
         $(wrapper + " #fullframe").html('');
         $(wrapper).attr('nowvisible', '').attr('lastvisible', '').attr('totalvisible', '').attr('totalingallery', '');
-        $(wrapper + " #stats").html('');
+        $(wrapper + " #stats").html('').css('width','').css('height','');
         $(wrapper + " #error").html('');
         $(wrapper + " #connectionerror").html('');
         $(wrapper + " #catalogxml").html('');
-        gallery(wrapper);
-        
-	});
 
 	var GALLERIES = cataloginfo();
 
@@ -30,6 +30,9 @@ function gallery(wrapper) {
 		var galleryid = GALLERIES["Values"][0]["Id"];
 	}
     
+	if (!VIVIZ[galleryid])
+    	VIVIZ[galleryid] = {};
+	
 	$(wrapper + " #dropdowns").empty();
 	dropdown("gallery", GALLERIES, wrapper + " #dropdowns");
 	$(wrapper + " #gallery option[value='" + galleryid + "']").attr('selected','selected');
@@ -122,26 +125,27 @@ function gallery(wrapper) {
     function settabledims(tw,th) {
 
     	console.log("gallery.settabledims(): Called.")
-
+		
+		//if (VIVIZ[galleryid]) return;
 		//if (!$("#wrapper").is(":visible")) {return}
 		
 	    // Adjust table dimensions based on large image height.
 	    // TODO: Compute integers used in code below (e.g., 10, 25).
 	    //       (So robust against changes in padding or border widths.)
-	    console.log("gallery.settabledims(): Full img height = " + VIVIZ["fullNaturalHeight"]);
-	    console.log("gallery.settabledims(): Full img width = " + VIVIZ["fullNaturalWidth"]);
+	    console.log("gallery.settabledims(): Full img height = " + VIVIZ[galleryid]["fullNaturalHeight"]);
+	    console.log("gallery.settabledims(): Full img width = " + VIVIZ[galleryid]["fullNaturalWidth"]);
 
 		var w = $('#gallerythumbframe img').eq(0).outerWidth() + $.scrollbarWidth() + 1;
 		console.log("gallery.settabledims(): Setting #gallerythumbframe width to be outer width of thumb + scrollbar width + 1 = " + w);
 		$(wrapper + ' #gallerythumbframe').width(w);
 
-		console.log("gallery.settabledims(): Setting left margin for #fullframe to thumb width + scroll bar width = " + (w+1))
-		    //$("#fullframe").css('margin-left',w+1);
-		$("#fullframe").css('float','right');
+		//console.log("gallery.settabledims(): Setting left margin for #fullframe to thumb width + scroll bar width = " + (w+1))
+		
+		//$("#fullframe").css('float','right');
 
 	    // Set heights of thumbframe and fullframe.
-        if (VIVIZ["fullNaturalHeight"] > 0) {
-			var ar = VIVIZ["fullNaturalHeight"]/VIVIZ["fullNaturalWidth"];
+        if (VIVIZ[galleryid]["fullNaturalHeight"] > 0) {
+			var ar = VIVIZ[galleryid]["fullNaturalHeight"]/VIVIZ[galleryid]["fullNaturalWidth"];
 
 	 		enclosure = $(wrapper).parents().filter('body')[0];
 			console.log("gallery.settabledims(): Window height: "+ $(window).height());
@@ -155,15 +159,22 @@ function gallery(wrapper) {
 	        console.log("dwo="+dwo)
 
 	        if (dh > 0) {
-	        	console.log("gallery.settabledims(): Shrinking height of #fullframe.")
-	        	$(wrapper + ' #fullframe img').height(VIVIZ["fullNaturalHeight"]-dh)
-	        	console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe to "+(VIVIZ["fullNaturalHeight"]-dh));
-	        	$(wrapper + ' #gallerythumbframe').height(VIVIZ["fullNaturalHeight"]-dh);
-	        	VIVIZ['fullHeight'] = VIVIZ["fullNaturalHeight"]-dh;	        	
+	        	console.log("gallery.settabledims(): Shrinking height of #fullframe img.")
+	        	$(wrapper + ' #fullframe img').height(VIVIZ[galleryid]["fullNaturalHeight"]-dh)
+	        	console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe to "+(VIVIZ[galleryid]["fullNaturalHeight"]-dh));
+	        	$(wrapper + ' #gallerythumbframe').height(VIVIZ[galleryid]["fullNaturalHeight"]-dh);
+	        	VIVIZ[galleryid]['fullHeight'] = VIVIZ[galleryid]["fullNaturalHeight"]-dh;	        	
 	    	} else {
-	        	console.log("gallery.settabledims(): Full image height known.  Setting #gallerythumbframe height to be height of full image + 10 = "+($(wrapper + " #fullframe img").eq(0).height()+10));
-	            $(wrapper + " #gallerythumbframe").height(VIVIZ["fullNaturalHeight"]);
-	            VIVIZ['fullHeight'] = VIVIZ["fullNaturalHeight"];
+	        	console.log("gallery.settabledims(): Full image height known.  Setting #gallerythumbframe height to be natural height of full image " + VIVIZ["fullNaturalHeight"]);
+	            
+	        	if (!VIVIZ[galleryid]['fullHeight']) {
+	        			console.log("a")
+		           		$(wrapper + " #gallerythumbframe").height(VIVIZ[galleryid]["fullNaturalHeight"]);        
+						VIVIZ[galleryid]['fullHeight'] = VIVIZ[galleryid]["fullNaturalHeight"];
+		           } else {
+		           		console.log("gallery.settabledims(): Setting #gallerythumbframe height to "+VIVIZ[galleryid]["fullHeight"])
+						$(wrapper + " #gallerythumbframe").height(VIVIZ[galleryid]["fullHeight"]);
+		           }
 	            //$(wrapper + " #fullframe").height(VIVIZ["fullNaturalHeight"]);
 	            //$(wrapper + " #fullframe").width(VIVIZ["fullNaturalWidth"]);
 	        }
@@ -178,16 +189,17 @@ function gallery(wrapper) {
 	        console.log("ar = "+ar)
 	        if (dw > 0) {
 	        	if (dh > 0) {
-		        	newh = VIVIZ["fullNaturalHeight"]-dh-ar*dw;
+		        	newh = VIVIZ[galleryid]["fullNaturalHeight"]-dh-ar*dw;
 	        	} else {
-	        		newh = VIVIZ["fullNaturalHeight"]-ar*dw;
+	        		newh = VIVIZ[galleryid]["fullNaturalHeight"]-ar*dw;
 	        	}
-	        	console.log("gallery.settabledims(): Shrinking height of #fullframe again because of overlap in width.  New height: "+newh)
+	        	console.log("gallery.settabledims(): Shrinking height of #fullframe img again because of overlap in width.  New height: "+newh)
 	        	$(wrapper + ' #fullframe img').height(newh)
 	        	console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe again because of overlap in width.  New height: "+newh);
 	        	$(wrapper + ' #gallerythumbframe').height(newh);
-	        	VIVIZ['fullHeight'] = newh;	        		        	
-	        }
+	        	VIVIZ[galleryid]['fullHeight'] = newh;
+	        	VIVIZ[galleryid]['fullWidth']  = $(wrapper + ' #gallerythumbframe').width();      		        	
+	        } 
 
 
 	        dw = $(document).width()-$(enclosure).width();
@@ -200,9 +212,11 @@ function gallery(wrapper) {
 	        	console.log("gallery.settabledims(): Setting top margin for " + wrapper);
 	        	$(wrapper).css('margin-top',-dh/2);
 	        }
+	        //$("#fullframe").css('margin-left',w+1);
+
 		// Set this so size stays fixed when image switches.
-	        $(wrapper + " #fullframe").css('width',$(wrapper + " #fullframe").width());
-	        $(wrapper + " #fullframe").css('height',$(wrapper + " #fullframe").height());
+	        //$(wrapper + " #fullframe").css('width',$(wrapper + " #fullframe").width());
+	        //$(wrapper + " #fullframe").css('height',$(wrapper + " #fullframe").height());
         } else {
             if ($('#gallerythumbframe img').eq(0).height() > 0) {
             	console.log("gallery.settabledims(): Full image height unknown but thumb height known.");
@@ -247,6 +261,13 @@ function gallery(wrapper) {
 	    $(wrapper + " #fullframe").prepend('<img id="'+id+'" class="full"/>');
 	    jq.src.replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']);
 	    
+	    if (VIVIZ[galleryid]['fullHeight']) {
+		    $(wrapper + " #fullframe img[id="+id+"]").css('height',VIVIZ[galleryid]['fullHeight']);
+		}
+
+		// This prevents resize of outer frame when image is removed and before new image is inserted.
+		$(wrapper + " #fullframe").width($(wrapper + " #fullframe").width)
+
         $(wrapper + " #fullframe img[id="+id+"]").unbind('load');
         $(wrapper + " #fullframe img[id="+id+"]")
 	        	.error(function () {
@@ -258,11 +279,13 @@ function gallery(wrapper) {
 		        	//console.log('gallery.js: ' + wrapper + ' #'+id+' loaded.');
 		        	if (id == 1) {
 		        		console.log('gallery.loadfull(): First full image loaded with natural height = '+this.naturalHeight+'.  Setting table dimensions.');
-			        	VIVIZ["fullNaturalHeight"] = this.naturalHeight;
-			        	VIVIZ["fullNaturalWidth"] = this.naturalWidth;
+			        	VIVIZ[galleryid]["fullNaturalHeight"] = this.naturalHeight;
+			        	VIVIZ[galleryid]["fullNaturalWidth"] = this.naturalWidth;
 		        		settabledims();
 		        	} 
 		        	
+		        	
+
 			        $(wrapper + " #fullframe img").eq(0).click();
 					//console.log('gallery.js: Hiding ' + wrapper + ' #workingfullframe spinner.');
 			        $(wrapper + ' #workingfullframe').css('visibility','hidden');
@@ -292,7 +315,7 @@ function gallery(wrapper) {
 			if ($(wrapper + " #fullframe img[id="+idn+"]").length == 0) {
 				$(wrapper + " #fullframe").prepend('<img id="'+idn+'" class="full" style="display:none"/>');
 				var srcn = $(wrapper + " #gallerythumbframe img[id="+idn+"]").attr('src').replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']);
-				$(wrapper + " #fullframe img[id="+idn+"]").css('height',VIVIZ['fullHeight']);
+				$(wrapper + " #fullframe img[id="+idn+"]").css('height',VIVIZ[galleryid]['fullHeight']);
 				$(wrapper + " #fullframe img[id="+idn+"]").attr('src',srcn);
 			}
 		}
@@ -602,15 +625,13 @@ function gallery(wrapper) {
     
 	function setcontrolbindings() {
 	    
+	    console.log("--Setting control bindings.")
 	    // Show/Hide thumb button
 	    $(wrapper + " #showhidethumb").unbind();
 	    $(wrapper + " #showhidethumb").toggle(function(){
 		    	$(wrapper + " #gallerythumbframe").hide();
 				setcontrolbindings.marginleft = $("#fullframe").css('margin-left');
 		    	$("#fullframe").css('margin-left','0');
-		        //console.log("Hide: " + wrapper + ' #showhidethumb');
-		       	////console.log('gallery.js: Setting table dimensions.');
-		        //settabledims(wrapper);
 		        $(wrapper + ' #showhidethumb').text('+');
 		    }, function(){
 		    	console.log("gallery.setcontrolbindings: Showing gallerythumbframe.");
@@ -629,6 +650,7 @@ function gallery(wrapper) {
 	        } else {
 	            nowvisible = lastvisible + 1;        	
 	        }
+	        console.log("Clicking on "+nowvisible)
 	        $(wrapper + " #" + nowvisible).click();
 	    });
 	    
