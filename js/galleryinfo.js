@@ -369,8 +369,12 @@ function galleryinfo(galleryid) {
 	}
 	
 	if (CATALOGINFO.hasOwnProperty("files")) {
-		if (_GALLERYINFO["files"].length == 0) {
-			//console.log("galleryinfo.js: Creation of file list failed.");
+		if (!_GALLERYINFO["files"]) {
+			$("#error").html("Could not generate file list for gallery "+galleryid);
+			return false;
+		} else if (_GALLERYINFO["files"].length == 0) {
+			$("#error").html("File list for gallery "+galleryid+" has no elements.");
+			return false;
 		}
 	}
     

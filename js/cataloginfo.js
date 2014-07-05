@@ -49,6 +49,7 @@ function cataloginfo(galleryid) {
 			VIVIZ.CATALOGXML = "xml/catalog.xml";
 			console.log("cataloginfo.js: Variable VIVIZ.CATALOGXML is not defined.  Using xml/catalog.xml.")
 		}
+
 		$.ajax({
 			type: "GET",
 			url: VIVIZ.CATALOGXML,
@@ -121,7 +122,7 @@ function cataloginfo(galleryid) {
 			console.log("cataloginfo.js: Problem reading gallery information.");
 			return "";
 		}
-		console.log("cataloginfo.js: Returning list of galleries.");
+		console.log("cataloginfo.js: Returning list of "+GALLERIES.Values.length+" galleries.");
 
 		return GALLERIES;
 	}
@@ -222,7 +223,7 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["galleryid"]  = $(cataloginfo.xml).find(query).attr('id');
 			if (!_CATALOGINFO["galleryid"]) {
 				error("Error: Gallery with id " + galleryid + " not found in <a href='xml/catalog.xml'>catalog.xml</a>. Redirecting.");
-				//setTimeout(function () {location.hash = "#"},3000);
+				setTimeout(function () {location.hash = "#"},1000);
 				//$("#error").html("");
 			}
 			_CATALOGINFO["title"]      = $(cataloginfo.xml).find(query).siblings('title').text();

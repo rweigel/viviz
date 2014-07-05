@@ -5,7 +5,7 @@
 		<title>ViViz</title>
 		
 		<link rel="icon" type="image/ico" href="./css/favicon.ico"/>		
-        <link rel="stylesheet" type="text/css" href="./css/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="./css/gallery.css">
 		<link rel="stylesheet" type="text/css" href="./css/thumbbrowse.css">
 		
@@ -32,7 +32,7 @@
 
 		<script type="text/javascript" src="./js/gallery.js"></script>		
 		<script type="text/javascript" src="./js/thumb.js"></script>					    
-			    
+				
 		<script type="text/javascript" src="./js/thumblist.js"></script>    
 		<script type="text/javascript" src="./js/menulist.js"></script>    
 		<script type="text/javascript" src="./js/gallery.js"></script>
@@ -51,9 +51,9 @@
 		<!-- Uploaded catalogs (catalogjsonuploads) -->
 
 		<!-- Base catalog (catalogjsonbase) -->
-        <!--script type="text/javascript" src="./xml/catalog.json"></script--!>
+		<!--script type="text/javascript" src="./xml/catalog.json"></script--!>
 
-        <!-- script type="text/javascript" src="./js/deps/jsonpath-0.8.0.js"></script-->
+		<!-- script type="text/javascript" src="./js/deps/jsonpath-0.8.0.js"></script-->
 
 		<!--
 		Configuration data inside this script node is read by default.
@@ -66,61 +66,62 @@
 		
 	</head>
 
- 	<body>
- 		<div id="testconnection" style="display:none"></div>
- 		<div style="text-align:center;margin:px;">
+	<body>
+		<div id="testconnection" style="display:none"></div>
+		<div style="text-align:center;margin:px;">
 			<span id="connectionerror" style="font-size:200%;background-color:yellow"></span>
 		</div>
-		     
+			 
 		<div id="g-container" style="display:none;text-align:center;">
 			<div id="gallery1" class="ui-widget ui-widget-content ui-corner-all" style="display:inline-block; margin:auto;">
 			<div id="error" style="background-color:yellow;"></div>
 			<span id="filename" title="Source file" style="float:center;color:white;cursor:pointer;">&nbsp;</span>	
 			<div style="padding:4px;">
-		        <div class="well">
-		         	<div id="warning" style="background-color:yellow;text-align:left;"></div>
-		            <div id="footer" class="well" style="text-align:center;">
-		                <span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline"><i class="icon-info-sign"></i>Gallery configuration</span>					
-		                <span id="catalogxmlclose" style="cursor:pointer;text-decoration:underline;display:none;"><i class="icon-remove"></i></span>
-		                <span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
-		                <span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
-		                <span style="float:right">Powered by <a href="http://viviz.org/">ViViz</a></span>           
-		            		<span id="stats" style="float:center">&nbsp;</span>
-		                <div id="catalogxml" style="display:hidden"></div>
-		            </div>
-	        		</div>
-		        	<div class="well">
+				<div class="well">
+					<div id="warning" style="background-color:yellow;text-align:left;"></div>
+					<div id="footer" class="well" style="text-align:center;">
+						<span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">
+							<i class="icon-info-sign"></i>Gallery configuration</span>					
+						<span id="catalogxmlclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;"><i class="icon-remove"></i></span>
+						<span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
+						<span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
+						<span style="float:right">Powered by <a href="http://viviz.org/">ViViz</a></span>           
+							<span id="stats" style="float:center">&nbsp;</span>
+						<div id="catalogxml" style="display:hidden"></div>
+					</div>
+					</div>
+					<div class="well">
 						<div style="text-align:center;">
-				            <div style="display:inline-block; margin:auto;">
-					            <span id="controls" style="padding:8px 0 0 0;float:left">
-					              <button class="btn" type="button" title="Show/Hide thumbnails" id="showhidethumb"><h4>x</h4></button>&nbsp;&nbsp;&nbsp;
-					              <button class="btn" type="button" title="Show previous frame" id="previous"><h4>&#9664;</h4></button>
-					              <button class="btn" type="button" title="Show next frame" id="next"><h4>&#9654;</h4></button>&nbsp;&nbsp;&nbsp;
-					              <button class="btn" type="button" title="Jump to first frame" id="first"><h4>|&#9664;</h4></button>
-					              <button class="btn" type="button" title="Jump to last frame" id="last"><h4>&#9654;|</h4></button>
-					              <span id="workingfullframe" style=""><img style="vertical-align:middle" src="css/ajax-loader.gif"/>&nbsp;</span>
-					            </span>
-					            <span id="dropdowns" style="padding:8px 0 0 0;float:left"></span>
+							<div style="display:inline-block; margin:auto;">
+								<span id="controls" style="padding:8px 0 0 0;float:left">
+								  <button class="btn" type="button" title="Show/Hide thumbnails" id="showhidethumb"><h4>x</h4></button>&nbsp;&nbsp;&nbsp;
+								  <button class="btn" type="button" title="Show previous frame" id="previous"><h4>&#9664;</h4></button>
+								  <button class="btn" type="button" title="Show next frame" id="next"><h4>&#9654;</h4></button>&nbsp;&nbsp;&nbsp;
+								  <button class="btn" type="button" title="Jump to first frame" id="first"><h4>|&#9664;</h4></button>
+								  <button class="btn" type="button" title="Jump to last frame" id="last"><h4>&#9654;|</h4></button>
+								  <span id="workingfullframe" style=""><img style="vertical-align:middle" src="css/ajax-loader.gif"/>&nbsp;</span>
+								</span>
+								<span id="dropdowns" style="padding:8px 0 0 0;float:left"></span>
 								<span>&nbsp;</span>		
-					            <span id="print" style="padding:8px 0 0 0;float:right;">
-					            	&nbsp;<a>
+								<span id="print" style="padding:8px 0 0 0;float:right;">
+									&nbsp;<a>
 										<button onclick="PrintElem ('#fullframe');" class="btn" type="button" title="Print this image" id="printbutton"><h4>P</h4></button>
 									</a>            
-					            </span>
-					            <span id="about" style="padding:8px 0 0 0;float:right;display:none;">
-					            	&nbsp;<a>
+								</span>
+								<span id="about" style="padding:8px 0 0 0;float:right;display:none;">
+									&nbsp;<a>
 										<button class="btn" type="button" id="aboutbutton"><h4><i class="icon-info-sign"></i></h4></button>
 									</a>            
-					            </span>
+								</span>
 								<span style="padding:10px 0 0 0;float:right;">
-					                <button class="btn btn-primary" type="button" style="border:0px" title="Show as thumbnail grid" id="thumbbrowsebutton""><h4>&#9783;</h4></button>
+									<button class="btn btn-primary" type="button" style="border:0px" title="Show as thumbnail grid" id="thumbbrowsebutton""><h4>&#9783;</h4></button>
 								</span>
 								<span>&nbsp;</span>
 								<div style="clear:both;"></div>
 							</div>
-				        </div>
+						</div>
 					</div>
-		        		        
+								
 					<div id="images" style="">
 						<table>
 							<tr>
@@ -133,42 +134,42 @@
 						<div id="fullframe" style="padding-left:1px;overflow:hidden;"></div>
 						-->								
 					</div>
-		      	</div>
-		    </div>
+				</div>
+			</div>
 		</div>
 	   
 				
 		<div id="t-container" style="display:none;">
 			<div id="error"></div>
-			<div id="thumb1"  class="ui-widget ui-widget-content ui-corner-all" style="display:inline-block; margin:auto;">
+			<div id="thumb1"  class="ui-widget ui-widget-content ui-corner-all" style="width:100%;display:inline-block; margin:auto;">
 				<div style="padding:5px;">
 				<span id="filename" title="Source file" style="float:center;color:white;cursor:pointer;">&nbsp;</span>
-		        <div class="well">
-		         	<div id="warning" style="background-color:yellow;text-align:left;"></div>
-		            <div id="footer" class="well" style="text-align:center;">
-		                <span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">Gallery configuration</span>					
-		                <span id="catalogxmlclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;"><i class="icon-remove"></i></span>
-		                <span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
-		                <span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
-		 				<span id="instructions" style="float:center;"></span>
-		                <span style="float:right">Powered by <a href="http://viviz.org/">ViViz</a></span>           
-		                <div id="catalogxml" style="display:hidden;text-align:left;"></div>
-		            </div>
-	       		</div>
+				<div class="well">
+					<div id="warning" style="background-color:yellow;text-align:left;"></div>
+					<div id="footer" class="well" style="text-align:center;">
+						<span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">Gallery configuration</span>					
+						<span id="catalogxmlclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;"><i class="icon-remove"></i></span>
+						<span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
+						<span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
+						<span id="instructions" style="float:center;"></span>
+						<span style="float:right">Powered by <a href="http://viviz.org/">ViViz</a></span>           
+						<div id="catalogxml" style="display:hidden;text-align:left;"></div>
+					</div>
+				</div>
 
-		        <div class="well">
+				<div class="well">
 					<div id="menuandslider">
 						<div style="padding:0px; text-align:center;">
-						 	<div style="padding:0 0 0 0; display:inline-block; margin:auto; text-align:center;">
+							<div style="padding:0 0 0 0; display:inline-block; margin:auto; text-align:center;">
 
-		 						<span id="sliderright" style="float:right;padding:15px 15px 0 15px;border:none;">									
+								<span id="sliderright" style="float:right;padding:15px 15px 0 15px;border:none;">									
 									<div id="slider" data-orig-img-width="100" data-curr-img-width="100" style="width:50px;"></div>
 									<span id="working" style="display:none"><img src="css/ajax-loader.gif"/></span>
 								</span>					 	
-					            <span id="about" style="padding:7px 0 0 0;float:right;display:none;">
-					            		&nbsp;<a><button class="btn" type="button" id="aboutbutton"><h4><i class="icon-info-sign"></i></h4></button></a>            
-					            		<span>&nbsp;</span>
-					            </span>								
+								<span id="about" style="padding:7px 0 0 0;float:right;display:none;">
+										&nbsp;<a><button class="btn" type="button" id="aboutbutton"><h4><i class="icon-info-sign"></i></h4></button></a>            
+										<span>&nbsp;</span>
+								</span>								
 								
 								<span style="float:right; margin-right:3px;padding:8px 0 0 0;">
 									&nbsp;<button class="btn btn-primary" type="button" style="border:0px" title="Show in gallery view" id="gallerybrowsebutton"><h4>&#9633;</h4></button>
@@ -191,297 +192,21 @@
 						</div>
 						<div style="clear:both"></div>							
 					</div>      
-	        			<div class="well" id="thumbbrowseframe" style="margin-left:auto;margin-right:auto;padding:20px auto;background-color:black;"></div>
-	        			<img id="thumbbrowseoverlay" class="thumbbrowsetop" src="css/ajax-loader.gif"/>
-	     	 	</div>
+						<div class="well" id="thumbbrowseframe" style="margin-left:auto;margin-right:auto;padding:20px auto;background-color:black;"></div>
+						<img id="thumbbrowseoverlay" class="thumbbrowsetop" src="css/ajax-loader.gif"/>
+
+				</div>
+				<div class="well">
+					<div id="header" class="well" style="text-align:center;">
+						<span id="instructions2" style="float:center;"></span>
+					</div>
+				</div>
 			</div>
-	     </div>
+
+		 </div>
 	</div>
+
 	<textarea style="display:none" id="cat"></textarea>
 
-
-<div id="enlil" style="display:none"> 
-  <CENTER> 
- 
-    <TABLE width="100%" border="0" cellspacing="0" cellpadding="8"> 
-      <TR> 
-        <TD bgcolor="#bbddff" colspan="5" align="center"> 
-          <FONT color="#224488" size="6" face="arial"> 
-            IPSBD-ENLIL &nbsp;&ndash;&nbsp; Solar Wind Prediction &nbsp;&ndash;&nbsp; Velocity 1
-          </FONT> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#bbddff" align="center"> 
-          <FONT size="5" color="#224488" face="arial">Model Input:</FONT></A> 
-        </TD> 
- 
-        <TD align="center" colspan="3" rowspan="11"> 
-        <FORM ID="ss_form" NAME="ss_form" ACTION="" METHOD="GET"> 
-          <DIV ID="ss_img_div"> 
-          </DIV> 
-        </TD> 
- 
-        <TD bgcolor="#bbddff" align="center"> 
-          <FONT size="5" color="#224488" face="arial">Model Output:</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#224488" align="center"> 
-          <A HREF="../../ipsbd/tim1evo4den2b/index.html"> 
-            <FONT size="5" color="white" face="arial">IPSBD</FONT></A> 
-        </TD> 
- 
-        <TD bgcolor="#224488" align="center"> 
-          <A HREF="../tim1evo4vel2b/index.html"> 
-            <FONT size="5" color="white" face="arial">Velocity 1</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../../ipsbd-swrc/tim1evo4den2b/index.html"> 
-            <FONT size="5" color="white" face="arial">IPSBD-SWRC</FONT></A> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../tim1obs4vel2b/index.html"> 
-            <FONT size="5" color="white" face="arial">Velocity 2</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../../wsadu-swrc/tim1evo4den2b/index.html"> 
-            <FONT size="5" color="white"  face="arial">WSADU-SWRC</FONT></A> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../tim3evo1vel2b/index.html"> 
-            <FONT size="5" color="white" face="arial">Velocity 3</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../../wsadt-swrc/tim1evo4den2b/index.html"> 
-            <FONT size="5" color="white" face="arial">WSADT-SWRC</FONT></A> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../tim1evo4den2b/index.html"> 
-            <FONT size="5" color="white" face="arial">Density 1</FONT></A> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../tim1obs4den2b/index.html"> 
-            <FONT size="5" color="white" face="arial">Density 2</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../tim3evo1den2b/index.html"> 
-            <FONT size="5" color="white" face="arial">Density 3</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../sho1obs4reg2/index.html"> 
-            <FONT size="5" color="white" face="arial">Shock Params</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../los1den/index.html"> 
-            <FONT size="5" color="white" face="arial">Helio Image 1</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../los2den/index.html"> 
-            <FONT size="5" color="white" face="arial">Helio Image 2</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#4488cc" align="center"> 
-        </TD> 
-        <TD bgcolor="#4488cc" align="center"> 
-          <A HREF="../evo10obs1b/earth.html"> 
-            <FONT size="5" color="white" face="arial">Evolution</FONT></A> 
-        </TD> 
-      </TR> 
- 
-      <TR> 
-        <TD bgcolor="#bbddff" align="center"> 
-          <A HREF="../../index.html"> 
-            <FONT size="5" color="#224488" face="arial">Main Page</FONT></A> 
-        </TD> 
- 
-        <TD bgcolor="white" align="right"> 
-            <A HREF="../../doc/tim1evo4den2b.html"> 
-              <FONT size="5" color="#224488" face="arial"><B>I N F O</B></FONT></A> 
-        </TD> 
- 
-        <TD align="center"> 
-          <A ID="ss_start" HREF="javascript:ss.next();ss.play()"> 
-            <IMG SRC="../../images/play_30.gif" ALT="play"></A> 
-          <A ID="ss_stop" HREF="javascript:ss.pause()"> 
-            <IMG SRC="../../images/stop_30.gif" ALT="pause"></A> 
-          <A ID="ss_prev" HREF="javascript:ss.previous()"> 
-            <IMG SRC="../../images/back_30.gif" ALT="previous"></A> 
-          <A ID="ss_next" HREF="javascript:ss.next()"> 
-            <IMG SRC="../../images/next_30.gif" ALT="next"></A> 
-        </TD> 
- 
-        <TD align="left"> 
-          <SELECT id="ss_select" style="color: #224488; font-size: 24px"
-            name="ss_select" onchange="ss.goto_slide(this.selectedIndex)"> 
-            <OPTION>+00T00</OPTION> 
-            <OPTION>+00T03</OPTION> 
-            <OPTION>+00T06</OPTION> 
-            <OPTION>+00T09</OPTION> 
-            <OPTION>+00T12</OPTION> 
-            <OPTION>+00T15</OPTION> 
-            <OPTION>+00T18</OPTION> 
-            <OPTION>+00T21</OPTION> 
-            <OPTION>+01T00</OPTION> 
-            <OPTION>+01T03</OPTION> 
-            <OPTION>+01T06</OPTION> 
-            <OPTION>+01T09</OPTION> 
-            <OPTION>+01T12</OPTION> 
-            <OPTION>+01T15</OPTION> 
-            <OPTION>+01T18</OPTION> 
-            <OPTION>+01T21</OPTION> 
-            <OPTION>+02T00</OPTION> 
-            <OPTION>+02T03</OPTION> 
-            <OPTION>+02T06</OPTION> 
-            <OPTION>+02T09</OPTION> 
-            <OPTION>+02T12</OPTION> 
-            <OPTION>+02T15</OPTION> 
-            <OPTION>+02T18</OPTION> 
-            <OPTION>+02T21</OPTION> 
-            <OPTION>+03T00</OPTION> 
-            <OPTION>+03T03</OPTION> 
-            <OPTION>+03T06</OPTION> 
-            <OPTION>+03T09</OPTION> 
-            <OPTION>+03T12</OPTION> 
-            <OPTION>+03T15</OPTION> 
-            <OPTION>+03T18</OPTION> 
-            <OPTION>+03T21</OPTION> 
-            <OPTION>+04T00</OPTION> 
-            <OPTION>+04T03</OPTION> 
-            <OPTION>+04T06</OPTION> 
-            <OPTION>+04T09</OPTION> 
-            <OPTION>+04T12</OPTION> 
-            <OPTION>+04T15</OPTION> 
-            <OPTION>+04T18</OPTION> 
-            <OPTION>+04T21</OPTION> 
-            <OPTION>+05T00</OPTION> 
-            <OPTION>-10T00</OPTION> 
-            <OPTION>-09T21</OPTION> 
-            <OPTION>-09T18</OPTION> 
-            <OPTION>-09T15</OPTION> 
-            <OPTION>-09T12</OPTION> 
-            <OPTION>-09T09</OPTION> 
-            <OPTION>-09T06</OPTION> 
-            <OPTION>-09T03</OPTION> 
-            <OPTION>-09T00</OPTION> 
-            <OPTION>-08T21</OPTION> 
-            <OPTION>-08T18</OPTION> 
-            <OPTION>-08T15</OPTION> 
-            <OPTION>-08T12</OPTION> 
-            <OPTION>-08T09</OPTION> 
-            <OPTION>-08T06</OPTION> 
-            <OPTION>-08T03</OPTION> 
-            <OPTION>-08T00</OPTION> 
-            <OPTION>-07T21</OPTION> 
-            <OPTION>-07T18</OPTION> 
-            <OPTION>-07T15</OPTION> 
-            <OPTION>-07T12</OPTION> 
-            <OPTION>-07T09</OPTION> 
-            <OPTION>-07T06</OPTION> 
-            <OPTION>-07T03</OPTION> 
-            <OPTION>-07T00</OPTION> 
-            <OPTION>-06T21</OPTION> 
-            <OPTION>-06T18</OPTION> 
-            <OPTION>-06T15</OPTION> 
-            <OPTION>-06T12</OPTION> 
-            <OPTION>-06T09</OPTION> 
-            <OPTION>-06T06</OPTION> 
-            <OPTION>-06T03</OPTION> 
-            <OPTION>-06T00</OPTION> 
-            <OPTION>-05T21</OPTION> 
-            <OPTION>-05T18</OPTION> 
-            <OPTION>-05T15</OPTION> 
-            <OPTION>-05T12</OPTION> 
-            <OPTION>-05T09</OPTION> 
-            <OPTION>-05T06</OPTION> 
-            <OPTION>-05T03</OPTION> 
-            <OPTION>-05T00</OPTION> 
-            <OPTION>-04T21</OPTION> 
-            <OPTION>-04T18</OPTION> 
-            <OPTION>-04T15</OPTION> 
-            <OPTION>-04T12</OPTION> 
-            <OPTION>-04T09</OPTION> 
-            <OPTION>-04T06</OPTION> 
-            <OPTION>-04T03</OPTION> 
-            <OPTION>-04T00</OPTION> 
-            <OPTION>-03T21</OPTION> 
-            <OPTION>-03T18</OPTION> 
-            <OPTION>-03T15</OPTION> 
-            <OPTION>-03T12</OPTION> 
-            <OPTION>-03T09</OPTION> 
-            <OPTION>-03T06</OPTION> 
-            <OPTION>-03T03</OPTION> 
-            <OPTION>-03T00</OPTION> 
-            <OPTION>-02T21</OPTION> 
-            <OPTION>-02T18</OPTION> 
-            <OPTION>-02T15</OPTION> 
-            <OPTION>-02T12</OPTION> 
-            <OPTION>-02T09</OPTION> 
-            <OPTION>-02T06</OPTION> 
-            <OPTION>-02T03</OPTION> 
-            <OPTION>-02T00</OPTION> 
-            <OPTION>-01T21</OPTION> 
-            <OPTION>-01T18</OPTION> 
-            <OPTION>-01T15</OPTION> 
-            <OPTION>-01T12</OPTION> 
-            <OPTION>-01T09</OPTION> 
-            <OPTION>-01T06</OPTION> 
-            <OPTION>-01T03</OPTION> 
-            <OPTION>-01T00</OPTION> 
-            <OPTION>-00T21</OPTION> 
-            <OPTION>-00T18</OPTION> 
-            <OPTION>-00T15</OPTION> 
-            <OPTION>-00T12</OPTION> 
-            <OPTION>-00T09</OPTION> 
-            <OPTION>-00T06</OPTION> 
-            <OPTION>-00T03</OPTION> 
-          </SELECT> 
-        </TD> 
- 
-        <TD bgcolor="#bbddff" align="center"> 
-          <A HREF="../../index.html"> 
-            <FONT size="5" color="#224488" face="arial">Main Page</FONT></A> 
-        </TD> 
- 
-      </TR> 
-    </TABLE> 
- </div>
 	</body>
 </html>

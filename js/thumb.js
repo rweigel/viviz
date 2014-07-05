@@ -15,6 +15,16 @@ function thumb(wrapper) {
         thumb(wrapper);
 	})
 
+	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
+	var neww = $(window).width()-$.scrollbarWidth();
+	$("#t-container").css('width',neww);
+
+	// Thumb only
+	$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
+	$(window).resize(function(){
+		$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
+	});
+
 	$(wrapper + " #error").html();
 	$(wrapper + " #instructions").html("Scroll down to load more images");
 
@@ -241,7 +251,6 @@ function thumb(wrapper) {
 			}, function(){});                        
 	
 		}
-
 	}
 
 	function setthumbs() {
@@ -258,24 +267,52 @@ function thumb(wrapper) {
 			var thumbwidth = "50%";
 		}
 
-        //http://stackoverflow.com/questions/5612787/converting-javascript-object-to-string
-        function objToString (obj) {
-            var str = '';
-            var k = 0;
-            for (var p in obj) {
-                if (obj.hasOwnProperty(p)) {str += p + ':' + obj[p] + '\n'}
-                k = k+1;
-            }
-            return str;
-        }
-        
+   		$(window).resize(function () {
+			$.doTimeout('resize', 250, function(){
+				console.log('thumb.setthumbs(): Resize event.');
+				setTimeout(loadmore,1000);
+			})
+		});
+
+		window.onresize = function onresize() {console.log("thumb.setthumbs(): Zoom or resize event.");}
+
         thumb.Nloaded = 0;
 		var newWidth = false;
+		var newHeight = false;
 
 		var seterrorheight = false;
 		
-		var th = false;
-		var tw = false;
+		var th = 100;
+		var tw = 100;
+		var thset = false;
+
+		INFOjs = thumblist(wrapper); 	
+		$(wrapper + " #thumbbrowseframe").empty();
+		
+		var maxLength = Math.min(INFOjs.length,LAZY_LOAD_MAX);
+		
+		//for (var j = 0; j < maxLength; j++) {s = loadone(INFOjs,j)}
+
+		setthumbbindings();        
+
+        console.log("thumb.setthumbs(): maxLength = "+maxLength)
+        console.log("thumb.setthumbs(): LAZY_LOAD_MAX = "+LAZY_LOAD_MAX)
+	    //if (INFOjs.length > LAZY_LOAD_MAX) {
+		loadmore();
+	    //} else {
+		//	$("#instructions").hide();
+	    //}
+
+		//http://stackoverflow.com/questions/5612787/converting-javascript-object-to-string
+		function objToString (obj) {
+			var str = '';
+			var k = 0;
+			for (var p in obj) {
+				if (obj.hasOwnProperty(p)) {str += p + ':' + obj[p] + '\n'}
+				k = k+1;
+			}
+			return str;
+		}
 
 		function setslider() {
 			$( "#slider" ).slider({
@@ -283,165 +320,192 @@ function thumb(wrapper) {
 				min: 1,
 				step: 1,
 				value: 4,
-				slide: function(event, ui) { 
-					console.log(ui.value);
+				slide: function(event, ui) {
+					console.log("thumb.setthumbs.setslider(): Slide event.")
 					newWidth = tw*ui.value/4;
+					newHeight = th*ui.value/4
 					$('.thumbbrowse').css('width', newWidth);
+					$('.thumbbrowse').css('height', newHeight);
 					$(this).attr('data-curr-img-width', newWidth);
+					loadmore();
 				}
 			});
 		}
+
+		function setpadding() {
+
+			var bw = 0;
+			if ($("#thumbbrowseframe img:first").css('borderLeftWidth')) {
+				bw = parseFloat($("#thumbbrowseframe img:first").css('borderLeftWidth').replace("px",""));
+			}
+			console.log("thumb.setpadding(): First image border width = "+bw);
+			x = $(wrapper + " #thumbbrowseframe img:first").outerWidth();
+	
+			console.log("thumb.setpadding(): First image outer width = " + x);
+			a = $("#thumbbrowseframe").innerWidth()/x;				
+
+       		$("#thumbbrowseframe").css('padding',0);	
+       		console.log("thumb.setpadding(): Inner width of thumbframe = " + $("#thumbbrowseframe").width());		        		
+			console.log("thumb.setpadding(): # images per row = " + a);
+      		b = (a - Math.floor(a))*x;
+
+      		// Only one row of images.
+      		if (INFOjs.length < Math.floor(a)) {
+      			b = $("#thumbbrowseframe").innerWidth() - x*INFOjs.length;
+      		}
+
+      		console.log("thumb.setpadding(): Fraction of image spacing left over = " + (a - Math.floor(a)));
+      		console.log("thumb.setpadding(): Total extra space = " + b);
+      		console.log("thumb.setpadding(): Setting left padding to " + b/2);
+      		$("#thumbbrowseframe").css('padding-left',b/2);
+
+		}
 		
-        function loadone(INFOjs,i) {
-	        var fixed = false;
-	        if (i > INFOjs.length-1) return;
-	        thumb.Nloaded = thumb.Nloaded+1;
-			if (thumb.Nloaded == INFOjs.length-1) $("#instructions").html("All images requested.");
-			//console.log(i)
+		function loadone(INFOjs,i) {
+
+			var fixed = false;
+			if (i > INFOjs.length-1) return;
+			thumb.Nloaded = thumb.Nloaded+1;
+			if (thumb.Nloaded == INFOjs.length-1) {
+				$("#instructions").html("All images requested.");
+				$("#instructions2").html("All images requested.");
+			}
+
 			if (INFOjs[i]['ThumbFile']) {
 				var src = INFOjs[i]['ThumbFile'];
 				var srcfull = INFOjs[i]['FullFile'];
 			} else {
 				var src = THUMBDIR + INFOjs[i].FileName;
 			}
+
 			$('<img class="thumbbrowse" "src=http://viviz.org/gallery/css/transparent.png"/>')
+				.width(newWidth || tw || 100)
 				.attr("src", src)
 				.attr("srcfull", srcfull)
 				.attr("id",i)
-				//.css("height",th || 100)
+				.css("height",newHeight || th || 100)
 				.attr("title",objToString(INFOjs[i]))
-				.width(newWidth || tw || 100)
 				.error(function () {
 					$(this).addClass("loaderror");
 					$(this).attr("src","http://viviz.org/gallery/css/transparent.png");
 					$(this).css("border","3px solid red");
 					$(this).width(newWidth || tw || 100);
-					//$(this).height(th || 100);
+					$(this).height(newHeight || th || 100);
 					if (th) {
 						$('.loaderror').css('height',th);
 					}
-					if (tw > 0 && !fixed) {fixed = true;$(".loaderror").width(tw)}})
+					if (tw > 0 && !fixed) {fixed = true;$(".loaderror").width(tw)}
+				})
 				.load(function () {
-					if (i == 0) {
+					if (!loadone.first) {
+						console.log("thumb.setthumbs.loadone(): First thumbnail loaded.")
+						loadone.first = true;
 						if (FULLDIR != THUMBDIR) {
+							// If thumbnails exist.
 							tw = this.naturalWidth;
-							th = $(this).height();
-							//tw = $(this).width(); gives value larger than naturalWidth
-						    //console.log(this)
-						    //console.log("thumb.js: Thumb natural width: " + tw);
-						    //console.log("thumb.js: Thumb width (jquery): " + $(this).width());
-						} else {
-							tnw = 100;
-							tw = 100;
-							th = $(this).height();
+							th = this.naturalHeight;
+						}  else {
+							th = tw*this.naturalHeight/this.naturalWidth;
 						}
 
-						//console.log("bw="+$(this).css('border'))
-						//setTimeout(function() {setpadding();},2000);
+						$(this).width(newWidth || tw);
+						$(this).height(newHeight || th);
 						setpadding();
-			        }
+						fillrow();
+						
+					}
+
+					if (!thset) {
+						th = tw*this.naturalHeight/this.naturalWidth;
+						$(wrapper+" #thumbbrowseframe img").css('height',th);
+						thset = true;
+					}
 
 					$(this).width(newWidth || tw);
-					setslider()})
+					$(this).height(newHeight || th);
+					setslider();
+				})
 				.appendTo($(wrapper + ' #thumbbrowseframe'));			
-        		}
-
-		INFOjs = thumblist(wrapper); 	
-		$(wrapper + " #thumbbrowseframe").empty();
-		
-		var maxLength = INFOjs.length;
-		if (maxLength > LAZY_LOAD_MAX) maxLength = LAZY_LOAD_MAX;
-		
-		for (var j = 0; j < maxLength; j++) {s = loadone(INFOjs,j)}
-		setthumbbindings();        
-
-
-		function setpadding() {
-
-			bw = 0;
-			if ($("#thumbbrowseframe img:first").css('borderLeftWidth')) {
-				bw = parseFloat($("#thumbbrowseframe img:first").css('borderLeftWidth').replace("px",""));
-			}
-			console.log("bw="+bw)
-			x = $(wrapper + " #thumbbrowseframe img:first").outerWidth();
-	
-			console.log("thumb.setpadding(): First image outer width = " + x);
-   			a = $("#thumbbrowseframe").innerWidth()/x;				
-
-       		$("#thumbbrowseframe").css('padding',0);	
-       		console.log("thumb.setpadding(): Inner width of thumbframe = " + $("#thumbbrowseframe").width());		        		
-			console.log("thumb.setpadding(): # images per row = " + a);
-      		b = (a - Math.floor(a))*x;
-      		console.log("thumb.setpadding(): Fraction of image spacing left over = " + (a - Math.floor(a)));
-      		console.log("thumb.setpadding(): Total extra space = " + b);
-      		console.log("thumb.setpadding(): Setting left padding to " + b/2);
-      		//$("#thumbbrowseframe").css('width',$("#thumbbrowseframe").width());
-      		$("#thumbbrowseframe").css('padding-left',b/2);
-      		//$("#thumbbrowseframe").css('padding-right',b/2);
 		}
 		
-		$(window).resize(function () {
-			$.doTimeout('resize', 250, function(){
-					console.log('thumb.loadmore(): Resize event');
-					//setpadding();
-					//setTimeout(setpadding,1000);	
-					setTimeout(loadmore,1000);
-				})});
+		function fillrow () {
 
-        console.log("thumb.setthumbs(): maxLength = "+maxLength)
-        console.log("thumb.setthumbs(): LAZY_LOAD_MAX = "+LAZY_LOAD_MAX)
-	    if (INFOjs.length > LAZY_LOAD_MAX) {
-			loadmore();
-	    } else {
-			$("#instructions").hide();
-	    }
-        
-	function loadmore () {
-        	console.log("thumb.loadmore() called. Nloaded="+thumb.Nloaded)
-			//var Npr = Math.floor($(wrapper + ' #thumbbrowseframe').width()/$(wrapper + ' #thumbbrowseframe img').first().width())-1;
-        	//console.log("thumb.loadmore(): " + Math.floor($(wrapper + ' #thumbbrowseframe').width()/$(wrapper + ' #thumbbrowseframe img').first().width())-1);
+				var delta = 0;
+				if (loadone.first) {
+					console.log("thumb.setthumbs.fillrow(): #thumbbrowseframe innerWidth:" + $("#thumbbrowseframe").innerWidth());
+					console.log("thumb.setthumbs.fillrow(): #thumbbrowseframe img:first outerWidth:" + $(wrapper + " #thumbbrowseframe img:first").outerWidth());
+
+					var a = Math.floor($("#thumbbrowseframe").innerWidth()/$(wrapper + " #thumbbrowseframe img:first").outerWidth());				
+
+					console.log("thumb.setthumbs.fillrow(): Images per row = " + a);
+
+					var delta = a - (thumb.Nloaded % a);
+					console.log("----thumb.setthumbs.fillrow(): Modifying number to load based on row width.  Loading "+delta+" extra.")
+				//var delta = 0;
+				}	
+
+				Nl = thumb.Nloaded;
+				for (var j = Nl; j < Nl+delta; j++) {
+					loadone(INFOjs,j);
+				}
+
+		}
+		function loadmore () {
+
+        	console.log("thumb.loadmore(): Called. Nloaded = "+thumb.Nloaded);
+
+
 			if (($(wrapper).height() < $(window).height())) {
-				//if ($(wrapper).height() > 0) {
-					console.log("thumb.loadmore(): Loading more images due to resize event or because more space is available.");
-					Nl = thumb.Nloaded;
-					for (var j = Nl; j < Nl+maxLength; j++) {loadone(INFOjs,j)}
-					setthumbbindings();        
-					if (j < INFOjs.length) {
-						// Put this in a timeout to allow height to be set.
-						setTimeout(function () {loadmore()},100);
-					} else {
-					    console.log("thumb.loadmore(): No more images to load: j="+j+", Nl="+Nl+" INFOjs.length="+INFOjs.length);
-					}
-				//}
+				console.log("thumb.loadmore(): Loading more images due to resize event or because more space is available.");
+				Nl = thumb.Nloaded;
+				for (var j = Nl; j < Nl+maxLength; j++) {
+					loadone(INFOjs,j);
+				}
+
+				fillrow();
+				setpadding();
+
+				setthumbbindings();        
+				if (j < INFOjs.length) {
+					// Put this in a timeout to allow height to be set.
+					setTimeout(function () {loadmore()},100);
+				} else {
+				    console.log("thumb.loadmore(): No more images to load: j = "+j+", Nl = "+Nl+" INFOjs.length = "+INFOjs.length);
+				}
 			} else {
-				console.log("thumb.loadmore(): Setting scroll trigger.")
+				console.log("thumb.loadmore(): Setting scroll trigger.");
 				setscrolltrigger();
 			}
+
 		}
 
         function setscrolltrigger() {
 			$(window).unbind('scroll');
 			$(window).scroll(function (e) {
-				var bdy = $('body');
 				Nl = thumb.Nloaded;
-				console.log("Nl+LAZY_LOAD_MAX="+Nl)
+				console.log("thumb.setthumbs.setscrolltrigger(): Nl+LAZY_LOAD_MAX="+Nl)
 				maxLength = LAZY_LOAD_MAX;
-				if (Nl + LAZY_LOAD_MAX > INFOjs.length-1) {maxLength = INFOjs.length-Nl;$(window).unbind('scroll');}
-				console.log("thumb.loadmore: maxLength="+maxLength+", th="+th)
-				console.log("thumb.loadmore: $(window).scrollTop() + $(window).height() + 2*th = "+(2*th+$(window).scrollTop() + $(window).height()))
-				console.log("thumb.loadmore: $(document).height() = " + ($(document).height()))
+				if (Nl + LAZY_LOAD_MAX > INFOjs.length-1) {
+					maxLength = INFOjs.length-Nl;
+					$(window).unbind('scroll');
+				}
+				console.log("thumb.setthumbs.setscrolltrigger(): maxLength="+maxLength+", th="+th)
+				console.log("thumb.setthumbs.setscrolltrigger(): $(window).scrollTop() + $(window).height() + 2*th = "+(2*th+$(window).scrollTop() + $(window).height()))
+				console.log("thumb.setthumbs.setscrolltrigger(): $(document).height() = " + ($(document).height()))
 				if ($(window).scrollTop() + $(window).height() + 2*th >= $(document).height()) {
-					for (var j = Nl; j < Nl+maxLength; j++) {loadone(INFOjs,j)}
+					for (var j = Nl; j < Nl+maxLength; j++) {
+						loadone(INFOjs,j);
+					}
 					setthumbbindings();
 				} else {
-					console.log("thumb.loadmore: Scroll triggered, but no more loading");
+					console.log("thumb.setthumbs.setscrolltrigger(): Scroll triggered, but no more loading.");
 				}
 			})
         }
+	
 	}
 
 	function setdropdowns() {
-
 
 		dropdown("order", ORDERS, wrapper + " #dropdowns");
 		
@@ -461,11 +525,10 @@ function thumb(wrapper) {
 			});
 			setregexps();	
 		} else {
-			console.log("gallery.setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
+			console.log("thumb.setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
 		}
 
-
-		return true
+		return true;
 
 		function setregexps() {
 			var REGEXPS            = new Object();			
@@ -493,23 +556,6 @@ function thumb(wrapper) {
 			})
 
 		}
-
 	}
-
-	function clonedropdowns(wrapperfrom,wrapperto) {
-    		var tmpstr = $(wrapperfrom + ' #dropdowns').html();
-		$(wrapperto + ' #dropdowns').html(tmpstr);
-		$(wrapperto + ' #collection').attr("selectedIndex",$(wrapperfrom + ' #collection').attr('selectedIndex'));
-		$(wrapperto + ' #gallery').attr("selectedIndex",   $(wrapperfrom + ' #gallery').attr('selectedIndex'));
-		$(wrapperto + ' #sortby').attr("selectedIndex",    $(wrapperfrom + ' #sortby').attr('selectedIndex'));
-		$(wrapperto + ' #order').attr("selectedIndex",     $(wrapperfrom + ' #order').attr('selectedIndex'));
-		$(wrapperto + ' #regexp').attr("selectedIndex",    $(wrapperfrom + ' #regexp').attr('selectedIndex'));
-
-	}
-
-	window.onresize = function onresize() {
-		  console.log("Zoom or resize");	  
-	}
-	
 
 }

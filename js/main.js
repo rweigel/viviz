@@ -7,8 +7,9 @@ LAZY_LOAD_MAX  = 12;
 FIT_TO_WINDOW  = true; // Code needs work.
 //FIT_TO_WINDOW  = true; // Code needs work.			
 VIVIZ = {
-			"CATALOGXML":"xml/enlil.xml",
-			"defaultmode":"gallery",
+			"CATALOGXML":"xml/test-catalog.xml",
+			"defaultmode":"thumb",
+			"showthumbstrip":false,
 			"thumbheight":10.15,
 			"thumbwidth":10.15,
 			"fullwidth":550,
@@ -27,22 +28,6 @@ $(document).ready(function(){
 		gallery("#gallery1");
 		//$("#gallery1 #gallerythumbframe img").first().click(); // To trigger resize of thumb div.
 	})
-	
-	if (FIT_TO_WINDOW) {
-		// Prevent scrollbars as they complicate calculation of dimensions when fitting.
-		//document.documentElement.style.overflow = 'hidden';  // firefox, chrome
-	    //document.body.scroll = "no"; // ie only
-	}
-
-	//thumb("#thumb1");
-	//gallery("#gallery1"); // Causes interference with hashchange
-
-	$(window).hashchange(function(){
-		//console.log('main.js: Hash has changed to ' + location.hash);
-		//thumb("#thumb1");
-		//gallery("#gallery1"); // Causes interference with hashchange
-	});
-
 
 	if (VIVIZ["defaultmode"] == "gallery") {
 		$("#gallerybrowsebutton").click();
@@ -75,16 +60,5 @@ $(document).ready(function(){
 		$("#skin").val(selectedTheme);
 	}
 
-	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
-	console.log("-----xxxx"+$.scrollbarWidth())
-	var neww = $(window).width()-$.scrollbarWidth();
-	$("#t-container").css('width',neww)
-	console.log("----"+neww)
-
-	// Thumb only
-	$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
-	$(window).resize(function(){
-		$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
-	});
 
 });
