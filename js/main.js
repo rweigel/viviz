@@ -6,7 +6,7 @@
 VIVIZ = {
 			"CATALOGXML":"xml/enlil.xml",
 			"defaultmode":"gallery",
-			"showthumbstrip":true,
+			"showthumbstrip":false,
 			"thumbheight":10.15,
 			"thumbwidth":10.15,
 			"fullwidth":550,
@@ -14,8 +14,15 @@ VIVIZ = {
 			"fullheight":880
 		};
 
+function updatehash(el) {
+	var output = el.children('font').attr('id');
+	location.hash = '/' + location.hash.split('/')[1] + '/' + output;
+}
 $(document).ready(function(){
 
+	//$("#gallerycontrols").hide();
+	//$("#stats").hide();
+		
 	$("#thumbbrowsebutton").click(function () {
 		$('#g-container').hide();
 		$('#t-container').show();
@@ -34,4 +41,7 @@ $(document).ready(function(){
 		$("#thumbbrowsebutton").click();
 	}
 	
+	$("#g-container").detach().appendTo("#ss_img_div");
+	$("#enlil").show();
+
 });
