@@ -274,7 +274,7 @@ function cataloginfo(galleryid) {
 		
 		// There must be a better way of doing this
 		re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
-		if (typeof(cataloginfo.jqXHR.responseText) === "defined") {
+		if (typeof(cataloginfo.jqXHR.responseText) === "string") {
 			_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
 			_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
 		}

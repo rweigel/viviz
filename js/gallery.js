@@ -69,12 +69,9 @@ function gallery(wrapper) {
 	$(wrapper + " #catalogxmlopen").unbind('click');
 	$(wrapper + " #catalogxmlopen").click(
 			function () {
-				CodeMirror($(wrapper+' #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["Xml"]});
+				CodeMirror($(wrapper+' #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["xml"]});
 				$(wrapper + ' #catalogxmlopen').hide();
 				$(wrapper + ' #catalogxmlclose').show();
-				//$('#catalogxmltest').show();
-				//$('#catalogxmlsave').show();
-				$.scrollTo(this);
 			});
 	$(wrapper + " #catalogxmlclose").unbind('click');
 	$(wrapper + " #catalogxmlclose").click(
@@ -82,8 +79,6 @@ function gallery(wrapper) {
 				$(wrapper + " #catalogxml").html('');
 				$(wrapper + ' #catalogxmlopen').show();
 				$(wrapper + ' #catalogxmlclose').hide();
-				//$('#catalogxmltest').hide();
-				//$('#catalogxmlsave').hide();
 			}
 		);
 
@@ -94,6 +89,10 @@ function gallery(wrapper) {
 		$(wrapper + ' #catalogxmlopen').click();
 		return;
 	}
+
+	//fittoenclosure();
+	//return;
+
 
 	var tmp = setdropdowns(); // Has a return variable so that it blocks (needed?).
 	setthumbs();
@@ -114,6 +113,7 @@ function gallery(wrapper) {
 
 		var thumbframe = $(wrapper + ' #gallerythumbframe');
 
+		$(wrapper + " #fullframe").html('')
 		thumbframe.html(''); // Clear thumbframe
 		
 		// Clear any previous scroll binding.  (Lazy load uses this.)
@@ -125,6 +125,39 @@ function gallery(wrapper) {
 	
 	// http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
 	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
+
+	function fittoenclosure() {
+
+		enclosure = $(wrapper).parent().parent();//filter('body')[0];
+		console.log("gallery.settabledims(): Window height: "+ $(window).height());
+		console.log("gallery.settabledims(): Document height: "+ $(document).height());
+		console.log("gallery.settabledims(): Enclosing element height: " + $(enclosure).height());
+		console.log("gallery.settabledims(): Wrapper height: " + $(wrapper).height());
+
+		console.log("gallery.settabledims(): Window width: "+ $(window).width());
+		console.log("gallery.settabledims(): Document width: "+ $(document).width());
+		console.log("gallery.settabledims(): Enclosing element width: " + $(enclosure).width());
+		console.log("gallery.settabledims(): Wrapper width: " + $(wrapper).width());
+
+		var h = $(window).height()-$(enclosure).height();
+		console.log("gallery.settabledims(): Vertical space for images: "+h);
+
+		//return;
+		$(wrapper).height($(window).height())
+		$(wrapper).width($(window).width())
+
+		hleft  = $(wrapper + " #gallerythumbframe").outerHeight();
+		hright = $(wrapper + " #fullframe").outerHeight();
+		$(wrapper + " #gallerythumbframe").height(h-hleft)
+		$(wrapper + " #fullframe").height(h-hright)
+		
+		wavail = $(wrapper +" #gallerythumbframe").innerWidth() + $(wrapper +" #fullframe").innerWidth();
+		vavail = $(wrapper +" #gallerythumbframe").innerHeight() + $(wrapper +" #fullframe").innerHeight();
+
+		console.log("gallery.settabledims(): Horizontal space for images: "+wavail);
+		console.log("gallery.settabledims(): Vertical space for images: "+vavail);
+
+	}
 
 	function settabledims(tw,th) {
 
@@ -152,6 +185,7 @@ function gallery(wrapper) {
 
 			// Prevent resize of outer frame when image is removed and before new image is inserted.
 			$(wrapper + " #fullframe").width($(wrapper + " #fullframe").width())
+			$(wrapper + ' #gallerythumbframe').height(VIVIZ[galleryid]["fullNaturalHeight"]);
 
 			var ar = VIVIZ[galleryid]["fullNaturalHeight"]/VIVIZ[galleryid]["fullNaturalWidth"];
 
@@ -165,6 +199,8 @@ function gallery(wrapper) {
 
 			dwo = ar*dh;
 			console.log("dwo="+dwo)
+			//return;
+
 
 			if (dh > 0) {
 				console.log("gallery.settabledims(): Shrinking height of #fullframe img.")
@@ -324,6 +360,9 @@ function gallery(wrapper) {
 				var srcn = $(wrapper + " #gallerythumbframe img[id="+idn+"]").attr('src').replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']);
 				$(wrapper + " #fullframe img[id="+idn+"]").css('height',VIVIZ[galleryid]['fullHeight']);
 				$(wrapper + " #fullframe img[id="+idn+"]").attr('src',srcn);
+				$(wrapper + " #fullframe img[id="+idn+"]").unbind("click");
+				$(wrapper + " #fullframe img[id="+idn+"]").click(function() {$(wrapper + " #next").click()});
+
 			}
 		}
 	}
@@ -470,7 +509,7 @@ function gallery(wrapper) {
 					$('#gallerythumbframe').attr('data-thumb-length', INFOjs.length);
 					var maxLength = INFOjs.length;
 					
-					if (INFOjs.length > LAZY_LOAD_MAX) {maxLength = LAZY_LOAD_MAX};
+					if (INFOjs.length > VIVIZ["lazyLoadMax"]) {maxLength = VIVIZ["lazyLoadMax"]};
 					if (maxLength + f > INFOjs.length) {maxLength = INFOjs.length-f};
 
 					//$(wrapper).attr('totalvisible', maxLength);
@@ -519,8 +558,8 @@ function gallery(wrapper) {
 					var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
 					if (shown < length) {
 						var maxLength = length;
-						if (length > (shown+LAZY_LOAD_MAX))
-							maxLength = shown+LAZY_LOAD_MAX;
+						if (length > (shown+VIVIZ["lazyLoadMax"]))
+							maxLength = shown+VIVIZ["lazyLoadMax"];
 						
 						//$(wrapper).attr('totalvisible', maxLength);
 						elem.attr('data-thumb-displayed', maxLength);
@@ -693,16 +732,19 @@ function gallery(wrapper) {
 	
 	function setdropdowns() {
 
+		// Does not work anymore with lazy load.
 		dropdown("order", GALLERYINFO['orders'], wrapper + " #dropdowns");
 		
 		// TODO: Set this based on available space.
 		$(wrapper + " #gallery").css('width','15em');
+		$(wrapper + " #order").css('width','8em');
 
 		$(wrapper + ' #dropdowns #order').change(function(){
 			setthumbs();
 		});
 
-		if (GALLERYINFO['attributes']["Values"].length > 1) {
+		console.log(GALLERYINFO)
+		if (GALLERYINFO['attributes']["Values"].length > 0) {
 			dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns");
 			$(wrapper + ' #dropdowns #sortby').change(function(){
 				setregexps();
@@ -713,6 +755,10 @@ function gallery(wrapper) {
 			console.log("gallery.setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
 		}
 	
+		$(wrapper + " #sortby").css('width','8em');
+		$(wrapper + " #regexp").css('width','8em');
+
+
 		return true;
 
 		function setregexps() {

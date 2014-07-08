@@ -134,5 +134,10 @@ app.get('/', function (req, res) {
 	res.write(fs.readFileSync(__dirname+"/indexrelative.htm","utf8"));
 	res.end();
 });
+app.get('/embed.htm', function (req, res) {
+	res.write(fs.readFileSync(__dirname+"/embed.htm","utf8"));
+	res.end();
+});
+
 
 server.listen(port);

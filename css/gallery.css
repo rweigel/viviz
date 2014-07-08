@@ -52,7 +52,7 @@ select {
 	font-size:12pt;
 }
 table {
-	border:solid;
+	border:1px solid black;
 	table-layout: fixed;
 }
 td {

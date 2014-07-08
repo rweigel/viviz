@@ -59,6 +59,7 @@ function thumb(wrapper) {
 			$(wrapper + " #about").attr('title',HEADER["about"]);
 		}
 	}
+
 	$(wrapper + ' #catalogxmlopen').show();
 	$(wrapper + ' #catalogxmlclose').hide();
 	$(wrapper + " #catalogxmlopen").unbind('click');
@@ -67,9 +68,6 @@ function thumb(wrapper) {
 				CodeMirror($('#thumb1 #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["xml"]});
 				$(wrapper + ' #catalogxmlopen').hide();
 				$(wrapper + ' #catalogxmlclose').show();
-				//$('#catalogxmltest').show();
-				//$('#catalogxmlsave').show();
-				$.scrollTo(this);
 			});
 	$(wrapper + " #catalogxmlclose").unbind('click');
 	$(wrapper + " #catalogxmlclose").click(
@@ -77,8 +75,6 @@ function thumb(wrapper) {
 				$(wrapper + " #catalogxml").html('');
 				$(wrapper + ' #catalogxmlopen').show();
 				$(wrapper + ' #catalogxmlclose').hide();
-				//$('#catalogxmltest').hide();
-				//$('#catalogxmlsave').hide();
 			}
 		);
     	
@@ -289,15 +285,15 @@ function thumb(wrapper) {
 		INFOjs = thumblist(wrapper); 	
 		$(wrapper + " #thumbbrowseframe").empty();
 		
-		var maxLength = Math.min(INFOjs.length,LAZY_LOAD_MAX);
+		var maxLength = Math.min(INFOjs.length,VIVIZ["lazyLoadMax"]);
 		
 		//for (var j = 0; j < maxLength; j++) {s = loadone(INFOjs,j)}
 
 		setthumbbindings();        
 
         console.log("thumb.setthumbs(): maxLength = "+maxLength)
-        console.log("thumb.setthumbs(): LAZY_LOAD_MAX = "+LAZY_LOAD_MAX)
-	    //if (INFOjs.length > LAZY_LOAD_MAX) {
+        console.log("thumb.setthumbs(): VIVIZ['lazyLoadMax'] = "+VIVIZ["lazyLoadMax"])
+	    //if (INFOjs.length > VIVIZ["lazyLoadMax"]) {
 		loadmore();
 	    //} else {
 		//	$("#instructions").hide();
@@ -483,9 +479,9 @@ function thumb(wrapper) {
 			$(window).unbind('scroll');
 			$(window).scroll(function (e) {
 				Nl = thumb.Nloaded;
-				console.log("thumb.setthumbs.setscrolltrigger(): Nl+LAZY_LOAD_MAX="+Nl)
-				maxLength = LAZY_LOAD_MAX;
-				if (Nl + LAZY_LOAD_MAX > INFOjs.length-1) {
+				console.log("thumb.setthumbs.setscrolltrigger(): Nl+VIVIZ['lazyLoadMax']="+Nl)
+				maxLength = VIVIZ["lazyLoadMax"];
+				if (Nl + VIVIZ["lazyLoadMax"] > INFOjs.length-1) {
 					maxLength = INFOjs.length-Nl;
 					$(window).unbind('scroll');
 				}
