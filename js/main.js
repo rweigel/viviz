@@ -18,6 +18,19 @@ function updatehash(el) {
 	var output = el.children('font').attr('id');
 	location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 }
+
+function replacetitle(which,mytext) {
+  var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
+  //console.log(elid);
+  console.log(myoutput[0],myoutput[1]);
+  if (which == "Model"){
+    $('#sitetitle').text(mytext + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
+  }
+  if (which == "Variable"){
+    $('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + mytext);
+  }
+}
+
 $(document).ready(function(){
 
 	//$("#gallerycontrols").hide();
