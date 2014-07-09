@@ -20,22 +20,31 @@ function updatehash() {
 }
 
 
-function replacetitle(which,mytext) {
+function replacetitle() {
+	var title = $(this).children('font').attr('id');
+	console.log('Title = '+title);
   var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
   //console.log(elid);
-  console.log(myoutput[0],myoutput[1]);
-  if (which == "Model"){
-    $('#sitetitle').text(mytext + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
-  }
-  if (which == "Variable"){
-    $('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + mytext);
-  }
+  //console.log(myoutput[0],myoutput[1]);
+  	if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
+  		$('#sitetitle').text(title + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
+  	}
+  	else { //ITS A MATCH ITS A VARIABLE
+  		var newtitle = title.split('/');
+  		$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
+  	}
+  //  $('#sitetitle').text(mytext + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
+  //}
+  //if (which == "Variable"){
+  //  $('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + mytext);
+  //}
 }
 
 $(document).ready(function(){
 
 	// Code here executed when DOM is loaded and ready for manipulation.
-	$('#enlil table a').on("click",updatehash)
+	$('#enlil table a').on("click",updatehash);
+	$('#enlil table a').on("click",replacetitle);
 
 	//$("#gallerycontrols").hide();
 	//$("#stats").hide();
