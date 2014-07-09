@@ -14,10 +14,11 @@ VIVIZ = {
 			"fullheight":880
 		};
 
-function updatehash(el) {
-	var output = el.children('font').attr('id');
+function updatehash() {
+	var output = $(this).children('font').attr('id');
 	location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 }
+
 
 function replacetitle(which,mytext) {
   var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
@@ -32,6 +33,9 @@ function replacetitle(which,mytext) {
 }
 
 $(document).ready(function(){
+
+	// Code here executed when DOM is loaded and ready for manipulation.
+	$('#enlil table a').on("click",updatehash)
 
 	//$("#gallerycontrols").hide();
 	//$("#stats").hide();
