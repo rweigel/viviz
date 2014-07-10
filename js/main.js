@@ -67,8 +67,8 @@ $(document).ready(function(){
 		$("#thumbbrowsebutton").click();
 	}
 	
-	$('#enlil table a').on("click",updatehash)
-	$('#enlil table a').on("click",replacetitle);
+	$('#enlil .input a').on("click",updatehash)
+	$('#enlil .output a').on("click",replacetitle);
 	$('#enlil .output a').css('cursor','pointer')
 	$('#enlil select').css('font-size','12pt')
 	//$("#g-container").detach().appendTo("#ss_img_div");
