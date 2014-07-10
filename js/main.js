@@ -66,12 +66,29 @@ $(document).ready(function(){
 	} else {
 		$("#thumbbrowsebutton").click();
 	}
-	
-	$('#enlil table a').on("click",updatehash)
-	$('#enlil table a').on("click",replacetitle);
-	$('#enlil .output a').css('cursor','pointer')
-	$('#enlil select').css('font-size','12pt')
+		
+	$('#enlil .input a').on("click",updatehash)
+	$('#enlil .output a').on("click",replacetitle);
+	$('#enlil a .input').css('cursor','pointer')
+	$('#enlil select').css('font-size','12pt');
+	var si;
+	$('#enlil #ss_stop').click(
+			function () {
+				clearInterval(si);
+			}
+	)
+	$('#enlil #ss_start').click(
+			function () {
+				$("#next").click();
+				si = setInterval(
+						function () {
+							console.log('Clicking next');
+							$("#next").click();
+						},'200');
+			}
+	)
 	//$("#g-container").detach().appendTo("#ss_img_div");
+	$('#g-container').hide();
 	$("#enlil").show();
 	//$("#gallerycontrols").hide();
 	//$("#stats").hide();

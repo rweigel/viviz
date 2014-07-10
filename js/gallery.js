@@ -555,6 +555,7 @@ function gallery(wrapper) {
 			});     
 		}
 
+		
 		function setscrollbinding() {
 
 			console.log("gallery.setscrollbinding: Called.");
@@ -564,62 +565,11 @@ function gallery(wrapper) {
 				var elem = $(this);
 				//console.log(elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight)
 				if (elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight <= 0) {
-					var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
-					var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
-					if (shown < length) {
-						var maxLength = length;
-						if (length > (shown+VIVIZ["lazyLoadMax"]))
-							maxLength = shown+VIVIZ["lazyLoadMax"];
-						
-						//$(wrapper).attr('totalvisible', maxLength);
-						elem.attr('data-thumb-displayed', maxLength);
-						//console.log(shown)
-						var tic = new Date().getTime();
-						var slowwarn = false;
-						for (j=shown; j < shown+maxLength; j++) {
-							//console.log("j="+j)
-							if (j > INFOjs.length-1) break;
-							$('<img class="gallerythumbbrowse lazyload"/>')
-								.appendTo($(wrapper + ' #gallerythumbframe'))
-								.attr("id",j+1)
-								.attr("src", GALLERYINFO['thumbdir'] + INFOjs[j].FileName)
-								.bind('click',setthumbbindings)
-								.attr("title",imgtitle(INFOjs[j]))
-								.css("height",thumbheight)
-								//.error(function () {$(this).remove())
-								.load(function () {
-									//$(wrapper).attr('totalvisible', parseInt($(wrapper).attr('totalvisible'))+1);
-									if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-										$('#connectionerror').html("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
-										slowwarn = true;	
-										setTimeout(function () {$('#connectionerror').html('')},5000);
-									}
-		
-									// The following will sometimes hide spinner before thumbnails are rendered on screen, because load
-									// is triggered when image has been downloaded and before it is rendered.  This is the reason
-									// for the 2*Nthumb ms delay (a guess).
-									////console.log('Thumb '+parseInt($(this).attr('id'))+' loaded.');
-																	
-								});
-						}
-					}
+					loadmore();
 				}
 			});
 		}
 		
-		function imgtitle(obj) {
-			//http://stackoverflow.com/questions/5612787/converting-javascript-object-to-string
-			var str = '';
-			var k = 0;
-			for (var p in obj) {
-				if (obj.hasOwnProperty(p)) {
-					if (isNaN(parseInt(p)))
-						str += p + ':' + obj[p] + '\n';
-				}
-				k = k+1;
-			}
-			return str;
-		}
 		
 		function findfirstimage(J) {
 			
@@ -682,7 +632,64 @@ function gallery(wrapper) {
 			}
 		}        
 	}   
+
+	function imgtitle(obj) {
+		//http://stackoverflow.com/questions/5612787/converting-javascript-object-to-string
+		var str = '';
+		var k = 0;
+		for (var p in obj) {
+			if (obj.hasOwnProperty(p)) {
+				if (isNaN(parseInt(p)))
+					str += p + ':' + obj[p] + '\n';
+				}
+				k = k+1;
+			}
+			return str;
+	}
 	
+	function loadmore() {
+		var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
+		var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
+		if (shown < length) {
+			var maxLength = length;
+			if (length > (shown+VIVIZ["lazyLoadMax"]))
+				maxLength = shown+VIVIZ["lazyLoadMax"];
+			
+			//$(wrapper).attr('totalvisible', maxLength);
+			//elem.attr('data-thumb-displayed', maxLength);
+			//console.log(shown)
+			var tic = new Date().getTime();
+			var slowwarn = false;
+			for (j=shown; j < shown+maxLength; j++) {
+				//console.log("j="+j)
+				if (j > INFOjs.length-1) break;
+				$('<img class="gallerythumbbrowse lazyload"/>')
+					.appendTo($(wrapper + ' #gallerythumbframe'))
+					.attr("id",j+1)
+					.attr("src", GALLERYINFO['thumbdir'] + INFOjs[j].FileName)
+					.bind('click',setthumbbindings)
+					.attr("title",imgtitle(INFOjs[j]))
+					//.css("height",thumbheight)
+					.css("height",$("#gallerythumbframe > img").first().height())
+					//.error(function () {$(this).remove())
+					.load(function () {
+						//$(wrapper).attr('totalvisible', parseInt($(wrapper).attr('totalvisible'))+1);
+						if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
+							$('#connectionerror').html("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
+							slowwarn = true;	
+							setTimeout(function () {$('#connectionerror').html('')},5000);
+						}
+
+						// The following will sometimes hide spinner before thumbnails are rendered on screen, because load
+						// is triggered when image has been downloaded and before it is rendered.  This is the reason
+						// for the 2*Nthumb ms delay (a guess).
+						////console.log('Thumb '+parseInt($(this).attr('id'))+' loaded.');
+														
+					});
+			}
+		}
+	}
+
 	function setcontrolbindings() {
 		
 		console.log("--Setting control bindings.")
@@ -690,11 +697,14 @@ function gallery(wrapper) {
 		$(wrapper + " #showhidethumb").unbind();
 		$(wrapper + " #showhidethumb").toggle(function(){
 				$(wrapper + " #gallerythumbframe").hide();
+				//$(wrapper + " #gallerythumbframe").css('visibility','hidden');
+				//$(wrapper + " #gallerythumbframe").css('width','0px');
 				setcontrolbindings.marginleft = $("#fullframe").css('margin-left');
 				$("#fullframe").css('margin-left','0');
 				$(wrapper + ' #showhidethumb').text('+');
 			}, function(){
 				console.log("gallery.setcontrolbindings: Showing gallerythumbframe.");
+				$(wrapper + " #gallerythumbframe").css('visibility','visible')
 				$(wrapper + " #gallerythumbframe").show();
 				console.log("gallery.setcontrolbindings: Setting margin-left to " + setcontrolbindings.marginleft);
 				$("#fullframe").css('margin-left',setcontrolbindings.marginleft)
@@ -716,7 +726,13 @@ function gallery(wrapper) {
 			$(wrapper + " #" + nowvisible).click();
 
 			//Enlil code
-			$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+			$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'));
+			
+			var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
+			var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
+			var f = Math.ceil(nowvisible/VIVIZ["lazyLoadMax"]) - nowvisible/VIVIZ["lazyLoadMax"];
+			console.log(f)
+			if (f < 0.5) loadmore();
 
 		});
 		
