@@ -66,7 +66,7 @@ $(document).ready(function(){
 	} else {
 		$("#thumbbrowsebutton").click();
 	}
-		
+
 	$('#enlil .input a').on("click",updatehash)
 	$('#enlil .output a').on("click",replacetitle);
 	$('#enlil a .input').css('cursor','pointer')
