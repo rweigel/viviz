@@ -152,9 +152,8 @@
 	<gallery id="IPSBD-SWRC-ENLIL/Helio/2">
 		<title>IPSBD-SWRC-ENLIL Helio Image 2</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://http://spaceweather.gmu.edu/projects/enlil-new/ipsbd-swrc/los2d/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>ipsbd-swrc_los2d_20140708T15_20140708T%04d.gif</sprintf>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil-new/ipsbd-swrc/los2d/</fulldir>
+		<sprintf>ipsbd-swrc_los2d_20140708T15_20140708T%02d.gif</sprintf>
 		<sprintfstart>15</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>21</sprintfstop>           

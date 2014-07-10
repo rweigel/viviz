@@ -16,33 +16,22 @@ VIVIZ = {
 
 function updatehash() {
 	var output = $(this).children('font').attr('id');
-	$("#enlil td.input").attr('bgcolor','#4488cc');
-	$(this).parent().attr("bgcolor","#224488");
-	location.hash = '/' + location.hash.split('/')[1] + '/' + output;
-}
-
-
-function replacetitle() {
 	var title = $(this).children('font').attr('id');
-	console.log('Title = '+title);
-  var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
+	var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
 	$("#enlil td.output").attr('bgcolor','#4488cc');
 	$(this).parent().attr("bgcolor","#224488");
-  //console.log(elid);
-  //console.log(myoutput[0],myoutput[1]);
-  	if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
+
+	if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
   		$('#sitetitle').text(title + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
   	}
   	else { //ITS A MATCH ITS A VARIABLE
   		var newtitle = title.split('/');
   		$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
   	}
-  //  $('#sitetitle').text(mytext + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
-  //}
-  //if (which == "Variable"){
-  //  $('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + mytext);
-  //}
+
+	location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 }
+
 
 $(document).ready(function(){
 
@@ -67,10 +56,6 @@ $(document).ready(function(){
 		$("#thumbbrowsebutton").click();
 	}
 
-	$('#enlil .input a').on("click",updatehash)
-	$('#enlil .output a').on("click",replacetitle);
-	$('#enlil a .input').css('cursor','pointer')
-	$('#enlil select').css('font-size','12pt');
 	var si;
 	$('#enlil #ss_stop').click(
 			function () {
@@ -90,6 +75,11 @@ $(document).ready(function(){
 	//$("#g-container").detach().appendTo("#ss_img_div");
 	$('#g-container').hide();
 	$("#enlil").show();
+	$('#enlil td.input a').on("click",function () {	$("#enlil td.input").attr('bgcolor','#4488cc');$(this).parent().attr("bgcolor","#224488");});
+	$('#enlil td.output a').on("click",updatehash);
+	$('#enlil td.output a').css('cursor','pointer')
+	$('#enlil select').css('font-size','12pt');
+
 	//$("#gallerycontrols").hide();
 	//$("#stats").hide();
 		
