@@ -16,12 +16,15 @@ VIVIZ = {
 
 function updatehash() {
 	var output = $(this).children('font').attr('id');
+	$("#enlil td.input").attr('bgcolor','#4488cc');
+	$(this).parent().attr("bgcolor","#224488");
 	location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 }
 
-
 function replacetitle(which,mytext) {
   var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
+	$("#enlil td.output").attr('bgcolor','#4488cc');
+	$(this).parent().attr("bgcolor","#224488");
   //console.log(elid);
   console.log(myoutput[0],myoutput[1]);
   if (which == "Model"){
@@ -35,10 +38,6 @@ function replacetitle(which,mytext) {
 $(document).ready(function(){
 
 	// Code here executed when DOM is loaded and ready for manipulation.
-	$('#enlil table a').on("click",updatehash)
-
-	//$("#gallerycontrols").hide();
-	//$("#stats").hide();
 		
 	$("#thumbbrowsebutton").click(function () {
 		$('#g-container').hide();
@@ -58,7 +57,10 @@ $(document).ready(function(){
 		$("#thumbbrowsebutton").click();
 	}
 	
-	$("#g-container").detach().appendTo("#ss_img_div");
+	$('#enlil table a').on("click",updatehash)
+	$('#enlil .output a').css('cursor','pointer')
+	$('#enlil select').css('font-size','12pt')
+	//$("#g-container").detach().appendTo("#ss_img_div");
 	$("#enlil").show();
 
 });

@@ -291,6 +291,7 @@ function gallery(wrapper) {
 		if ($(wrapper + " #fullframe img[id="+id+"]").length == 1) {
 			console.log('gallery.loadfull(): Found hidden full image in DOM.  Showing.');
 			$(wrapper + " #fullframe img[id=" + id + "]").show();
+						
 			prepnext();
 			setfilename();
 			return;
@@ -307,6 +308,7 @@ function gallery(wrapper) {
 		if (VIVIZ[galleryid]['fullHeight']) {
 			$(wrapper + " #fullframe img[id="+id+"]").css('height',VIVIZ[galleryid]['fullHeight']);
 		}
+		console.log("----Full image loaded.")
 
 		$(wrapper + " #fullframe img[id="+id+"]")
 				.unbind('load')
@@ -317,11 +319,17 @@ function gallery(wrapper) {
 				})
 				.load(function(){
 
+
+					console.log("----Full image loaded.")
 					if (id == 1) {
 						console.log('gallery.loadfull(): First full image loaded with dimensions '+this.naturalWidth+'x'+this.naturalHeight+'.  Setting table dimensions.');
 						VIVIZ[galleryid]["fullNaturalHeight"] = this.naturalHeight;
 						VIVIZ[galleryid]["fullNaturalWidth"] = this.naturalWidth;
 						settabledims();
+
+						//Enlil code
+						$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id=1]").attr('src'))
+
 					} 
 
 					$(wrapper + " #fullframe img").eq(0).click();
@@ -362,6 +370,8 @@ function gallery(wrapper) {
 				$(wrapper + " #fullframe img[id="+idn+"]").attr('src',srcn);
 				$(wrapper + " #fullframe img[id="+idn+"]").unbind("click");
 				$(wrapper + " #fullframe img[id="+idn+"]").click(function() {$(wrapper + " #next").click()});
+				//$("#ss_img_div").empty();$(wrapper + " #fullframe img[id="+idn+"]").clone().attr("width","").attr('height','').appendTo( "#ss_img_div" );
+
 
 			}
 		}
@@ -704,6 +714,10 @@ function gallery(wrapper) {
 			}
 			console.log("Clicking on "+nowvisible)
 			$(wrapper + " #" + nowvisible).click();
+
+			//Enlil code
+			$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+
 		});
 		
 		$(wrapper + " #previous").unbind('click');
@@ -715,6 +729,10 @@ function gallery(wrapper) {
 				nowvisible = lastvisible - 1;
 			}
 			$(wrapper + " #" + nowvisible).click();
+
+			//Enlil code
+			$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+
 		});
 		
 		$(wrapper + " #last").unbind('click');
@@ -728,6 +746,8 @@ function gallery(wrapper) {
 			nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").first().attr("id"));
 			$(wrapper + " #" + nowvisible).click();
 		});  
+
+
 	}
 	
 	function setdropdowns() {

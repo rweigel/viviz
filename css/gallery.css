@@ -45,23 +45,21 @@ button {
 	font-size:12pt;
 	cursor:pointer;
 }
-select {
+#g-container select {
 	//background-color:black;
 	//color:white;
 	font-weight:bold;
 	font-size:12pt;
 }
-table {
+#g-container table {
 	border:1px solid black;
 	table-layout: fixed;
 }
-td {
+#g-container td {
 	border:solid;
 }
 #numvisible {
     font-size:12pt;
-}
-#console {
 }
 
 #dropdowns {
