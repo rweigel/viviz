@@ -32,6 +32,16 @@ function updatehash() {
 	location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 }
 
+function getdownload() {
+	//console.log("THIS: " + $( "#dl_select option:selected" ).text());
+	var aa = $( "#dl_select option:selected" ).text();
+	if(aa == "File List"){ window.location = "_blank"; }
+	if(aa == "Animated GIF"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif"; }
+	if(aa == "MP4"){ window.location = "_blank"; }
+	if(aa == "MOV"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif"; }
+	if(aa == "Zip File"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=zip"; }
+}
+
 
 $(document).ready(function(){
 
