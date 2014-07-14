@@ -20,6 +20,20 @@ function extractorders() {
 	return ORDERS;
 }
 
+function extractoutputs() {
+	var OUTPUTS = {
+		"Title": "Download",
+		    "Titleshort": "-Download Options-",
+		    "Class": "updatelocal",
+		    "Values": [{"Title": "File List", "Value": "filelist"},
+						{"Title": "Animated GIF", "Value": "gif"},
+		               	{"Title": "MP4","Value": "mp4"},
+		               	{"Title": "MOV","Value": "mov"},
+		               	{"Title": "Zip","Value": "zip"}]
+	}
+	return OUTPUTS;
+}
+
 function extractattributes(galleryid) {
 
 	ATTRIBUTES = new Object();
@@ -436,6 +450,7 @@ function galleryinfo(galleryid) {
 	_GALLERYINFO["totalingallery"] = _GALLERYINFO["files"].length;	
 	_GALLERYINFO["orders"]         = extractorders();
 	_GALLERYINFO["attributes"]     = extractattributes(galleryid);
+	_GALLERYINFO["outputs"]		   = extractoutputs();
 	
 	if (_GALLERYINFO["autoattributes"])
 		_GALLERYINFO["attributes"]["Values"][0]["Filters"] = _GALLERYINFO["autoattributes"]

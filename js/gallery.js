@@ -770,6 +770,8 @@ function gallery(wrapper) {
 
 		// Does not work anymore with lazy load.
 		dropdown("order", GALLERYINFO['orders'], wrapper + " #dropdowns");
+		console.log(GALLERYINFO);
+		dropdown("output", GALLERYINFO['outputs'], wrapper + " #dropdowns");
 		
 		// TODO: Set this based on available space.
 		$(wrapper + " #gallery").css('width','15em');
@@ -777,6 +779,9 @@ function gallery(wrapper) {
 
 		$(wrapper + ' #dropdowns #order').change(function(){
 			setthumbs();
+		});
+		$(wrapper + ' #dropdowns #outputs').change(function(){
+			setoutput();
 		});
 
 		console.log(GALLERYINFO)
@@ -792,6 +797,7 @@ function gallery(wrapper) {
 		}
 	
 		$(wrapper + " #sortby").css('width','8em');
+		$(wrapper + " #output").css('width','8em');
 		$(wrapper + " #regexp").css('width','8em');
 
 
