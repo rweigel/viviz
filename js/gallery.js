@@ -34,7 +34,7 @@ function gallery(wrapper) {
 	} else {
 		var galleryid = GALLERIES["Values"][0]["Id"];
 	}
-	
+
 	VIVIZ[galleryid] = {};
 	
 	$(wrapper + " #dropdownswrapper").empty();
@@ -51,6 +51,13 @@ function gallery(wrapper) {
 	});
 
 	var HEADER = cataloginfo(galleryid);
+	if (HEADER === "") {
+		error("Gallery ID " + galleryid + " not found.");
+		$(wrapper + ' #workingfullframe').css('visibility','hidden')
+		return;
+	}
+	console.log(HEADER === "")
+	
 	$("head title").html(HEADER["title"]);
 	$(wrapper + " #about").attr('title',HEADER["about"]);
 
@@ -108,8 +115,11 @@ function gallery(wrapper) {
 	//$(wrapper + ' #gallerythumbframe').css('overflow-y','hidden');
 	//setTimeout(function() {$(wrapper + ' #gallerythumbframe').css('overflow-y','auto');},200);
 
-	function warning (msg,clear,totime) {
+	function error (msg,clear) {$(wrapper + ' #error').show();if (clear) {$(wrapper + ' #error').html(msg)} else {$(wrapper + ' #error').append(msg)};}
 
+	
+	function warning (msg,clear,totime) {
+		$(wrapper + ' #warning').show();
 		if (clear) {
 			$(wrapper + ' #warning').html(msg);
 		} else {

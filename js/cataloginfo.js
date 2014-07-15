@@ -223,8 +223,10 @@ function cataloginfo(galleryid) {
 
 			_CATALOGINFO["galleryid"]  = $(cataloginfo.xml).find(query).attr('id');
 			if (!_CATALOGINFO["galleryid"]) {
-				error("Error: Gallery with id " + galleryid + " not found in <a href='xml/catalog.xml'>catalog.xml</a>. Redirecting.");
-				setTimeout(function () {location.hash = "#"},1000);
+				//warning("Error: Gallery with id " + galleryid + " not found in <a href='xml/catalog.xml'>catalog.xml</a>. Redirecting.");
+				console.log("Error: Gallery with id " + galleryid + " not found in <a href='xml/catalog.xml'>catalog.xml</a>.");
+				//setTimeout(function () {location.hash = "#"},1000);
+				return "";
 				//$("#error").html("");
 			}
 			_CATALOGINFO["title"]      = $(cataloginfo.xml).find(query).siblings('title').text();

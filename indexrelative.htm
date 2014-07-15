@@ -6,7 +6,7 @@
 		
 		<link rel="icon" type="image/ico" href="./css/favicon.ico"/>		
 		<link rel="stylesheet" type="text/css" href="./css/bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="./css/gallery.css">
+		<link rel="stylesheet" type="text/css" href="./css/gallery.css" id="gallerystyle">
 		<link rel="stylesheet" type="text/css" href="./css/thumbbrowse.css">
 		
 		<script type="text/javascript" src="./js/deps/1.7.2/jquery.min.js"></script>
@@ -68,6 +68,114 @@
 
 	<body>
 	
+	<div id="enlilmobile" style="display:none;">
+  <CENTER>
+
+    <P>
+    <FORM>
+      <FONT color="#224488" size="6">Solar Wind Prediction &nbsp;&ndash;&nbsp;</FONT>
+      <SELECT name="model" style="font-size: 24px; color: #224488"
+        onChange="top.location.href = this.form.model.options[this.form.model.selectedIndex].value; return false;">
+        <OPTION value="http://spaceweather.gmu.edu/projects/enlil">Main Page</OPTION>
+        <OPTION value="/#/IPSBD-ENLIL/Velocity/0" selected>IPSBD-ENLIL</OPTION>
+        <OPTION value="/#/IPSBD-SWRC-ENLIL/Velocity/0">IPSBD-SWRC-ENLIL</OPTION>
+        <OPTION value="/#/WSADU-SWRC-ENLIL/Velocity/0">WSADU-SWRC-ENLIL</OPTION>
+        <OPTION value="/#/WSADT-SWRC-ENLIL/Velocity/0">WSADT-SWRC-ENLIL</OPTION>
+      </SELECT>
+    </FORM>
+
+    <P>
+    <TABLE width="100%" border="0" cellspacing="0" cellpadding="8">
+      <TR>
+      <TD bgcolor="#4488cc" align="CENTER" class="output">
+        <A HREF="http://spaceweather.gmu.edu/projects/enlil"><FONT size="4" color="WHITE"><B>MAIN</B></FONT></A>
+      </TD>
+      <TD bgcolor="#224488" align="CENTER" class="output" >
+        <A><FONT size="4" color="WHITE" id="Velocity/0"><B>VELOCITY</B></FONT></A>
+      </TD>
+      <TD bgcolor="#4488cc" align="CENTER" class="output" >
+        <A><FONT size="4" color="WHITE" id="Density/0"><B>DENSITY</B></FONT></A>
+      </TD>
+      <TD bgcolor="#4488cc" align="CENTER" class="output">
+        <A><FONT size="4" color="WHITE" id="Helio/0"><B>STEREO HI-A</B></FONT></A>
+      </TD>
+      <TD bgcolor="#4488cc" align="CENTER" class="output" id="shock" style="display:none">
+        <A><FONT size="4" color="WHITE" id="Shock/0"><B>SHOCK</B></FONT></A>
+      </TD>
+      <TD bgcolor="#4488cc" align="CENTER" class="output">
+        <A><FONT size="4" color="WHITE"><B>EVOLUTION</B></FONT></A>
+      </TD>
+      </TR>
+    </TABLE>
+
+    <FORM ID="ss_form" NAME="ss_form" ACTION="" METHOD="GET">
+
+      <P>
+      <TABLE border="0" cellspacing="0" cellpadding="0">
+        <TR>
+        <TD>
+          <DIV ID="ss_img_div">
+            <A ID="ss_img_link" HREF="javascript:ss.hotlink()">
+              <IMG id="ss_img" name="ss_img" src="0240.gif" width="100%"
+                 alt="Slideshow image">
+            </A>
+          </DIV>
+        </TD>
+        </TR>
+      </TABLE>
+
+      <P>
+      <TABLE width="100%" border="0" cellspacing="0" cellpadding="10">
+        <TR>
+
+        <TH bgcolor="white" align="CENTER">
+            <A HREF="../../doc/tim1den2.html">
+              <FONT size="5" color="#224488" face="arial"><B>I N F O</B></FONT></A>
+        </TH>
+
+        <TH>
+				<A ID="ss_start">
+					<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play"></A>
+				<A ID="ss_stop">
+					<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause"></A>
+				<A ID="ss_prev">
+					<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous"></A>
+				<A ID="ss_next">
+					<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next"></A>
+				</TD>
+        </TH>
+
+        <TH>
+        <DIV ID="ss_controls">
+          <SELECT id="ss_select" style="color: #224488; font-size: 24px"
+            name="ss_select" onchange="ss.goto_slide(this.selectedIndex)">
+            <OPTION>+00T00</OPTION>
+            <OPTION>+01T00</OPTION>
+            <OPTION>+02T00</OPTION>
+            <OPTION>+03T00</OPTION>
+            <OPTION>+04T00</OPTION>
+            <OPTION>+05T00</OPTION>
+            <OPTION>-10T00</OPTION>
+            <OPTION>-09T00</OPTION>
+            <OPTION>-08T00</OPTION>
+            <OPTION>-07T00</OPTION>
+            <OPTION>-06T00</OPTION>
+            <OPTION>-05T00</OPTION>
+            <OPTION>-04T00</OPTION>
+            <OPTION>-03T00</OPTION>
+            <OPTION>-02T00</OPTION>
+            <OPTION>-01T00</OPTION>
+          </SELECT>
+        </DIV>
+        </TH>
+        </TR>
+      </TABLE>
+      <P>
+    </FORM>
+  </CENTER>
+	
+	</div>
+	
 	<div id="enlil" style="display:none;">
 		<CENTER>
 
@@ -110,7 +218,7 @@
 			</TR>
 			<TR>
 				<TD bgcolor="#4488cc" align="center" class="input">
-				<A HREF="/#/IPSBD-SWRC-ENLIL/Velocity/1">
+				<A HREF="#/IPSBD-SWRC-ENLIL/Velocity/1">
 					<FONT size="5" color="white" face="arial" id="IPSBD-SWRC">IPSBD-SWRC</FONT></A>
 				</TD>
 				<TD bgcolor="#4488cc" align="center" class="output">
@@ -235,25 +343,12 @@
 				</TD>
 
 				<TD bgcolor="#bbddff" align="center">
-				<A HREF="../../index.html">
+				<A HREF="http://spaceweather.gmu.edu/projects/enlil">
 					<FONT size="5" color="#224488" face="arial">Main Page</FONT></A>
 				</TD>
 				</TR>
 			</TABLE>
 		</CENTER>
-
-		<hr/>
-		<font size="+1">
-		Download: 
-		<a target="_blank" href="http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif">GIF Animation</a> | 
-		<a href="http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif">Quicktime Animation</a> | 
-		<a href="http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=zip">Zip file with all frames in PNG and PDF</a> |
-		<a href="">PDF of this frame</a> |
-		<a href="">EPS.GZ of this frame</a> |
-		<a href="">PNG of this frame</a>
-
-		</font>
-		<hr/>
 
 	</div>
 

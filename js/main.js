@@ -22,13 +22,23 @@ $.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:5
 
 function enlil() {
 
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		console.log("Mobile Device Detected.")
+		var enlildiv = "enlilmobile";
+	} else {
+		var enlildiv = "#enlil";
+	}
+	
+	//$("#gallerystyle").attr('href',"")
+	
+	var enlildiv = "#enlilmobile";
 	var si;
-	$('#enlil #ss_stop').click(
+	$(enlildiv + ' #ss_stop').click(
 			function () {
 				clearInterval(si);
 			}
 	)
-	$('#enlil #ss_start').click(
+	$(enlildiv + ' #ss_start').click(
 			function () {
 				$("#next").click();
 				si = setInterval(
@@ -37,19 +47,29 @@ function enlil() {
 						},'200');
 			}
 	)
-	$('#enlil #ss_next').click(function () {$("#next").click();})
-	$('#enlil #ss_prev').click(function () {$("#previous").click();})
+	$(enlildiv + ' #ss_next').click(function () {$("#next").click();})
+	$(enlildiv + ' #ss_prev').click(function () {$("#previous").click();})
 
+	$(window).hashchange(function() {
+			if (location.hash.match(/\/IPSBD-ENLIL\//)) {
+			$("#shock").hide();
+		} else {
+			$("#shock").show();
+		}
+	});
+	
 	//$('#g-container').hide();
-	$("#enlil").show();
-	$('#enlil td.input a').on("click",function () {	$("#enlil td.input").attr('bgcolor','#4488cc');$(this).parent().attr("bgcolor","#224488");});
-	$('#enlil td.output a').on("click",xupdatehash);
-	$('#enlil td.output a').css('cursor','pointer')
-	$('#enlil select').css('font-size','12pt');
+	//$("#enlil").show()
+	$(enlildiv).show()
+	$(enlildiv + ' td.input a').on("click",function () {	$(enlildiv + " td.input").attr('bgcolor','#4488cc');$(this).parent().attr("bgcolor","#224488");});
+	$(enlildiv + ' td.output a').on("click",function () {	$(enlildiv + " td.output").attr('bgcolor','#4488cc');$(this).parent().attr("bgcolor","#224488");});
+
+	$(enlildiv + ' td.output a').on("click",xupdatehash);
+	$(enlildiv + ' td.output a').css('cursor','pointer')
+	$(enlildiv + ' select').css('font-size','12pt');
 }
 
 	function getdownload() {
-		//console.log("THIS: " + $( "#dl_select option:selected" ).text());
 		var aa = $( "#dl_select option:selected" ).text();
 		if(aa == "File List"){ window.location = "_blank"; }
 		if(aa == "Animated GIF"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif"; }
@@ -58,13 +78,15 @@ function enlil() {
 		if(aa == "Zip File"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=zip"; }
 	}
 
+	function yupdatehash() {
+		var output = $(this).children('font').attr('id');
+		console.log($(this).attr('href'))
+	}
 	function xupdatehash() {
 
 		var output = $(this).children('font').attr('id');
 		var title = $(this).children('font').attr('id');
 		var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
-		$("#enlil td.output").attr('bgcolor','#4488cc');
-		$(this).parent().attr("bgcolor","#224488");
 
 		if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
 			$('#sitetitle').text(title + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
@@ -74,7 +96,7 @@ function enlil() {
 			$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
 		}
 
-		//location.hash = '/' + location.hash.split('/')[1] + '/' + output;
+		location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 	}
 		
 
