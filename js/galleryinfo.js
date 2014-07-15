@@ -95,16 +95,16 @@ function extractattributes(galleryid) {
 
 function extractfiles(URLFiles) {
 	
-	extractfiles.cache = {};
-	if (extractfiles.cache[URLFiles])
-		return extractfiles.cache[URLFiles];
+	//extractfiles.cache = {};
+	//if (extractfiles.cache[URLFiles])
+	//	return extractfiles.cache[URLFiles];
 		
 	var FILES = new Array();
 	//var Proxy = "proxy.php?url=";
 	var Proxy = "";
 	URLFiles = Proxy + URLFiles;
 	$("#status").text("Retrieving list of files");
-	
+	console.log("galleryinfo.extractfiles(): Getting file list from " + URLFiles)
 	if (URLFiles.match(/\.txt$/)) {
 		$.ajax({
 			type: "GET",
@@ -119,11 +119,7 @@ function extractfiles(URLFiles) {
 					}
 		});
 		$("#status").text("");
-		extractfiles.cache[URLFiles] = FILES;
-		return FILES;
-	}
-
-	if (URLFiles.match(/\.xml$/)) {
+	} else if (URLFiles.match(/\.xml$/)) {
 		$.ajax({
 			type: "GET",
 			url: URLFiles,
@@ -135,23 +131,19 @@ function extractfiles(URLFiles) {
 					},
 			success: function (xml) {
 				
-						//console.log('galleryinfo.js: Extracting files from ' + URLFiles);
+						console.log('galleryinfo.js: Extracting files from ' + URLFiles);
 						if ($(xml).find("gallery images data").length > 0) {
 							eval("FILES = " + $(xml).find("gallery images data").text());
-							//console.log("galleryinfo.js: extractfiles(): Found " + FILES.length + " files in " + URLFiles);
-							////console.log(FILES);
+							console.log("galleryinfo.extractfiles(): Found " + FILES.length + " files in " + URLFiles);
 						}
 						if ($(xml).find("gallery images script").length > 0) {
 							//eval($(xml).find("gallery images script").text());
 							////console.log(files);
 						}
+						return FILES;
 					}
 		});
-		$("#status").text("");
-		extractfiles.cache[URLFiles] = FILES;
-		return FILES;
-	}
-
+	} else {
 
 		// A service request that returns a JSON array of files.
 		$.ajax({
@@ -174,9 +166,12 @@ function extractfiles(URLFiles) {
 						
 					}
 		});
-		$("#status").text("");
-		extractfiles.cache[URLFiles] = FILES;
-		return FILES;
+	}
+
+	$("#status").text("");
+	//extractfiles.cache[URLFiles] = FILES;
+	return FILES;
+
 }
 
 function menulist(StartYear,StopYear,TEMPLATE_YEAR) {
@@ -242,27 +237,34 @@ function galleryinfo(galleryid) {
 		return galleryinfo.GALLERYINFO[galleryid]
 	}
 	_GALLERYINFO = new Object();
-	
+	var fullfiles = [];
+	var thumbfiles = [];
+
 	var CATALOGINFO = cataloginfo(galleryid);
 
-	if (CATALOGINFO["script"]) {
-		_GALLERYINFO["files"] = eval(CATALOGINFO["script"])(); 
+	if (CATALOGINFO["fulllistscript"]) {
+		fullfiles = eval(CATALOGINFO["fulllistscript"])(); 
 	}
 
-	if (CATALOGINFO["xscript"]) {
-		_GALLERYINFO["files"] = eval(CATALOGINFO["xscript"])(); 
+	if (CATALOGINFO["thumblistscript"]) {
+		thumbfiles = eval(CATALOGINFO["thumblistscript"])(); 
+	}
+
+	if (CATALOGINFO["fullfilelist"]) {
+		fullfiles  = extractfiles(CATALOGINFO["fullfilelist"]);
+	}		
+
+	if (CATALOGINFO["thumbfilelist"]) {
+		thumbfiles  = extractfiles(CATALOGINFO["thumbfilelist"]);
 	}
 
 	if (CATALOGINFO["fullfiles"]) {
-		_GALLERYINFO["files"]  = extractfiles(CATALOGINFO["fullfiles"]);
-		//console.log(_GALLERYINFO["files"]);
+		fullfiles = extractfiles(CATALOGINFO["fullfiles"]);
 	}
 	
 	if (CATALOGINFO["thumbfiles"]) {
-		_GALLERYINFO["thumbfiles"]  = extractfiles(CATALOGINFO["thumbfiles"]);
-		//console.log(_GALLERYINFO["files"]);
+		thumbfiles = extractfiles(CATALOGINFO["thumbfiles"]);
 	}
-
 
 	if (CATALOGINFO["strftime"]) {
 		_GALLERYINFO["strftime"]      = CATALOGINFO["strftime"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
@@ -310,7 +312,7 @@ function galleryinfo(galleryid) {
 			incr = {years:1};			
 		}
 		//console.log("Number of days: " + Ndays)
-		_GALLERYINFO["files"] = new Array();
+		fullfiles = new Array();
 		var tic = new Date().getTime();
 		var i = 0;
 		// Remove time zone 
@@ -325,7 +327,7 @@ function galleryinfo(galleryid) {
 				fname = START_date.strftime(CATALOGINFO["strftime"]);
 				//console.log(Date.compare(START_date,STOP_date));
 				//console.log(fname);
-				_GALLERYINFO["files"][i] = [fname];
+				fullfiles[i] = [fname];
 				START_date.add(incr);
 				i = i+1;		
 			}
@@ -335,7 +337,7 @@ function galleryinfo(galleryid) {
 				fname = START_date.strftime(CATALOGINFO["strftime"]);
 				//console.log(Date.compare(START_date,STOP_date));
 				//console.log(fname);
-				_GALLERYINFO["files"][i] = [fname];
+				fullfiles[i] = [fname];
 				START_date.addDays(1);
 				i = i + 1;
 			}
@@ -355,85 +357,76 @@ function galleryinfo(galleryid) {
 			_GALLERYINFO["sprintfdelta"] = 1;
 			console.log("galleryinfo.js: sprintfdelta is not defined or is NaN.  Using value of 1.")
 		}
-		var files = new Array();
+		var fullfiles = new Array();
 		io = parseInt(_GALLERYINFO["sprintfstart"]);
 		i = io;
 		z = io;
 		while (i < parseInt(_GALLERYINFO["sprintfstop"]) + 1) {			
 			var tmps = _GALLERYINFO["sprintf"];
-			files[z-io] = [sprintf(tmps,i)];
+			fullfiles[z-io] = [sprintf(tmps,i)];
 			z = z+1;
 			i = i + _GALLERYINFO["sprintfdelta"];
 		}
-		_GALLERYINFO["files"] = files;
 	}
 	
-	if (CATALOGINFO.hasOwnProperty("files")) {
-		if (!_GALLERYINFO["files"]) {
+	if (0) {
+	if (CATALOGINFO.hasOwnProperty("fullfiles")) {
+		if (!_GALLERYINFO["fullfiles"]) {
 			$("#error").html("Could not generate file list for gallery "+galleryid);
 			return false;
-		} else if (_GALLERYINFO["files"].length == 0) {
+		} else if (_GALLERYINFO["fullfiles"].length == 0) {
 			$("#error").html("File list for gallery "+galleryid+" has no elements.");
 			return false;
 		}
 	}
+}
     
 	if (CATALOGINFO["fulldir"]) {
 		_GALLERYINFO["fulldir"] = CATALOGINFO["fulldir"];
+		if (VIVIZ["useCachedImages"]) {
+			_GALLERYINFO["fulldir"] = "http://imgconvert.org/convert.cgi?in="+_GALLERYINFO["fulldir"];
+		}
+		_GALLERYINFO["fullfiles"] = [];
+		for (var j = 0;j < fullfiles.length;j++) {
+			_GALLERYINFO["fullfiles"][j] = [];
+			if (!fullfiles[0][0].match(/^http|^ftp|^file/)) {
+				_GALLERYINFO["fullfiles"][j][0] = _GALLERYINFO["fulldir"] + fullfiles[j][0];
+			} else {
+				_GALLERYINFO["fullfiles"][j][0] = fullfiles[j][0];
+			}
+			for (var i = 1;i<fullfiles[j].length;i++) {
+				_GALLERYINFO["fullfiles"][j][i] = fullfiles[j][i];
+			}
+		}
 	} else {
 		_GALLERYINFO["fulldir"] = "";			
 	}
 
-	if (CATALOGINFO["fullfiles"]) {
-		_GALLERYINFO["fullfiles"] = CATALOGINFO["fullfiles"];
-	} else {
-		_GALLERYINFO["fullfiles"] = "";			
+	if (thumbfiles.length == 0) {
+		thumbfiles = fullfiles;
 	}
-	
-	if (CATALOGINFO["fullpreprocess"]) {
-		_GALLERYINFO["fullpreprocess"] = CATALOGINFO["fullpreprocess"];
-	} else {
-		_GALLERYINFO["fullpreprocess"] = "";			
-	}
-
 	if (CATALOGINFO["thumbdir"]) {
 		_GALLERYINFO["thumbdir"] = CATALOGINFO["thumbdir"];
+		if (VIVIZ["useCachedImages"]) {
+			_GALLERYINFO["thumbdir"] = "http://imgconvert.org/convert.cgi?in="+_GALLERYINFO["thumbdir"];
+		}
+		_GALLERYINFO["thumbfiles"] = [];
+		for (var j = 0;j < thumbfiles.length;j++) {
+			_GALLERYINFO["thumbfiles"][j] = [];
+			if (!thumbfiles[0][0].match(/^http|^ftp|^file/)) {
+				_GALLERYINFO["thumbfiles"][j][0] = _GALLERYINFO["thumbdir"] + thumbfiles[j][0];
+			} else {
+				_GALLERYINFO["thumbfiles"][j][0] = thumbfiles[j][0];
+			}
+			for (var i = 1;i<thumbfiles[j].length;i++) {
+				_GALLERYINFO["thumbfiles"][j][i] = thumbfiles[j][i];
+			}
+		}
 	} else {
 		_GALLERYINFO["thumbdir"] = "";			
 	}
-	
-	// Relative paths given for thumbdir or empty string for thumbdir
-	if ( !(_GALLERYINFO["thumbdir"].match(/^http:/) || _GALLERYINFO["thumbdir"].match(/^ftp:/) || _GALLERYINFO["thumbdir"].match(/^file:/))) {
-		_GALLERYINFO["thumbdir"] = _GALLERYINFO["fulldir"] + _GALLERYINFO["thumbdir"];
-	}
-	
-	if (_GALLERYINFO["thumbdir"] === _GALLERYINFO["fulldir"]) {
-		if (typeof(VIVIZ.thumbwidth) === "undefined") {
-			_GALLERYINFO["thumbwidth"] = "150";
-		}
-	}
-	
-	if (CATALOGINFO["thumbpreprocess"]) {
-		_GALLERYINFO["thumbpreprocess"] = CATALOGINFO["thumbpreprocess"];
-	} else {
-		_GALLERYINFO["thumbpreprocess"] = "";			
-	}
 
-	if (_GALLERYINFO["thumbpreprocess"]) { _GALLERYINFO['thumbdir'] = _GALLERYINFO["thumbpreprocess"] + _GALLERYINFO['thumbdir']; }
-	if (_GALLERYINFO["fullpreprocess"]) { _GALLERYINFO['fulldir'] = _GALLERYINFO["fullpreprocess"] + _GALLERYINFO['fulldir']; }
-
-	if (CATALOGINFO["fullpostprocess"]) {
-		_GALLERYINFO["fullpostprocess"] = CATALOGINFO["fullpostprocess"];
-	} else {
-		_GALLERYINFO["fullpostprocess"] = "";			
-	}
-	if (CATALOGINFO["thumbpostprocess"]) {
-		_GALLERYINFO["thumbpostprocess"] = CATALOGINFO["thumbpostprocess"];
-	} else {
-		_GALLERYINFO["thumbpostprocess"] = "";			
-	}
-
-	_GALLERYINFO["totalingallery"] = _GALLERYINFO["files"].length;	
+	_GALLERYINFO["totalingallery"] = _GALLERYINFO["fullfiles"].length;	
 	_GALLERYINFO["orders"]         = extractorders();
 	_GALLERYINFO["attributes"]     = extractattributes(galleryid);
 	
@@ -441,9 +434,10 @@ function galleryinfo(galleryid) {
 		_GALLERYINFO["attributes"]["Values"][0]["Filters"] = _GALLERYINFO["autoattributes"]
 	
 	galleryinfo.GALLERYINFO[galleryid] = _GALLERYINFO;
+	
 	//console.log("galleryinfo.js: _GALLERYINFO = ");
 	//console.log(_GALLERYINFO);
-	
+
 	return _GALLERYINFO;
 
 		

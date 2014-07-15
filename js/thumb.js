@@ -15,7 +15,6 @@ function thumb(wrapper) {
         thumb(wrapper);
 	})
 
-	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
 	var neww = $(window).width()-$.scrollbarWidth();
 	$("#t-container").css('width',neww);
 
@@ -35,6 +34,7 @@ function thumb(wrapper) {
 		var galleryid = GALLERIES["Values"][0]["Id"];
 	}
 
+	VIVIZ[galleryid] = {};
 
 	var INFOG    = galleryinfo(galleryid);
   	var THUMBDIR = INFOG['thumbdir'];
@@ -170,11 +170,7 @@ function thumb(wrapper) {
 			deltatop = $("#thumbbrowseoverlay").position().top;
 
 			$(wrapper + ' .thumbbrowse').click(function(){
-				if (FULLDIR === "") {
-					var src = $(this).attr("srcfull");
-				} else {
-					var src = this.src.replace(THUMBDIR,FULLDIR);
-				}
+				var src = $(this).attr("srcfull");
 				//console.log(src);
 				// Where does this 30 pixels come from?
 				$(wrapper + ' #thumbbrowseoverlay')
@@ -258,8 +254,8 @@ function thumb(wrapper) {
 		var FULLDIR = INFOG['fulldir'];
 
 		var thumbwidth = "";
-		if (FULLDIR == THUMBDIR) {
-			//console.log('thumbbrowse.js: No thumbnails detected.');
+		if ( (FULLDIR === THUMBDIR) || (THUMBDIR === "")) {
+			console.log('----thumbbrowse.js: No thumbnails detected.');
 			var thumbwidth = "50%";
 		}
 
@@ -279,7 +275,13 @@ function thumb(wrapper) {
 		var seterrorheight = false;
 		
 		var th = 100;
+		if (VIVIZ["thumbHeight"]) {
+			var th = VIVIZ["thumbHeight"]
+		}
 		var tw = 100;
+		if (VIVIZ["thumbWidth"]) {
+			var tw = VIVIZ["thumbWidth"]
+		}
 		var thset = false;
 
 		INFOjs = thumblist(wrapper); 	
@@ -323,6 +325,7 @@ function thumb(wrapper) {
 					$('.thumbbrowse').css('width', newWidth);
 					$('.thumbbrowse').css('height', newHeight);
 					$(this).attr('data-curr-img-width', newWidth);
+					setpadding();
 					loadmore();
 				}
 			});
@@ -330,18 +333,16 @@ function thumb(wrapper) {
 
 		function setpadding() {
 
-			var bw = 0;
-			if ($("#thumbbrowseframe img:first").css('borderLeftWidth')) {
-				bw = parseFloat($("#thumbbrowseframe img:first").css('borderLeftWidth').replace("px",""));
-			}
-			console.log("thumb.setpadding(): First image border width = "+bw);
+       		$("#thumbbrowseframe").css('padding',0);	
+			
 			x = $(wrapper + " #thumbbrowseframe img:first").outerWidth();
-	
 			console.log("thumb.setpadding(): First image outer width = " + x);
+
 			a = $("#thumbbrowseframe").innerWidth()/x;				
 
-       		$("#thumbbrowseframe").css('padding',0);	
-       		console.log("thumb.setpadding(): Inner width of thumbframe = " + $("#thumbbrowseframe").width());		        		
+			// innerWidth() is not always correct.
+       		console.log("thumb.setpadding(): Inner width of thumbbrowseframe = " + $("#thumbbrowseframe").innerWidth());
+
 			console.log("thumb.setpadding(): # images per row = " + a);
       		b = (a - Math.floor(a))*x;
 
@@ -367,12 +368,8 @@ function thumb(wrapper) {
 				$("#instructions2").html("All images requested.");
 			}
 
-			if (INFOjs[i]['ThumbFile']) {
-				var src = INFOjs[i]['ThumbFile'];
-				var srcfull = INFOjs[i]['FullFile'];
-			} else {
-				var src = THUMBDIR + INFOjs[i].FileName;
-			}
+			var src = INFOjs[i]['ThumbFile'];
+			var srcfull = INFOjs[i]['FullFile'];
 
 			$('<img class="thumbbrowse" "src=http://viviz.org/gallery/css/transparent.png"/>')
 				.width(newWidth || tw || 100)
@@ -394,24 +391,59 @@ function thumb(wrapper) {
 				})
 				.load(function () {
 					if (!loadone.first) {
-						console.log("thumb.setthumbs.loadone(): First thumbnail loaded.")
-						loadone.first = true;
-						if (FULLDIR != THUMBDIR) {
-							// If thumbnails exist.
-							tw = this.naturalWidth;
-							th = this.naturalHeight;
-						}  else {
-							th = tw*this.naturalHeight/this.naturalWidth;
+						console.log("thumb.setthumbs.loadone(): First thumbnail loaded.");
+
+
+						var ar = this.naturalWidth/this.naturalHeight;
+						if (!VIVIZ["thumbWidth"] && !VIVIZ["thumbHeight"]) {
+							VIVIZ["thumbWidth"] = 0.25;
+							VIVIZ["thumbHeight"] = 0.25;
 						}
+
+						if (VIVIZ["thumbWidth"]) {
+							if (VIVIZ["thumbWidth"] > 1.0) {
+								VIVIZ[galleryid]["thumbWidth"] = VIVIZ["thumbWidth"];
+							} else {
+								VIVIZ[galleryid]["thumbWidth"] = this.naturalWidth*VIVIZ["thumbWidth"];
+							}
+						}
+						if (VIVIZ["thumbHeight"]) {
+							if (VIVIZ["thumbHeight"] > 1.0) {
+								VIVIZ[galleryid]["thumbHeight"] = VIVIZ["thumbHeight"];
+							} else {
+								VIVIZ[galleryid]["thumbHeight"] = this.naturalHeight*VIVIZ["thumbHeight"];
+							}
+						}
+
+						if (VIVIZ["thumbWidth"] && !VIVIZ["thumbHeight"]) {
+							VIVIZ[galleryid]["thumbHeight"] = VIVIZ["thumbWidth"]/ar;
+						}
+						if (VIVIZ["thumbHeight"] && !VIVIZ["thumbWidth"]) {
+							VIVIZ[galleryid]["thumbWidth"] = VIVIZ["thumbHeight"]*ar;
+						}
+
+						if (!VIVIZ[galleryid]["thumbNaturalHeight"]) {
+							VIVIZ[galleryid]["thumbNaturalHeight"] = this.naturalHeight;
+						}
+						if (!VIVIZ[galleryid]["thumbNaturalWidth"]) {
+							VIVIZ[galleryid]["thumbNaturalWidth"] = this.naturalWidth;
+						}
+
+
+						loadone.first = true;
+						// If thumbnails exist.
+						tw = VIVIZ[galleryid]["thumbWidth"];
+						th = VIVIZ[galleryid]["thumbHeight"];
 
 						$(this).width(newWidth || tw);
 						$(this).height(newHeight || th);
 						setpadding();
 						fillrow();
-						
-					}
+						setslider();
 
+					}			
 					if (!thset) {
+						// Re-set height for images that may have been placed before first image loaded.
 						th = tw*this.naturalHeight/this.naturalWidth;
 						$(wrapper+" #thumbbrowseframe img").css('height',th);
 						thset = true;
@@ -419,7 +451,6 @@ function thumb(wrapper) {
 
 					$(this).width(newWidth || tw);
 					$(this).height(newHeight || th);
-					setslider();
 				})
 				.appendTo($(wrapper + ' #thumbbrowseframe'));			
 		}
@@ -436,8 +467,7 @@ function thumb(wrapper) {
 					console.log("thumb.setthumbs.fillrow(): Images per row = " + a);
 
 					var delta = a - (thumb.Nloaded % a);
-					console.log("----thumb.setthumbs.fillrow(): Modifying number to load based on row width.  Loading "+delta+" extra.")
-				//var delta = 0;
+					console.log("thumb.setthumbs.fillrow(): Modifying number to load based on row width.  Room for "+delta+" extra.")
 				}	
 
 				Nl = thumb.Nloaded;

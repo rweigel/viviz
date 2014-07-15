@@ -118,8 +118,9 @@ function cataloginfo(galleryid) {
 		}
 		
 		if (GALLERIES.Values.length == 0) {
-			$("#connectionerror").html("Problem reading gallery information.  See console for details.");
+			$("#connectionerror").html("Problem reading gallery information.  See below for errors.");
 			console.log("cataloginfo.js: Problem reading gallery information.");
+			$("body").append("<a href='"+VIVIZ.CATALOGXML+"'>"+VIVIZ.CATALOGXML+"</a>").append("<iframe width='100%' src='"+VIVIZ.CATALOGXML+"'/>")
 			return "";
 		}
 		console.log("cataloginfo.js: Returning list of "+GALLERIES.Values.length+" galleries.");
@@ -185,8 +186,8 @@ function cataloginfo(galleryid) {
 			if (!_CATALOGINFO["galleryid"])
 				_CATALOGINFO["galleryid"] = galleryid;
 
-			if (!_CATALOGINFO["files"] && !_CATALOGINFO["sprintf"] && !_CATALOGINFO["strftime"])
-				_CATALOGINFO["files"] = galleryid;
+			if (!_CATALOGINFO["fullfilelist"] && !_CATALOGINFO["sprintf"] && !_CATALOGINFO["strftime"])
+				_CATALOGINFO["fullfilelist"] = galleryid;
 			
 			if (!_CATALOGINFO["fulldir"])
 				_CATALOGINFO["fulldir"] = galleryid;
@@ -239,8 +240,6 @@ function cataloginfo(galleryid) {
 			// TODO: change this because this will match "aboutlink" too. Syntax is ":children['about']" ? 
 			_CATALOGINFO["about"]            = $(cataloginfo.xml).find(query).children('about').text();	
 			_CATALOGINFO["aboutlink"]        = $(cataloginfo.xml).find(query).children('aboutlink').text();
-			_CATALOGINFO["script"]           = $(cataloginfo.xml).find(query).children('script').text();
-			_CATALOGINFO["script"]           = $(cataloginfo.xml).find(query).children('xscript').text();
 			_CATALOGINFO["strftime"]         = $(cataloginfo.xml).find(query).children('strftime').text();
 			_CATALOGINFO["strftimestart"]    = $(cataloginfo.xml).find(query).children('strftimestart').text();
 			_CATALOGINFO["strftimestop"]     = $(cataloginfo.xml).find(query).children('strftimestop').text();
@@ -248,15 +247,21 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["sprintfstart"]     = $(cataloginfo.xml).find(query).children('sprintfstart').text();
 			_CATALOGINFO["sprintfstop"]      = $(cataloginfo.xml).find(query).children('sprintfstop').text();
 			_CATALOGINFO["sprintfdelta"]     = $(cataloginfo.xml).find(query).children('sprintfdelta').text();
-			
+
+			_CATALOGINFO["fullpreprocess"]   = $(cataloginfo.xml).find(query).children('fullpreprocess').text();			
+			_CATALOGINFO["fullpostprocess"]  = $(cataloginfo.xml).find(query).children('fullpostprocess').text();
+			_CATALOGINFO["fullfilelist"]     = $(cataloginfo.xml).find(query).children('fullfilelist').text();
+			_CATALOGINFO["fulllistscript"]   = $(cataloginfo.xml).find(query).children('fulllistscript').text();
 			_CATALOGINFO["fullfiles"]        = $(cataloginfo.xml).find(query).children('fullfiles').text();
 			_CATALOGINFO["fulldir"]          = $(cataloginfo.xml).find(query).children('fulldir').text();
-			_CATALOGINFO["thumbdir"]         = $(cataloginfo.xml).find(query).children('thumbdir').text();
-			_CATALOGINFO["thumbfiles"]       = $(cataloginfo.xml).find(query).children('thumbfiles').text();
-			_CATALOGINFO["fullpreprocess"]   = $(cataloginfo.xml).find(query).children('fullpreprocess').text();
+
 			_CATALOGINFO["thumbpreprocess"]  = $(cataloginfo.xml).find(query).children('thumbpreprocess').text();
-			_CATALOGINFO["fullpostprocess"]  = $(cataloginfo.xml).find(query).children('fullpostprocess').text();
 			_CATALOGINFO["thumbpostprocess"] = $(cataloginfo.xml).find(query).children('thumbpostprocess').text();
+			_CATALOGINFO["thumbfilelist"]    = $(cataloginfo.xml).find(query).children('thumbfilelist').text();
+			_CATALOGINFO["thumblistscript"]  = $(cataloginfo.xml).find(query).children('thumblistscript').text();
+			_CATALOGINFO["thumbfiles"]       = $(cataloginfo.xml).find(query).children('thumbfiles').text();
+			_CATALOGINFO["thumbdir"]         = $(cataloginfo.xml).find(query).children('thumbdir').text();
+
 
 			// Find catalog with matching id in json array.
 			for (i = 0;i<cataloginfo.json.length;i++) {

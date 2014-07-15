@@ -68,19 +68,19 @@ function parseOptions(req) {
 		options.id	    = req.query.id    	|| req.body.id		|| "";
 	}
 	
-	options.name				= req.query.name				|| req.body.name				|| "";
+	options.name			= req.query.name			|| req.body.name			|| "";
 	options.title			= req.query.title			|| req.body.title			|| "Test Catalog";
 	options.about			= req.query.about			|| req.body.about			|| "";
 	options.script			= req.query.script			|| req.body.script			|| "";
 	options.attributes		= req.query.attibutes		|| req.body.attributes		|| "";
 	options.sprintf			= req.query.sprintf			|| req.body.sprintf			|| "";
-	options.sprintfstart		= req.query.sprintfstart		|| req.body.sprintfstart		|| "";
+	options.sprintfstart	= req.query.sprintfstart	|| req.body.sprintfstart	|| "";
 	options.sprintfstop		= req.query.sprintfstop		|| req.body.sprintfstop		|| "";
-	options.strftime			= req.query.strftime			|| req.body.strftime			|| "";
+	options.strftime		= req.query.strftime		|| req.body.strftime		|| "";
 	options.strftimestart	= req.query.strftimestart	|| req.body.strftimestart	|| "";
-	options.strftimestop		= req.query.strftimestop		|| req.body.strftimestop    || "";
+	options.strftimestop	= req.query.strftimestop	|| req.body.strftimestop    || "";
 
-	options.thumbdir			= req.query.thumbdir			|| req.body.thumbdir			|| "";
+	options.thumbdir		= req.query.thumbdir		|| req.body.thumbdir		|| "";
 	options.fullwidth		= req.query.fullwidth 		|| req.body.fullwidth		|| "";
 	options.thumbwidth		= req.query.thumbwidth		|| req.body.thumbwidth		|| "200";
 	options.fullheight		= req.query.fullheight 		|| req.body.fullheight		|| "";
@@ -94,6 +94,8 @@ function parseOptions(req) {
 var hourMs = 1000*60*60;
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/uploads',express.directory(__dirname + '/uploads'));
+app.use('/images', express.static(__dirname + '/images'));
+app.use('/images',express.directory(__dirname + '/images'));
 
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/css', express.static(__dirname + '/css'));

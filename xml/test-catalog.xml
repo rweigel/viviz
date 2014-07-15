@@ -1,9 +1,10 @@
-<catalog>
+<catalog>	
 	<gallery id="Test/1">
 		<title>Test/1</title>
-		<fullfiles>xml/Test-filelist.xml</fullfiles>
-		<fulldir>http://viviz.org/demo/images/demo/full/</fulldir>
-		<thumbdir>http://viviz.org/demo/images/demo/thumb/</thumbdir>	
+		<about>Test using XML fullfilelist</about>
+		<fullfilelist>xml/Test-filelist.xml</fullfilelist>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>	
 		<attributes>
 			<attribute id="$0">
 				<name>Filename</name>
@@ -52,10 +53,10 @@
 	</gallery>
 	<gallery id="Test/2">
 		<title>Test/2</title>
-		<about>Test with missing file</about>
-		<fullfiles>xml/Test-filelist2.xml</fullfiles>
-		<fulldir>http://viviz.org/demo/images/demo/full/</fulldir>
-		<thumbdir>http://viviz.org/demo/images/demo/thumb/</thumbdir>	
+		<about>Test using JSON fullfilelist</about>
+		<fullfilelist>xml/Test-filelist.json</fullfilelist>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
 		<attributes>
 			<attribute id="$0">
 				<name>Filename</name>
@@ -104,10 +105,10 @@
 	</gallery>
 	<gallery id="Test/3">
 		<title>Test/3</title>
-		<about>Test using thumbpreprocess</about>
-		<fullfiles>xml/Test-filelist.xml</fullfiles>
-		<fulldir>http://viviz.org/demo/images/demo/full/</fulldir>
-		<thumbdir>http://viviz.org/demo/images/demo/full/</thumbdir>
+		<about>Test with missing file (second to last)</about>
+		<fullfilelist>xml/Test-filelist2.xml</fullfilelist>
+		<fulldir>images//full/</fulldir>
+		<thumbdir>images//thumb/</thumbdir>	
 		<attributes>
 			<attribute id="$0">
 				<name>Filename</name>
@@ -154,12 +155,12 @@
 			</attribute>
 		</attributes>			
 	</gallery>
-	<gallery id="Test/Storms">
-		<title>Test/Storms</title>
-		<about>First 17 images of Storms/All</about>
-		<fullfiles>xml/Storms-filelist.xml</fullfiles>
-		<fulldir>http://viviz.org/demo/images/demo/full/</fulldir>
-		<thumbdir>http://viviz.org/demo/images/demo/thumb/</thumbdir>
+	<gallery id="Test/4">
+		<title>Test/4</title>
+		<about>Test with missing file (last)</about>
+		<fullfilelist>xml/Test-filelist3.xml</fullfilelist>
+		<fulldir>images//full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>	
 		<attributes>
 			<attribute id="$0">
 				<name>Filename</name>
@@ -204,24 +205,121 @@
 				<unit>#/cc&#183;hr</unit>
 				<format>%.0f</format>
 			</attribute>
-		</attributes>
+		</attributes>			
 	</gallery>
-	<gallery id="Test/Spectra/Synoptic/SS/WSO">
-		<title>Test/Spectra/Synoptic/SS/WSO</title>
-		<about></about>
+	<gallery id="Test/5">
+		<title>Test/5</title>
+		<about>Test of sprintf</about>
 		<aboutlink></aboutlink>
-		<fulldir>http://viviz.org/demo/images/spectra/WSO/</fulldir>
-		<thumbdir>http://viviz.org/demo/images/spectra/WSO/</thumbdir>
-		<sprintf>WSO_spectrogram_%02d.png</sprintf>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<sprintf>demo-%04d.png</sprintf>
 		<sprintfstart>1</sprintfstart>
-		<sprintfstop>32</sprintfstop>
+		<sprintfstop>4</sprintfstop>
 	</gallery>
+	<gallery id="Test/6">
+		<title>Test/6</title>
+		<about>Test of sprintf</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<strftime>demo-%Y.png</strftime>
+		<strftimestart>0001</strftimestart>
+		<strftimestop>0004</strftimestop>
+	</gallery>
+	<gallery id="Test/7">
+		<title>Test/7</title>
+		<about>Test of fulllistscript</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<fulllistscript>
+			<![CDATA[
+				(function () {
+					var files = new Array();
+					for (i = 0; i < 4; i++) {
+						files[i] = ["demo-" + sprintf('%04d',i+1) + ".png"];
+					}
+					return files;						
+				})
+			]]>
+		</fulllistscript>						
+	</gallery>
+	<gallery id="Test/8">
+		<title>Test/8</title>
+		<about>Test of fulllistscript and thumblistscript</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<fulllistscript>
+			<![CDATA[
+				(function () {
+					var files = new Array();
+					for (i = 0; i < 4; i++) {
+						files[i] = ["demo-" + sprintf('%04d',i+1) + ".png"];
+					}
+					return files;						
+				})
+			]]>
+		</fulllistscript>						
+		<thumblistscript>
+			<![CDATA[
+				(function () {
+					var files = new Array();
+					for (i = 0; i < 4; i++) {
+						files[i] = ["demo-" + sprintf('%04d',i+1) + ".png"];
+					}
+					return files;						
+				})
+			]]>
+		</thumblistscript>						
+	</gallery>
+	<gallery id="Test/9">
+		<title>Test/9</title>
+		<about>Test of all bad images</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<sprintf>xdemo-%04d.png</sprintf>
+		<sprintfstart>1</sprintfstart>
+		<sprintfstop>4</sprintfstop>
+	</gallery>
+	<gallery id="Test/10">
+		<title>Test/10</title>
+		<about>Test with first image bad</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<fulllistscript>
+			<![CDATA[
+				(function () {
+					return [["xdemo-0001.png"],["demo-0002.png"],["demo-0003.png"],["demo-0004.png"]];
+				})
+			]]>
+		</fulllistscript>						
+	</gallery>
+	<gallery id="Test/11">
+		<title>Test/11</title>
+		<about>No Thumbdir</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<fulllistscript>
+			<![CDATA[
+				(function () {
+					return [["demo-0001.png"],["demo-0002.png"],["demo-0003.png"],["demo-0004.png"]];
+				})
+			]]>
+		</fulllistscript>						
+	</gallery>
+
+
+
 	<gallery id="Test/Spectra/OMNI2/Yearly">
 		<title>Test/Spectra/OMNI2/Yearly</title>
 		<about></about>
 		<aboutlink></aboutlink>
-		<fulldir>http://viviz.org/demo/images/spectra/OMNI/OMNI2/yearlys/</fulldir>
-		<thumbdir>http://viviz.org/demo/images/spectra/OMNI/OMNI2/yearlys/</thumbdir>
+		<fulldir>http://viviz.org/images//spectra/OMNI/OMNI2/yearlys/</fulldir>
+		<thumbdir>http://viviz.org/images//spectra/OMNI/OMNI2/yearlys/</thumbdir>
 		<files>xml/OMNI/OMNI2/yearlys.txt</files>
 		<attributes>
 			<attribute id="$0">
@@ -260,9 +358,9 @@
 		<title>Test/Spectra/OMNI2/AllYears</title>
 		<about></about>
 		<aboutlink></aboutlink>
-		<fulldir>http://viviz.org/demo/images/spectra/OMNI/OMNI2/allyears/</fulldir>
+		<fulldir>http://viviz.org/images//spectra/OMNI/OMNI2/allyears/</fulldir>
 		<fullpreprocess></fullpreprocess>
-		<thumbdir>http://viviz.org/demo/images/spectra/OMNI/OMNI2/allyears/</thumbdir>
+		<thumbdir>http://viviz.org/images//spectra/OMNI/OMNI2/allyears/</thumbdir>
 		<thumbpreprocess></thumbpreprocess>
 		<files>xml/OMNI/OMNI2/allyears.txt</files>
 	</gallery>

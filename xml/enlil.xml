@@ -2,7 +2,7 @@
 	<gallery id="IPSBD-ENLIL/Velocity/1">
 		<title>IPSBD-ENLIL  –  Solar Wind Prediction - Velocity 1</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/</fulldir>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1v2e4b/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
@@ -11,9 +11,7 @@
 	<gallery id="IPSBD-ENLIL/Velocity/2">
 		<title>IPSBD-ENLIL Velocity 2</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1obs4vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?interlace=line&amp;width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<fullpreprocess>http://imgconvert.org/convert.cgi?interlace=plane&amp;in=</fullpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1v2o4b/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
@@ -22,8 +20,7 @@
 	<gallery id="IPSBD-ENLIL/Velocity/3">
 		<title>IPSBD-ENLIL Velocity 3</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim3evo1vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim3v2e1b/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
@@ -32,8 +29,7 @@
 	<gallery id="IPSBD-ENLIL/Density/1">
 		<title>IPSBD-ENLIL Density 1</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd//tim1d2e4b/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>      
@@ -42,8 +38,7 @@
 	<gallery id="IPSBD-ENLIL/Density/2">
 		<title>IPSBD-ENLIL Density 2</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1obs4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1d2o4b/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
@@ -52,8 +47,7 @@
 	<gallery id="IPSBD-ENLIL/Density/3">
 		<title>IPSBD-ENLIL Density 3</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim3evo1den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim3d2e1b/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
@@ -62,8 +56,7 @@
 	<gallery id="IPSBD-ENLIL/Helio/1">
 		<title>IPSBD-ENLIL Helio Image 1</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/los1den/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/los1dej/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
@@ -72,247 +65,16 @@
 	<gallery id="IPSBD-ENLIL/Helio/2">
 		<title>IPSBD-ENLIL Helio Image 2</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/los2den/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/los2d/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Velocity/1">
-		<title>IPSBD-SWRC-ENLIL Velocity 1</title>
+	<gallery id="IPSBD-ENLIL/Evolution">
+		<title>IPSBD-ENLIL Evolution</title>
 		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1evo4vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Velocity/2">
-		<title>IPSBD-SWRC-ENLIL Velocity 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1obs4vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Velocity/3">
-		<title>IPSBD-SWRC-ENLIL Velocity 3</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim3evo1vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>      
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Density/1">
-		<title>IPSBD-SWRC-ENLIL Density 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1evo4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>      
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Density/2">
-		<title>IPSBD-SWRC-ENLIL Density 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1obs4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Density/3">
-		<title>IPSBD-SWRC-ENLIL Density 3</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim3evo1den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Helio/1">
-		<title>IPSBD-SWRC-ENLIL Helio Image 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/los1den/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Helio/2">
-		<title>IPSBD-SWRC-ENLIL Helio Image 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil-new/ipsbd-swrc/los2d/</fulldir>
-		<sprintf>ipsbd-swrc_los2d_20140708T15_20140708T%02d.gif</sprintf>
-		<sprintfstart>15</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>21</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Velocity/1">
-		<title>WSADU-SWRC-ENLIL Velocity 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1evo4vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Velocity/2">
-		<title>WSADU-SWRC-ENLIL Velocity 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1obs4vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Velocity/3">
-		<title>WSADU-SWRC-ENLIL Velocity 3</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim3evo1vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>      
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Density/1">
-		<title>WSADU-SWRC-ENLIL Density 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1evo4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>      
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Density/2">
-		<title>WSADU-SWRC-ENLIL Density 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1obs4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Density/3">
-		<title>WSADU-SWRC-ENLIL Density 3</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim3evo1den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Helio/1">
-		<title>WSADU-SWRC-ENLIL Helio Image 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/los1den/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADU-SWRC-ENLIL/Helio/2">
-		<title>WSADU-SWRC-ENLIL Helio Image 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/swrc-swrc/los2den/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Velocity/1">
-		<title>WSADT-SWRC-ENLIL Velocity 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1evo4vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Velocity/2">
-		<title>WSADT-SWRC-ENLIL Velocity 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1obs4vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Velocity/3">
-		<title>WSADT-SWRC-ENLIL Velocity 3</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim3evo1vel2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Density/1">
-		<title>WSADT-SWRC-ENLIL Density 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1evo4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>      
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Density/2">
-		<title>WSADT-SWRC-ENLIL Density 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1obs4den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Density/3">
-		<title>WSADT-SWRC-ENLIL Density 3</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim3evo1den2b/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Helio/1">
-		<title>WSADT-SWRC-ENLIL Helio Image 1</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/los1den/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
-		<sprintf>%04d.gif</sprintf>
-		<sprintfstart>0</sprintfstart>
-		<sprintfdelta>3</sprintfdelta>
-		<sprintfstop>360</sprintfstop>           
-	</gallery>
-	<gallery id="WSADT-SWRC-ENLIL/Helio/2">
-		<title>WSADT-SWRC-ENLIL Helio Image 2</title>
-		<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-		<fulldir>http://spaceweather.gmu.edu/projects/enlil/swrc-swrc/los2den/</fulldir>
-		<thumbpreprocess>http://imgconvert.org/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess>
+		<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/evolution/</fulldir>
 		<sprintf>%04d.gif</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>

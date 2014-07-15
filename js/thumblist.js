@@ -38,16 +38,19 @@ function thumblist(wrapper){
     }
 
     var INFOjs = new Array();
-    for (j = 0; j < INFOG["files"].length; j++) {
+    for (j = 0; j < INFOG["fullfiles"].length; j++) {
 		INFOjs[j] = new Object();
-		INFOjs[j]["FileName"] = INFOG["files"][j][0];
-		INFOjs[j]["FullFile"] = INFOG["files"][j][0];
-		if (typeof(INFOG["thumbfiles"]) !== "undefined")
+		INFOjs[j]["FileName"] = INFOG["fullfiles"][j][0];
+		INFOjs[j]["FullFile"] = INFOG["fullfiles"][j][0];
+		if (typeof(INFOG["thumbfiles"]) !== "undefined") {
 			INFOjs[j]["ThumbFile"] = INFOG["thumbfiles"][j][0];
+        } else {
+            INFOjs[j]["ThumbFile"] = INFOG["fullfiles"][j][0];
+        }
 		
 		if (Object.keys(SORTBYS).length > 0) {
 			for (z = 0;z < SORTBYS["Values"].length;z++) {
-				INFOjs[j][z] = INFOG["files"][j][z];
+				INFOjs[j][z] = INFOG["fullfiles"][j][z];
 			}
 		}
 		INFOjs[j]["ImageNumber"] = j;
@@ -75,7 +78,7 @@ function thumblist(wrapper){
     				k = k+1;
     			}
     		}
-    		//console.log("thumblist.js: Regexp " + REGEXP + " removed " + (INFOjs.length-k) + "/" + INFOjs.length + " elements.");
+    		console.log("thumblist.js: Regexp " + REGEXP + " removed " + (INFOjs.length-k) + "/" + INFOjs.length + " images in subset.");
         	//console.log('thumblist.js: First image is now ');
         	//console.log(INFOjs[I[0]]);       	
     	} else {
@@ -111,12 +114,13 @@ function thumblist(wrapper){
         	}
         	var INFOrs = clone(INFOr);
     	} else {
-    		var INFOrs = clone(INFOjs);
+    		return [];
     	}
     } else {
     	var INFOrs = clone(INFOjs);
     }
-    
+    console.log(INFOrs)
+
     if (ORDER.match("ascending")) {
         //console.log('thumblist.js: Sorting by attribute ' + SORTBY + " in ascending order.");
         
