@@ -287,6 +287,7 @@ function cataloginfo(galleryid) {
 
 		// TODO: Validate all catalogs and strip bad ones.
 		
+		console.log(_CATALOGINFO)
 		return _CATALOGINFO;
 		
 	}

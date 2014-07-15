@@ -5,7 +5,7 @@
 // TODO: thumbWidth and fullWidth are ignored.
 
 VIVIZ = {
-			"CATALOGXML":"xml/test-catalog.xml",
+			"CATALOGXML":"xml/enlil.xml",
 			"defaultmode":"gallery",
 			"showThumbstrip":true,
 			"showFileName":true,
@@ -40,27 +40,25 @@ function enlil() {
 	$('#enlil #ss_next').click(function () {$("#next").click();})
 	$('#enlil #ss_prev').click(function () {$("#previous").click();})
 
-<<<<<<< HEAD
 	//$('#g-container').hide();
 	$("#enlil").show();
 	$('#enlil td.input a').on("click",function () {	$("#enlil td.input").attr('bgcolor','#4488cc');$(this).parent().attr("bgcolor","#224488");});
-	$('#enlil td.output a').on("click",updatehash);
+	$('#enlil td.output a').on("click",xupdatehash);
 	$('#enlil td.output a').css('cursor','pointer')
 	$('#enlil select').css('font-size','12pt');
-=======
-function getdownload() {
-	//console.log("THIS: " + $( "#dl_select option:selected" ).text());
-	var aa = $( "#dl_select option:selected" ).text();
-	if(aa == "File List"){ window.location = "_blank"; }
-	if(aa == "Animated GIF"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif"; }
-	if(aa == "MP4"){ window.location = "_blank"; }
-	if(aa == "MOV"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif"; }
-	if(aa == "Zip File"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=zip"; }
 }
 
->>>>>>> 988ee3f55544292bc78b6b9c7cee404038d91322
+	function getdownload() {
+		//console.log("THIS: " + $( "#dl_select option:selected" ).text());
+		var aa = $( "#dl_select option:selected" ).text();
+		if(aa == "File List"){ window.location = "_blank"; }
+		if(aa == "Animated GIF"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif"; }
+		if(aa == "MP4"){ window.location = "_blank"; }
+		if(aa == "MOV"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=gif"; }
+		if(aa == "Zip File"){ window.location = "http://aurora.mesa.gmu.edu/cgi-bin/imgconvert.cgi?base=http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1evo4vel2b/&in=0240.gif,0249.gif&height=200&out=zip"; }
+	}
 
-	function updatehash() {
+	function xupdatehash() {
 
 		var output = $(this).children('font').attr('id');
 		var title = $(this).children('font').attr('id');
@@ -76,10 +74,10 @@ function getdownload() {
 			$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
 		}
 
-		location.hash = '/' + location.hash.split('/')[1] + '/' + output;
+		//location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 	}
 		
-}
+
 
 $(document).ready(function(){
 
@@ -102,6 +100,6 @@ $(document).ready(function(){
 		$("#thumbbrowsebutton").click();
 	}
 
-	//enlil();
+	enlil();
 
 });
