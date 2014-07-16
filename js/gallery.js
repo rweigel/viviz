@@ -1,5 +1,8 @@
 function gallery(wrapper) {
 	
+	// http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
+	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
+
 	console.log("gallery.js: Called.");
 	
 	$(wrapper + " #warning").html("");
@@ -52,8 +55,11 @@ function gallery(wrapper) {
 
 	var HEADER = cataloginfo(galleryid);
 	if (HEADER === "") {
-		error("Gallery ID " + galleryid + " not found.");
-		$(wrapper + ' #workingfullframe').css('visibility','hidden')
+		error("Gallery ID " + galleryid + " not found. Redirecting in 3 seconds.");
+		console.log("Gallery ID " + galleryid + " not found. Redirecting in 3 seconds.");
+
+		$(wrapper + ' #workingfullframe').css('visibility','hidden');
+		setTimeout(function () {window.location = "/";$(wrapper + ' #error').hide();},2000);
 		return;
 	}
 	console.log(HEADER === "")
@@ -77,29 +83,32 @@ function gallery(wrapper) {
 
 	if (!VIVIZ["showFileName"]) $(wrapper + " #filename").hide();
 
-	$(wrapper + ' #catalogxmlopen').show();
-	$(wrapper + ' #catalogxmlclose').hide();
-	$(wrapper + " #catalogxmlopen").unbind('click');
-	$(wrapper + " #catalogxmlopen").click(
-			function () {
-				CodeMirror($(wrapper+' #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["xml"]});
-				$(wrapper + ' #catalogxmlopen').hide();
-				$(wrapper + ' #catalogxmlclose').show();
-			});
-	$(wrapper + " #catalogxmlclose").unbind('click');
-	$(wrapper + " #catalogxmlclose").click(
-			function () {
-				$(wrapper + " #catalogxml").html('');
-				$(wrapper + ' #catalogxmlopen').show();
-				$(wrapper + ' #catalogxmlclose').hide();
-			}
-		);
+	if (VIVIZ["showCatalog"] && typeof("CodeMirror") === "undefined") {
+		$(wrapper + ' #catalog').hide();
+	} else {
+		$(wrapper + ' #catalogxmlopen').show();
+		$(wrapper + ' #catalogxmlclose').hide();
+		$(wrapper + " #catalogxmlopen").unbind('click');
+		$(wrapper + " #catalogxmlopen").click(
+				function () {
+					CodeMirror($(wrapper+' #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["xml"]});
+					$(wrapper + ' #catalogxmlopen').hide();
+					$(wrapper + ' #catalogxmlclose').show();
+				});
+		$(wrapper + " #catalogxmlclose").unbind('click');
+		$(wrapper + " #catalogxmlclose").click(
+				function () {
+					$(wrapper + " #catalogxml").html('');
+					$(wrapper + ' #catalogxmlopen').show();
+					$(wrapper + ' #catalogxmlclose').hide();
+				}
+			);
 
-	if (!VIVIZ["showCatalog"]) $(wrapper + " #catalog").hide();
-	if (!VIVIZ["showControls"]) $(wrapper + " #controls").hide()
-	if (!VIVIZ["showAttributes"]) $(wrapper + " #attributes").hide()
-	if (!VIVIZ["showDropdowns"]) $(wrapper + " #dropdowns").hide()
-
+		if (!VIVIZ["showCatalog"]) $(wrapper + " #catalog").hide();
+		if (!VIVIZ["showControls"]) $(wrapper + " #controls").hide()
+		if (!VIVIZ["showAttributes"]) $(wrapper + " #attributes").hide()
+		if (!VIVIZ["showDropdowns"]) $(wrapper + " #dropdowns").hide()
+	}
 	var GALLERYINFO = galleryinfo(galleryid);
 
 	if (typeof(GALLERYINFO) === "boolean") {

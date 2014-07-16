@@ -8,6 +8,7 @@ var qs       = require('querystring');
 var fs       = require('fs');
 var xml2js   = require('xml2js');
 var port     = process.argv[2] || 8005;
+var file     = process.argv[3] || "indexrelative.htm";
 var mkdirp   = require("mkdirp");
 var readdirp = require("readdirp");
 
@@ -133,13 +134,12 @@ app.get('/catalogs', function (req, res) {
 });
 
 app.get('/', function (req, res) {
-	res.write(fs.readFileSync(__dirname+"/indexrelative.htm","utf8"));
+	res.write(fs.readFileSync(__dirname+"/"+file,"utf8"));
 	res.end();
 });
 app.get('/embed.htm', function (req, res) {
 	res.write(fs.readFileSync(__dirname+"/embed.htm","utf8"));
 	res.end();
 });
-
 
 server.listen(port);

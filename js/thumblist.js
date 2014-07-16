@@ -119,7 +119,7 @@ function thumblist(wrapper){
     } else {
     	var INFOrs = clone(INFOjs);
     }
-    console.log(INFOrs)
+    //console.log(INFOrs)
 
     if (ORDER.match("ascending")) {
         //console.log('thumblist.js: Sorting by attribute ' + SORTBY + " in ascending order.");

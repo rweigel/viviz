@@ -450,8 +450,8 @@ function galleryinfo(galleryid) {
 	
 	galleryinfo.GALLERYINFO[galleryid] = _GALLERYINFO;
 	
-	console.log("galleryinfo.js: _GALLERYINFO = ");
-	console.log(_GALLERYINFO);
+	//console.log("galleryinfo.js: _GALLERYINFO = ");
+	//console.log(_GALLERYINFO);
 
 	return _GALLERYINFO;
 
