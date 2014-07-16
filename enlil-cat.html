@@ -1,0 +1,1331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+		<title>ViViz</title>
+		
+		<link rel="icon" type="image/ico" href="./enlil.ico"/>		
+		
+		<script type="text/javascript" src="js/enlil-cat.js"></script>
+
+		<!-- Main -->
+		<!--script type="text/javascript" src="./js/main.js"></script-->
+
+
+
+
+				
+		
+		<!-- Menu configuration -->
+
+		<script id="xml"  type="text/x-jQuery-tmpl">
+			<catalog>
+				<gallery id="New/IPSBD-ENLIL/Velocity/0">
+					<title>New IPSBD-ENLIL Velocity 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil-new/ipsbd/tim1v2/</fulldir>
+					<fulllistscript>
+						<![CDATA[
+							(function () {
+
+								// Temporary
+								var options = {};
+								var tmpd = new Date();
+								var tmps = tmpd.toISOString().slice(0,10);
+								tmps = "2014-07-15";
+								var starthr = "09";
+								var run = tmps.replace(/\-/g,'');
+								options.template = "ipsbd_tim1v2_"+run+"T"+starthr+"_$Y$m$dT${H;delta=3}.gif";
+								options.timeRange = tmps+"T"+starthr+"/P1D";
+								options.type = "strftime";
+								options.debug = true;
+								var fa = expandtemplate(options);
+
+								var files = [];
+								for (var i = 0;i<fa.length;i++) {
+									files[i] = [fa[i]];
+								}
+								console.log(files)
+								return files;
+							})
+						]]>
+					</fulllistscript>						
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Velocity/0">
+					<title>IPSBD-ENLIL Velocity 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1v2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Velocity/1">
+					<title>IPSBD-ENLIL Velocity 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1v2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Velocity/2">
+					<title>IPSBD-ENLIL Velocity 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1v2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Velocity/3">
+					<title>IPSBD-ENLIL Velocity 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim3v2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Density/0">
+					<title>IPSBD-ENLIL Density 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd//tim1d2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Density/1">
+					<title>IPSBD-ENLIL Density 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd//tim1d2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Density/2">
+					<title>IPSBD-ENLIL Density 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim1d2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Density/3">
+					<title>IPSBD-ENLIL Density 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/tim3d2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Helio/0">
+					<title>IPSBD-ENLIL Helio Image 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/los1j/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Helio/1">
+					<title>IPSBD-ENLIL Helio Image 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/los1dej/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Helio/2">
+					<title>IPSBD-ENLIL Helio Image 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/los2d/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/Evolution">
+					<title>IPSBD-ENLIL Evolution</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/evolution/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+
+				<gallery id="IPSBD-SWRC-ENLIL/Velocity/0">
+					<title>IPSBD-SWRC-ENLIL Velocity 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1v2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Velocity/1">
+					<title>IPSBD-SWRC-ENLIL Velocity 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1v2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Velocity/2">
+					<title>IPSBD-SWRC-ENLIL Velocity 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1v2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Velocity/3">
+					<title>IPSBD-SWRC-ENLIL Velocity 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim3v2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Density/0">
+					<title>IPSBD-SWRC-ENLIL Density 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1d2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Density/1">
+					<title>IPSBD-SWRC-ENLIL Density 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1d2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Density/2">
+					<title>IPSBD-SWRC-ENLIL Density 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim1d2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Density/3">
+					<title>IPSBD-SWRC-ENLIL Density 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/tim3d2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Helio/0">
+					<title>IPSBD-SWRC-ENLIL Helio Image 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/los1j/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Helio/1">
+					<title>IPSBD-SWRC-ENLIL Helio Image 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/los1dej/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Helio/2">
+					<title>IPSBD-SWRC-ENLIL Helio Image 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/los2d/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Shock/0">
+					<title>IPSBD-SWRC-ENLIL Shock</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/sho1r2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-SWRC-ENLIL/Evolution">
+					<title>IPSBD-SWRC-ENLIL Evolution</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/evolution/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+
+				<gallery id="WSADU-SWRC-ENLIL/Velocity/0">
+					<title>WSADU-SWRC-ENLIL Velocity 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1v2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Velocity/1">
+					<title>WSADU-SWRC-ENLIL Velocity 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1v2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Velocity/2">
+					<title>WSADU-SWRC-ENLIL Velocity 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1v2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Velocity/3">
+					<title>WSADU-SWRC-ENLIL Velocity 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim3v2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Density/0">
+					<title>WSADU-SWRC-ENLIL Density 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1d2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Density/1">
+					<title>WSADU-SWRC-ENLIL Density 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1d2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Density/2">
+					<title>WSADU-SWRC-ENLIL Density 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim1d2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Density/3">
+					<title>WSADU-SWRC-ENLIL Density 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/tim3d2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Helio/0">
+					<title>WSADU-SWRC-ENLIL Helio Image 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/los1j/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Helio/1">
+					<title>WSADU-SWRC-ENLIL Helio Image 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/los1dej/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Helio/2">
+					<title>WSADU-SWRC-ENLIL Helio Image 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/los2d/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Shock/0">
+					<title>WSADU-SWRC-ENLIL Shock</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/sho1r2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADU-SWRC-ENLIL/Evolution">
+					<title>WSADU-SWRC-ENLIL Evolution</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/evolution/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>
+				</gallery>           
+
+				<gallery id="WSADT-SWRC-ENLIL/Velocity/0">
+					<title>WSADT-SWRC-ENLIL Velocity 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1v2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Velocity/1">
+					<title>WSADT-SWRC-ENLIL Velocity 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1v2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Velocity/2">
+					<title>WSADT-SWRC-ENLIL Velocity 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1v2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Velocity/3">
+					<title>WSADT-SWRC-ENLIL Velocity 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim3v2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Density/0">
+					<title>WSADT-SWRC-ENLIL Density 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1d2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Density/1">
+					<title>WSADT-SWRC-ENLIL Density 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1d2e4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>      
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Density/2">
+					<title>WSADT-SWRC-ENLIL Density 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim1d2o4b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Density/3">
+					<title>WSADT-SWRC-ENLIL Density 3</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/tim3d2e1b/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Helio/0">
+					<title>WSADT-SWRC-ENLIL Helio Image 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/los1j/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Helio/1">
+					<title>WSADT-SWRC-ENLIL Helio Image 1</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/los1dej/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Helio/2">
+					<title>WSADT-SWRC-ENLIL Helio Image 2</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/los2d/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Shock/0">
+					<title>WSADT-SWRC-ENLIL Shock</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/sho1r2/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>24</sprintfdelta>
+					<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="WSADT-SWRC-ENLIL/Evolution">
+					<title>WSADT-SWRC-ENLIL Evolution</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/evolution/</fulldir>
+					<sprintf>%04d.gif</sprintf>
+					<sprintfstart>0</sprintfstart>
+					<sprintfdelta>3</sprintfdelta>
+					<sprintfstop>360</sprintfstop>
+				</gallery> 				
+			</catalog>
+
+		</script>
+
+		<script type="text/javascript">
+		
+		VIVIZ = {"lazyLoadMax":2};
+
+		$(document).ready(function(){
+			gallery("#gallery1");
+			$('#g-container').hide();  // Hide the standard gallery element.			
+			$('#t-container').hide();
+			//$('#g-container').show();
+			if (location.hash === "") {
+				return;
+			} else {
+				enlil();
+				$("#enlilmain").hide();
+			}
+		})
+
+		function enlil() {
+
+			var enlildiv = "#enlil";
+			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+				console.log("Mobile Device Detected.");
+				var enlildiv = "enlilmobile";
+			}
+
+			// Mobile IDs always have trailing 0.
+			if (location.hash.match(/0$/)) {
+				var enlildiv = "#enlilmobile";
+			}
+
+			// Set controls.
+			var si;
+			$(enlildiv + ' #ss_next').click(function () {$("#next").click();})
+			$(enlildiv + ' #ss_prev').click(function () {$("#previous").click();})
+			$(enlildiv + ' #ss_start').click(
+					function () {
+						$("#next").click();
+						si = setInterval(
+								function () {
+									$("#next").click();
+								},'200');
+					}
+			)
+			$(enlildiv + ' #ss_stop').click(function () {clearInterval(si);})
+
+			// If in mobile mode, this option is not available.
+			$(window).hashchange(function() {
+				if (location.hash.match(/\/IPSBD-ENLIL\//)) {
+					$("#shock").hide();
+				} else {
+					$("#shock").show();
+				}
+			});
+
+			$(enlildiv).show();
+
+			// Change colors on click.
+			$(enlildiv + ' td.input a').on("click",function () {
+				$(enlildiv + " td.input").attr('bgcolor','#4488cc');$(this).parent().attr("bgcolor","#224488");
+			});
+			$(enlildiv + ' td.output a').on("click",function () {
+				$(enlildiv + " td.output").attr('bgcolor','#4488cc');$(this).parent().attr("bgcolor","#224488");
+			});
+
+			// When an output option is clicked, update the hash in the URL.
+			$(enlildiv + ' td.output a').on("click",xupdatehash);
+			$(enlildiv + ' td.output a').css('cursor','pointer');
+			$(enlildiv + ' #dl_select').on("change",getdownload);
+		}
+
+		function xupdatehash() {
+
+				var output = $(this).children('font').attr('id');
+				var title = $(this).children('font').attr('id');
+				var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
+
+				if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
+					$('#sitetitle').text(title + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
+				}
+				else { //IT IS A MATCH ITS A VARIABLE
+					var newtitle = title.split('/');
+					$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
+				}
+
+				location.hash = '/' + location.hash.split('/')[1] + '/' + output;
+			}
+
+		function imgconvert(type) {
+
+			if (type === 'pdf') {
+				//var url = "http://imgconvert.org/convert.cgi?&in="+$("#ss_img_div img").attr('src').replace('.gif','.eps.gz')+"&out="+type;
+				var url = "http://imgconvert.org/convert.cgi?&in=http://spaceweather.gmu.edu/projects/enlil-new/ipsbd-swrc/tim1v2e4b/ipsbd-swrc_tim1v2e4b_20140715T09_20140715T09.eps.gz"+"&out="+type;		
+				return url			
+			}
+			if (type === 'eps') {
+				//var url = $("#ss_img_div img").attr('src').replace('.gif','.eps.gz');
+				var url = "http://spaceweather.gmu.edu/projects/enlil-new/ipsbd-swrc/tim1v2e4b/ipsbd-swrc_tim1v2e4b_20140715T09_20140715T09.eps.gz";		
+				return url			
+			}
+			if (type === 'list') {
+				var hash = location.hash;
+				var galleryid = hash.replace(/^#/,'').replace(/^\//,"");
+				var GALLERYINFO = galleryinfo(galleryid);
+				$("body").append("<textarea style='width:100%;height:137em' id='filelist'/>");
+				$("#filelist").html(GALLERYINFO.fullfiles.join("\n"));
+				return;
+			}
+			if ( (type === 'mp4') || (type === 'mov') || (type === 'gif') || (type === 'zip') ) {
+				var hash = location.hash;
+				var galleryid = hash.replace(/^#/,'').replace(/^\//,"");
+				var GALLERYINFO = galleryinfo(galleryid);
+				var re = new RegExp(GALLERYINFO.fulldir,"g");
+				var filelist = GALLERYINFO.fullfiles.join(",").replace(re,"");
+				var base = GALLERYINFO.fulldir;
+
+				// Temporary
+				var options = {};
+				options.template = "ipsbd-swrc_tim1v2e4b_20140715T09_$Y$m$dT$H.gif";
+				options.timeRange = "2014-07-15T09/2014-07-16T09";
+				options.type = "strftime";
+				options.debug = true;
+				var ts = expandtemplate(options);
+				filelist = ts.join(",");
+				var base = "http://spaceweather.gmu.edu/projects/enlil-new/ipsbd-swrc/tim1v2e4b/";
+				args = "";
+				if (type !== "zip") {
+					args = "&width=800&density=200";
+				}
+				var url = "http://imgconvert.org/convert.cgi?base="+base+"&in="+filelist+args+"&out="+type;
+				console.log(GALLERYINFO)
+				console.log(url)
+				return url;
+			}
+		}
+
+		function getdownload() {
+			var aa = $( "#dl_select option:selected" ).text();
+			if(aa == "EPS"){ window.location = imgconvert("eps") }
+			if(aa == "Animated GIF"){ window.location = imgconvert("gif") }
+			if(aa == "MP4"){ window.location = imgconvert("mp4"); }
+			if(aa == "MOV"){ window.location = imgconvert("mov") }
+			if(aa == "File List"){ imgconvert('list'); }
+			if(aa == "PDF"){ window.location = imgconvert("pdf") }
+			if(aa == "Zip File"){ window.location = imgconvert("zip")}
+		}
+	
+		</script>
+	</head>
+
+	<body>
+	<body>
+	
+	<div id="enlilmain">
+		<CENTER><FONT COLOR="#224488" SIZE="6">ENLIL Solar Wind Prediction</FONT></CENTER>
+
+		<HR style="color:#224488">
+
+		This site presents results from an experimental, real-time simulation
+		of corotating and transient solar wind disturbances driven by various
+		coronal models:
+
+		<P>
+		<CENTER>
+		<TABLE width="800" border="0" cellspacing="8" cellpadding="8">
+
+		<TR BGCOLOR="#ffffcc">
+			<TD colspan="4" align="center">
+			<FONT size="3" color="#224488">c l a s s i c (large screen, landscape, 6h cadence) :</FONT>
+			</TD>
+		</TR>
+
+		<TR ALIGN="center" BGCOLOR="#ffeecc">
+			<TD>
+				<A target="_blank" HREF="#/IPSBD-ENLIL/Velocity/1">
+					<FONT size="3" color="#224488">IPSBD - ENLIL</FONT>
+				</A>
+			</TD>
+			<TD>
+				<A target="_blank" HREF="#/IPSBD-SWRC-ENLIL/Velocity/1">
+					<FONT size="3" color="#224488">IPSBD - SWRC</FONT>
+				</A>
+			</TD>
+			<TD>
+				<A target="_blank" HREF="#/WSADU-SWRC-ENLIL/Velocity/1">
+					<FONT size="3" color="#224488">WSADU - SWRC</FONT>
+				</A>
+			</TD>
+			<TD>
+				<A target="_blank" HREF="#/WSADT-SWRC-ENLIL/Velocity/1">
+					<FONT size="3" color="#224488">WSADT - SWRC</FONT>
+				</A>
+			</TD>
+		</TR>
+
+		<TR BGCOLOR="#ffffcc">
+			<TD colspan="4" align="center">
+			<FONT size="3" color="#224488">m o b i l e (small screen, portrait, 24h cadence) :</FONT>
+			</TD>
+		</TR>
+
+		<TR ALIGN="center" BGCOLOR="#ffeecc">
+			<TD>
+				<A target="_blank" HREF="#/IPSBD-ENLIL/Velocity/0">
+					<FONT size="3" color="#224488">IPSBD - ENLIL</FONT>
+				</A>
+			</TD>
+			<TD>
+				<A target="_blank" HREF="#/IPSBD-SWRC-ENLIL/Velocity/0">
+					<FONT size="3" color="#224488">IPSBD - SWRC</FONT>
+				</A>
+			</TD>
+			<TD>
+				<A target="_blank" HREF="#/WSADU-SWRC-ENLIL/Velocity/0">
+					<FONT size="3" color="#224488">WSADU - SWRC</FONT>
+				</A>
+			</TD>
+			<TD>
+				<A target="_blank" HREF="#/WSADT-SWRC-ENLIL/Velocity/0">
+					<FONT size="3" color="#224488">WSADT - SWRC</FONT>
+				</A>
+			</TD>
+		</TR>
+
+		</TABLE>
+		</CENTER>
+		<P>
+		These results are updated daily and are used for validation of a research
+		ENLIL version, driving coronal models, and various applications.
+		The stable operational ENLIL version is used by NOAA/SWPC (<EM>USA</EM>),
+		MetOffice (<EM>UK</EM>), RRA/KSWC (<EM>Korea</EM>), BOM/IPS (<EM>Austratila</EM>),
+		and ROB (<EM>Belgia</EM>) for official space weather forecast and by
+		NASA/SWRC (<EM>USA</EM>) for operational support of their heliospheric
+		and other missions.
+
+		<P>
+
+		Some animations and temporal profiles are archived at:
+		<UL>
+		<LI>
+		<A HREF="archive/index.html">
+			<FONT color="#224488">Solar wind in 2011-2013.</FONT>
+		</A>
+		</LI>
+		</UL>
+
+		<P>
+		<HR style="color:#224488">
+
+		Solar wind between 0.1 and 1.7 AU is simulated for past 10 and future 5 days by:
+		<UL>
+		<LI>
+		<A HREF="doc/enlil.html">
+			<FONT color="#224488">ENLIL solar wind code.</FONT>
+		</A>
+		  The numerical code ENLIL (Sumerian god of wind and storms)
+		  is a research tool for simulations of corotating and transient
+		  solar wind disturbances.
+		  The physical model is based upon the ideal magnetohydrodynamic (MHD)
+		  description and the numerical scheme is an explicit high-resolution
+		  TVD Lax-Friedrichs scheme.
+		</LI>
+		</UL>
+
+		The real-time ENLIL application is driven by:
+		<UL>
+		<LI>
+		<A HREF="http://ips.ucsd.edu">
+			<FONT color="#224488">IPSBD (UCSD tomography) model data.</FONT>
+		</A>
+		  This model uses observations of the interplanetary scintillation (IPS)
+		  from STELab radio arrays to calculate the solar wind density and radial 
+		  velocity.
+		  A tomographic technique and a kinematic model are used to reconstruct
+		  the global structure of the solar wind.
+		  ENLIL uses output from this model and constructs solar wind source
+		  conditions at 0.1 AU.
+		  Note that a 6-hour cadence of IPSBD maps are used to drive the simulation.
+		</LI>
+		<LI>
+		<A HREF="http://www.swpc.noaa.gov/ws/">
+			<FONT color="#224488">Wang-Sheeley-Arge (WSA) model data.</FONT>
+		</A>
+		  This model uses observations of the photospheric magnetic
+		  field, potential field source surface (PFSS) and Shatten current sheet
+		  (SCS) models, and an empirical formula to derive the radial magnetic
+		  field and flow velocity.
+		  ENLIL uses output from the WSA model driven by the daily-updated
+		  GONG observations and constructs solar wind source conditions
+		  at 0.1 AU.
+		  WSADU and WSADT labels use of a single map (standard approach) and
+		  temporal sequence of maps (experimental), respectively.
+		</LI>
+		</UL>
+
+		and uses the following data sets:
+
+		<UL>
+		<LI>
+		<A HREF="http://gong.nso.edu/">
+			<FONT COLOR="#224488">Synoptic magnetograms.</FONT>
+		</A>
+		  Remote observations of the magnetic field in the solar photosphere
+		by the GONG Network (six sites around the globe) processed by
+		by the National Solar Observatory (NSO).
+		<LI>
+		<A HREF="http://stesun5.stelab.nagoya-u.ac.jp/index-e.html">
+			<FONT COLOR="#224488">IPS observations.</FONT>
+		</A>
+		  Remote observations of interplanetary scintiallations (IPS)
+		by the antenna system (Toyokawa year-round; Fuji, Sugadaira and Kiso
+		from spring to the beginning of winter)
+		operated by the Solar-Terrestrial Environment Laboratory (STELab)
+		of the Nagoya University in Japan.
+		</LI>
+		<LI>
+		<A HREF="http://iswa.gsfc.nasa.gov//">
+			<FONT COLOR="#224488">CMEs Cone model parameters.</FONT>
+		</A>
+		  Manual operational fitting of coronal mass ejections (CMEs)
+		observed by SOHO/LASCO and/or STEREO/COR coronagraps using
+		the cone model by CCMC/SWRC staff.
+		</LI>
+		<LI>
+		<A HREF="http://omniweb.gsfc.nasa.gov/coho/helios/heli.html">
+			<FONT COLOR="#224488">Trajectories of Planets and Spacecraft.</FONT>
+		</A>
+		  These positions are used during ENLIL computations to store
+		  values of the solar wind density, velocity, temperature, and
+		  magnetic field, and they are also displayed on the global solar
+		  wind plots.
+		</LI>
+		<LI>
+		<A HREF="http://www.swpc.noaa.gov/ace/">
+			<FONT color="#224488">ACE Real Time Solar Wind.</FONT>
+		</A>
+		  Values of the solar wind density, velocity, temperature, and
+		  magnetic field are overlaid on plots showing the evolution of
+		  parameters at Earth to indicate the accuracy of the numerical
+		  simulation.
+		</LI>
+		<LI>
+		<A HREF="http://stereo-ssc.nascom.nasa.gov/data/beacon/">
+			<FONT color="#224488">STEREO Real Time Solar Wind.</FONT>
+		</A>
+		  Values of the solar wind density, velocity, temperature, and
+		  magnetic field are overlaid on plots showing the evolution of
+		  parameters at Stereo A and B spacecraft to indicate the accuracy
+		  of the numerical simulation.
+		</LI>
+		</UL>
+
+		<P>
+		<HR style="color:#224488">
+
+		Please send questions and comments to
+		<A HREF="mailto:Dusan.Odstrcil@gmail.com">
+		<FONT color="#224488">Dusan.Odstrcil@gmail.com</FONT>
+		</A>
+		from
+		<A HREF="http://spaceweather.gmu.du/">
+		<FONT color="#224488">George Mason University - Space Weather Lab</FONT>
+		</A>
+		and
+		<A HREF="http://science.gsfc.nasa.gov/sed/index.cfm?fuseAction=home.main&&navOrgCode=674">
+		<FONT color="#224488">NASA/GSFC - Space Weather Lab.</FONT>
+		</A>
+
+		<P>
+		<I><U>Acknowledgments:</U> This work has been supported in part by
+		AFOSR, NASA, and NSF Agencies, and by GMU/SPACS, NASA/CCMC, NOAA/SWPC, RRA/KSWC Institutes.</I>
+		<P>
+		Last update: 2014-05-28
+
+	</div>
+	
+	<div id="enlilmobile" style="display:none;">
+		<CENTER>
+
+			<P>
+			<FONT color="#224488" size="6">Solar Wind Prediction &nbsp;&ndash;&nbsp;</FONT>
+			<SELECT name="model" style="font-size: 24px; color: #224488"
+				onChange="top.location.href = this.options[this.selectedIndex].value; return false;">
+				<OPTION value="/">Main Page</OPTION>
+				<OPTION value="/#/IPSBD-ENLIL/Velocity/0" selected>IPSBD-ENLIL</OPTION>
+				<OPTION value="/#/IPSBD-SWRC-ENLIL/Velocity/0">IPSBD-SWRC-ENLIL</OPTION>
+				<OPTION value="/#/WSADU-SWRC-ENLIL/Velocity/0">WSADU-SWRC-ENLIL</OPTION>
+				<OPTION value="/#/WSADT-SWRC-ENLIL/Velocity/0">WSADT-SWRC-ENLIL</OPTION>
+			</SELECT>
+
+			<P>
+			<TABLE width="100%" border="0" cellspacing="0" cellpadding="8">
+			<TR>
+			<TD bgcolor="#4488cc" align="CENTER" class="output">
+				<A HREF="/"><FONT size="4" color="WHITE"><B>MAIN</B></FONT></A>
+			</TD>
+			<TD bgcolor="#224488" align="CENTER" class="output" >
+				<A><FONT size="4" color="WHITE" id="Velocity/0"><B>VELOCITY</B></FONT></A>
+			</TD>
+			<TD bgcolor="#4488cc" align="CENTER" class="output" >
+				<A><FONT size="4" color="WHITE" id="Density/0"><B>DENSITY</B></FONT></A>
+			</TD>
+			<TD bgcolor="#4488cc" align="CENTER" class="output">
+				<A><FONT size="4" color="WHITE" id="Helio/0"><B>STEREO HI-A</B></FONT></A>
+			</TD>
+			<TD bgcolor="#4488cc" align="CENTER" class="output" id="shock" style="display:none">
+				<A><FONT size="4" color="WHITE" id="Shock/0"><B>SHOCK</B></FONT></A>
+			</TD>
+			<TD bgcolor="#4488cc" align="CENTER" class="output">
+				<A><FONT size="4" color="WHITE"><B>EVOLUTION</B></FONT></A>
+			</TD>
+			</TR>
+			</TABLE>
+
+			<P>
+			<TABLE border="0" cellspacing="0" cellpadding="0">
+				<TR>
+				<TD>
+				<DIV ID="ss_img_div">
+					<A ID="ss_img_link" HREF="javascript:ss.hotlink()">
+					<IMG id="ss_img" name="ss_img" src="" width="100%"
+						 alt="Slideshow image">
+					</A>
+				</DIV>
+				</TD>
+				</TR>
+			</TABLE>
+
+			<P>
+			<TABLE width="100%" border="0" cellspacing="0" cellpadding="10">
+				<TR>
+					<TH bgcolor="white" align="CENTER">
+						<A HREF="../../doc/tim1den2.html">
+							<FONT size="5" color="#224488" face="arial"><B>I N F O</B></FONT>
+						</A>
+					</TH>
+
+					<TH>
+						<A ID="ss_start">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play"></A>
+						<A ID="ss_stop">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause"></A>
+						<A ID="ss_prev">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous"></A>
+						<A ID="ss_next">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next"></A>
+						</TD>
+					</TH>
+
+					<TH>
+						<DIV ID="ss_controls">
+							<SELECT id="ss_select" style="color: #224488; font-size: 24px"
+								name="ss_select">
+								<OPTION>+00T00</OPTION>
+								<OPTION>+01T00</OPTION>
+								<OPTION>+02T00</OPTION>
+								<OPTION>+03T00</OPTION>
+								<OPTION>+04T00</OPTION>
+								<OPTION>+05T00</OPTION>
+								<OPTION>-10T00</OPTION>
+								<OPTION>-09T00</OPTION>
+								<OPTION>-08T00</OPTION>
+								<OPTION>-07T00</OPTION>
+								<OPTION>-06T00</OPTION>
+								<OPTION>-05T00</OPTION>
+								<OPTION>-04T00</OPTION>
+								<OPTION>-03T00</OPTION>
+								<OPTION>-02T00</OPTION>
+								<OPTION>-01T00</OPTION>
+							</SELECT>
+						</DIV>
+					</TH>
+					</TR>
+			</TABLE>
+			<P>
+		</CENTER>
+			
+	</div>
+	
+	<div id="enlil" style="display:none;">
+		<CENTER>
+			<TABLE width="100%" border="0" cellspacing="0" cellpadding="8">
+
+			<TR>
+				<TD bgcolor="#bbddff" colspan="5" align="center">
+					<FONT color="#224488" size="6" face="arial" id="sitetitle">
+						IPSBD &nbsp;&ndash;&nbsp;
+						 Solar Wind Prediction &nbsp;&ndash;&nbsp;
+						Velocity 1
+					</FONT>
+				</TD>
+			</TR>
+
+			<TR>
+				<TD bgcolor="#bbddff" align="center">
+					<FONT size="5" color="#224488" face="arial">Model Input:</FONT>
+				</TD>
+				<TD align="center" colspan="3" rowspan="11">
+					<DIV ID="ss_img_div">
+						<img  width="100%"/>
+					</DIV>
+				</TD>
+				<TD bgcolor="#bbddff" align="center">
+					<FONT size="5" color="#224488" face="arial">Model Output:</FONT>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#224488" align="center" class="input">
+					<A HREF="/#/IPSBD-ENLIL/Velocity/1">
+						<FONT size="5" color="white" face="arial" id="IPSBD">IPSBD</FONT>
+					</A>
+				</TD>
+				<TD bgcolor="#224488" align="center" class="output">
+				<A>
+					<FONT size="5" color="white" id="Velocity/1">Velocity 1</FONT></A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+					<A HREF="#/IPSBD-SWRC-ENLIL/Velocity/1">
+						<FONT size="5" color="white" face="arial" id="IPSBD-SWRC">IPSBD-SWRC</FONT>
+					</A>
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+				<A>
+					<FONT size="5" color="white" id="Velocity/2">Velocity 2</FONT></A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+					<A HREF="/#/WSADU-SWRC-ENLIL/Velocity/1">
+						<FONT size="5" color="white" face="arial" id="WSADU-SWRC">WSADU-SWRC</FONT>
+					</A>
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Velocity/3">Velocity 3</FONT>
+					</A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+					<A HREF="/#/WSADT-SWRC-ENLIL/Velocity/1">
+						<FONT size="5" color="white" face="arial" id="WSADT-SWRC">WSADT-SWRC</FONT>
+					</A>
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Density/1">Density 1</FONT>
+					</A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+				<A>
+					<FONT size="5" color="white" id="Density/2">Density 2</FONT>
+				</A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Density/3">Density 3</FONT>
+					</A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Helio/1">Helio Image 1</FONT>
+					</A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Helio/2">Helio Image 2</FONT>
+					</A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+					<A HREF="../sho1r2o4/index.html">
+						<FONT size="5" color="white"><!--SHO1R2O4--></FONT>
+					</A>
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#4488cc" align="center" class="input">
+				</TD>
+				<TD bgcolor="#4488cc" align="center" class="output">
+				</TD>
+			</TR>
+			<TR>
+				<TD bgcolor="#bbddff" align="center">
+				<A HREF="">
+					<FONT size="5" color="#224488" face="arial">Main Page</FONT></A>
+				</TD>
+				<TD bgcolor="white" align="right">
+					<A HREF="http://spaceweather.gmu.edu/projects/enlil/doc/tim1den2.html">
+						<FONT size="5" color="#224488" face="arial"><B>I N F O</B></FONT>
+					</A>
+				</TD>
+				<TD align="center">
+					<A ID="ss_start">
+						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play">
+					</A>
+					<A ID="ss_stop">
+						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause">
+					</A>
+					<A ID="ss_prev">
+						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous">
+					</A>
+					<A ID="ss_next">
+						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next">
+					</A>
+				</TD>
+
+				<TD align="left">
+					<SELECT id="dl_select" style="color: #224488; font-size: 24px" name="dl_select">
+						<OPTION>--Download--</OPTION>
+						<OPTION>File List</OPTION>
+						<OPTION>PDF</OPTION>
+						<OPTION>EPS</OPTION>
+						<OPTION>Animated GIF</OPTION>
+						<OPTION>MP4</OPTION>
+						<OPTION>MOV</OPTION>
+						<OPTION>Zip File</OPTION>
+					</SELECT>
+
+					<SELECT id="ss_select" style="color: #224488; font-size: 24px" name="ss_select">
+						<OPTION>+00T00</OPTION>
+						<OPTION>+01T00</OPTION>
+						<OPTION>+02T00</OPTION>
+						<OPTION>+03T00</OPTION>
+						<OPTION>+04T00</OPTION>
+						<OPTION>+05T00</OPTION>
+						<OPTION>-10T00</OPTION>
+						<OPTION>-09T00</OPTION>
+						<OPTION>-08T00</OPTION>
+						<OPTION>-07T00</OPTION>
+						<OPTION>-06T00</OPTION>
+						<OPTION>-05T00</OPTION>
+						<OPTION>-04T00</OPTION>
+						<OPTION>-03T00</OPTION>
+						<OPTION>-02T00</OPTION>
+						<OPTION>-01T00</OPTION>
+					</SELECT>
+				</TD>
+
+				<TD bgcolor="#bbddff" align="center">
+					<A HREF="/">
+						<FONT size="5" color="#224488" face="arial">Main Page</FONT>
+					</A>
+				</TD>
+			</TR>
+			</TABLE>
+		</CENTER>
+
+	</div>
+
+		<div id="testconnection" style="display:none"></div>
+		<div style="text-align:center;margin:px;">
+			<span id="connectionerror" style="font-size:150%;background-color:yellow"></span>
+		</div>
+			
+		<div id="g-container" style="display:none;text-align:center;">
+			<div id="gallery1" class="ui-widget ui-widget-content ui-corner-all" style="display:inline-block">
+				<span id="filename" title="Source file" style="float:center;color:white;cursor:pointer;"></span>
+				<div style="padding:4px;">
+
+					<div id="catalog" class="well" style="text-align:center">
+						<span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">
+							<i class="icon-info-sign"></i>Gallery configuration
+						</span>
+						<span id="catalogxmlclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;"><i class="icon-remove"></i></span>
+						<span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
+						<span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
+						<span style="float:right">Powered by <a href="http://viviz.org/" style="text-decoration: underline;">ViViz</a></span>
+						<br/>
+						<div id="catalogxml" style="text-align:left;overflow:auto;display:hidden"></div>
+					</div>
+					<div id="dropdowns" class="well">
+						<div style="display:inline-block;text-align:center;">
+							<span id="dropdownswrapper"></span>
+						</div>
+					</div>
+
+					<div id="controls" class="well">
+						<div style="text-align:center;display:inline-block;">
+							<button class="btn" type="button" title="Show/Hide thumbnails" id="showhidethumb"><h4>x</h4></button>&nbsp;&nbsp;&nbsp;
+							<button class="btn" type="button" title="Play" id="previous"><h4>&#9654;</h4></button>
+							<button class="btn" type="button" title="Stop" id="next"><h4>&#11035;</h4></button>&nbsp;&nbsp;&nbsp;								  
+							<button class="btn" type="button" title="Previous frame" id="previous"><h4>|&#9664;</h4></button>
+							<button class="btn" type="button" title="Next frame" id="next"><h4>&#9654;|</h4></button>&nbsp;&nbsp;&nbsp;
+							<button class="btn" type="button" title="First frame" id="first"><h4>|&#9664;&#9664;</h4></button>
+							<button class="btn" type="button" title="Last frame" id="last"><h4>&#9654;&#9654;|</h4></button>
+							<span id="workingfullframe" style=""><img style="vertical-align:middle" src="css/ajax-loader.gif"/>&nbsp;</span>
+							<span id="print">
+								<button onclick="PrintElem('#fullframe');" class="btn" type="button" title="Print this image" id="printbutton"><h4>P</h4></button>
+							</span>
+							<span id="about" style="display:none;">
+								<button class="btn" type="button" id="aboutbutton"><h4>?</i></h4></button>
+							</span>
+							<span>
+								<button class="btn" type="button" title="Show as thumbnail grid" id="thumbbrowsebutton"><h4>&#9783;</h4></button>
+							</span>
+						</div>			
+					</div>
+
+					<div id="attributes" class="well">
+						<span id="stats" style="float:center">&nbsp;</span>
+					</div>
+					
+					<div id="error" class="well" style="display:none;background-color:yellow;"></div>
+					<div id="warning" class="well" style="display:none;background-color:yellow;"></div>
+
+					<div id="images" style="display:inline-block">
+						<table>
+							<tr>
+								<td id="gallerythumbframe"></td>
+								<td id="fullframe"></td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+				
+		<div id="t-container" style="display:none;">
+			<div id="error"></div>
+			<div id="thumb1"  class="ui-widget ui-widget-content ui-corner-all" style="width:100%;display:inline-block; margin:auto;">
+				<div style="padding:5px;">
+				<span id="filename" title="Source file" style="float:center;color:white;cursor:pointer;">&nbsp;</span>
+				<div class="well">
+					<div id="warning" style="background-color:yellow;text-align:left;"></div>
+					<div id="footer" class="well" style="text-align:center;">
+						<span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">
+							<i class="icon-info-sign"></i>Gallery configuration</span>					
+						<span id="catalogxmlclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;"><i class="icon-remove"></i></span>
+						<span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
+						<span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
+						<span id="instructions" style="float:center;"></span>
+						<span style="float:right">Powered by <a href="http://viviz.org/" style="text-decoration: underline;">ViViz</a></span>           
+						<div id="catalogxml" style="display:hidden;text-align:left;overflow-x:auto;"></div>
+					</div>
+				</div>
+
+				<div class="well">
+					<div id="menuandslider">
+						<div style="padding:0px; text-align:center;">
+							<div style="padding:0 0 0 0; display:inline-block; margin:auto; text-align:center;">
+
+								<span id="sliderright" style="float:right;padding:15px 15px 0 15px;border:none;">									
+									<div id="slider" data-orig-img-width="100" data-curr-img-width="100" style="width:50px;"></div>
+									<span id="working" style="display:none"><img src="css/ajax-loader.gif"/></span>
+								</span>					 	
+								<span id="about" style="padding:7px 0 0 0;float:right;display:none;">
+										&nbsp;<a><button class="btn" type="button" id="aboutbutton"><h4><i class="icon-info-sign"></i></h4></button></a>            
+										<span>&nbsp;</span>
+								</span>								
+								
+								<span style="float:right; margin-right:3px;padding:8px 0 0 0;">
+									&nbsp;<button class="btn btn-primary" type="button" style="border:0px" title="Show in gallery view" id="gallerybrowsebutton"><h4>&#9633;</h4></button>
+								</span>
+
+								<span style="float:right;padding:8px 0px 0 0;">
+									<span>&nbsp;</span>
+									<select id="thumbbrowsemode" title="Interaction Mode">
+									<option value="-1">-Interaction-</option>
+									<!-- option value="0">Expand on hover</option>
+									<option value="1">Expand on click</option-->
+									<option value="3">Overlay on hover</option>
+									<option value="2" selected="true">Overlay on click</option>
+									</select>
+								</span>		
+
+								<span id="dropdowns" style="float:left;padding:8px 0 0 0;">
+								</span>
+							</div>
+						</div>
+						<div style="clear:both"></div>							
+					</div>      
+						<div class="well" id="thumbbrowseframe" style="margin-left:auto;margin-right:auto;padding:20px auto;background-color:black;"></div>
+						<img id="thumbbrowseoverlay" class="thumbbrowsetop" src="css/ajax-loader.gif"/>
+
+				</div>
+				<div class="well">
+					<div id="header" class="well" style="text-align:center;">
+						<span id="instructions2" style="float:center;"></span>
+					</div>
+				</div>
+			</div>
+
+		 </div>
+	</div>
+
+	<textarea style="display:none" id="cat"></textarea>
+
+	</body>
+	</body>
+</html>
