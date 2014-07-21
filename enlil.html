@@ -599,6 +599,7 @@
 
 			// When an output option is clicked, update the hash in the URL.
 			$(enlildiv + ' td.output a').on("click",xupdatehash);
+			$(enlildiv + ' td.input a').on("click",xupdatehash);
 			$(enlildiv + ' td.output a').css('cursor','pointer');
 			$(enlildiv + ' #dl_select').on("change",getdownload);
 		}
@@ -608,6 +609,9 @@
 				var output = $(this).children('font').attr('id');
 				var title = $(this).children('font').attr('id');
 				var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
+				console.log(output);
+				console.log(title);
+				console.log(myoutput);
 
 				if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
 					$('#sitetitle').text(title + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
