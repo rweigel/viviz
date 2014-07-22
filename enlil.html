@@ -583,12 +583,8 @@
 		VIVIZ = {"lazyLoadMax":2};
 
 		$(document).ready(function(){
-			gallery("#gallery1");
-			$('#g-container').hide();  // Hide the standard gallery element.			
-			$('#t-container').hide();
-			$('#evo_controls').hide();
-			$('#jmap_controls').hide();
-			//$('#g-container').show();
+
+			gallery("#gallery1");  // Initiate the creation of the gallery.
 			if (location.hash === "") {
 				return;
 			} else {
@@ -1283,7 +1279,7 @@
 						<OPTION>-02T00</OPTION>
 						<OPTION>-01T00</OPTION>
 					</SELECT>
-					<SELECT id="evo_controls" style="color: #224488; font-size: 24px"
+					<SELECT id="evo_controls" style="display:none;color: #224488; font-size: 24px"
 						name="evo_controls">
 						<OPTION>MERCURY</OPTION>
 						<OPTION>VENUS</OPTION>
@@ -1293,7 +1289,7 @@
 						<OPTION>STEREO-B</OPTION>
 						<OPTION>MAVEN</OPTION>
 					</SELECT>
-					<SELECT id="jmap_controls" style="color: #224488; font-size: 24px"
+					<SELECT id="jmap_controls" style="display:none;color: #224488; font-size: 24px"
 						name="jmap_controls">
 						<OPTION>HI12A</OPTION>
 						<OPTION>HI12B</OPTION>
