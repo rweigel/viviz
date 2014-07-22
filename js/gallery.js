@@ -55,11 +55,11 @@ function gallery(wrapper) {
 
 	var HEADER = cataloginfo(galleryid);
 	if (HEADER === "") {
-		error("Gallery ID " + galleryid + " not found. Redirecting in 3 seconds.");
-		console.log("Gallery ID " + galleryid + " not found. Redirecting in 3 seconds.");
-
+		error("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
+		console.log("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
+		alert("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.")
 		$(wrapper + ' #workingfullframe').css('visibility','hidden');
-		setTimeout(function () {window.location = "/";$(wrapper + ' #error').hide();},2000);
+		setTimeout(function () {window.location = "/";$(wrapper + ' #error').hide();},5000);
 		return;
 	}
 	console.log(HEADER === "")

@@ -36,37 +36,6 @@
 
 		<script id="xml"  type="text/x-jQuery-tmpl">
 			<catalog>
-				<gallery id="New/IPSBD-ENLIL/Velocity/0">
-					<title>New IPSBD-ENLIL Velocity 0</title>
-					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
-					<fulldir>http://spaceweather.gmu.edu/projects/enlil-new/ipsbd/tim1v2/</fulldir>
-					<fulllistscript>
-						<![CDATA[
-							(function () {
-
-								// Temporary
-								var options = {};
-								var tmpd = new Date();
-								var tmps = tmpd.toISOString().slice(0,10);
-								tmps = "2014-07-15";
-								var starthr = "09";
-								var run = tmps.replace(/\-/g,'');
-								options.template = "ipsbd_tim1v2_"+run+"T"+starthr+"_$Y$m$dT${H;delta=3}.gif";
-								options.timeRange = tmps+"T"+starthr+"/P1D";
-								options.type = "strftime";
-								options.debug = true;
-								var fa = expandtemplate(options);
-
-								var files = [];
-								for (var i = 0;i<fa.length;i++) {
-									files[i] = [fa[i]];
-								}
-								console.log(files)
-								return files;
-							})
-						]]>
-					</fulllistscript>						
-				</gallery>
 				<gallery id="IPSBD-ENLIL/Velocity/0">
 					<title>IPSBD-ENLIL Velocity 0</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
@@ -175,7 +144,7 @@
 					<sprintfdelta>24</sprintfdelta>
 					<sprintfstop>360</sprintfstop>           
 				</gallery>
-				<gallery id="IPSBD-ENLIL/Earth/1">
+				<gallery id="IPSBD-ENLIL/Evolution/EARTH">
 					<title>IPSBD-ENLIL Evolution</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/evo10o1b/</fulldir>
@@ -184,7 +153,16 @@
 					//<sprintfdelta>3</sprintfdelta>
 					//<sprintfstop>360</sprintfstop>           
 				</gallery>
-				<gallery id="IPSBD-ENLIL/HI12A/1">
+				<gallery id="IPSBD-ENLIL/Evolution/MERCURY">
+					<title>IPSBD-ENLIL Evolution</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/evo10o1b/</fulldir>
+					<sprintf>Mercury.png</sprintf>
+					//<sprintfstart>0</sprintfstart>
+					//<sprintfdelta>3</sprintfdelta>
+					//<sprintfstop>360</sprintfstop>           
+				</gallery>
+				<gallery id="IPSBD-ENLIL/JMap/HI12A">
 					<title>IPSBD-ENLIL J-Maps</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/jmap1/</fulldir>
@@ -193,7 +171,15 @@
 					//<sprintfdelta>3</sprintfdelta>
 					//<sprintfstop>360</sprintfstop>           
 				</gallery>
-
+				<gallery id="IPSBD-ENLIL/JMap/HI12B">
+					<title>IPSBD-ENLIL J-Maps</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd/jmap1/</fulldir>
+					<sprintf>hi12b.png</sprintf>
+					//<sprintfstart>0</sprintfstart>
+					//<sprintfdelta>3</sprintfdelta>
+					//<sprintfstop>360</sprintfstop>           
+				</gallery>
 				<gallery id="IPSBD-SWRC-ENLIL/Velocity/0">
 					<title>IPSBD-SWRC-ENLIL Velocity 0</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
@@ -307,18 +293,12 @@
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/evo10o1b/</fulldir>
 					<sprintf>Earth.png</sprintf>
-					//<sprintfstart>0</sprintfstart>
-					//<sprintfdelta>3</sprintfdelta>
-					//<sprintfstop>360</sprintfstop>           
 				</gallery>
 				<gallery id="IPSBD-SWRC-ENLIL/HI12A/1">
 					<title>IPSBD-SWRC-ENLIL J-Maps</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/ipsbd-swrc/jmap1/</fulldir>
 					<sprintf>HI12A.png</sprintf>
-					//<sprintfstart>0</sprintfstart>
-					//<sprintfdelta>3</sprintfdelta>
-					//<sprintfstop>360</sprintfstop>           
 				</gallery>
 
 				<gallery id="WSADU-SWRC-ENLIL/Velocity/0">
@@ -429,25 +409,18 @@
 					<sprintfdelta>24</sprintfdelta>
 					<sprintfstop>360</sprintfstop>           
 				</gallery>
-				<gallery id="WSADU-SWRC-ENLIL/Earth/1">
+				<gallery id="WSADU-SWRC-ENLIL/Evolution/Earth">
 					<title>WSADU-SWRC-ENLIL Evolution</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/evo10o1b/</fulldir>
 					<sprintf>Earth.png</sprintf>
-					//<sprintfstart>0</sprintfstart>
-					//<sprintfdelta>3</sprintfdelta>
-					//<sprintfstop>360</sprintfstop>           
 				</gallery>
-				<gallery id="WSADU-SWRC-ENLIL/HI12A/1">
+				<gallery id="WSADU-SWRC-ENLIL/JMap/HI12A">
 					<title>WSADU-SWRC-ENLIL J-Maps</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadu-swrc/jmap1/</fulldir>
 					<sprintf>hi12a.png</sprintf>
-					//<sprintfstart>0</sprintfstart>
-					//<sprintfdelta>3</sprintfdelta>
-					//<sprintfstop>360</sprintfstop>           
 				</gallery>         
-
 				<gallery id="WSADT-SWRC-ENLIL/Velocity/0">
 					<title>WSADT-SWRC-ENLIL Velocity 0</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
@@ -561,19 +534,44 @@
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/evo10o1b/</fulldir>
 					<sprintf>Earth.png</sprintf>
-					//<sprintfstart>0</sprintfstart>
-					//<sprintfdelta>3</sprintfdelta>
-					//<sprintfstop>360</sprintfstop>           
 				</gallery>
 				<gallery id="WSADT-SWRC-ENLIL/HI12A/1">
 					<title>WSADT-SWRC-ENLIL J-Maps</title>
 					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
 					<fulldir>http://spaceweather.gmu.edu/projects/enlil/wsadt-swrc/jmap1/</fulldir>
 					<sprintf>hi12a.png</sprintf>
-					//<sprintfstart>0</sprintfstart>
-					//<sprintfdelta>3</sprintfdelta>
-					//<sprintfstop>360</sprintfstop>           
 				</gallery>         				
+				<gallery id="New/IPSBD-ENLIL/Velocity/0">
+					<title>New IPSBD-ENLIL Velocity 0</title>
+					<about>http://spaceweather.gmu.edu/projects/enlil/index.html</about>
+					<fulldir>http://spaceweather.gmu.edu/projects/enlil-new/ipsbd/tim1v2/</fulldir>
+					<fulllistscript>
+						<![CDATA[
+							(function () {
+
+								// Temporary
+								var options = {};
+								var tmpd = new Date();
+								var tmps = tmpd.toISOString().slice(0,10);
+								tmps = "2014-07-15";
+								var starthr = "09";
+								var run = tmps.replace(/\-/g,'');
+								options.template = "ipsbd_tim1v2_"+run+"T"+starthr+"_$Y$m$dT${H;delta=3}.gif";
+								options.timeRange = tmps+"T"+starthr+"/P1D";
+								options.type = "strftime";
+								options.debug = true;
+								var fa = expandtemplate(options);
+
+								var files = [];
+								for (var i = 0;i<fa.length;i++) {
+									files[i] = [fa[i]];
+								}
+								console.log(files)
+								return files;
+							})
+						]]>
+					</fulllistscript>						
+				</gallery>
 			</catalog>
 
 		</script>
@@ -647,55 +645,59 @@
 			$(enlildiv + ' td.input a').on("click",xupdatehash);
 			$(enlildiv + ' td.output a').css('cursor','pointer');
 			$(enlildiv + ' #dl_select').on("change",getdownload);
+			$(enlildiv + ' #jmap_controls').on("change",jmap_change)
+			$(enlildiv + ' #evo_controls').on("change",evo_change)
+		}
+
+		function jmap_change() {
+			console.log("jmap changed to "+$("#jmap_controls option:selected").val());
+			location.hash = '/' + location.hash.split('/')[1] + '/JMap/' + $("#jmap_controls option:selected").val();
+		}
+
+		function evo_change() {
+			console.log("evo changed to "+$("#evo_controls option:selected").val());
+			location.hash = '/' + location.hash.split('/')[1] + '/Evolution/' + $("#evo_controls option:selected").val();
 		}
 
 		function xupdatehash() {
 
-				var output = $(this).children('font').attr('id');
-				var title = $(this).children('font').attr('id');
-				var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
+			enlildiv = "#enlil";
+			
+			if (!location.hash.match(/Evolution|JMap/)) {
+				$(enlildiv + ' #ss_controls').show();
+				$(enlildiv + ' #ss_select').show();
+				$(enlildiv + ' #dl_select').show();
+				$(enlildiv + ' #evo_controls').hide();
+				$(enlildiv + ' #jmap_controls').hide();
+			} else {
 
-				if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
-					$('#sitetitle').text(title + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
+				$(enlildiv + ' #ss_controls').hide();
+				$(enlildiv + ' #ss_select').hide();
+				$(enlildiv + ' #dl_select').hide();
+				if (location.hash.match(/Evolution/)) {
+					$(enlildiv + ' #evo_controls').show();
+					$(enlildiv + ' #jmap_controls').hide();										
 				}
-				else { //IT IS A MATCH ITS A VARIABLE
-					var newtitle = title.split('/');
-					$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
-					console.log(newtitle[0]);
-					if(newtitle[0] == 'Earth'){
-					        $('#ss_start').hide();
-					        $('#ss_stop').hide();
-					        $('#ss_prev').hide();
-					        $('#ss_next').hide();
-					        $('#ss_select').hide();
-					        $('#dl_select').hide();
-					        $('#jmap_controls').hide();
-					        $('#evo_controls').show();
-					}
-					else if(newtitle[0] == 'HI12A'){
-					        $('#ss_start').hide();
-					        $('#ss_stop').hide();
-					        $('#ss_prev').hide();
-					        $('#ss_next').hide();
-					        $('#ss_select').hide();
-					        $('#dl_select').hide();
-					        $('#evo_controls').hide();
-					        $('#jmap_controls').show();
-					}
-					else{
-					        $('#ss_start').show();
-					        $('#ss_stop').show();
-					        $('#ss_prev').show();
-					        $('#ss_next').show();
-					        $('#ss_select').show();
-					        $('#dl_select').show();
-					        $('#evo_controls').hide();
-					        $('#jmap_controls').hide();
-					}
+				if (location.hash.match(/JMap/)) {
+					$(enlildiv + ' #jmap_controls').show();									
+					$(enlildiv + ' #evo_controls').show();									
 				}
-
-				location.hash = '/' + location.hash.split('/')[1] + '/' + output;
 			}
+
+			var output = $(this).children('font').attr('id');
+			var title = $(this).children('font').attr('id');
+			var myoutput = $('#sitetitle').text().split('Solar Wind Prediction');
+
+			if(title.indexOf('/') === -1){ //NOT A MATCH ITS A MODEL
+				$('#sitetitle').text(title + ' \u2013 ' + 'Solar Wind Prediction' + myoutput[1]);
+			}
+			else { //IT IS A MATCH ITS A VARIABLE
+				var newtitle = title.split('/');
+				$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
+			}
+
+			location.hash = '/' + location.hash.split('/')[1] + '/' + output;
+		}
 
 		function imgconvert(type) {
 
@@ -1046,42 +1048,40 @@
 					</TH>
 
 					<TH>
-						<A ID="ss_start">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play"></A>
-						<A ID="ss_stop">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause"></A>
-						<A ID="ss_prev">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous"></A>
-						<A ID="ss_next">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next"></A>
-						</TD>
+						<DIV ID="ss_controls">
+							<A ID="ss_start">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play"></A>
+							<A ID="ss_stop">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause"></A>
+							<A ID="ss_prev">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous"></A>
+							<A ID="ss_next">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next"></A>
+						</DIV>
 					</TH>
 
 					<TH>
-						<DIV ID="ss_controls">
-							<SELECT id="ss_select" style="color: #224488; font-size: 24px"
-								name="ss_select">
-								<OPTION>+00T00</OPTION>
-								<OPTION>+01T00</OPTION>
-								<OPTION>+02T00</OPTION>
-								<OPTION>+03T00</OPTION>
-								<OPTION>+04T00</OPTION>
-								<OPTION>+05T00</OPTION>
-								<OPTION>-10T00</OPTION>
-								<OPTION>-09T00</OPTION>
-								<OPTION>-08T00</OPTION>
-								<OPTION>-07T00</OPTION>
-								<OPTION>-06T00</OPTION>
-								<OPTION>-05T00</OPTION>
-								<OPTION>-04T00</OPTION>
-								<OPTION>-03T00</OPTION>
-								<OPTION>-02T00</OPTION>
-								<OPTION>-01T00</OPTION>
-							</SELECT>
-						</DIV>
-						
+						<SELECT id="ss_select" style="color: #224488; font-size: 24px"
+							name="ss_select">
+							<OPTION>+00T00</OPTION>
+							<OPTION>+01T00</OPTION>
+							<OPTION>+02T00</OPTION>
+							<OPTION>+03T00</OPTION>
+							<OPTION>+04T00</OPTION>
+							<OPTION>+05T00</OPTION>
+							<OPTION>-10T00</OPTION>
+							<OPTION>-09T00</OPTION>
+							<OPTION>-08T00</OPTION>
+							<OPTION>-07T00</OPTION>
+							<OPTION>-06T00</OPTION>
+							<OPTION>-05T00</OPTION>
+							<OPTION>-04T00</OPTION>
+							<OPTION>-03T00</OPTION>
+							<OPTION>-02T00</OPTION>
+							<OPTION>-01T00</OPTION>
+						</SELECT>						
 					</TH>
-					</TR>
+				</TR>
 			</TABLE>
 			<P>
 		</CENTER>
@@ -1108,7 +1108,7 @@
 				</TD>
 				<TD align="center" colspan="3" rowspan="12">
 					<DIV ID="ss_img_div">
-						<img  width="100%"/>
+						<img width="100%"/>
 					</DIV>
 				</TD>
 				<TD bgcolor="#bbddff" align="center">
@@ -1210,8 +1210,8 @@
 				<TD bgcolor="#4488cc" align="center" class="input">
 				</TD>
 				<TD bgcolor="#4488cc" align="center" class="output">
-				        <A>
-						<FONT size="5" color="white" id="Earth/1">Evolution</FONT>
+					<A>
+						<FONT size="5" color="white" id="Evolution/EARTH">Evolution</FONT>
 					</A>
 				</TD>
 			</TR>
@@ -1219,8 +1219,8 @@
 				<TD bgcolor="#4488cc" align="center" class="input">
 				</TD>
 				<TD bgcolor="#4488cc" align="center" class="output">
-				        <A>
-						<FONT size="5" color="white" id="HI12A/1">J-Maps</FONT>
+					<A>
+						<FONT size="5" color="white" id="JMap/HI12A">J-Maps</FONT>
 					</A>
 				</TD>
 			</TR>
@@ -1235,18 +1235,20 @@
 					</A>
 				</TD>
 				<TD align="center">
-					<A ID="ss_start">
-						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play">
-					</A>
-					<A ID="ss_stop">
-						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause">
-					</A>
-					<A ID="ss_prev">
-						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous">
-					</A>
-					<A ID="ss_next">
-						<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next">
-					</A>
+					<div id="ss_controls">
+						<A ID="ss_start">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play"/>
+						</A>
+						<A ID="ss_stop">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause"/>
+						</A>
+						<A ID="ss_prev">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous"/>
+						</A>
+						<A ID="ss_next">
+							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next"/>
+						</A>
+					</div>
 				</TD>
 
 				<TD align="left">
@@ -1283,7 +1285,7 @@
 						name="evo_controls">
 						<OPTION>MERCURY</OPTION>
 						<OPTION>VENUS</OPTION>
-						<OPTION>EARTH</OPTION>
+						<OPTION selected>EARTH</OPTION>
 						<OPTION>MARS</OPTION>
 						<OPTION>STEREO-A</OPTION>
 						<OPTION>STEREO-B</OPTION>
@@ -1291,7 +1293,7 @@
 					</SELECT>
 					<SELECT id="jmap_controls" style="display:none;color: #224488; font-size: 24px"
 						name="jmap_controls">
-						<OPTION>HI12A</OPTION>
+						<OPTION selected>HI12A</OPTION>
 						<OPTION>HI12B</OPTION>
 					</SELECT>
 				</TD>
