@@ -313,9 +313,8 @@ function gallery(wrapper) {
 								.css("width",VIVIZ[galleryid]["thumbWidth"])
 								.load(function () {
 									if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-										$('#connectionerror').html("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
+										warning("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
 										slowwarn = true;	
-										setTimeout(function () {$('#connectionerror').html('')},3000);
 									}	
 								});
 						}
