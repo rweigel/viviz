@@ -57,7 +57,7 @@ function gallery(wrapper) {
 	if (HEADER === "") {
 		error("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
 		console.log("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
-		alert("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.")
+		//alert("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.")
 		$(wrapper + ' #workingfullframe').css('visibility','hidden');
 		setTimeout(function () {window.location = "/";$(wrapper + ' #error').hide();},5000);
 		return;
