@@ -538,8 +538,9 @@ function gallery(wrapper) {
 						//$(this).click();
 
 						//Enlil code
-						$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id=1]").attr('src'))
-
+						if (VIVIZ["alternativeFrame"]) {
+							$("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id=1]").attr('src'))
+						}
 					} 
 
 					//$(this).click();
@@ -745,8 +746,10 @@ function gallery(wrapper) {
 			$(wrapper + " #gallerythumbframe #" + nowvisible).click();
 
 			//Enlil code
-			$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'));
-			
+			if (VIVIZ["alternativeFrame"]) {
+				$("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'));
+			}
+
 			var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
 			var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
 			var f = Math.ceil(nowvisible/VIVIZ["lazyLoadMax"]) - nowvisible/VIVIZ["lazyLoadMax"];
@@ -764,7 +767,10 @@ function gallery(wrapper) {
 			$(wrapper + " #" + nowvisible).click();
 
 			//Enlil code
-			$("#ss_img_div img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+			if (VIVIZ["alternativeFrame"]) {
+				("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+			}
+
 		});
 		
 		$(wrapper + " #last").unbind('click');
