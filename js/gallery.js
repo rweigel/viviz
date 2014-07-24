@@ -1,25 +1,26 @@
 function gallery(wrapper) {
 	
-	// http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
-	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
-
 	console.log("gallery.js: Called.");
 	
 	$(wrapper + " #warning").html("");
 	$(wrapper + " #error").html("");
 
-	//$(window).unbind('hashchange');
-	$(window).hashchange(function() {
+	$(window).unbind('hashchange.gallery');
+	$(window).bind( 'hashchange.gallery',function() {
 		console.log('gallery.js: Hash has changed to ' + location.hash);
 		gallery(wrapper);
 	});
 
-	$(wrapper + " #fullframe").html('');
+	$(wrapper + " #fullframe").html('').css('height','');
+	$(wrapper).css('margin-top','0');
+	$(wrapper + " #gallerythumbframe").html('');
 	$(wrapper).attr('nowvisible', '').attr('lastvisible', '').attr('totalvisible', '').attr('totalingallery', '');
 	$(wrapper + " #stats").html('').css('width','').css('height','');
-	$(wrapper + " #error").html('');
+	$(wrapper + " #error").html('').hide();
+	$(wrapper + " #warning").html('').hide();
 	$(wrapper + " #connectionerror").html('');
 	$(wrapper + " #catalogxml").html('');
+	$(wrapper + " #gallerythumbframe").css('width','').css('height','');
 
 	var GALLERIES = cataloginfo();
 
@@ -28,6 +29,7 @@ function gallery(wrapper) {
 		$(wrapper + " #workingfullframe").hide();
 		return;
 	}
+
 	if (location.hash != "") {
 		var hash = location.hash;
 		console.log("gallery.js: Hash is not empty.  Updating catalog if hash was URL.")
@@ -62,22 +64,34 @@ function gallery(wrapper) {
 		setTimeout(function () {window.location = "/";$(wrapper + ' #error').hide();},5000);
 		return;
 	}
-	console.log(HEADER === "")
 	
-	$("head title").html(HEADER["title"]);
+	$("head title").html(HEADER["title"]+ ": " + HEADER["about"]);
 	$(wrapper + " #about").attr('title',HEADER["about"]);
+	$(wrapper + " #abouttext").html(HEADER["title"]+ ": " + HEADER["about"]);
+	if (VIVIZ["showAboutText"]) {
+		$(wrapper + " #abouttextwrapper").show();
+	}
 
 	if ((HEADER["aboutlink"]) && (!HEADER["about"])) {
 		$(wrapper + " #about").attr("onclick","window.location='" + HEADER["Aboutlink"]+"'");
 	}	
 	if ((!HEADER["aboutlink"]) && (HEADER["about"])) {
 		//$(wrapper + " #about").attr("onclick","window.location='" + HEADER["Fulldir"]+"'");
-		$(wrapper + " #about").show();
+		$(wrapper + " #aboutbuttonwrapper").show();
 		if (HEADER["about"].match(/^http/)) {
 			//$(wrapper + " #about").html('<a style="color:white"	>About this gallery</a>');
-			$(wrapper + " #about").attr('onclick',"window.location='" + HEADER["about"] + "'");
+			$(wrapper + " #aboutbuttonwrapper").attr('onclick',"window.location='" + HEADER["about"] + "'");
 		} else {
-			$(wrapper + " #about").attr('title',HEADER["about"]);
+			$(wrapper + " #aboutbuttonwrapper").attr('title',HEADER["about"] + ". Click to show or hide title line.");
+			// Set click to show or hide about text.
+			$(wrapper + " #aboutbuttonwrapper").on("click",
+				function () {
+					if ($(wrapper + " #abouttextwrapper").is(":visible")) {
+						$(wrapper + " #abouttextwrapper").hide(); 
+					} else {
+						$(wrapper + " #abouttextwrapper").show(); 
+					}
+				});
 		}
 	}
 
@@ -124,24 +138,6 @@ function gallery(wrapper) {
 	//$(wrapper + ' #gallerythumbframe').css('overflow-y','hidden');
 	//setTimeout(function() {$(wrapper + ' #gallerythumbframe').css('overflow-y','auto');},200);
 
-	function error (msg,clear) {$(wrapper + ' #error').show();if (clear) {$(wrapper + ' #error').html(msg)} else {$(wrapper + ' #error').append(msg)};}
-
-	
-	function warning (msg,clear,totime) {
-		$(wrapper + ' #warning').show();
-		if (clear) {
-			$(wrapper + ' #warning').html(msg);
-		} else {
-			spacer="";
-			if ($(wrapper + ' #warning').text().length > 0) {
-				spacer=" | ";
-			};
-			$(wrapper + ' #warning').append(spacer + msg);
-		}
-
-		setTimeout(function () {$(wrapper + ' #warning').html('')},totime || 3000);
-
-	}
 
 	function setthumbs() {
 	
@@ -193,9 +189,20 @@ function gallery(wrapper) {
 					console.log("gallery.firstimage(): Image " + f + " is bad.");
 					//warning("Image " + f + " not found.",true);
 					$(this).remove();
+
+					if (f > 0) {
+						if (f == 1) {
+							warning("The first image could not be loaded.",true,Infinity);
+						} else {
+							warning("Image " + f + " could not be loaded.",true,Infinity);
+						}
+					}
+					
 					if (f == INFOjs.length-1) {
-						warning("No images in this subset could be loaded.",true);
+						warning("No images could be loaded.",true,Infinity);
+						console.log("No images could be loaded.");
 						$(wrapper + " #workingfullframe").css('visibility','hidden');
+						return;
 					}
 					//findfirstimage(f+1,allbad);
 					firstimage(f+1,allbad);
@@ -206,9 +213,9 @@ function gallery(wrapper) {
 					
 					if (f > 0) {
 						if (f == 1) {
-							warning("The first image in this subset could not be loaded.");
+							warning("The first image in this subset could not be loaded.",true);
 						} else {
-							warning("The first " + f + " image" + pl + " in this subset could not be loaded.");
+							warning("The first " + f + " images" + " in this subset could not be loaded.",true);
 						}
 					}
 					
@@ -226,61 +233,20 @@ function gallery(wrapper) {
 					// Set title attribute on thumbnail
 					$(this).attr("title",imgtitle(INFOjs[f]));
 
-					el = this;
-					type = 'thumb'
-					var ar = el.naturalWidth/el.naturalHeight;
+						type = 'thumb'
+						el = this;
 
-					if (!VIVIZ[type+"Width"] && !VIVIZ[type+"Height"]) {
-						VIVIZ[type+"Width"] = 1.0;
-						VIVIZ[type+"Height"] = 1.0;
-						if ((GALLERYINFO["fulldir"] === GALLERYINFO["thumbdir"]) || (GALLERYINFO["thumbdir"] === "")) {
-							VIVIZ[type+"Width"] = 0.25;
-							VIVIZ[type+"Height"] = 0.25;
-						}
-					}
-
-					// Compute pixels if given fractions.
-					if (VIVIZ[type+"Width"]) {
-						if (VIVIZ[type+"Width"] > 1.0) {
-							VIVIZ[galleryid][type+"Width"] = VIVIZ[type+"Width"];
-						} else {
-							VIVIZ[galleryid][type+"Width"] = el.naturalWidth*VIVIZ[type+"Width"];
-						}
-					}
-					if (VIVIZ[type+"Height"]) {
-						if (VIVIZ[type+"Height"] > 1.0) {
-							VIVIZ[galleryid][type+"Height"] = VIVIZ[type+"Height"];
-						} else {
-							VIVIZ[galleryid][type+"Height"] = el.naturalHeight*VIVIZ[type+"Height"];
-						}
-					}
-
-					// Compute un-specified width or height.
-					if (VIVIZ[galleryid][type+"Width"] && !VIVIZ[galleryid][type+"Height"]) {
-						VIVIZ[galleryid][type+"Height"] = VIVIZ[galleryid][type+"Width"]/ar;
-					}
-					if (VIVIZ[galleryid][type+"Height"] && !VIVIZ[galleryid][type+"Width"]) {
-						VIVIZ[galleryid][type+"Width"] = VIVIZ[galleryid][type+"Height"]*ar;
-					}
-
-
-					if (!VIVIZ[galleryid][type+"Height"]) {
-						VIVIZ[galleryid][type+"Height"] = el.naturalHeight;
-					}
-					if (!VIVIZ[galleryid][type+"Width"]) {
-						VIVIZ[galleryid][type+"Width"] = el.naturalWidth;
-					}
-					VIVIZ[galleryid][type+"NaturalHeight"] = el.naturalHeight;
-					VIVIZ[galleryid][type+"NaturalWidth"] = el.naturalWidth;
+						var tmp = setWH(this,galleryid,GALLERYINFO);
 
 					// Set height of thumbnail image.
 					$(this).css("height",VIVIZ[galleryid]["thumbHeight"]);
 					$(this).css("width",VIVIZ[galleryid]["thumbWidth"]);
 
+
 					console.log('gallery.firstimage(): First thumbnail loaded with natural dimensions = '+this.naturalWidth+'x'+this.naturalHeight+ '.');
 					console.log('gallery.firstimage(): First thumbnail set to have dimensions = '+VIVIZ[galleryid]["thumbWidth"]+'x'+VIVIZ[galleryid]["thumbHeight"]+ '.');
 
-					settabledims();
+					//settabledims();
 					
 					// Lazy Load images.
 					$('#gallerythumbframe').attr('data-thumb-length', INFOjs.length);
@@ -344,6 +310,8 @@ function gallery(wrapper) {
 		console.log("gallery.settabledims(): Full img natural height = " + VIVIZ[galleryid]["fullNaturalHeight"]);
 		console.log("gallery.settabledims(): Full img scaled width = " + VIVIZ[galleryid]["fullWidth"]);
 		console.log("gallery.settabledims(): Full img scaled height = " + VIVIZ[galleryid]["fullHeight"]);
+		
+		//if (galleryid.match(/ACE/)) {return;}
 
 		if (el) {
 			// Don't get border-width by querying DOM for first thumbnail, because it may not be in 
@@ -372,7 +340,7 @@ function gallery(wrapper) {
 			
 			// Set height of thumb strip to be full height of image.
 			$(wrapper + ' #gallerythumbframe').height(VIVIZ[galleryid]["fullHeight"]);
-
+			//return;
 			enclosure = $(wrapper).parents().filter('body')[0];
 			enclosure = "body";
 			console.log("gallery.settabledims(): Window height: "+ $(window).height());
@@ -382,17 +350,16 @@ function gallery(wrapper) {
 			// Amount height needs to shrink so that no scrollbar appears.
 			dh = $(enclosure).height() - $(window).height();
 			console.log("gallery.settabledims(): dh = "+dh);
-			//return;
 
 			if (dh > 0) {
 				console.log("gallery.settabledims(): Shrinking height of #fullframe img.")
 				$(wrapper + ' #fullframe img').height(VIVIZ[galleryid]["fullHeight"]-dh)
 				console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe to "+(VIVIZ[galleryid]["fullHeight"]-dh));
 				$(wrapper + ' #gallerythumbframe').height(VIVIZ[galleryid]["fullHeight"]-dh);
-				VIVIZ[galleryid]['fullHeight'] = VIVIZ[galleryid]["fullHeight"]-dh;
-				VIVIZ[galleryid]['fullWidth']  = $(wrapper + ' #gallerythumbframe img:first').width()	        	
+				//VIVIZ[galleryid]['fullHeight'] = VIVIZ[galleryid]["fullHeight"]-dh;
+				//VIVIZ[galleryid]['fullWidth']  = $(wrapper + ' #gallerythumbframe img:first').width()	        	
 			} else {
-				console.log("gallery.settabledims(): Full image height known and dh <=0.  Setting #gallerythumbframe height to be height of full image " + VIVIZ[galleryid]["fullHeight"]);
+				console.log("gallery.settabledims(): Full image height known and dh <= 0.  Setting #gallerythumbframe height to be height of full image = " + VIVIZ[galleryid]["fullHeight"] + ".");
 				console.log("gallery.settabledims(): Setting #gallerythumbframe height to "+VIVIZ[galleryid]["fullHeight"])
 				$(wrapper + " #gallerythumbframe").height(VIVIZ[galleryid]["fullHeight"]);
 			}
@@ -525,16 +492,13 @@ function gallery(wrapper) {
 						//$(this).css("width",VIVIZ[galleryid]["fullWidth"]);
 
 						var enclosure = "body"
-						console.log("gallery.settabledims(): Window height: "+ $(window).height());
-						console.log("gallery.settabledims(): Document height: "+ $(document).height());
-						console.log("gallery.settabledims(): Enclosing body height: " + $(enclosure).height());
+						console.log("gallery.loadfull(): Window height: "+ $(window).height());
+						console.log("gallery.loadfull(): Document height: "+ $(document).height());
+						console.log("gallery.loadfull(): Enclosing body height: " + $(enclosure).height());
 						
 
-						//setTimeout(function () {
-							settabledims(this);
-						//},100);
-
-						//$(this).click();
+						setfilename();
+						settabledims(this);
 
 						//Enlil code
 						if (VIVIZ["alternativeFrame"]) {
@@ -544,7 +508,7 @@ function gallery(wrapper) {
 
 					//$(this).click();
 
-					console.log("Load event")
+					console.log("gallery.loadfull(): Load event.")
 					// Hide loading indicator
 					$(wrapper + ' #workingfullframe').css('visibility','hidden');
 					
@@ -622,7 +586,7 @@ function gallery(wrapper) {
 					.load(function () {
 						//$(wrapper).attr('totalvisible', parseInt($(wrapper).attr('totalvisible'))+1);
 						if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-							$('#connectionerror').html("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
+							warning("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
 							slowwarn = true;	
 							setTimeout(function () {$('#connectionerror').html('')},5000);
 						}
@@ -793,15 +757,14 @@ function gallery(wrapper) {
 		//console.log(GALLERYINFO);
 		//dropdown("output", GALLERYINFO['outputs'], wrapper + " #dropdowns");
 		
-		// TODO: Set this based on available space.
-		$(wrapper + " #gallery").css('width','15em');
-		$(wrapper + " #order").css('width','8em');
 
 		$(wrapper + ' #dropdownswrapper #order').change(function(){
 			setthumbs();
 		});
-		$(wrapper + ' #dropdowns #outputs').change(function(){
-			setoutput();
+		$(wrapper + ' #dropdowns #download').change(function(){
+			console.log("---- Download option not implemented.");
+			// TODO: If imgconvert link works and VIVIZ["showDownloads"] is true, show this.
+			// If imgconvert link does not work, make download drop-down text red and change tool tip to indicate problem.
 		});
 
 		if (GALLERYINFO['attributes']["Values"].length > 0) {
@@ -814,9 +777,12 @@ function gallery(wrapper) {
 		} else {
 			console.log("gallery.setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
 		}
-	
+
+		// TODO: Set this based on available space.
+		$(wrapper + " #gallery").css('width','15em');
+		$(wrapper + " #order").css('width','8em');		
 		$(wrapper + " #sortby").css('width','8em');
-		$(wrapper + " #output").css('width','8em');
+		$(wrapper + " #download").css('width','7em');
 		$(wrapper + " #regexp").css('width','8em');
 
 
@@ -848,6 +814,7 @@ function gallery(wrapper) {
 			})
 		}
 	}
+
 	
 	function testconnection() {
 		function tryconnection() {

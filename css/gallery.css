@@ -51,6 +51,13 @@ button {
 	font-weight:bold;
 	font-size:12pt;
 }
+#t-container select {
+	//background-color:black;
+	//color:white;
+	font-weight:bold;
+	font-size:12pt;
+}
+
 #g-container table {
 	border:0px solid white;
 	table-layout: fixed;
@@ -58,6 +65,7 @@ button {
 #g-container td {
 	border:1px solid white;
 }
+
 #numvisible {
     font-size:12pt;
 }
@@ -133,7 +141,6 @@ img.top {
 	}
 
 #sliderright {
-	float: right;
 	margin: 0px;
 	padding: 10px;
 	border:1px solid #000000;

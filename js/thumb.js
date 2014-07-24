@@ -1,10 +1,6 @@
 function thumb(wrapper) {
 
 	console.log("thumb.js: Called.")
-	console.log("thumb.js: Caller is " + arguments.callee.caller.toString());
-	
-	// http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
-	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
 
 	var GALLERIES = cataloginfo();
     if (GALLERIES === "") {
@@ -13,11 +9,12 @@ function thumb(wrapper) {
     	return;
     }
 
-	$(window).hashchange(function() {
+	$(window).unbind('hashchange.thumb');
+	$(window).bind( 'hashchange.thumb',function() {
 		console.log('thumb.js: Hash has changed to ' + location.hash);
         $(wrapper + " #thumbbrowseframe").html('');
         thumb(wrapper);
-	})
+	});
 
 	var neww = $(window).width()-$.scrollbarWidth();
 	$("#t-container").css('width',neww);
@@ -40,12 +37,12 @@ function thumb(wrapper) {
 
 	VIVIZ[galleryid] = {};
 
-	var INFOG    = galleryinfo(galleryid);
-  	var THUMBDIR = INFOG['thumbdir'];
-	var FULLDIR  = INFOG['fulldir'];
-	var SORTBYS  = INFOG['attributes'];
-	var ORDERS   = INFOG['orders'];
-    //console.log(INFOG);
+	var GALLERYINFO = galleryinfo(galleryid);
+  	var THUMBDIR = GALLERYINFO['thumbdir'];
+	var FULLDIR  = GALLERYINFO['fulldir'];
+	var SORTBYS  = GALLERYINFO['attributes'];
+	var ORDERS   = GALLERYINFO['orders'];
+    //console.log(GALLERYINFO);
     //return;
     var HEADER = cataloginfo(galleryid);   
     $(wrapper + " #about").attr('title',HEADER["about"]).show();
@@ -177,33 +174,49 @@ function thumb(wrapper) {
 				var src = $(this).attr("srcfull");
 				//console.log(src);
 				// Where does this 30 pixels come from?
+				$(wrapper + ' #thumbbrowseoverlay').unbind('load');
 				$(wrapper + ' #thumbbrowseoverlay')
 					.show()
 					.attr("src", src)
 					.css("left", $(this).offset().left+30)
 					.css("top", $(this).position().top+30)
+					.load(function () {
+						setthumbbindings.active = this;
 
-				setthumbbindings.active = this;
-				console.log("active.offset().left: " + $(setthumbbindings.active).offset().left);
-				console.log("$('#thumbbrowseoverlay').width(): "+$('#thumbbrowseoverlay').width())
-				console.log("$('#thumbbrowseoverlay').offset().left: "+$('#thumbbrowseoverlay').offset().left)
-				console.log('$(window).width(): '+$(window).width());
-				console.log("Flip image? ")
-				console.log($(setthumbbindings.active).offset().left + $(wrapper + ' #thumbbrowseoverlay').width() > $(window).width());
-				//$(this).css("border", "solid blue 3px");
-				//return;
-				
-				
-				$(wrapper + ' #thumbbrowseoverlay').unbind('load');
-				$(wrapper + ' #thumbbrowseoverlay').load(function () {
-					deltaleft = $("#thumbbrowseoverlay").position().left - $("#thumbbrowseframe").position().left;
-					deltatop  = $("#thumbbrowseoverlay").position().top;
-					if ($(setthumbbindings.active).offset().left + $(wrapper + ' #thumbbrowseoverlay').width() > $(window).width()) {
-						console.log("Flipping.")
-						$("#thumbbrowseoverlay").css("left", 
-								$(setthumbbindings.active).offset().left+$(setthumbbindings.active).width()-$('#thumbbrowseoverlay').width()+30);
-					}
-				})
+						console.log("active.offset().left: " + $(setthumbbindings.active).offset().left);
+						console.log("$('#thumbbrowseoverlay').width(): "+$(wrapper + ' #thumbbrowseoverlay').width())
+						console.log("$('#thumbbrowseoverlay').offset().left: "+$('#thumbbrowseoverlay').offset().left)
+						console.log('$(window).width(): '+$(window).width());
+
+						if ($(wrapper + ' #thumbbrowseoverlay').width() > $(window).width()) {
+							$(wrapper + " #thumbbrowseoverlay").css("left", $(window).width()/2);
+						}
+						$(wrapper + " #thumbbrowseoverlay").css("left", $(window).width()/2 - $(wrapper + ' #thumbbrowseoverlay').width()/2)
+						return;
+						var expandright = $(setthumbbindings.active).offset().left + $(wrapper + ' #thumbbrowseoverlay').width() > $(window).width();
+						console.log("Full image too wide to expand right? "+ expandright);
+
+						var expandleft = $(setthumbbindings.active).offset().left - $(wrapper + ' #thumbbrowseoverlay').width() < 0;
+						console.log("Full image too wide to expand left? "+ expandleft);
+
+
+						if (!expandright && expandleft) {
+							// Flip left
+						}
+						if (!expandright && !expandleft) {
+							// See if it fits when centered.  If not, scale to fit width.
+						}
+
+						deltaleft = $(wrapper + " #thumbbrowseoverlay").position().left - $(wrapper + " #thumbbrowseframe").position().left;
+						deltatop  = $(wrapper + " #thumbbrowseoverlay").position().top;
+						if ($(setthumbbindings.active).offset().left + $(wrapper + ' #thumbbrowseoverlay').width() > $(window).width()) {
+							console.log("Flipping to left")
+							$(wrapper + " #thumbbrowseoverlay").css("left", 
+									$(setthumbbindings.active).offset().left + $(setthumbbindings.active).width()-$(wrapper + ' #thumbbrowseoverlay').width()+30);
+						}
+					})
+
+
 			});
 	
 			$(wrapper + ' #thumbbrowseoverlay').click(function(){
@@ -254,8 +267,8 @@ function thumb(wrapper) {
 		//console.log('thumbbrowse.js: setthumbs(): Setting thumbs.');		
 		//$(wrapper + " #working").show();
 		
-		var THUMBDIR = INFOG['thumbdir'];
-		var FULLDIR = INFOG['fulldir'];
+		var THUMBDIR = GALLERYINFO['thumbdir'];
+		var FULLDIR = GALLERYINFO['fulldir'];
 
 		var thumbwidth = "";
 		if ( (FULLDIR === THUMBDIR) || (THUMBDIR === "")) {
@@ -297,13 +310,10 @@ function thumb(wrapper) {
 
 		setthumbbindings();        
 
-        console.log("thumb.setthumbs(): maxLength = "+maxLength)
-        console.log("thumb.setthumbs(): VIVIZ['lazyLoadMax'] = "+VIVIZ["lazyLoadMax"])
-	    //if (INFOjs.length > VIVIZ["lazyLoadMax"]) {
+        console.log("thumb.setthumbs(): maxLength = "+maxLength);
+        console.log("thumb.setthumbs(): VIVIZ['lazyLoadMax'] = "+VIVIZ["lazyLoadMax"]);
+
 		loadmore();
-	    //} else {
-		//	$("#instructions").hide();
-	    //}
 
 		//http://stackoverflow.com/questions/5612787/converting-javascript-object-to-string
 		function objToString (obj) {
@@ -317,7 +327,7 @@ function thumb(wrapper) {
 		}
 
 		function setslider() {
-			if (!typeof($().slider) !== "function") {
+			if (typeof($().slider) !== "function") {
 				console.log("thumb.setthumbs.setslider(): No slider extension available.");
 				return;
 			}
@@ -401,44 +411,14 @@ function thumb(wrapper) {
 					if (!loadone.first) {
 						console.log("thumb.setthumbs.loadone(): First thumbnail loaded.");
 
+						type = 'thumb'
+						el = this;
 
-						var ar = this.naturalWidth/this.naturalHeight;
-						if (!VIVIZ["thumbWidth"] && !VIVIZ["thumbHeight"]) {
-							VIVIZ["thumbWidth"] = 0.25;
-							VIVIZ["thumbHeight"] = 0.25;
-						}
-
-						if (VIVIZ["thumbWidth"]) {
-							if (VIVIZ["thumbWidth"] > 1.0) {
-								VIVIZ[galleryid]["thumbWidth"] = VIVIZ["thumbWidth"];
-							} else {
-								VIVIZ[galleryid]["thumbWidth"] = this.naturalWidth*VIVIZ["thumbWidth"];
-							}
-						}
-						if (VIVIZ["thumbHeight"]) {
-							if (VIVIZ["thumbHeight"] > 1.0) {
-								VIVIZ[galleryid]["thumbHeight"] = VIVIZ["thumbHeight"];
-							} else {
-								VIVIZ[galleryid]["thumbHeight"] = this.naturalHeight*VIVIZ["thumbHeight"];
-							}
-						}
-
-						if (VIVIZ["thumbWidth"] && !VIVIZ["thumbHeight"]) {
-							VIVIZ[galleryid]["thumbHeight"] = VIVIZ["thumbWidth"]/ar;
-						}
-						if (VIVIZ["thumbHeight"] && !VIVIZ["thumbWidth"]) {
-							VIVIZ[galleryid]["thumbWidth"] = VIVIZ["thumbHeight"]*ar;
-						}
-
-						if (!VIVIZ[galleryid]["thumbNaturalHeight"]) {
-							VIVIZ[galleryid]["thumbNaturalHeight"] = this.naturalHeight;
-						}
-						if (!VIVIZ[galleryid]["thumbNaturalWidth"]) {
-							VIVIZ[galleryid]["thumbNaturalWidth"] = this.naturalWidth;
-						}
+						var tmp = setWH(this,galleryid,GALLERYINFO);
 
 
 						loadone.first = true;
+						
 						// If thumbnails exist.
 						tw = VIVIZ[galleryid]["thumbWidth"];
 						th = VIVIZ[galleryid]["thumbHeight"];
@@ -551,8 +531,8 @@ function thumb(wrapper) {
 			setthumbbindings();
 		});
 
-		if (INFOG['attributes']["Values"] > 1) {
-		    dropdown("sortby", INFOG['attributes'], wrapper + " #dropdowns");
+		if (GALLERYINFO['attributes']["Values"] > 1) {
+		    dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns");
 			$(wrapper + ' #dropdowns #sortby').change(function(){
 				setregexps();
 				setthumbs();

@@ -618,18 +618,18 @@
 		<about>http://http://www.rbsp-ect.lanl.gov/</about>
 		<fulldir>http://www.rbsp-ect.lanl.gov/data_pub/rbspa/rept/level2/plots/sci-elec-L2/</fulldir>
 		<thumbdir>http://www.rbsp-ect.lanl.gov/data_pub/rbspa/rept/level2/plots/sci-elec-L2/thumbs400/</thumbdir>
-		<strftime>rbspa_pre_ect-rept-sci-elec-L2_%Y%m%d_v1.0.0.png</strftime>
+		<strftime>rbspa_rel02_ect-rept-sci-elec-L2_%Y%m%d_v1.0.0.png</strftime>
 		<strftimestart>2012-09-03</strftimestart>
-		<strftimestop>2013-05-17</strftimestop>			
+		<strftimestop>2013-10-11</strftimestop>			
 	</gallery>
 	<gallery id="RBSP/B/ECT/REPT/Electron">
 		<title>RBSP/B/ECT/REPT/Electron</title>
 		<about>http://http://www.rbsp-ect.lanl.gov/</about>
 		<fulldir>http://www.rbsp-ect.lanl.gov/data_pub/rbspb/rept/level2/plots/sci-elec-L2/</fulldir>
 		<thumbdir>http://www.rbsp-ect.lanl.gov/data_pub/rbspb/rept/level2/plots/sci-elec-L2/thumbs400/</thumbdir>
-		<strftime>rbspb_pre_ect-rept-sci-elec-L2_%Y%m%d_v1.0.0.png</strftime>
+		<strftime>rbspb_rel02_ect-rept-sci-elec-L2_%Y%m%d_v1.0.0.png</strftime>
 		<strftimestart>2012-09-03</strftimestart>
-		<strftimestop>2013-05-17</strftimestop>			
+		<strftimestop>2013-10-11</strftimestop>			
 	</gallery>
 	<gallery id="RBSP/A/ECT/REPT/Ion">
 		<title>RBSP/A/ECT/REPT/Ion</title>

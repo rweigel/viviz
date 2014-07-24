@@ -219,13 +219,13 @@
 	</gallery>
 	<gallery id="Test/6">
 		<title>Test/6</title>
-		<about>Test of sprintf</about>
+		<about>Test of strfmtime</about>
 		<aboutlink></aboutlink>
 		<fulldir>images/full/</fulldir>
 		<thumbdir>images/thumb/</thumbdir>
 		<strftime>demo-%Y.png</strftime>
-		<strftimestart>0001</strftimestart>
-		<strftimestop>0004</strftimestop>
+		<strftimestart>2001</strftimestart>
+		<strftimestop>2004</strftimestop>
 	</gallery>
 	<gallery id="Test/7">
 		<title>Test/7</title>
@@ -311,8 +311,30 @@
 			]]>
 		</fulllistscript>						
 	</gallery>
-
-
+	<gallery id="Test/12">
+		<title>Test/12</title>
+		<about>Test of one bad file</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<fullfiles>[["xdemo-0001.png"]]</fullfiles>						
+	</gallery>
+	<gallery id="Test/13">
+		<title>Test/13</title>
+		<about>Test of JSON array in XML</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<fullfiles>[["demo-0001.png"],["demo-0002.png"],["demo-0003.png"],["demo-0004.png"]]</fullfiles>						
+	</gallery>
+	<gallery id="Test/14">
+		<title>Test/14</title>
+		<about>Test of all bad images</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/full/</fulldir>
+		<thumbdir>images/thumb/</thumbdir>
+		<fullfiles>[["xdemo-0001.png"],["xdemo-0002.png"],["xdemo-0003.png"],["xdemo-0004.png"]]</fullfiles>						
+	</gallery>
 
 	<gallery id="Test/Spectra/OMNI2/Yearly">
 		<title>Test/Spectra/OMNI2/Yearly</title>

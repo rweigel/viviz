@@ -7,6 +7,48 @@ function reporterror(URL) {
 	}		
 }
 
+function menulist(StartYear,StopYear,TEMPLATE_YEAR) {
+
+	// menulist(FILES,TEMPLATE)
+	if (arguments.length == 2) {
+
+		TEMPLATEp = TEMPLATE.replace('%Y','([0-9][0-9][0-9][0-9])');
+		TEMPLATEp = TEMPLATEp.replace('%m','([0-9][0-9])');
+		TEMPLATEp = TEMPLATEp.replace('%d','([0-9][0-9])');
+
+		var patt = new RegExp(TEMPLATEp);
+		StartYear  = files[0][3].replace(patt,'$1');
+		//StartMonth = files[0][3].replace(patt,'$2');
+		//StartDay   = files[0][3].replace(patt,'$3');
+		StopYear   = files[files.length-1][3].replace(patt,'$1');
+		//StopMonth  = files[1][3].replace(patt,'$2');
+		//StopDay    = files[1][3].replace(patt,'$3');
+
+		TEMPLATEp = TEMPLATE.replace('%Y','[0-9][0-9][0-9][0-9]');
+		TEMPLATEp = TEMPLATEp.replace(/\./gi,'');
+		TEMPLATEp = TEMPLATEp.replace(/%[a-z]/gi,'.*');
+		
+		//console.log("menulist.js: No start/stop year given.  Computing from template " + TEMPLATEp);
+		//console.log("menulist.js: StartYear = " + StartYear + ", EndYear = " + StopYear);	
+		//console.log("menulist.js: Pattern to match for year = " + TEMPLATEp);
+
+		return menulist(StartYear,StopYear,TEMPLATEp);			
+	}
+
+	StartYear = parseInt(StartYear.substring(0,4));
+	StopYear  = parseInt(StopYear.substring(0,4));
+
+	FILTERS = new Array();
+	for (var j=0;j<(StopYear-StartYear+1);j++) {
+		var patt = new RegExp(TEMPLATE_YEAR);
+		year = ""+(j+StartYear);
+		var PATTERN_YEAR = TEMPLATE_YEAR.replace(TEMPLATE_YEAR,year);
+		FILTERS[j] = {"Title":year,"Value":PATTERN_YEAR};
+	}
+
+	return FILTERS;
+}
+
 function extractorders() {
 	var ORDERS = {
 		    "Title": "Sort order",
@@ -18,20 +60,6 @@ function extractorders() {
 		               	{"Title": "Random","Value": "random"}]
 	}
 	return ORDERS;
-}
-
-function extractoutputs() {
-	var OUTPUTS = {
-		"Title": "Download",
-		    "Titleshort": "-Download Options-",
-		    "Class": "updatelocal",
-		    "Values": [{"Title": "File List", "Value": "filelist"},
-						{"Title": "Animated GIF", "Value": "gif"},
-		               	{"Title": "MP4","Value": "mp4"},
-		               	{"Title": "MOV","Value": "mov"},
-		               	{"Title": "Zip","Value": "zip"}]
-	}
-	return OUTPUTS;
 }
 
 function extractattributes(galleryid) {
@@ -250,6 +278,7 @@ function galleryinfo(galleryid) {
 		//console.log('galleryinfo: Using cached gallery information for ' + galleryid);
 		return galleryinfo.GALLERYINFO[galleryid]
 	}
+
 	_GALLERYINFO = new Object();
 	var fullfiles = [];
 	var thumbfiles = [];
@@ -273,13 +302,13 @@ function galleryinfo(galleryid) {
 	}
 
 	if (CATALOGINFO["fullfiles"]) {
-		fullfiles = extractfiles(CATALOGINFO["fullfiles"]);
-	}
-	
-	if (CATALOGINFO["thumbfiles"]) {
-		thumbfiles = extractfiles(CATALOGINFO["thumbfiles"]);
+		eval('fullfiles = ' + CATALOGINFO["fullfiles"])
 	}
 
+	if (CATALOGINFO["thumbfiles"]) {
+		eval('thumbfiles = ' + CATALOGINFO["thumbfiles"])
+	}
+	
 	if (CATALOGINFO["strftime"]) {
 		_GALLERYINFO["strftime"]      = CATALOGINFO["strftime"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		_GALLERYINFO["strftimestart"] = CATALOGINFO["strftimestart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
@@ -393,7 +422,7 @@ function galleryinfo(galleryid) {
 			return false;
 		}
 	}
-}
+	}
     
 	if (CATALOGINFO["fulldir"]) {
 		_GALLERYINFO["fulldir"] = CATALOGINFO["fulldir"];
@@ -443,15 +472,30 @@ function galleryinfo(galleryid) {
 	_GALLERYINFO["totalingallery"] = _GALLERYINFO["fullfiles"].length;	
 	_GALLERYINFO["orders"]         = extractorders();
 	_GALLERYINFO["attributes"]     = extractattributes(galleryid);
-	_GALLERYINFO["outputs"]		   = extractoutputs();
+	//_GALLERYINFO["outputs"]		   = extractoutputs();
 	
-	if (_GALLERYINFO["autoattributes"])
-		_GALLERYINFO["attributes"]["Values"][0]["Filters"] = _GALLERYINFO["autoattributes"]
-	
+	//console.log(extractattributes(galleryid));
+
+	if (_GALLERYINFO["autoattributes"]) {		
+		if (VIVIZ["useAutoAttributes"]) {
+			// When useAutoAttributes is true, ignore attributes specified in file.
+			_GALLERYINFO["attributes"]["Values"][0]["Filters"] = _GALLERYINFO["autoattributes"];
+
+			// Add an All attribute at the end.
+			var na = _GALLERYINFO["autoattributes"].length;
+			_GALLERYINFO["attributes"]["Values"][0]["Filters"][na] = {};
+			_GALLERYINFO["attributes"]["Values"][0]["Filters"][na].Title = "All";
+			_GALLERYINFO["attributes"]["Values"][0]["Filters"][na].Value = ".*";	
+
+			// TODO: Add options useAutoAttributesOnly (current meaning of useAutoAttributes) 
+			// and useAutoAttributesAlso (Append auto attributes to existing)?	
+		}
+	}
+
 	galleryinfo.GALLERYINFO[galleryid] = _GALLERYINFO;
 	
-	//console.log("galleryinfo.js: _GALLERYINFO = ");
-	//console.log(_GALLERYINFO);
+	console.log("galleryinfo.js: _GALLERYINFO = ");
+	console.log(_GALLERYINFO);
 
 	return _GALLERYINFO;
 
