@@ -102,6 +102,8 @@ app.use('/js', express.static(__dirname + '/js'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/xml', express.static(__dirname + '/xml'));
 app.use('/dat', express.static(__dirname + '/dat'));
+app.use('/', express.static(__dirname + '/'));
+
 
 app.use('/js',express.directory(__dirname + '/js'));
 app.use('/css',express.directory(__dirname + '/css'));
