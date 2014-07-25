@@ -2,8 +2,20 @@
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-		<title>ViViz</title>
+		<title>Enlil</title>
 		
+		  <META HTTP-EQUIV="refresh" CONTENT="3600">
+
+		  <STYLE>
+		    html, body {
+		      position: absolute; left: 0; right: 0; bottom: 0; top: 0;
+		      overflow: auto; margin: 0; padding: 0; height 100%;
+		      font-family: arial;		      
+		    }
+		    td.output a {cursor:pointer;text-decoration:underline}
+		    
+		  </STYLE>
+
 		<link rel="icon" type="image/ico" href="./enlil.ico"/>		
 		
 		<script type="text/javascript" src="./js/deps/1.7.2/jquery.min.js"></script>
@@ -830,7 +842,6 @@
 			// When an output option is clicked, update the hash in the URL.
 			$(enlildiv + ' td.output a').on("click",xupdatehash);
 			$(enlildiv + ' td.input a').on("click",xupdatehash);
-			$(enlildiv + ' td.output a').css('cursor','pointer');
 			$(enlildiv + ' #dl_select').on("change",getdownload);
 			$(enlildiv + ' #jmap_controls').on("change",jmap_change)
 			$(enlildiv + ' #evo_controls').on("change",evo_change)
@@ -1151,6 +1162,257 @@
 
 	</div>
 	
+	<div id="enlil" style="display:none;">
+		<CENTER>
+			<TABLE width="100%" border="0" cellspacing="0" cellpadding="8">
+
+				<TR>
+					<TD bgcolor="#bbddff" colspan="5" align="center">
+						<FONT color="#224488" size="6" face="arial" id="sitetitle">
+							IPSBD &nbsp;&ndash;&nbsp;
+							 Solar Wind Prediction &nbsp;&ndash;&nbsp;
+							Velocity 1
+						</FONT>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#bbddff" align="center">
+						<FONT size="5" color="#224488" face="arial">Model Input:</FONT>
+					</TD>
+					<TD align="center" colspan="3" rowspan="13">
+						<DIV ID="ss_img_div">
+							<img width="100%"/>
+						</DIV>
+					</TD>
+					<TD bgcolor="#bbddff" align="center">
+						<FONT size="5" color="#224488" face="arial">Model Output:</FONT>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#224488" align="center" class="input">
+						<A HREF="/#/IPSBD-ENLIL/Velocity/1">
+							<FONT size="5" color="white" face="arial" id="IPSBD">IPSBD</FONT>
+						</A>
+					</TD>
+					<TD bgcolor="#224488" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Velocity/1">Velocity 1</FONT></A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+						<A HREF="#/IPSBD-SWRC-ENLIL/Velocity/1">
+							<FONT size="5" color="white" face="arial" id="IPSBD-SWRC">IPSBD-SWRC</FONT>
+						</A>
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Velocity/2">Velocity 2</FONT></A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+						<A HREF="/#/WSADU-SWRC-ENLIL/Velocity/1">
+							<FONT size="5" color="white" face="arial" id="WSADU-SWRC">WSADU-SWRC</FONT>
+						</A>
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="Velocity/3">Velocity 3</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+						<A HREF="/#/WSADT-SWRC-ENLIL/Velocity/1">
+							<FONT size="5" color="white" face="arial" id="WSADT-SWRC">WSADT-SWRC</FONT>
+						</A>
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="Density/1">Density 1</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+					<A>
+						<FONT size="5" color="white" id="Density/2">Density 2</FONT>
+					</A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="Density/3">Density 3</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="Helio/1">STEREO 1</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="Helio/2">STEREO 2</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="Evolution/EARTH">Evolution</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="Shock/1">SHOCK</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#4488cc" align="center" class="input">
+					</TD>
+					<TD bgcolor="#4488cc" align="center" class="output">
+						<A>
+							<FONT size="5" color="white" id="JMap/HI12A">J-Maps</FONT>
+						</A>
+					</TD>
+				</TR>
+
+				<!-- Blank row to force last previous row to have same width.
+					 Blank row has width that fills in gap to bottom of image. -->
+				<TR>
+					<TD bgcolor="#4488cc" align="center">
+					</TD>
+					<TD bgcolor="#4488cc" align="center">
+					</TD>
+				</TR>
+
+				<TR>
+					<TD bgcolor="#bbddff" align="center">
+						<A HREF="">
+							<FONT size="5" color="#224488" face="arial">Main Page</FONT>
+						</A>
+					</TD>
+					<TD bgcolor="white" align="right">
+						<A HREF="" id="infolink">
+							<FONT size="5" color="#224488" face="arial"><B>I N F O</B></FONT>
+						</A>
+					</TD>
+					<TD align="center">
+						<div id="ss_controls">
+							<A ID="ss_start">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play"/>
+							</A>
+							<A ID="ss_stop">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause"/>
+							</A>
+							<A ID="ss_prev">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous"/>
+							</A>
+							<A ID="ss_next">
+								<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next"/>
+							</A>
+						</div>
+					</TD>
+	
+					<TD align="left">
+
+						<!--
+						<SELECT id="dl_select" style="color: #224488; font-size: 24px" name="dl_select">
+							<OPTION>--Download--</OPTION>
+							<OPTION>File List</OPTION>
+							<OPTION>PDF</OPTION>
+							<OPTION>EPS</OPTION>
+							<OPTION>Animated GIF</OPTION>
+							<OPTION>MP4</OPTION>
+							<OPTION>MOV</OPTION>
+							<OPTION>Zip File</OPTION>
+						</SELECT>
+						-->
+	
+						<SELECT id="ss_select" style="color: #224488; font-size: 24px" name="ss_select">
+							<OPTION>+00T00</OPTION>
+							<OPTION>+01T00</OPTION>
+							<OPTION>+02T00</OPTION>
+							<OPTION>+03T00</OPTION>
+							<OPTION>+04T00</OPTION>
+							<OPTION>+05T00</OPTION>
+							<OPTION>-10T00</OPTION>
+							<OPTION>-09T00</OPTION>
+							<OPTION>-08T00</OPTION>
+							<OPTION>-07T00</OPTION>
+							<OPTION>-06T00</OPTION>
+							<OPTION>-05T00</OPTION>
+							<OPTION>-04T00</OPTION>
+							<OPTION>-03T00</OPTION>
+							<OPTION>-02T00</OPTION>
+							<OPTION>-01T00</OPTION>
+						</SELECT>
+						
+						<SELECT id="evo_controls" style="display:none;color: #224488; font-size: 24px"
+							name="evo_controls">
+							<OPTION>MERCURY</OPTION>
+							<OPTION>VENUS</OPTION>
+							<OPTION selected>EARTH</OPTION>
+							<OPTION>MARS</OPTION>
+							<OPTION>STEREO-A</OPTION>
+							<OPTION>STEREO-B</OPTION>
+							<OPTION>MAVEN</OPTION>
+						</SELECT>
+						
+						<SELECT id="jmap_controls" style="display:none;color: #224488; font-size: 24px"
+							name="jmap_controls">
+							<OPTION selected>HI12A</OPTION>
+							<OPTION>HI12B</OPTION>
+						</SELECT>
+					</TD>
+	
+					<TD bgcolor="#bbddff" align="center">
+						<A HREF="/">
+							<FONT size="5" color="#224488" face="arial">Main Page</FONT>
+						</A>
+					</TD>
+				</TR>
+
+			</TABLE>
+		</CENTER>
+
+	</div>
+
+	
 	<div id="enlilmobile" style="display:none;">
 		<CENTER>
 
@@ -1167,26 +1429,26 @@
 
 			<P>
 			<TABLE width="100%" border="0" cellspacing="0" cellpadding="8">
-			<TR>
-			<TD bgcolor="#4488cc" align="CENTER" class="output">
-				<A HREF="/"><FONT size="4" color="WHITE"><B>MAIN</B></FONT></A>
-			</TD>
-			<TD bgcolor="#224488" align="CENTER" class="output" >
-				<A><FONT size="4" color="WHITE" id="Velocity/0"><B>VELOCITY</B></FONT></A>
-			</TD>
-			<TD bgcolor="#4488cc" align="CENTER" class="output" >
-				<A><FONT size="4" color="WHITE" id="Density/0"><B>DENSITY</B></FONT></A>
-			</TD>
-			<TD bgcolor="#4488cc" align="CENTER" class="output">
-				<A><FONT size="4" color="WHITE" id="Helio/0"><B>STEREO HI-A</B></FONT></A>
-			</TD>
-			<TD bgcolor="#4488cc" align="CENTER" class="output" id="shock" style="display:none">
-				<A><FONT size="4" color="WHITE" id="Shock/0"><B>SHOCK</B></FONT></A>
-			</TD>
-			<TD bgcolor="#4488cc" align="CENTER" class="output">
-				<A><FONT size="4" color="WHITE"><B>EVOLUTION</B></FONT></A>
-			</TD>
-			</TR>
+				<TR>
+					<TD bgcolor="#4488cc" align="CENTER" class="output">
+						<A HREF="/"><FONT size="4" color="WHITE"><B>MAIN</B></FONT></A>
+					</TD>
+					<TD bgcolor="#224488" align="CENTER" class="output" >
+						<A><FONT size="4" color="WHITE" id="Velocity/0"><B>VELOCITY</B></FONT></A>
+					</TD>
+					<TD bgcolor="#4488cc" align="CENTER" class="output" >
+						<A><FONT size="4" color="WHITE" id="Density/0"><B>DENSITY</B></FONT></A>
+					</TD>
+					<TD bgcolor="#4488cc" align="CENTER" class="output">
+						<A><FONT size="4" color="WHITE" id="Helio/0"><B>STEREO HI-A</B></FONT></A>
+					</TD>
+					<TD bgcolor="#4488cc" align="CENTER" class="output" id="shock" style="display:none">
+						<A><FONT size="4" color="WHITE" id="Shock/0"><B>SHOCK</B></FONT></A>
+					</TD>
+					<TD bgcolor="#4488cc" align="CENTER" class="output">
+						<A><FONT size="4" color="WHITE"><B>EVOLUTION</B></FONT></A>
+					</TD>
+				</TR>
 			</TABLE>
 
 			<P>
@@ -1251,229 +1513,6 @@
 			<P>
 		</CENTER>
 			
-	</div>
-	
-	<div id="enlil" style="display:none;">
-		<CENTER>
-			<TABLE width="100%" border="0" cellspacing="0" cellpadding="8">
-
-			<TR>
-				<TD bgcolor="#bbddff" colspan="5" align="center">
-					<FONT color="#224488" size="6" face="arial" id="sitetitle">
-						IPSBD &nbsp;&ndash;&nbsp;
-						 Solar Wind Prediction &nbsp;&ndash;&nbsp;
-						Velocity 1
-					</FONT>
-				</TD>
-			</TR>
-
-			<TR>
-				<TD bgcolor="#bbddff" align="center">
-					<FONT size="5" color="#224488" face="arial">Model Input:</FONT>
-				</TD>
-				<TD align="center" colspan="3" rowspan="12">
-					<DIV ID="ss_img_div">
-						<img width="100%"/>
-					</DIV>
-				</TD>
-				<TD bgcolor="#bbddff" align="center">
-					<FONT size="5" color="#224488" face="arial">Model Output:</FONT>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#224488" align="center" class="input">
-					<A HREF="/#/IPSBD-ENLIL/Velocity/1">
-						<FONT size="5" color="white" face="arial" id="IPSBD">IPSBD</FONT>
-					</A>
-				</TD>
-				<TD bgcolor="#224488" align="center" class="output">
-				<A>
-					<FONT size="5" color="white" id="Velocity/1">Velocity 1</FONT></A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-					<A HREF="#/IPSBD-SWRC-ENLIL/Velocity/1">
-						<FONT size="5" color="white" face="arial" id="IPSBD-SWRC">IPSBD-SWRC</FONT>
-					</A>
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-				<A>
-					<FONT size="5" color="white" id="Velocity/2">Velocity 2</FONT></A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-					<A HREF="/#/WSADU-SWRC-ENLIL/Velocity/1">
-						<FONT size="5" color="white" face="arial" id="WSADU-SWRC">WSADU-SWRC</FONT>
-					</A>
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="Velocity/3">Velocity 3</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-					<A HREF="/#/WSADT-SWRC-ENLIL/Velocity/1">
-						<FONT size="5" color="white" face="arial" id="WSADT-SWRC">WSADT-SWRC</FONT>
-					</A>
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="Density/1">Density 1</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-				<A>
-					<FONT size="5" color="white" id="Density/2">Density 2</FONT>
-				</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="Density/3">Density 3</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="Helio/1">STEREO 1</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="Helio/2">STEREO 2</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="Shock/1">SHOCK PARAMS</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="Evolution/EARTH">Evolution</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#4488cc" align="center" class="input">
-				</TD>
-				<TD bgcolor="#4488cc" align="center" class="output">
-					<A>
-						<FONT size="5" color="white" id="JMap/HI12A">J-Maps</FONT>
-					</A>
-				</TD>
-			</TR>
-			<TR>
-				<TD bgcolor="#bbddff" align="center">
-				<A HREF="">
-					<FONT size="5" color="#224488" face="arial">Main Page</FONT></A>
-				</TD>
-				<TD bgcolor="white" align="right">
-					<A HREF="" id="infolink">
-						<FONT size="5" color="#224488" face="arial"><B>I N F O</B></FONT>
-					</A>
-				</TD>
-				<TD align="center">
-					<div id="ss_controls">
-						<A ID="ss_start">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/play_30.gif" ALT="play"/>
-						</A>
-						<A ID="ss_stop">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/stop_30.gif" ALT="pause"/>
-						</A>
-						<A ID="ss_prev">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/back_30.gif" ALT="previous"/>
-						</A>
-						<A ID="ss_next">
-							<IMG SRC="http://spaceweather.gmu.edu/projects/enlil/images/next_30.gif" ALT="next"/>
-						</A>
-					</div>
-				</TD>
-
-				<TD align="left">
-					<!--
-					<SELECT id="dl_select" style="color: #224488; font-size: 24px" name="dl_select">
-						<OPTION>--Download--</OPTION>
-						<OPTION>File List</OPTION>
-						<OPTION>PDF</OPTION>
-						<OPTION>EPS</OPTION>
-						<OPTION>Animated GIF</OPTION>
-						<OPTION>MP4</OPTION>
-						<OPTION>MOV</OPTION>
-						<OPTION>Zip File</OPTION>
-					</SELECT>
-					-->
-
-					<SELECT id="ss_select" style="color: #224488; font-size: 24px" name="ss_select">
-						<OPTION>+00T00</OPTION>
-						<OPTION>+01T00</OPTION>
-						<OPTION>+02T00</OPTION>
-						<OPTION>+03T00</OPTION>
-						<OPTION>+04T00</OPTION>
-						<OPTION>+05T00</OPTION>
-						<OPTION>-10T00</OPTION>
-						<OPTION>-09T00</OPTION>
-						<OPTION>-08T00</OPTION>
-						<OPTION>-07T00</OPTION>
-						<OPTION>-06T00</OPTION>
-						<OPTION>-05T00</OPTION>
-						<OPTION>-04T00</OPTION>
-						<OPTION>-03T00</OPTION>
-						<OPTION>-02T00</OPTION>
-						<OPTION>-01T00</OPTION>
-					</SELECT>
-					<SELECT id="evo_controls" style="display:none;color: #224488; font-size: 24px"
-						name="evo_controls">
-						<OPTION>MERCURY</OPTION>
-						<OPTION>VENUS</OPTION>
-						<OPTION selected>EARTH</OPTION>
-						<OPTION>MARS</OPTION>
-						<OPTION>STEREO-A</OPTION>
-						<OPTION>STEREO-B</OPTION>
-						<OPTION>MAVEN</OPTION>
-					</SELECT>
-					<SELECT id="jmap_controls" style="display:none;color: #224488; font-size: 24px"
-						name="jmap_controls">
-						<OPTION selected>HI12A</OPTION>
-						<OPTION>HI12B</OPTION>
-					</SELECT>
-				</TD>
-
-				<TD bgcolor="#bbddff" align="center">
-					<A HREF="/">
-						<FONT size="5" color="#224488" face="arial">Main Page</FONT>
-					</A>
-				</TD>
-			</TR>
-			</TABLE>
-		</CENTER>
-
 	</div>
 
 		<div id="testconnection" style="display:none"></div>
