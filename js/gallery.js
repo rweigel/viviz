@@ -57,7 +57,7 @@ function gallery(wrapper) {
 
 	var HEADER = cataloginfo(galleryid);
 	if (HEADER === "") {
-		error("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
+		error(wrapper,"Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
 		console.log("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
 		//alert("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.")
 		$(wrapper + ' #workingfullframe').css('visibility','hidden');
@@ -192,14 +192,14 @@ function gallery(wrapper) {
 
 					if (f > 0) {
 						if (f == 1) {
-							warning("The first image could not be loaded.",true,Infinity);
+							warning(wrapper,"The first image could not be loaded.",true,Infinity);
 						} else {
-							warning("Image " + f + " could not be loaded.",true,Infinity);
+							warning(wrapper,"Image " + f + " could not be loaded.",true,Infinity);
 						}
 					}
 					
 					if (f == INFOjs.length-1) {
-						warning("No images could be loaded.",true,Infinity);
+						warning(wrapper,"No images could be loaded.",true,Infinity);
 						console.log("No images could be loaded.");
 						$(wrapper + " #workingfullframe").css('visibility','hidden');
 						return;
@@ -213,9 +213,9 @@ function gallery(wrapper) {
 					
 					if (f > 0) {
 						if (f == 1) {
-							warning("The first image in this subset could not be loaded.",true);
+							warning(wrapper,"The first image in this subset could not be loaded.",true);
 						} else {
-							warning("The first " + f + " images" + " in this subset could not be loaded.",true);
+							warning(wrapper,"The first " + f + " images" + " in this subset could not be loaded.",true);
 						}
 					}
 					
@@ -279,7 +279,7 @@ function gallery(wrapper) {
 								.css("width",VIVIZ[galleryid]["thumbWidth"])
 								.load(function () {
 									if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-										warning("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
+										warning(wrapper,"Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
 										slowwarn = true;	
 									}	
 								});
@@ -586,7 +586,7 @@ function gallery(wrapper) {
 					.load(function () {
 						//$(wrapper).attr('totalvisible', parseInt($(wrapper).attr('totalvisible'))+1);
 						if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-							warning("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
+							warning(wrapper,"Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
 							slowwarn = true;	
 							setTimeout(function () {$('#connectionerror').html('')},5000);
 						}

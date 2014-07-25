@@ -225,7 +225,6 @@ function isimage(href) {
 	}
 }
 
-
 function galleryinfo(galleryid) {
 
 	if (typeof(galleryinfo.GALLERYINFO) != 'object') {
@@ -275,76 +274,92 @@ function galleryinfo(galleryid) {
 		// Create regexps based on time information
 		_GALLERYINFO["autoattributes"]  = menulist(CATALOGINFO["strftimestart"],CATALOGINFO["strftimestop"],CATALOGINFO["strftime"]);
 
-		// Generate list of files based on template, start, and stop.
-		// TODO: Generalize to handle hours, minutes, seconds.
-		
-		if (CATALOGINFO["strftimestart"].match(/^[0-9]{4}-[0-9]{3}$/)) {
-			// YYYY-DOY
-			var START_year = CATALOGINFO["strftimestart"].substr(0,4);
-			var START_day  = CATALOGINFO["strftimestart"].substr(5,3);
-			var START_date = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}).toString('yyyy-MM-dd'));
-			var START_ms   = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}));
-		} else {
-			var START_ms   = new Date(Date.parse(CATALOGINFO["strftimestart"]));
-			var START_date = new Date(Date.parse(CATALOGINFO["strftimestart"]));
-			var STOP_date = new Date(Date.parse(CATALOGINFO["strftimestop"]));
-			//console.log(START_ms)
+		var options = {};
+		options.template = _GALLERYINFO["strftime"];
+		options.timeRange = _GALLERYINFO["strftimestart"] + "/" + _GALLERYINFO["strftimestop"];
+		options.debug = true;
+		options.type = "strftime";
+		console.log(options)
+		var fullfiles = [];
+		var xfiles = expandtemplate(options);
+		console.log(xfiles);
+
+		for (var i =0;i<xfiles.length;i++) {
+			fullfiles[i] = [xfiles[i]];
 		}
+		//console.log(fullfiles)
+		if (false) {
+			// Generate list of files based on template, start, and stop.
+			// TODO: Generalize to handle hours, minutes, seconds.
 			
-		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/)) {
-			// YYY-DOY
-			var STOP_year = CATALOGINFO["strftimestop"].substr(0,4);
-			var STOP_day  = CATALOGINFO["strftimestop"].substr(5,3);
-			var STOP_ms   = new Date(Date.parse(STOP_year+"-01-01").add({days:parseInt(STOP_day)-1}));
-		} else {
-			var STOP_ms    = new Date(Date.parse(CATALOGINFO["strftimestop"]));
-		}
-
-		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/) || CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
-			var Ndays = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
-		}
-
-		// YYYY-MM
-		var incr = false;
-		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}$/)) {
-			incr = {months:1};			
-		}
-		if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}$/)) {
-			incr = {years:1};			
-		}
-		//console.log("Number of days: " + Ndays)
-		fullfiles = new Array();
-		var tic = new Date().getTime();
-		var i = 0;
-		// Remove time zone 
-		//console.log(CATALOGINFO["StrftimeStart"]);
-		//console.log("--")
-		//console.log(START_date);
-		//START_date = new Date(new Date(START_date).toUTCString().substr(0, 25));
-		//console.log(Date.compare(START_date,STOP_date));
-		//console.log(incr);
-		if (incr) {
-			while (Date.compare(START_date,STOP_date) <= 0) {
-				fname = START_date.strftime(CATALOGINFO["strftime"]);
-				//console.log(Date.compare(START_date,STOP_date));
-				//console.log(fname);
-				fullfiles[i] = [fname];
-				START_date.add(incr);
-				i = i+1;		
+			if (CATALOGINFO["strftimestart"].match(/^[0-9]{4}-[0-9]{3}$/)) {
+				// YYYY-DOY
+				var START_year = CATALOGINFO["strftimestart"].substr(0,4);
+				var START_day  = CATALOGINFO["strftimestart"].substr(5,3);
+				var START_date = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}).toString('yyyy-MM-dd'));
+				var START_ms   = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}));
+			} else {
+				var START_ms   = new Date(Date.parse(CATALOGINFO["strftimestart"]));
+				var START_date = new Date(Date.parse(CATALOGINFO["strftimestart"]));
+				var STOP_date = new Date(Date.parse(CATALOGINFO["strftimestop"]));
+				//console.log(START_ms)
 			}
-		} else {	
-			// Faster to not use Date.compare().
-			while (i < Ndays) {
-				fname = START_date.strftime(CATALOGINFO["strftime"]);
-				//console.log(Date.compare(START_date,STOP_date));
-				//console.log(fname);
-				fullfiles[i] = [fname];
-				START_date.addDays(1);
-				i = i + 1;
+				
+			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/)) {
+				// YYY-DOY
+				var STOP_year = CATALOGINFO["strftimestop"].substr(0,4);
+				var STOP_day  = CATALOGINFO["strftimestop"].substr(5,3);
+				var STOP_ms   = new Date(Date.parse(STOP_year+"-01-01").add({days:parseInt(STOP_day)-1}));
+			} else {
+				var STOP_ms    = new Date(Date.parse(CATALOGINFO["strftimestop"]));
 			}
+
+			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/) || CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
+				var Ndays = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
+			}
+
+			// YYYY-MM
+			var incr = false;
+			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}$/)) {
+				incr = {months:1};			
+			}
+			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}$/)) {
+				incr = {years:1};			
+			}
+			//console.log("Number of days: " + Ndays)
+			fullfiles = new Array();
+			var tic = new Date().getTime();
+			var i = 0;
+			// Remove time zone 
+			//console.log(CATALOGINFO["StrftimeStart"]);
+			//console.log("--")
+			//console.log(START_date);
+			//START_date = new Date(new Date(START_date).toUTCString().substr(0, 25));
+			//console.log(Date.compare(START_date,STOP_date));
+			//console.log(incr);
+			if (incr) {
+				while (Date.compare(START_date,STOP_date) <= 0) {
+					fname = START_date.strftime(CATALOGINFO["strftime"]);
+					//console.log(Date.compare(START_date,STOP_date));
+					//console.log(fname);
+					fullfiles[i] = [fname];
+					START_date.add(incr);
+					i = i+1;		
+				}
+			} else {	
+				// Faster to not use Date.compare().
+				while (i < Ndays) {
+					fname = START_date.strftime(CATALOGINFO["strftime"]);
+					//console.log(Date.compare(START_date,STOP_date));
+					//console.log(fname);
+					fullfiles[i] = [fname];
+					START_date.addDays(1);
+					i = i + 1;
+				}
+			}
+			var elapsed = new Date().getTime() - tic;
 		}
-		var elapsed = new Date().getTime() - tic;
-		//console.log("galleryinfo.js: Creation of file list of length " + Ndays + " took " + elapsed + " ms");
+		console.log(fullfiles)
 	} 
 
 	if (CATALOGINFO["sprintf"]) {
@@ -369,19 +384,7 @@ function galleryinfo(galleryid) {
 			i = i + _GALLERYINFO["sprintfdelta"];
 		}
 	}
-	
-	if (0) {
-	if (CATALOGINFO.hasOwnProperty("fullfiles")) {
-		if (!_GALLERYINFO["fullfiles"]) {
-			$("#error").html("Could not generate file list for gallery "+galleryid);
-			return false;
-		} else if (_GALLERYINFO["fullfiles"].length == 0) {
-			$("#error").html("File list for gallery "+galleryid+" has no elements.");
-			return false;
-		}
-	}
-	}
-    
+	    
 	if (CATALOGINFO["fulldir"]) {
 		_GALLERYINFO["fulldir"] = CATALOGINFO["fulldir"];
 		if (VIVIZ["useCachedImages"]) {

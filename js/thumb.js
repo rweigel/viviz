@@ -531,7 +531,7 @@ function thumb(wrapper) {
 			setthumbbindings();
 		});
 
-		if (GALLERYINFO['attributes']["Values"] > 1) {
+		if (GALLERYINFO['attributes']["Values"].length > 0) {
 		    dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns");
 			$(wrapper + ' #dropdowns #sortby').change(function(){
 				setregexps();

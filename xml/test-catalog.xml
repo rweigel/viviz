@@ -227,6 +227,7 @@
 		<strftimestart>2001</strftimestart>
 		<strftimestop>2004</strftimestop>
 	</gallery>
+
 	<gallery id="Test/7">
 		<title>Test/7</title>
 		<about>Test of fulllistscript</about>
@@ -313,7 +314,7 @@
 	</gallery>
 	<gallery id="Test/12">
 		<title>Test/12</title>
-		<about>Test of one bad file</about>
+		<about>Test of gallery with one file that is bad</about>
 		<aboutlink></aboutlink>
 		<fulldir>images/full/</fulldir>
 		<thumbdir>images/thumb/</thumbdir>
@@ -325,7 +326,7 @@
 		<aboutlink></aboutlink>
 		<fulldir>images/full/</fulldir>
 		<thumbdir>images/thumb/</thumbdir>
-		<fullfiles>[["demo-0001.png"],["demo-0002.png"],["demo-0003.png"],["demo-0004.png"]]</fullfiles>						
+		<fullfiles>[["demo-0001.png"],["demo-0002.png"],["demo-0003.png"],["demo-0004.png"]]</fullfiles>
 	</gallery>
 	<gallery id="Test/14">
 		<title>Test/14</title>
@@ -333,9 +334,28 @@
 		<aboutlink></aboutlink>
 		<fulldir>images/full/</fulldir>
 		<thumbdir>images/thumb/</thumbdir>
-		<fullfiles>[["xdemo-0001.png"],["xdemo-0002.png"],["xdemo-0003.png"],["xdemo-0004.png"]]</fullfiles>						
+		<fullfiles>[["xdemo-0001.png"],["xdemo-0002.png"],["xdemo-0003.png"],["xdemo-0004.png"]]</fullfiles>
 	</gallery>
-
+	<gallery id="Test/15">
+		<title>Test/15</title>
+		<about>Test of time formatting.  Template = %Y/%m/%d/file_%Y_%m_%d.png</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/time/full/</fulldir>
+		<thumbdir>images/time/thumb/</thumbdir>
+		<strftime>%Y/%m/%d/file_%Y_%m_%d.png</strftime>
+		<strftimestart>2010-01-01</strftimestart>
+		<strftimestop>2011-01-01</strftimestop>
+	</gallery>
+	<gallery id="Test/16">
+		<title>Test/16</title>
+		<about>Test of time formatting.  Template = %Y/%m/%d/file_%Y_%m_%{d;delta=3}.png</about>
+		<aboutlink></aboutlink>
+		<fulldir>images/time/full/</fulldir>
+		<thumbdir>images/time/thumb/</thumbdir>
+		<strftime>$Y/$m/$d/file_$Y_$m_${d;delta=3}.png</strftime>
+		<strftimestart>2010-01-01</strftimestart>
+		<strftimestop>2011-01-01</strftimestop>
+	</gallery>
 	<gallery id="Test/Spectra/OMNI2/Yearly">
 		<title>Test/Spectra/OMNI2/Yearly</title>
 		<about></about>
