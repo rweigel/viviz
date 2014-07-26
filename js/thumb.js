@@ -276,12 +276,14 @@ function thumb(wrapper) {
 			var thumbwidth = "50%";
 		}
 
-   		$(window).resize(function () {
-			$.doTimeout('resize', 250, function(){
-				console.log('thumb.setthumbs(): Resize event.');
-				setTimeout(loadmore,1000);
-			})
-		});
+		if (0) {
+			$(window).resize(function () {
+				$.doTimeout('resize', 250, function(){
+					console.log('thumb.setthumbs(): Resize event.');
+					setTimeout(loadmore,1000);
+				})
+			});
+   		}
 
 		window.onresize = function onresize() {console.log("thumb.setthumbs(): Zoom or resize event.");}
 

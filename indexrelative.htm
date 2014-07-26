@@ -4,61 +4,62 @@
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 		<title>ViViz</title>
 		
-		<link rel="icon" type="image/ico" href="./css/favicon.ico"/>		
-		<link rel="stylesheet" type="text/css" href="./css/bootstrap/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="./css/gallery.css" id="gallerystyle">
-		<link rel="stylesheet" type="text/css" href="./css/thumbbrowse.css">
+		<link rel="icon" type="image/ico" href="css/favicon.ico"/>		
+		<link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/viviz.css" id="viviz.default">
 		
-		<script type="text/javascript" src="./js/deps/1.7.2/jquery.min.js"></script>
+		<script type="text/javascript" src="js/deps/1.7.2/jquery.min.js"></script>
 		
-		<!-- Used for slider in thumb mode. If omitted, not slider will appear.  -->
-		<script type="text/javascript" src="./js/deps/jquery-ui-1.8.21.custom/js/jquery-ui-1.8.21.custom.min.js"></script>
+		<!-- Used for slider in thumb mode. If omitted, no slider will appear.  -->
+		<script type="text/javascript" src="js/deps/jquery-ui-1.8.21.custom/js/jquery-ui-1.8.21.custom.min.js"></script>
 		
-		<script type="text/javascript" src="./js/deps/jquery.query-2.1.3.js"></script>
-		<script type="text/javascript" src="./js/deps/jquery.scrollTo-min.js"></script>
-		<script type="text/javascript" src="./js/deps/strftime.js"></script>
-		<script type="text/javascript" src="./js/deps/sprintf-0.7-beta1.js"></script>	
-		<script type="text/javascript" src="./js/deps/date.js"></script>
-		<script type="text/javascript" src="./js/deps/jquery.ba-hashchange-1.3.js"></script>
-		<script type="text/javascript" src="./js/deps/csvtoarray.js"></script>
-		<!--script type="text/javascript" src="./js/deps/jquery.ba-dotimeout.js"></script-->
+		<script type="text/javascript" src="js/deps/jquery.query-2.1.3.js"></script>
+		<script type="text/javascript" src="js/deps/jquery.scrollTo-min.js"></script>
+		<script type="text/javascript" src="js/deps/strftime.js"></script>
+		<script type="text/javascript" src="js/deps/sprintf-0.7-beta1.js"></script>	
+		<script type="text/javascript" src="js/deps/date.js"></script>
+		<script type="text/javascript" src="js/deps/jquery.ba-hashchange-1.3.js"></script>
+		<script type="text/javascript" src="js/deps/csvtoarray.js"></script>
 
-		<script type="text/javascript" src="./js/expandtemplate.js"></script>
+		<script type="text/javascript" src="js/expandtemplate.js"></script>
 
-		<link rel="stylesheet" href="./js/deps/codemirror-2.3/lib/codemirror.css">		
-		<script src="./js/deps/codemirror-2.3/lib/codemirror.js"></script>
-		<script src="./js/deps/codemirror-2.3/mode/xml/xml.js"></script>
+		<link rel="stylesheet" href="js/deps/codemirror-2.3/lib/codemirror.css">		
+		<script src="js/deps/codemirror-2.3/lib/codemirror.js"></script>
+		<script src="js/deps/codemirror-2.3/mode/xml/xml.js"></script>
 
-		<script type="text/javascript" src="./js/setWH.js"></script>
-		<script type="text/javascript" src="./js/scrollbarWidth.js"></script>
-		<script type="text/javascript" src="./js/dropdown.js"></script>
+		<script type="text/javascript" src="js/setWH.js"></script>
+		<script type="text/javascript" src="js/scrollbarWidth.js"></script>
+		<script type="text/javascript" src="js/dropdown.js"></script>
 
-		<script type="text/javascript" src="./js/gallery.js"></script>		
-		<script type="text/javascript" src="./js/thumb.js"></script>					    
+		<script type="text/javascript" src="js/gallery.js"></script>		
+		<script type="text/javascript" src="js/thumb.js"></script>					    
 				
-		<script type="text/javascript" src="./js/thumblist.js"></script>    
-		<script type="text/javascript" src="./js/gallery.js"></script>
-		<script type="text/javascript" src="./js/attributemap.js"></script>
+		<script type="text/javascript" src="js/thumblist.js"></script>    
+		<script type="text/javascript" src="js/gallery.js"></script>
+		<script type="text/javascript" src="js/attributemap.js"></script>
 		
 		<!-- Menu configuration -->
-		<script type="text/javascript" src="./js/galleryinfo.js"></script>
-		<script type="text/javascript" src="./js/cataloginfo.js"></script>
+		<script type="text/javascript" src="js/galleryinfo.js"></script>
+		<script type="text/javascript" src="js/cataloginfo.js"></script>
 
 		<!-- Misc -->
-		<script type="text/javascript" src="./js/cookie.js"></script>
-		<script type="text/javascript" src="./js/print.js"></script>
-		<script type="text/javascript" src="./js/message.js"></script>
-		<!-- script type="text/javascript" src="js/cors.js"></script-->
-		
-		<!-- Uploaded catalogs (catalogjsonuploads) -->
+		<script type="text/javascript" src="js/cookie.js"></script>
+		<script type="text/javascript" src="js/print.js"></script>
+		<script type="text/javascript" src="js/message.js"></script>
 
-		<!-- Base catalog (catalogjsonbase) -->
-		<!--script type="text/javascript" src="./xml/catalog.json"></script--!>
+		<!-- Base catalog (catalogjsonbase)
+		<script type="text/javascript" src="./xml/catalog.json"></script>
+		-->
 
-		<!-- script type="text/javascript" src="./js/deps/jsonpath-0.8.0.js"></script-->
+		<!--
+		Configuration data inside this script node is read by default.
+		If empty, xml/catalog.xml is read.  Place configuration data here
+		if this index.htm was read from a local file (file://) instead of http://.
+		-->
+		<script id="xml"  type="text/x-jQuery-tmpl">
+		</script>
 
 		<script>
-
 			// Location of imgconvert (download from http://imgconverg.org/) script, e.g., http://server/cgi-bin/convert.cgi
 			IMGCONVERT = "";
 
@@ -67,7 +68,6 @@
 				"defaultMode":"gallery",
 				"showThumbstrip":true,
 				"showFileName":true,
-				"thumbWidth":0.25,
 				"showAboutText":true,
 				"showCatalog":true,
 				"showControls":true,
@@ -111,23 +111,10 @@
 			});
 		</script>
 
-		<!--
-		Configuration data inside this script node is read by default.
-		If empty, xml/catalog.xml is read.  Place configuration data here
-		if this index.htm was read from a local file (file://) instead of http://.
-		-->
-		<script id="xml"  type="text/x-jQuery-tmpl">
-		</script>
-
 	</head>
 
 	<body>
 
-		<div id="testconnection" style="display:none"></div>
-		<div style="text-align:center;margin:px;">
-			<span id="connectionerror" style="font-size:150%;background-color:yellow"></span>
-		</div>
-			
 		<div id="g-container" style="display:none;text-align:center;">
 			<div id="gallery1" class="ui-widget ui-widget-content ui-corner-all" style="display:inline-block">
 				<span id="filename" title="Source file" style="float:center;color:white;cursor:pointer;"></span>
@@ -150,7 +137,7 @@
 						</div>
 						<div style="display:inline-block;">
 							<select id="download" title="Download">
-								<option value="filelist" class="def" selected="true">Download</option>
+								<option value="filelist" class="def" selected="true">-Download-</option>
 								<option value="filelist">File List</option>
 								<option value="gif">Animated GIF</option>
 								<option value="mp4">MP4</option>

@@ -227,7 +227,6 @@
 		<strftimestart>2001</strftimestart>
 		<strftimestop>2004</strftimestop>
 	</gallery>
-
 	<gallery id="Test/7">
 		<title>Test/7</title>
 		<about>Test of fulllistscript</about>
@@ -344,7 +343,7 @@
 		<thumbdir>images/time/thumb/</thumbdir>
 		<strftime>%Y/%m/%d/file_%Y_%m_%d.png</strftime>
 		<strftimestart>2010-01-01</strftimestart>
-		<strftimestop>2011-01-01</strftimestop>
+		<strftimestop>2011-01-02</strftimestop>
 	</gallery>
 	<gallery id="Test/16">
 		<title>Test/16</title>
@@ -354,131 +353,6 @@
 		<thumbdir>images/time/thumb/</thumbdir>
 		<strftime>$Y/$m/$d/file_$Y_$m_${d;delta=3}.png</strftime>
 		<strftimestart>2010-01-01</strftimestart>
-		<strftimestop>2011-01-01</strftimestop>
-	</gallery>
-	<gallery id="Test/Spectra/OMNI2/Yearly">
-		<title>Test/Spectra/OMNI2/Yearly</title>
-		<about></about>
-		<aboutlink></aboutlink>
-		<fulldir>http://viviz.org/images//spectra/OMNI/OMNI2/yearlys/</fulldir>
-		<thumbdir>http://viviz.org/images//spectra/OMNI/OMNI2/yearlys/</thumbdir>
-		<files>xml/OMNI/OMNI2/yearlys.txt</files>
-		<attributes>
-			<attribute id="$0">
-				<name>Filename</name>
-				<filters>
-					<filter>
-						<title>2008</title>
-						<value>_2008</value>
-					</filter>
-					<filter>
-						<title>All</title>
-						<value>.*</value>
-					</filter>
-				</filters>
-			</attribute>		
-			<attribute id="$1">
-				<name>Year</name>
-				<format>%d</format>				
-				<filters>
-					<filter>
-						<title>2008</title>
-						<value>2008</value>
-					</filter>
-				</filters>
-			</attribute>
-			<attribute id="$2">
-				<name>Parameter number</name>
-				<format>%d</format>
-			</attribute>
-			<attribute id="$3">
-				<name>Parameter name</name>
-			</attribute>
-		</attributes>
-	</gallery>
-	<gallery id="Test/Spectra/OMNI2/AllYears">
-		<title>Test/Spectra/OMNI2/AllYears</title>
-		<about></about>
-		<aboutlink></aboutlink>
-		<fulldir>http://viviz.org/images//spectra/OMNI/OMNI2/allyears/</fulldir>
-		<fullpreprocess></fullpreprocess>
-		<thumbdir>http://viviz.org/images//spectra/OMNI/OMNI2/allyears/</thumbdir>
-		<thumbpreprocess></thumbpreprocess>
-		<files>xml/OMNI/OMNI2/allyears.txt</files>
-	</gallery>
-	<gallery id="SuperMAG/AAA">
-		<title>SuperMAG/AAA</title>
-		<about>http://supermag.jhuapl.edu/</about>
-		<fulldir>http://autoplot.org/plot/SimpleServlet?&amp;drawGrid=true&amp;plot.xaxis.drawTickLabels=true&amp;width=800&amp;height=200&amp;url=http%3A%2F%2Fautoplot.org%2Fdata%2Fjyds%2Ftsdsfe.jyds%3Fcatalog%3Dsupermag%26dataset%3DAAA%26parameters%3DB_N%2CB_E%2CB_Z%26out%3Dasc%26fill%3D999999%26timerange%3D</fulldir>
-		<strftime>%Y-%m-%d</strftime>
-		<strftimestart>2008-01-01</strftimestart>
-		<strftimestop>2008-01-31</strftimestop>		
-	</gallery>	
-	<gallery id="Test/WIND/WAVES/RAD2">
-		<title>Test/WIND/WAVES/RAD2</title>
-		<aboutlink>http://stereowaves.gsfc.nasa.gov/cgi/giffer.py?plot=waves_rad2</aboutlink>
-		<fulldir>http://stereowaves.gsfc.nasa.gov/wind_ps/</fulldir>		                
-		<fullpreprocess>http://imgconvert.org/gs.cgi?in=</fullpreprocess>
-		<fullpostprocess>http://imgconvert.org/convert.cgi?rotate=90&amp;in=</fullpostprocess>	
-		<thumbdir>http://stereowaves.gsfc.nasa.gov/wind_ps/</thumbdir>
-		<thumbpreprocess>http://imgconvert.org/gs.cgi?in=</thumbpreprocess>		
-		<thumbpostprocess>http://imgconvert.org/convert.cgi?rotate=90&amp;in=</thumbpostprocess>
-		<strftime>rad2_s_%Y%m%d.ps</strftime>
-		<strftimestart>1994-11-11</strftimestart>
-		<strftimestop>1994-11-12</strftimestop>
-	</gallery>
-	<gallery id="Test/CRRES/LOMICS/H+">
-		<title>Test/CRRES/LOMICS/H+</title>
-		<about>http://vseo.space.swri.edu/</about>
-		<files>xml/CRRES-LOMICS-H+.txt</files>
-		<fulldir>http://vseo.space.swri.edu/data/output/H+/</fulldir>
-		<thumbdir>http://vseo.space.swri.edu/data/output/H+/</thumbdir>
-		<fullpreprocess>http://imgconvert.org/gs.cgi?width=900&amp;in=</fullpreprocess>
-		<thumbpreprocess>http://imgconvert.org/gs.cgi?width=200&amp;in=</thumbpreprocess>
-	</gallery>
-	<gallery id="Test/CRRES/LOMICS/He+">
-		<title>Test/CRRES/LOMICS/He+</title>
-		<about>http://vseo.space.swri.edu/</about>
-		<files>xml/CRRES-LOMICS-He+.txt</files>
-		<fulldir>http://vseo.space.swri.edu/data/output/He+/</fulldir>
-		<thumbdir>http://vseo.space.swri.edu/data/output/He+/</thumbdir>
-		<fullpreprocess>http://imgconvert.org/gs.cgi?width=900&amp;in=</fullpreprocess>
-		<thumbpreprocess>http://imgconvert.org/gs.cgi?width=200&amp;in=</thumbpreprocess>
-	</gallery>
-	<gallery id="Test/CRRES/LOMICS/Hepp">
-		<title>Test/CRRES/LOMICS/He++</title>
-		<about>http://vseo.space.swri.edu/</about>
-		<files>xml/CRRES-LOMICS-He++.txt</files>
-		<fulldir>http://vseo.space.swri.edu/data/output/He++/</fulldir>
-		<thumbdir>http://vseo.space.swri.edu/data/output/He++/</thumbdir>
-		<fullpreprocess>http://imgconvert.org/gs.cgi?width=900&amp;in=</fullpreprocess>
-		<thumbpreprocess>http://imgconvert.org/gs.cgi?width=200&amp;in=</thumbpreprocess>
-	</gallery>
-	<gallery id="Test/CRRES/LOMICS/O+">
-		<title>Test/CRRES/LOMICS/O+</title>
-		<about>http://vseo.space.swri.edu/</about>
-		<files>xml/CRRES-LOMICS-O+.txt</files>
-		<fulldir>http://vseo.space.swri.edu/data/output/O+/</fulldir>
-		<thumbdir>http://vseo.space.swri.edu/data/output/O+/</thumbdir>
-		<fullpreprocess>http://imgconvert.org/gs.cgi?width=900&amp;in=</fullpreprocess>
-		<thumbpreprocess>http://imgconvert.org/gs.cgi?width=200&amp;in=</thumbpreprocess>
-	</gallery>
-	<gallery id="Test/CRRES/LOMICS/Opp">
-		<title>Test/CRRES/LOMICS/O++</title>
-		<about>http://vseo.space.swri.edu/</about>
-		<files>xml/CRRES-LOMICS-O++.txt</files>
-		<fulldir>http://vseo.space.swri.edu/data/output/O++/</fulldir>
-		<thumbdir>http://vseo.space.swri.edu/data/output/O++/</thumbdir>
-		<fullpreprocess>http://imgconvert.org/gs.cgi?width=900&amp;in=</fullpreprocess>
-		<thumbpreprocess>http://imgconvert.org/gs.cgi?width=200&amp;in=</thumbpreprocess>
-	</gallery>
-	<gallery id="Test/CRRES/LOMICS/IonDF">
-		<title>Test/CRRES/LOMICS/IonDist</title>
-		<about>http://vseo.space.swri.edu/</about>
-		<files>xml/CRRES-LOMICS-IonDF.txt</files>
-		<fulldir>http://vseo.space.swri.edu/data/output/IonDF/</fulldir>
-		<thumbdir>http://vseo.space.swri.edu/data/output/IonDF/</thumbdir>
-		<fullpreprocess>http://imgconvert.org/gs.cgi?width=900&amp;in=</fullpreprocess>
-		<thumbpreprocess>http://imgconvert.org/gs.cgi?width=200&amp;in=</thumbpreprocess>
+		<strftimestop>2011-01-02</strftimestop>
 	</gallery>
 </catalog>
