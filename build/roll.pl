@@ -1,15 +1,15 @@
 #!/usr/bin/perl
 #Usage statement if input is off
-$usage="Usage: roll.pl input.html -html htmloutputbase -js jsoutputbase (-e excludefile)\n";
+$usage="Usage: roll.pl input.html -html htmloutputbase -js jsoutputbase -c compiler.jar (-e excludefile)\n";
 
 #Find compiler based on where script is run from
 if(-e "compiler.jar")
 {
-	$compiler="compiler.jar ";
+	$compiler="compiler.jar";
 }
 elsif(-e "build/compiler.jar")
 {
-	$compiler="build/compiler.jar ";
+	$compiler="../build/compiler.jar";
 }
 
 #Get html file to read from
@@ -36,10 +36,15 @@ while(defined $option)
 			$exclude=shift;
 			last OPTION;
 		};
+		$option eq '-c' and do {
+			$compiler=shift;
+			last OPTION;
+		};
 	}
 	$option=shift;
 }
 
+print "--$compiler\n";
 #If they didn't provide basenames
 if(not defined $html or not defined $js)
 {
@@ -81,7 +86,7 @@ foreach $line(@lines)
 		{
 			if($1!~/$exclude/) #If it shouldn't be excluded, roll it and don't print
 			{
-			$toopt=$toopt . "--js $1 ";
+			$toopt=$toopt . " --js $1 ";
 			$tocat=$tocat . "$1 ";
 
 			if($first==0) #Easiest to print the rolled js file as a replacement for the first js file found
@@ -119,10 +124,12 @@ close(CAT);
 close(OPT);
 
 #Finish up commands and execute
-$toopt=$toopt . "--js_output_file $optjs";
+$toopt=$toopt . " --js_output_file $optjs";
 $tocat=$tocat . "> $catjs";
 
+print "Evaluating $tocat\n";
 system($tocat);
+print "\nEvaluating $toopt\n";
 system($toopt);
 
 
