@@ -1,5 +1,6 @@
 #!/usr/bin/perl
-#Usage statement if input is off
+
+# Usage statement if input is off
 $usage="Usage: roll.pl input.html -html htmloutputbase -js jsoutputbase -c compiler.jar (-e excludefile)\n";
 
 #Find compiler based on where script is run from
@@ -44,7 +45,7 @@ while(defined $option)
 	$option=shift;
 }
 
-print "--$compiler\n";
+#print "--$compiler\n";
 #If they didn't provide basenames
 if(not defined $html or not defined $js)
 {
@@ -112,6 +113,7 @@ foreach $line(@lines)
 		}
 	} else {
 		print CAT $line;
+		print OPT $line;
 	}
 	if($line=~/\<\/body\>/) #After body ends, re-enable printing (even if just for </html>)
 	{

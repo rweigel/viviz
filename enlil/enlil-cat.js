@@ -2786,7 +2786,7 @@ function warning (wrapper,msg,clear,totime) {
 
 			//Enlil code
 			if (VIVIZ["alternativeFrame"]) {
-				("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+				$("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
 			}
 
 		});
@@ -4359,7 +4359,7 @@ function thumblist(wrapper){
 
 			//Enlil code
 			if (VIVIZ["alternativeFrame"]) {
-				("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+				$("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
 			}
 
 		});

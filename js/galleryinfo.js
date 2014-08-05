@@ -458,6 +458,9 @@ function galleryinfo(galleryid) {
 	console.log("galleryinfo.js: _GALLERYINFO = ");
 	console.log(_GALLERYINFO);
 
+	if (_GALLERYINFO.fullfiles.length == 0) {
+		return false;
+	}
 	return _GALLERYINFO;
 
 		
