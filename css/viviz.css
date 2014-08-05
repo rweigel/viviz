@@ -1,0 +1,99 @@
+#filename a {
+	color:white;
+}
+img.full {
+	z-index: 0;
+	vertical-align: middle;
+}
+
+#g-container select #gallery {
+	width: 15em;
+}
+#g-container select {
+	width: 8em;
+	font-weight: bold;
+	font-size: 12pt;
+}
+#g-container #gallerythumbframe {
+	overflow-y: auto;
+	overflow-x: hidden;
+	float: left;
+	text-align: center;
+}
+#g-container table {
+	border: 0px solid green;
+	table-layout: fixed;
+}
+#g-container td {
+	border: 0px solid green;
+}
+#g-container .gallerythumbbrowse {
+	overflow-y: auto;
+    margin:auto;
+    border: 2px solid white; /*3px*/
+}
+#g-container .inactive {
+    border: 2px solid white;
+}
+#g-container .active {
+    border: 2px solid blue;
+}
+#g-container > button {
+	background-color: white;
+	padding: 0px 0px;
+	border:0px;
+	color: black;
+	font-weight:bold;
+	font-size:12pt;
+	cursor:pointer;
+}
+
+#t-container select #gallery {
+	width: 15em;
+}
+#t-container select {
+	font-weight: bold;
+	font-size: 12pt;
+}
+#t-container #sliderright {
+	margin: 0px;
+	padding: 10px;
+	border:1px solid #000000;
+	text-align:center;
+}
+#t-container #menuandslider {
+	margin: 0px;
+	padding: 0px;
+}
+#t-container > button {
+	background-color: white;
+	padding: 0px 0px;
+	border:0px;
+	color: black;
+	font-weight:bold;
+	font-size:12pt;
+	cursor:pointer;
+}
+#t-container #thumbbrowseoverlay {
+	z-index:1;
+	margin:-30px;
+}
+#thumbframe {
+	float: left;
+	text-align:left;
+	z-index:0;
+}
+
+.thumbbrowse {
+	border:solid white 3px;
+	vertical-align:top;
+	margin:auto;
+	z-index:1;
+}
+.thumbbrowsetop {
+	filter:alpha(opacity=90);
+	opacity:0.9;
+	position: absolute;
+	display:none;
+	z-index:-1;
+}
