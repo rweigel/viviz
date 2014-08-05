@@ -289,8 +289,12 @@ function gallery(wrapper) {
 			$('#gallerythumbframe').scroll(function(e){
 				console.log("gallery.setscrollbinding(): Scroll event.")
 				var elem = $(this);
-				//console.log(elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight)
+				console.log("scrollHeight: " + elem[0].scrollHeight);
+				console.log("scrollHeight: " + elem[0].scrollTop);
+				console.log("scrollHeight: " + elem[0].clientHeight);
+				console.log(elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight)
 				if (elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight <= 0) {
+					console.log("Calling loadmore().")
 					loadmore();
 				}
 			});
@@ -317,7 +321,7 @@ function gallery(wrapper) {
 			if  (isNaN(bw)) {
 				bw = 2;
 			}
-			var w = VIVIZ[galleryid]["thumbWidth"] + $.scrollbarWidth() + bw + 4; // Why 4?
+			var w = VIVIZ[galleryid]["thumbWidth"] + $.scrollbarWidth() + bw + 8; // Why 8?
 			console.log("gallery.firstimage(): Setting #gallerythumbframe width to = "+w);
 			$(wrapper + ' #gallerythumbframe').width(w);
 		}
@@ -550,6 +554,7 @@ function gallery(wrapper) {
 	}
 
 	function loadmore() {
+
 		var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
 		var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
 		if (shown < length) {
@@ -723,7 +728,7 @@ function gallery(wrapper) {
 
 			//Enlil code
 			if (VIVIZ["alternativeFrame"]) {
-				("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
+				$("#" + VIVIZ["alternativeFrame"] + " img").attr('src',$(wrapper + " #fullframe img[id="+nowvisible+"]").attr('src'))
 			}
 
 		});
