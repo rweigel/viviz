@@ -4293,7 +4293,7 @@ input[type="submit"].btn.btn-mini {
   bottom: 0;
   left: 50%;
   margin-left: -5px;
-  border-top: 5px solid #000000;
+  border-top: 1px solid #000000;
   border-right: 5px solid transparent;
   border-left: 5px solid transparent;
 }
@@ -5402,6 +5402,7 @@ button.ui-button-icon-only { width: 2.4em; } /* button elements seem to need a l
 .ui-button-icons-only { width: 3.4em; } 
 button.ui-button-icons-only { width: 3.7em; } 
 
+
 /*button text element */
 .ui-button .ui-button-text { display: block; line-height: 1.4;  }
 .ui-button-text-only .ui-button-text { padding: .4em 1em; }
@@ -5565,3 +5566,21 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
  */
 .ui-progressbar { height:2em; text-align: left; overflow: hidden; }
 .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
+
+.ui-tooltip {
+  padding: 8px;
+  position: absolute;
+  z-index: 9999;
+  max-width: 300px;
+  font-color: white;
+//  -webkit-box-shadow: 0 0 5px #aaa;
+//  box-shadow: 0 0 5px #aaa;
+}
+body .ui-tooltip {
+  border-width: 0px;
+}
+
+.ui-tooltip-content {
+  background-color: white;
+  border-width: 0px;
+}

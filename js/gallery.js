@@ -69,16 +69,21 @@ function gallery(wrapper) {
 			setTimeout(function () {window.location = "/";$(wrapper + ' #error').hide();},5000);
 			return;
 		}
-		
-		$("head title").html(HEADER["title"]+ ": " + HEADER["about"]);
-		$(wrapper + " #about").attr('title',HEADER["about"]);
-		$(wrapper + " #abouttext").html(HEADER["title"]+ ": " + HEADER["about"]);
+
 		if (VIVIZ["showAboutText"]) {
 			$(wrapper + " #abouttextwrapper").show();
 		}
+		
+		$("head title").html(HEADER["title"]+ ": " + HEADER["about"]);
+		$(wrapper + " #about").attr('title',HEADER["about"]);
+		if (HEADER["about"].length > 0) {
+			$(wrapper + " #abouttext").html(HEADER["title"]+ ": " + HEADER["about"]);
+		} else {
+			$(wrapper + " #abouttextwrapper").hide();
+		}
 
-		if ((HEADER["aboutlink"]) && (!HEADER["about"])) {
-			$(wrapper + " #about").attr("onclick","window.location='" + HEADER["Aboutlink"]+"'");
+		if ((HEADER["aboutlink"].length > 0) && (HEADER["about"].length == 0)) {
+			$(wrapper + " #aboutbuttonwrapper").attr("onclick","window.location='" + HEADER["aboutlink"]+"'");
 		}	
 		if ((!HEADER["aboutlink"]) && (HEADER["about"])) {
 			//$(wrapper + " #about").attr("onclick","window.location='" + HEADER["Fulldir"]+"'");
@@ -86,6 +91,8 @@ function gallery(wrapper) {
 			if (HEADER["about"].match(/^http/)) {
 				//$(wrapper + " #about").html('<a style="color:white"	>About this gallery</a>');
 				$(wrapper + " #aboutbuttonwrapper").attr('onclick',"window.location='" + HEADER["about"] + "'");
+				$(wrapper + " #aboutbuttonwrapper").attr("title","Go to page with information about these images:\n"+HEADER["about"])
+				$(wrapper + " #aboutbuttonwrapper").tooltip({content: "Go to page with information about these images:\n"+HEADER["about"]})
 			} else {
 				$(wrapper + " #aboutbuttonwrapper").attr('title',HEADER["about"] + ". Click to show or hide title line.");
 				// Set click to show or hide about text.
@@ -387,7 +394,8 @@ function gallery(wrapper) {
 				console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe again because of overlap in width.  New height: "+newh);
 				$(wrapper + ' #gallerythumbframe').height(newh);
 				VIVIZ[galleryid]['fullHeight'] = newh;
-				VIVIZ[galleryid]['fullWidth']  = $(wrapper + ' #gallerythumbframe img:first').width();      		        	
+				//VIVIZ[galleryid]['fullWidth']  = newh*ar;      		        	
+	 			VIVIZ[galleryid]['fullWidth'] = $(wrapper + ' #fullframe img:first').width();
 			} 
 
 
@@ -416,6 +424,7 @@ function gallery(wrapper) {
 		var id = $(jq).attr('id');
 		var lastvisible = parseInt($(wrapper).attr('lastvisible'));
 		$(wrapper + " #fullframe img[id=" + lastvisible + "]").hide();
+		//$(wrapper + " #fullframe img[id=" + lastvisible + "]").css('visibility','hidden');
 		
 		if (id > INFOjs.length) {return;}
 		
@@ -434,14 +443,15 @@ function gallery(wrapper) {
 		$(wrapper + " #fullframe").prepend('<img id="'+id+'" class="full"/>');
 
 		// Does not work.
-		var title = $(jq).attr("title"); 
-		$(wrapper + " #fullframe img[id="+id+"]").attr("title",title)
+		//var title = $(jq).attr("title"); 
+		//$(wrapper + " #fullframe img[id="+id+"]").attr("title",title)
 		
 		$(wrapper + " #fullframe img[id="+id+"]")
 				.unbind('load')
 				.error(function () {
 					$(wrapper + ' #workingfullframe').css('visibility','hidden');
 					//$(wrapper + ' #error').html('Could not load <a href="'+$(this).attr('src')+'">'+$(this).attr('src')+'</a>')
+					console.log("Error loading ")
 					$(this).width(VIVIZ[galleryid]["fullWidth"]);
 					$(this).height(VIVIZ[galleryid]["fullHeight"]);
 				})
@@ -452,7 +462,7 @@ function gallery(wrapper) {
 					// Hide loading indicator
 					$(wrapper + ' #workingfullframe').css('visibility','hidden');
 
-					setfilename($(this).attr('id'));
+					//setfilename($(this).attr('id'));
 
 					if ($(jq).hasClass('firstimage')) {
 						console.log('gallery.loadfull(): First full image loaded with dimensions '+this.naturalWidth+'x'+this.naturalHeight+'.  Setting table dimensions.');
@@ -627,8 +637,8 @@ function gallery(wrapper) {
 		// 		 stat string if it already exists in DOM.
 		INFOjs = thumblist(wrapper); 
 
-		var statstr = "Attributes for #" + (nowvisible) + "/" + (INFOjs.length) + " in subset: ";
-		statstr = statstr + " | Image #" + (1+INFOjs[nowvisible-1].ImageNumber) + "/" + $(wrapper).attr('totalingallery') + " in gallery | ";
+		var statstr = "#" + (nowvisible) + "/" + (INFOjs.length) + " in subset.  Image attributes ";
+		statstr = statstr + " | #" + (1+INFOjs[nowvisible-1].ImageNumber) + "/" + $(wrapper).attr('totalingallery') + " in gallery | ";
 		
 		for (var z = 1;z < GALLERYINFO['attributes']["Values"].length;z++) {
 			statstr = statstr + GALLERYINFO['attributes']["Values"][z].Title + " = ";
@@ -693,6 +703,28 @@ function gallery(wrapper) {
 
 		if (!VIVIZ["showThumbstrip"]) {$("#showhidethumb").click();}
 		
+		var si = false;
+		$(wrapper + " #stop").unbind('click');
+		$(wrapper + " #stop").click(
+				function () {
+					if (typeof(si) === "number") {
+						clearInterval(si);
+					}
+				}
+		)
+
+		$(wrapper + " #play").unbind('click');
+		$(wrapper + " #play").click(
+				function () {
+					$("#next").click();
+					si = setInterval(
+							function () {
+								$("#next").click();
+							},VIVIZ["frameRate"]);
+				}
+				
+		)
+
 		// Time step buttons
 		$(wrapper + " #next").unbind('click');
 		$(wrapper + ' #next').click(function(){

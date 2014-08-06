@@ -3,7 +3,6 @@
 		<title>ACE/Multi</title>
 		<about>http://virbo.org/gallery#ACE</about>
 		<fulldir>http://virbo.org/images/pngwalk/ACE/Multi/fulls/</fulldir>
-		<!-- thumbpreprocess>http://aurora.gmu.edu/imgconvert/cgi-bin/convert.cgi?width=100&amp;quality=100&amp;density=300&amp;in=</thumbpreprocess-->
 		<thumbdir>http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/</thumbdir>
 		<strftime>product_%Y%m%d.png</strftime>
 		<strftimestart>1998-01-01</strftimestart>
@@ -927,6 +926,7 @@
 	</gallery>
 	<gallery id="Storms/ALL">
 		<title>Storms/All</title>
+		<aboutlink>http://dx.doi.org/10.1029/2009JA015062</aboutlink>
 		<fullfilelist>xml/Storms-filelist-long.json</fullfilelist>
 		<fulldir>http://viviz.org/demo/images/storms/</fulldir>
 		<attributes>
