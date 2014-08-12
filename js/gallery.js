@@ -45,7 +45,13 @@ function gallery(wrapper) {
 	setheader();
 	setdropdowns();
 	setthumbs();
-	
+
+	//setTimeout(function () {
+	$(wrapper + " button").each(function () {$(this).tooltip({content: $(this).attr('title')})});
+	$(wrapper + " select").each(function () {$(this).tooltip({content: $(this).attr('title')})});
+	//$("#showhidethumb").tooltip({content: $(this).attr('title')});
+	//},1000);
+
 	function resetdom() {
 		$(wrapper + " #fullframe").html('').css('height','');
 		$(wrapper).css('margin-top','0');
@@ -60,6 +66,10 @@ function gallery(wrapper) {
 	}
 
 	function setheader() {
+
+		$(wrapper + " button").each(function () {$(this).tooltip({content: $(this).attr('title')})});
+		$(" select").each(function () {$(this).tooltip({content: $(this).attr('title')})});
+
 		var HEADER = cataloginfo(galleryid);
 		if (HEADER === "") {
 			error(wrapper,"Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
@@ -81,6 +91,8 @@ function gallery(wrapper) {
 		} else {
 			$(wrapper + " #abouttextwrapper").hide();
 		}
+
+		//$(wrapper + " button).
 
 		if ((HEADER["aboutlink"].length > 0) && (HEADER["about"].length == 0)) {
 			$(wrapper + " #aboutbuttonwrapper").attr("onclick","window.location='" + HEADER["aboutlink"]+"'");
@@ -232,7 +244,7 @@ function gallery(wrapper) {
 					$(wrapper + " #gallerythumbframe").scrollTo(0);
 
 					// Set title attribute on thumbnail
-					$(this).attr("title",imgtitle(INFOjs[f]));
+					//$(this).attr("title",imgtitle(INFOjs[f]));
 
 						type = 'thumb'
 						el = this;
@@ -462,7 +474,7 @@ function gallery(wrapper) {
 					// Hide loading indicator
 					$(wrapper + ' #workingfullframe').css('visibility','hidden');
 
-					//setfilename($(this).attr('id'));
+					setfilename($(this).attr('id'));
 
 					if ($(jq).hasClass('firstimage')) {
 						console.log('gallery.loadfull(): First full image loaded with dimensions '+this.naturalWidth+'x'+this.naturalHeight+'.  Setting table dimensions.');
@@ -684,7 +696,7 @@ function gallery(wrapper) {
 	function setcontrolbindings() {
 		
 		// Show/Hide thumb button
-		$(wrapper + " #showhidethumb").unbind();
+		$(wrapper + " #showhidethumb").unbind('toggle');
 		$(wrapper + " #showhidethumb").toggle(function(){
 				$(wrapper + " #gallerythumbframe").hide();
 				//$(wrapper + " #gallerythumbframe").css('visibility','hidden');
@@ -692,6 +704,7 @@ function gallery(wrapper) {
 				setcontrolbindings.marginleft = $("#fullframe").css('margin-left');
 				$("#fullframe").css('margin-left','0');
 				$(wrapper + ' #showhidethumb').text('+');
+				$(wrapper + ' #showhidethumb').attr('title','Show thumbnails')
 			}, function(){
 				console.log("gallery.setcontrolbindings: Showing gallerythumbframe.");
 				$(wrapper + " #gallerythumbframe").css('visibility','visible')
@@ -699,6 +712,7 @@ function gallery(wrapper) {
 				console.log("gallery.setcontrolbindings: Setting margin-left to " + setcontrolbindings.marginleft);
 				$("#fullframe").css('margin-left',setcontrolbindings.marginleft)
 				$(wrapper + ' #showhidethumb').text('x');
+				$(wrapper + ' #showhidethumb').attr('title','Hide thumbnails')
 		});
 
 		if (!VIVIZ["showThumbstrip"]) {$("#showhidethumb").click();}
