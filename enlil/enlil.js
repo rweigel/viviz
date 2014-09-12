@@ -1,7 +1,7 @@
 VIVIZ = {
-	"CATALOGXML":"enlil.xml",
-	"lazyLoadMax":12,	            // How many images to load initially.
-	"alternativeFrame":"ss_img_div" // Image that show up in $('#g-container fullframe') are copied here.
+    "CATALOGXML":"enlil.xml",
+    "lazyLoadMax":12,	            // How many images to load initially.
+    "alternativeFrame":"ss_img_div" // Image that show up in $('#g-container fullframe') are copied here.
 };
 
 $(document).ready(function(){

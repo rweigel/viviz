@@ -46,11 +46,10 @@ function gallery(wrapper) {
 	setdropdowns();
 	setthumbs();
 
-	//setTimeout(function () {
-	$(wrapper + " button").each(function () {$(this).tooltip({content: $(this).attr('title')})});
-	$(wrapper + " select").each(function () {$(this).tooltip({content: $(this).attr('title')})});
-	//$("#showhidethumb").tooltip({content: $(this).attr('title')});
-	//},1000);
+	if (typeof(tooltip) === "function") {
+	    $(wrapper + " button").each(function () {$(this).tooltip({content: $(this).attr('title')})});
+	    $(wrapper + " select").each(function () {$(this).tooltip({content: $(this).attr('title')})});
+	}
 
 	function resetdom() {
 		$(wrapper + " #fullframe").html('').css('height','');
@@ -67,9 +66,10 @@ function gallery(wrapper) {
 
 	function setheader() {
 
+	    if (typeof(tooltip) === "function") {
 		$(wrapper + " button").each(function () {$(this).tooltip({content: $(this).attr('title')})});
 		$(" select").each(function () {$(this).tooltip({content: $(this).attr('title')})});
-
+	    }
 		var HEADER = cataloginfo(galleryid);
 		if (HEADER === "") {
 			error(wrapper,"Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
@@ -104,7 +104,9 @@ function gallery(wrapper) {
 				//$(wrapper + " #about").html('<a style="color:white"	>About this gallery</a>');
 				$(wrapper + " #aboutbuttonwrapper").attr('onclick',"window.location='" + HEADER["about"] + "'");
 				$(wrapper + " #aboutbuttonwrapper").attr("title","Go to page with information about these images:\n"+HEADER["about"])
-				$(wrapper + " #aboutbuttonwrapper").tooltip({content: "Go to page with information about these images:\n"+HEADER["about"]})
+				    if (typeof(tooltip) === "function") {
+					$(wrapper + " #aboutbuttonwrapper").tooltip({content: "Go to page with information about these images:\n"+HEADER["about"]});
+				    }
 			} else {
 				$(wrapper + " #aboutbuttonwrapper").attr('title',HEADER["about"] + ". Click to show or hide title line.");
 				// Set click to show or hide about text.
