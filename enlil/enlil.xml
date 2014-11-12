@@ -1,6 +1,6 @@
 <catalog>
-	<gallery id="IPSBD-ENLIL/Velocity/1">
-		<title>IPSBD-ENLIL Velocity 1</title>
+	<gallery id="models/ipsbd-enlil/velocity/1">
+		<title>ipsbd-enlil velocity 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/vel3r1e1b.html</aboutlink>
 		<fulldir>models/ipsbd/vel3r1e1b/</fulldir>
 		<sprintf>vel3r1e1b_%04d.png</sprintf>
@@ -8,8 +8,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Velocity/2">
-		<title>IPSBD-ENLIL Velocity 2</title>
+	<gallery id="models/ipsbd-enlil/velocity/2">
+		<title>ipsbd-enlil velocity 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/vel1r2e4b.html</aboutlink>
 		<fulldir>models/ipsbd/vel1r2e4b/</fulldir>
 		<sprintf>vel1r2e4b_%04d.png</sprintf>
@@ -17,8 +17,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Density/1">
-		<title>IPSBD-ENLIL Density 1</title>
+	<gallery id="models/ipsbd-enlil/density/1">
+		<title>ipsbd-enlil density 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/den3r1e1b.html</aboutlink>
 		<fulldir>models/ipsbd/den3r1e1b/</fulldir>
 		<sprintf>den3r1e1b_%04d.png</sprintf>
@@ -26,8 +26,8 @@
 		<sprintfdelta>3</sprintfdelta>      
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Density/2">
-		<title>IPSBD-ENLIL Density 2</title>
+	<gallery id="models/ipsbd-enlil/density/2">
+		<title>ipsbd-enlil density 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/den1r2e4b.html</aboutlink>
 		<fulldir>models/ipsbd/den1r2e4b/</fulldir>
 		<sprintf>den1r2e4b_%04d.png</sprintf>
@@ -35,8 +35,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Helio/1">
-		<title>IPSBD-ENLIL Helio Image 1</title>
+	<gallery id="models/ipsbd-enlil/helio/1">
+		<title>ipsbd-enlil helio image 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/los1dej.html</aboutlink>
 		<fulldir>models/ipsbd/los1dej/</fulldir>
 		<sprintf>los1dej_%04d.png</sprintf>
@@ -44,70 +44,70 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Evolution/MAVEN">
-		<title>IPSBD-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-enlil/evolution/maven">
+		<title>ipsbd-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/evo10o1b.html</aboutlink>
 		<fulldir>models/ipsbd/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Maven.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-maven.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Evolution/STEREO-B">
-		<title>IPSBD-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-enlil/evolution/stereo-b">
+		<title>ipsbd-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/evo10o1b.html</aboutlink>
 		<fulldir>models/ipsbd/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-B.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Evolution/STEREO-A">
-		<title>IPSBD-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-enlil/evolution/stereo-a">
+		<title>ipsbd-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/evo10o1b.html</aboutlink>
 		<fulldir>models/ipsbd/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-A.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Evolution/MARS">
-		<title>IPSBD-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-enlil/evolution/mars">
+		<title>ipsbd-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/evo10o1b.html</aboutlink>
 		<fulldir>models/ipsbd/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mars.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mars.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Evolution/EARTH">
-		<title>IPSBD-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-enlil/evolution/earth">
+		<title>ipsbd-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/evo10o1b.html</aboutlink>
 		<fulldir>models/ipsbd/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Earth.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-earth.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Evolution/VENUS">
-		<title>IPSBD-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-enlil/evolution/venus">
+		<title>ipsbd-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/evo10o1b.html</aboutlink>
 		<fulldir>models/ipsbd/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Venus.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-venus.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/Evolution/MERCURY">
-		<title>IPSBD-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-enlil/evolution/mercury">
+		<title>ipsbd-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/evo10o1b.html</aboutlink>
 		<fulldir>models/ipsbd/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mercury.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mercury.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/JMap/HI12A">
-		<title>IPSBD-ENLIL J-Maps</title>
+	<gallery id="models/ipsbd-enlil/jmap/hi12a">
+		<title>ipsbd-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/jmap1.html</aboutlink>
 		<fulldir>models/ipsbd/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/JMap/HI12B">
-		<title>IPSBD-ENLIL J-Maps</title>
+	<gallery id="models/ipsbd-enlil/jmap/hi12b">
+		<title>ipsbd-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/jmap1.html</aboutlink>
 		<fulldir>models/ipsbd/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-ENLIL/RTime/Earth">
-		<title>IPSBD-ENLIL J-Maps</title>
+	<gallery id="models/ipsbd-enlil/rtime/earth">
+		<title>ipsbd-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/jmap1.html</aboutlink>
 		<fulldir>models/ipsbd/rtimer2/</fulldir>
-		<fullfiles>[["rtimer2-Earth-vval.png"]]</fullfiles>
+		<fullfiles>[["rtimer2-earth-vval.png"]]</fullfiles>
 	</gallery>
 	
-	<!-- IPSBD-SWRC-ENLIL -->
-	<gallery id="IPSBD-SWRC-ENLIL/Velocity/1">
-		<title>IPSBD-SWRC-ENLIL Velocity 1</title>
+	<!-- ipsbd-swrc-enlil -->
+	<gallery id="models/ipsbd-swrc-enlil/velocity/1">
+		<title>ipsbd-swrc-enlil velocity 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/vel3r1e1b/</fulldir>
 		<sprintf>vel3r1e1b_%04d.png</sprintf>
@@ -115,8 +115,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Velocity/2">
-		<title>IPSBD-SWRC-ENLIL Velocity 2</title>
+	<gallery id="models/ipsbd-swrc-enlil/velocity/2">
+		<title>ipsbd-swrc-enlil velocity 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/vel1r2e4b/</fulldir>
 		<sprintf>vel1r2e4b_%04d.png</sprintf>
@@ -124,8 +124,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Density/1">
-		<title>IPSBD-SWRC-ENLIL Density 1</title>
+	<gallery id="models/ipsbd-swrc-enlil/density/1">
+		<title>ipsbd-swrc-enlil density 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/den3r1e1b/</fulldir>
 		<sprintf>den3r1e1b_%04d.png</sprintf>
@@ -133,8 +133,8 @@
 		<sprintfdelta>3</sprintfdelta>      
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Density/2">
-		<title>IPSBD-SWRC-ENLIL Density 2</title>
+	<gallery id="models/ipsbd-swrc-enlil/density/2">
+		<title>ipsbd-swrc-enlil density 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/den1r2e4b/</fulldir>
 		<sprintf>den1r2e4b_%04d.png</sprintf>
@@ -142,8 +142,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Helio/1">
-		<title>IPSBD-SWRC-ENLIL Helio Image 1</title>
+	<gallery id="models/ipsbd-swrc-enlil/helio/1">
+		<title>ipsbd-swrc-enlil helio image 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/los1dej/</fulldir>
 		<sprintf>los1dej_%04d.png</sprintf>
@@ -151,70 +151,70 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Evolution/MAVEN">
-		<title>IPSBD-SWRC-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-swrc-enlil/evolution/maven">
+		<title>ipsbd-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Maven.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-maven.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Evolution/STEREO-B">
-		<title>IPSBD-SWRC-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-swrc-enlil/evolution/stereo-b">
+		<title>ipsbd-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-B.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Evolution/STEREO-A">
-		<title>IPSBD-SWRC-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-swrc-enlil/evolution/stereo-a">
+		<title>ipsbd-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-A.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Evolution/MARS">
-		<title>IPSBD-SWRC-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-swrc-enlil/evolution/mars">
+		<title>ipsbd-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mars.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mars.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Evolution/EARTH">
-		<title>IPSBD-SWRC-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-swrc-enlil/evolution/earth">
+		<title>ipsbd-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Earth.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-earth.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Evolution/VENUS">
-		<title>IPSBD-SWRC-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-swrc-enlil/evolution/venus">
+		<title>ipsbd-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Venus.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-venus.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/Evolution/MERCURY">
-		<title>IPSBD-SWRC-ENLIL Evolution</title>
+	<gallery id="models/ipsbd-swrc-enlil/evolution/mercury">
+		<title>ipsbd-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mercury.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mercury.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/JMap/HI12A">
-		<title>IPSBD-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/ipsbd-swrc-enlil/jmap/hi12a">
+		<title>ipsbd-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/JMap/HI12B">
-		<title>IPSBD-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/ipsbd-swrc-enlil/jmap/hi12b">
+		<title>ipsbd-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="IPSBD-SWRC-ENLIL/RTime/Earth">
-		<title>IPSBD-SWRC-ENLIL R-Time</title>
+	<gallery id="models/ipsbd-swrc-enlil/rtime/earth">
+		<title>ipsbd-swrc-enlil r-time</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/jmap1.html</aboutlink>
 		<fulldir>models/ipsbd-swrc/rtimer2/</fulldir>
-		<fullfiles>[["rtimer2-Earth-vval.png"]]</fullfiles>
+		<fullfiles>[["rtimer2-earth-vval.png"]]</fullfiles>
 	</gallery>
 
-    <!--WSADUB-SWRC-ENLIL -->
-	<gallery id="WSADUB-SWRC-ENLIL/Velocity/1">
-		<title>WSADUB-SWRC-ENLIL Velocity 1</title>
+    <!--wsadub-swrc-enlil -->
+	<gallery id="models/wsadub-swrc-enlil/velocity/1">
+		<title>wsadub-swrc-enlil velocity 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/vel3r1e1b/</fulldir>
 		<sprintf>vel3r1e1b_%04d.png</sprintf>
@@ -222,8 +222,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Velocity/2">
-		<title>WSADUB-SWRC-ENLIL Velocity 2</title>
+	<gallery id="models/wsadub-swrc-enlil/velocity/2">
+		<title>wsadub-swrc-enlil velocity 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/vel1r2e4b/</fulldir>
 		<sprintf>vel1r2e4b_%04d.png</sprintf>
@@ -231,8 +231,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Density/1">
-		<title>WSADUB-SWRC-ENLIL Density 1</title>
+	<gallery id="models/wsadub-swrc-enlil/density/1">
+		<title>wsadub-swrc-enlil density 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/den3r1e1b/</fulldir>
 		<sprintf>den3r1e1b_%04d.png</sprintf>
@@ -240,8 +240,8 @@
 		<sprintfdelta>3</sprintfdelta>      
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Density/2">
-		<title>WSADUB-SWRC-ENLIL Density 2</title>
+	<gallery id="models/wsadub-swrc-enlil/density/2">
+		<title>wsadub-swrc-enlil density 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/den1r2e4b/</fulldir>
 		<sprintf>den1r2e4b_%04d.png</sprintf>
@@ -249,8 +249,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Helio/1">
-		<title>WSADUB-SWRC-ENLIL Helio Image 1</title>
+	<gallery id="models/wsadub-swrc-enlil/helio/1">
+		<title>wsadub-swrc-enlil helio image 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/los1dej/</fulldir>
 		<sprintf>los1dej_%04d.png</sprintf>
@@ -258,70 +258,70 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Evolution/MAVEN">
-		<title>WSADUB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadub-swrc-enlil/evolution/maven">
+		<title>wsadub-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Maven.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-maven.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Evolution/STEREO-B">
-		<title>WSADUB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadub-swrc-enlil/evolution/stereo-b">
+		<title>wsadub-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-B.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Evolution/STEREO-A">
-		<title>WSADUB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadub-swrc-enlil/evolution/stereo-a">
+		<title>wsadub-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-A.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Evolution/MARS">
-		<title>WSADUB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadub-swrc-enlil/evolution/mars">
+		<title>wsadub-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mars.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mars.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Evolution/EARTH">
-		<title>WSADUB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadub-swrc-enlil/evolution/earth">
+		<title>wsadub-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Earth.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-earth.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Evolution/VENUS">
-		<title>WSADUB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadub-swrc-enlil/evolution/venus">
+		<title>wsadub-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Venus.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-venus.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/Evolution/MERCURY">
-		<title>WSADUB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadub-swrc-enlil/evolution/mercury">
+		<title>wsadub-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mercury.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mercury.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/JMap/HI12A">
-		<title>WSADUB-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/wsadub-swrc-enlil/jmap/hi12a">
+		<title>wsadub-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/JMap/HI12B">
-		<title>WSADUB-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/wsadub-swrc-enlil/jmap/hi12b">
+		<title>wsadub-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadub-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUB-SWRC-ENLIL/RTime/Earth">
-		<title>WSADUB-SWRC-ENLIL R-Time</title>
+	<gallery id="models/wsadub-swrc-enlil/rtime/earth">
+		<title>wsadub-swrc-enlil r-time</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/jmap1.html</aboutlink>
 		<fulldir>models/wsadub-swrc/rtimer2/</fulldir>
-		<fullfiles>[["rtimer2-Earth-vval.png"]]</fullfiles>
+		<fullfiles>[["rtimer2-earth-vval.png"]]</fullfiles>
 	</gallery>
 	
-	<!--WSADUZ-SWRC-ENLIL -->
-	<gallery id="WSADUZ-SWRC-ENLIL/Velocity/1">
-		<title>WSADUZ-SWRC-ENLIL Velocity 1</title>
+	<!--wsaduz-swrc-enlil -->
+	<gallery id="models/wsaduz-swrc-enlil/velocity/1">
+		<title>wsaduz-swrc-enlil velocity 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/vel3r1e1b/</fulldir>
 		<sprintf>vel3r1e1b_%04d.png</sprintf>
@@ -329,8 +329,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Velocity/2">
-		<title>WSADUZ-SWRC-ENLIL Velocity 2</title>
+	<gallery id="models/wsaduz-swrc-enlil/velocity/2">
+		<title>wsaduz-swrc-enlil velocity 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/vel1r2e4b/</fulldir>
 		<sprintf>vel1r2e4b_%04d.png</sprintf>
@@ -338,8 +338,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Density/1">
-		<title>WSADUZ-SWRC-ENLIL Density 1</title>
+	<gallery id="models/wsaduz-swrc-enlil/density/1">
+		<title>wsaduz-swrc-enlil density 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/den3r1e1b/</fulldir>
 		<sprintf>den3r1e1b_%04d.png</sprintf>
@@ -347,8 +347,8 @@
 		<sprintfdelta>3</sprintfdelta>      
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Density/2">
-		<title>WSADUZ-SWRC-ENLIL Density 2</title>
+	<gallery id="models/wsaduz-swrc-enlil/density/2">
+		<title>wsaduz-swrc-enlil density 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/den1r2e4b/</fulldir>
 		<sprintf>den1r2e4b_%04d.png</sprintf>
@@ -356,8 +356,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Helio/1">
-		<title>WSADUZ-SWRC-ENLIL Helio Image 1</title>
+	<gallery id="models/wsaduz-swrc-enlil/helio/1">
+		<title>wsaduz-swrc-enlil helio image 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/los1dej/</fulldir>
 		<sprintf>los1dej_%04d.png</sprintf>
@@ -365,70 +365,70 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Evolution/MAVEN">
-		<title>WSADUZ-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsaduz-swrc-enlil/evolution/maven">
+		<title>wsaduz-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Maven.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-maven.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Evolution/STEREO-B">
-		<title>WSADUZ-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsaduz-swrc-enlil/evolution/stereo-b">
+		<title>wsaduz-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-B.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Evolution/STEREO-A">
-		<title>WSADUZ-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsaduz-swrc-enlil/evolution/stereo-a">
+		<title>wsaduz-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-A.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Evolution/MARS">
-		<title>WSADUZ-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsaduz-swrc-enlil/evolution/mars">
+		<title>wsaduz-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mars.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mars.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Evolution/EARTH">
-		<title>WSADUZ-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsaduz-swrc-enlil/evolution/earth">
+		<title>wsaduz-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Earth.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-earth.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Evolution/VENUS">
-		<title>WSADUZ-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsaduz-swrc-enlil/evolution/venus">
+		<title>wsaduz-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Venus.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-venus.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/Evolution/MERCURY">
-		<title>WSADUZ-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsaduz-swrc-enlil/evolution/mercury">
+		<title>wsaduz-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mercury.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mercury.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/JMap/HI12A">
-		<title>WSADUZ-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/wsaduz-swrc-enlil/jmap/hi12a">
+		<title>wsaduz-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/JMap/HI12B">
-		<title>WSADUZ-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/wsaduz-swrc-enlil/jmap/hi12b">
+		<title>wsaduz-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsaduz-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADUZ-SWRC-ENLIL/RTime/Earth">
-		<title>WSADUZ-SWRC-ENLIL R-Time</title>
+	<gallery id="models/wsaduz-swrc-enlil/rtime/earth">
+		<title>wsaduz-swrc-enlil r-time</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/jmap1.html</aboutlink>
 		<fulldir>models/ipsbd/rtimer2/</fulldir>
-		<fullfiles>[["rtimer2-Earth-vval.png"]]</fullfiles>
+		<fullfiles>[["rtimer2-earth-vval.png"]]</fullfiles>
 	</gallery>
 
-    <!--WSADTB-SWRC-ENLIL -->
-	<gallery id="WSADTB-SWRC-ENLIL/Velocity/1">
-		<title>WSADTB-SWRC-ENLIL Velocity 1</title>
+    <!--wsadtb-swrc-enlil -->
+	<gallery id="models/wsadtb-swrc-enlil/velocity/1">
+		<title>wsadtb-swrc-enlil velocity 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/vel3r1e1b/</fulldir>
 		<sprintf>vel3r1e1b_%04d.png</sprintf>
@@ -436,8 +436,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Velocity/2">
-		<title>WSADTB-SWRC-ENLIL Velocity 2</title>
+	<gallery id="models/wsadtb-swrc-enlil/velocity/2">
+		<title>wsadtb-swrc-enlil velocity 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/vel1r2e4b/</fulldir>
 		<sprintf>vel1r2e4b_%04d.png</sprintf>
@@ -445,8 +445,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Density/1">
-		<title>WSADTB-SWRC-ENLIL Density 1</title>
+	<gallery id="models/wsadtb-swrc-enlil/density/1">
+		<title>wsadtb-swrc-enlil density 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/den3r1e1b/</fulldir>
 		<sprintf>den3r1e1b_%04d.png</sprintf>
@@ -454,8 +454,8 @@
 		<sprintfdelta>3</sprintfdelta>      
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Density/2">
-		<title>WSADTB-SWRC-ENLIL Density 2</title>
+	<gallery id="models/wsadtb-swrc-enlil/density/2">
+		<title>wsadtb-swrc-enlil density 2</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/den1r2e4b/</fulldir>
 		<sprintf>den1r2e4b_%04d.png</sprintf>
@@ -463,8 +463,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Helio/1">
-		<title>WSADTB-SWRC-ENLIL Helio Image 1</title>
+	<gallery id="models/wsadtb-swrc-enlil/helio/1">
+		<title>wsadtb-swrc-enlil helio image 1</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/los1dej/</fulldir>
 		<sprintf>los1dej_%04d.png</sprintf>
@@ -472,83 +472,83 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Evolution/MAVEN">
-		<title>WSADTB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadtb-swrc-enlil/evolution/maven">
+		<title>wsadtb-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Maven.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-maven.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Evolution/STEREO-B">
-		<title>WSADTB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadtb-swrc-enlil/evolution/stereo-b">
+		<title>wsadtb-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-B.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Evolution/STEREO-A">
-		<title>WSADTB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadtb-swrc-enlil/evolution/stereo-a">
+		<title>wsadtb-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-A.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-stereo-a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Evolution/MARS">
-		<title>WSADTB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadtb-swrc-enlil/evolution/mars">
+		<title>wsadtb-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mars.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mars.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Evolution/EARTH">
-		<title>WSADTB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadtb-swrc-enlil/evolution/earth">
+		<title>wsadtb-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Earth.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-earth.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Evolution/VENUS">
-		<title>WSADTB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadtb-swrc-enlil/evolution/venus">
+		<title>wsadtb-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Venus.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-venus.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/Evolution/MERCURY">
-		<title>WSADTB-SWRC-ENLIL Evolution</title>
+	<gallery id="models/wsadtb-swrc-enlil/evolution/mercury">
+		<title>wsadtb-swrc-enlil evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Mercury.png"]]</fullfiles>
+		<fullfiles>[["evo10o1b-mercury.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/JMap/HI12A">
-		<title>WSADTB-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/wsadtb-swrc-enlil/jmap/hi12a">
+		<title>wsadtb-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12a.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/JMap/HI12B">
-		<title>WSADTB-SWRC-ENLIL J-Maps</title>
+	<gallery id="models/wsadtb-swrc-enlil/jmap/hi12b">
+		<title>wsadtb-swrc-enlil j-maps</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/jmap1/</fulldir>
 		<fullfiles>[["jmap1-hi12b.png"]]</fullfiles>
 	</gallery>
-	<gallery id="WSADTB-SWRC-ENLIL/RTime/Earth">
-		<title>WSADTB-SWRC-ENLIL R-Time</title>
+	<gallery id="models/wsadtb-swrc-enlil/rtime/earth">
+		<title>wsadtb-swrc-enlil r-time</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/doc/jmap1.html</aboutlink>
 		<fulldir>models/wsadtb-swrc/rtimer2/</fulldir>
-		<fullfiles>[["rtimer2-Earth-vval.png"]]</fullfiles>
+		<fullfiles>[["rtimer2-earth-vval.png"]]</fullfiles>
 	</gallery>
 		
-	<!--<gallery id="New/IPSBD-ENLIL/Velocity/0">
-		<title>New IPSBD-ENLIL Velocity 0</title>
+	<!--<gallery id="new/ipsbd-enlil/velocity/0">
+		<title>new ipsbd-enlil velocity 0</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>http://spaceweather.gmu.edu/projects/enlil-new/ipsbd/vel1r2/</fulldir>
-		<strftime>ipsbd_vel1r2_20140723T03_$Y$m$dT${H;delta=3}.png</strftime>
-		<strftimestart>2014-07-13T03</strftimestart>
-		<strftimestop>2014-07-28T06</strftimestop>
+		<strftime>ipsbd_vel1r2_20140723t03_$y$m$dt${h;delta=3}.png</strftime>
+		<strftimestart>2014-07-13t03</strftimestart>
+		<strftimestop>2014-07-28t06</strftimestop>
 	</gallery>-->
 	
 	
 	
 	
 	
-	<!--STARTING THE MISSIONS WEBSITE-->
-	<gallery id="EARTH/Velocity/0">
-		<title>EARTH Velocity</title>
+	<!--starting the missions website-->
+	<gallery id="missions/earth/velocity/0">
+		<title>earth velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Earth/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
@@ -556,8 +556,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="EARTH/Density/0">
-		<title>EARTH Density</title>
+	<gallery id="missions/earth/density/0">
+		<title>earth density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Earth/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
@@ -565,8 +565,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="EARTH/Shocks/0">
-		<title>EARTH Shocks</title>
+	<gallery id="missions/earth/shocks/0">
+		<title>earth shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Earth/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
@@ -574,15 +574,15 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="EARTH/Evolution/0">
-		<title>EARTH Evolution</title>
+	<gallery id="missions/earth/evolution/0">
+		<title>earth evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Earth/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Earth.png"]]</fullfiles>        
+		<fullfiles>[["evo10o1b-earth.png"]]</fullfiles>        
 	</gallery>
-	<!-- JUNO -->
-	<gallery id="JUNO/Velocity/0">
-		<title>JUNO Velocity</title>
+	<!-- juno -->
+	<gallery id="missions/juno/velocity/0">
+		<title>juno velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Juno/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
@@ -590,8 +590,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="JUNO/Density/0">
-		<title>JUNO Density</title>
+	<gallery id="missions/juno/density/0">
+		<title>juno density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Juno/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
@@ -599,8 +599,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="JUNO/Shocks/0">
-		<title>JUNO Shocks</title>
+	<gallery id="missions/juno/shocks/0">
+		<title>juno shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Juno/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
@@ -608,15 +608,15 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="JUNO/Evolution/0">
-		<title>JUNO Evolution</title>
+	<gallery id="missions/juno/evolution/0">
+		<title>juno evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Juno/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Juno.png"]]</fullfiles>        
+		<fullfiles>[["evo10o1b-juno.png"]]</fullfiles>        
 	</gallery>
-	<!-- MAVEN -->
-	<gallery id="MAVEN/Velocity/0">
-		<title>MAVEN Velocity</title>
+	<!-- maven -->
+	<gallery id="missions/maven/velocity/0">
+		<title>maven velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Maven/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
@@ -624,8 +624,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="MAVEN/Density/0">
-		<title>MAVEN Density</title>
+	<gallery id="missions/maven/density/0">
+		<title>maven density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Maven/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
@@ -633,8 +633,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="MAVEN/Shocks/0">
-		<title>MAVEN Shocks</title>
+	<gallery id="missions/maven/shocks/0">
+		<title>maven shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Maven/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
@@ -642,15 +642,15 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="MAVEN/Evolution/0">
-		<title>MAVEN Evolution</title>
+	<gallery id="missions/maven/evolution/0">
+		<title>maven evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Maven/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Maven.png"]]</fullfiles>        
+		<fullfiles>[["evo10o1b-maven.png"]]</fullfiles>        
 	</gallery>
-	<!-- MESSENGER -->
-	<gallery id="MESSENGER/Velocity/0">
-		<title>MESSENGER Velocity</title>
+	<!-- messenger -->
+	<gallery id="missions/messenger/velocity/0">
+		<title>messenger velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Messenger/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
@@ -658,8 +658,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="MESSENGER/Density/0">
-		<title>MESSENGER Density</title>
+	<gallery id="missions/messenger/density/0">
+		<title>messenger density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Messenger/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
@@ -667,8 +667,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="MESSENGER/Shocks/0">
-		<title>MESSENGER Shocks</title>
+	<gallery id="missions/messenger/shocks/0">
+		<title>messenger shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Messenger/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
@@ -676,15 +676,15 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="MESSENGER/Evolution/0">
-		<title>MESSENGER Evolution</title>
+	<gallery id="missions/messenger/evolution/0">
+		<title>messenger evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Messenger/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Messenger.png"]]</fullfiles>        
+		<fullfiles>[["evo10o1b-messenger.png"]]</fullfiles>        
 	</gallery>
-	<!-- ROSETTA -->
-	<gallery id="ROSETTA/Velocity/0">
-		<title>ROSETTA Velocity</title>
+	<!-- rosetta -->
+	<gallery id="missions/rosetta/velocity/0">
+		<title>rosetta velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Rosetta/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
@@ -692,8 +692,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="ROSETTA/Density/0">
-		<title>ROSETTA Density</title>
+	<gallery id="missions/rosetta/density/0">
+		<title>rosetta density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Rosetta/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
@@ -701,8 +701,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="ROSETTA/Shocks/0">
-		<title>ROSETTA Shocks</title>
+	<gallery id="missions/rosetta/shocks/0">
+		<title>rosetta shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Rosetta/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
@@ -710,15 +710,15 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="ROSETTA/Evolution/0">
-		<title>ROSETTA Evolution</title>
+	<gallery id="missions/rosetta/evolution/0">
+		<title>rosetta evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Rosetta/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Rosetta.png"]]</fullfiles>        
+		<fullfiles>[["evo10o1b-rosetta.png"]]</fullfiles>        
 	</gallery>
-	<!--SPITZER -->
-	<gallery id="SPITZER/Velocity/0">
-		<title>SPITZER Velocity</title>
+	<!--spitzer -->
+	<gallery id="missions/spitzer/velocity/0">
+		<title>spitzer velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Spitzer/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
@@ -726,8 +726,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="SPITZER/Density/0">
-		<title>SPITZER Density</title>
+	<gallery id="missions/spitzer/density/0">
+		<title>spitzer density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Spitzer/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
@@ -735,8 +735,8 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="SPITZER/Shocks/0">
-		<title>SPITZER Shocks</title>
+	<gallery id="missions/spitzer/shocks/0">
+		<title>spitzer shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Spitzer/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
@@ -744,78 +744,78 @@
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="SPITZER/Evolution/0">
-		<title>SPITZER Evolution</title>
+	<gallery id="missions/spitzer/evolution/0">
+		<title>spitzer evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
 		<fulldir>missions/Spitzer/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Spitzer.png"]]</fullfiles>        
+		<fullfiles>[["evo10o1b-spitzer.png"]]</fullfiles>        
 	</gallery>
-	<!-- STEREO-A -->
-	<gallery id="STEREO-A/Velocity/0">
-		<title>STEREO-A Velocity</title>
+	<!-- stereo-a -->
+	<gallery id="missions/stereo-a/velocity/0">
+		<title>stereo-a velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-A/vel2r5e1b/</fulldir>
+		<fulldir>missions/Stereo-a/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="STEREO-A/Density/0">
-		<title>STEREO-A Density</title>
+	<gallery id="missions/stereo-a/density/0">
+		<title>stereo-a density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-A/den2r5e1b/</fulldir>
+		<fulldir>missions/Stereo-a/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="STEREO-A/Shocks/0">
-		<title>STEREO-A Shocks</title>
+	<gallery id="missions/stereo-a/shocks/0">
+		<title>stereo-a shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-A/sho2r5e1/</fulldir>
+		<fulldir>missions/Stereo-a/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="STEREO-A/Evolution/0">
-		<title>STEREO-A Evolution</title>
+	<gallery id="missions/stereo-a/evolution/0">
+		<title>stereo-a evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-A/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-A.png"]]</fullfiles>        
+		<fulldir>missions/Stereo-a/evo10o1b/</fulldir>
+		<fullfiles>[["evo10o1b-stereo-a.png"]]</fullfiles>        
 	</gallery>
-	<!-- STEREO-B -->
-	<gallery id="STEREO-B/Velocity/0">
-		<title>STEREO-B Velocity</title>
+	<!-- stereo-b -->
+	<gallery id="missions/stereo-b/velocity/0">
+		<title>stereo-b velocity</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-B/vel2r5e1b/</fulldir>
+		<fulldir>missions/Stereo-b/vel2r5e1b/</fulldir>
 		<sprintf>vel2r5e1b_%04d.png</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="STEREO-B/Density/0">
-		<title>STEREO-B Density</title>
+	<gallery id="missions/stereo-b/density/0">
+		<title>stereo-b density</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-B/den2r5e1b/</fulldir>
+		<fulldir>missions/Stereo-b/den2r5e1b/</fulldir>
 		<sprintf>den2r5e1b_%04d.png</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="STEREO-B/Shocks/0">
-		<title>STEREO-B Shocks</title>
+	<gallery id="missions/stereo-b/shocks/0">
+		<title>stereo-b shocks</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-B/sho2r5e1/</fulldir>
+		<fulldir>missions/Stereo-b/sho2r5e1/</fulldir>
 		<sprintf>sho2r5e1_%04d.png</sprintf>
 		<sprintfstart>0</sprintfstart>
 		<sprintfdelta>3</sprintfdelta>
 		<sprintfstop>360</sprintfstop>           
 	</gallery>
-	<gallery id="STEREO-B/Evolution/0">
-		<title>STEREO-B Evolution</title>
+	<gallery id="missions/stereo-b/evolution/0">
+		<title>stereo-b evolution</title>
 		<aboutlink>http://spaceweather.gmu.edu/projects/enlil/index.html</aboutlink>
-		<fulldir>missions/Stereo-B/evo10o1b/</fulldir>
-		<fullfiles>[["evo10o1b-Stereo-B.png"]]</fullfiles>        
+		<fulldir>missions/Stereo-b/evo10o1b/</fulldir>
+		<fullfiles>[["evo10o1b-stereo-b.png"]]</fullfiles>        
 	</gallery>
 </catalog>

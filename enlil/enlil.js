@@ -142,7 +142,7 @@ function enlil() {
 			$('#sitetitle').text(myoutput[0] + 'Solar Wind Prediction' + ' \u2013 ' + newtitle[0] + ' ' + newtitle[1]);
 		}
 
-		location.hash = '/' + location.hash.split('/')[1] + '/' + output;
+		location.hash = '/' + location.hash.split('/')[1] + '/' + location.hash.split('/')[2] + '/' + output;
 	}
 
 }
