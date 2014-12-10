@@ -51,24 +51,30 @@
 		<script type="text/javascript" src="js/print.js"></script>
 		<script type="text/javascript" src="js/message.js"></script>
 
-		<!-- Base catalog (catalogjsonbase)
+		<!-- Base catalog specified as json variable catalogjsonbase
 		<script type="text/javascript" src="./xml/catalog.json"></script>
 		-->
+
+		<!-- Base catalog returned from function named catalogjsbase
+		<script type="text/javascript" src="./xml/catalog.js"></script>
+		-->
+
+		<script type="text/javascript" src="./xml/catalog.js"></script>
 
 		<!--
 		Configuration data inside this script node is read by default.
 		If empty, xml/catalog.xml is read.  Place configuration data here
 		if this index.htm was read from a local file (file://) instead of http://.
+		<script id="xml"  type="text/x-jQuery-tmpl"></script>
 		-->
-		<script id="xml"  type="text/x-jQuery-tmpl">
-		</script>
 
 		<script>
-			// Location of imgconvert (download from http://imgconverg.org/) script, e.g., http://server/cgi-bin/convert.cgi
+			// Location of imgconvert (download from http://imgconverg.org/) script, e.g.,
+			// http://server/cgi-bin/convert.cgi
 			IMGCONVERT = "";
 
+			//"CATALOGXML":"xml/catalog.xml",
 			VIVIZ = {
-				"CATALOGXML":"xml/catalog.xml",
 				"defaultMode":"gallery",
 				"showThumbstrip":true,
 				"showFileName":true,

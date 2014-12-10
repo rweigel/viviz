@@ -6,9 +6,18 @@ function cataloginfo(galleryid) {
 		}
 		return v
 	}
-	
+
+
+	if (typeof(cataloginfo.js) != 'object') {
+	    if (typeof(catalogjsbase) === 'function') {
+		console.log("cataloginfo.js: catalogjsbase function is defined.");
+		cataloginfo.js = catalogjsbase();
+	    }
+	}
+
+
 	if (typeof(cataloginfo.json) != 'object') {
-		console.log("cataloginfo.js: No client-side cache of catalog information.");
+		console.log("cataloginfo.js: No client-side cache of catalogjsonbase information.");
 		cataloginfo.json = new Object();
 		if (typeof(catalogjsonuploads) !== "undefined" && typeof(catalogjsonbase) !== "undefined") {
 			console.log("cataloginfo.js: Variables catalogjsonbase and catalogjsonuploads both are defined.  Using both.");
@@ -45,25 +54,28 @@ function cataloginfo(galleryid) {
 			console.log("cataloginfo.js: Did not find xml catalog information in index.html.")
 		}
 
-		if (typeof(VIVIZ.CATALOGXML) === "undefined") {
-			VIVIZ.CATALOGXML = "xml/catalog.xml";
-			console.log("cataloginfo.js: Variable VIVIZ.CATALOGXML is not defined.  Using xml/catalog.xml.")
-		}
 
-		$.ajax({
-			type: "GET",
-			url: VIVIZ.CATALOGXML,
-			async: false,
-			dataType: "xml",
-			success: function (data,textStatus, jqXHR) {
-				cataloginfo.jqXHR = jqXHR;
-				cataloginfo.xml = data;
-				console.log("cataloginfo.js: Finished reading " + VIVIZ.CATALOGXML)
-			},
-			error: function (xhr, textStatus, errorThrown) {
-				console.log("cataloginfo.js: Could not read " + VIVIZ.CATALOGXML + " " + errorThrown.message.split(":")[0])
-			}
-		});
+		if (((cataloginfo.js) || (cataloginfo.json)) && (typeof(VIVIZ.CATALOGXML) === "undefined")) {
+		    console.log("cataloginfo.js: Not using xml/catalog.xml (if found) because catalog info found in js or json.")
+		} else {
+		    VIVIZ.CATALOGXML = "xml/catalog.xml";
+		    console.log("cataloginfo.js: Variable VIVIZ.CATALOGXML is not defined.  Using xml/catalog.xml.")
+
+			$.ajax({
+				type: "GET",
+				    url: VIVIZ.CATALOGXML,
+				    async: false,
+				    dataType: "xml",
+				    success: function (data,textStatus, jqXHR) {
+				    cataloginfo.jqXHR = jqXHR;
+				    cataloginfo.xml = data;
+				    console.log("cataloginfo.js: Finished reading " + VIVIZ.CATALOGXML)
+					},
+				    error: function (xhr, textStatus, errorThrown) {
+				    console.log("cataloginfo.js: Could not read " + VIVIZ.CATALOGXML + " " + errorThrown.message.split(":")[0])
+					}
+			    });
+		}
 	}
 
 	// If no arguments, return list of galleries.
@@ -97,6 +109,15 @@ function cataloginfo(galleryid) {
 		}
 		if (cataloginfo.json.length > 0) {
 			cataloginfo.json.forEach(
+					function (el,i) {
+						GALLERIES["Values"][i+j]          = new Object();
+						GALLERIES["Values"][i+j]["Title"] = el.title;
+						GALLERIES["Values"][i+j]["Value"] = el.id;
+						GALLERIES["Values"][i+j]["Id"]    = el.id;					
+					});
+		}		
+		if (cataloginfo.js.length > 0) {
+			cataloginfo.js.forEach(
 					function (el,i) {
 						GALLERIES["Values"][i+j]          = new Object();
 						GALLERIES["Values"][i+j]["Title"] = el.title;
@@ -207,6 +228,7 @@ function cataloginfo(galleryid) {
 			cataloginfo.GALLERIES["Values"][0]["Id"]    = galleryid;
 
 		} else {
+		    if (Object.keys(cataloginfo.xml).length > 0) {
 			// Extract gallery information from from catalog.xml
 
 			var text = $("#xml").text();
@@ -263,7 +285,7 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["thumblistscript"]  = $(cataloginfo.xml).find(query).children('thumblistscript').text();
 			_CATALOGINFO["thumbfiles"]       = $(cataloginfo.xml).find(query).children('thumbfiles').text();
 			_CATALOGINFO["thumbdir"]         = $(cataloginfo.xml).find(query).children('thumbdir').text();
-
+		    }
 
 			// Find catalog with matching id in json array.
 			for (i = 0;i<cataloginfo.json.length;i++) {
@@ -274,6 +296,18 @@ function cataloginfo(galleryid) {
 				_CATALOGINFO["galleryid"] = cataloginfo.json[i]["id"]
 				for (key in cataloginfo.json[i]) {
 					_CATALOGINFO[key] = cataloginfo.json[i][key];
+				}
+			}
+
+			// Find catalog with matching id in json array.
+			for (i = 0;i<cataloginfo.js.length;i++) {
+				if (cataloginfo.js[i]["id"] === galleryid) break;
+			}
+
+			if (typeof(cataloginfo.js[i]) !== "undefined") {
+				_CATALOGINFO["galleryid"] = cataloginfo.js[i]["id"]
+				for (key in cataloginfo.js[i]) {
+					_CATALOGINFO[key] = cataloginfo.js[i][key];
 				}
 			}
 

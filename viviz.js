@@ -1,14 +1,14 @@
 var fs       = require('fs');
 var http     = require('http'); http.globalAgent.maxSockets = 100;  // Most Apache servers have this set at 100.
 var request  = require("request");
-var	express  = require('express');
-var	app      = express().use(express.bodyParser());
-var	server   = require("http").createServer(app);
+var express  = require('express');
+var app      = express().use(express.bodyParser());
+var server   = require("http").createServer(app);
 var qs       = require('querystring');
 var fs       = require('fs');
 var xml2js   = require('xml2js');
 var port     = process.argv[2] || 8005;
-var file     = process.argv[3] || "indexrelative.htm";
+var file     = process.argv[3] || "index.htm";
 var mkdirp   = require("mkdirp");
 var readdirp = require("readdirp");
 
