@@ -111,7 +111,7 @@ function cataloginfo(galleryid) {
 			cataloginfo.json.forEach(
 					function (el,i) {
 						GALLERIES["Values"][i+j]          = new Object();
-						GALLERIES["Values"][i+j]["Title"] = el.title;
+						GALLERIES["Values"][i+j]["Title"] = el.title || el.id;
 						GALLERIES["Values"][i+j]["Value"] = el.id;
 						GALLERIES["Values"][i+j]["Id"]    = el.id;					
 					});
@@ -120,7 +120,7 @@ function cataloginfo(galleryid) {
 			cataloginfo.js.forEach(
 					function (el,i) {
 						GALLERIES["Values"][i+j]          = new Object();
-						GALLERIES["Values"][i+j]["Title"] = el.title;
+						GALLERIES["Values"][i+j]["Title"] = el.title || el.id;
 						GALLERIES["Values"][i+j]["Value"] = el.id;
 						GALLERIES["Values"][i+j]["Id"]    = el.id;					
 					});
@@ -228,6 +228,8 @@ function cataloginfo(galleryid) {
 			cataloginfo.GALLERIES["Values"][0]["Id"]    = galleryid;
 
 		} else {
+
+
 		    if (Object.keys(cataloginfo.xml).length > 0) {
 			// Extract gallery information from from catalog.xml
 
@@ -252,8 +254,6 @@ function cataloginfo(galleryid) {
 				//$("#error").html("");
 			}
 			_CATALOGINFO["title"]      = $(cataloginfo.xml).find(query).siblings('title').text();
-			if (_CATALOGINFO["title"] == "")
-				_CATALOGINFO["title"] = _CATALOGINFO["galleryid"]
 			
 			_CATALOGINFO["titleshort"] = $(cataloginfo.xml).find(query).siblings('titleshort').text();
 			if (_CATALOGINFO["titleshort"] == "")
@@ -272,7 +272,7 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["sprintfstop"]      = $(cataloginfo.xml).find(query).children('sprintfstop').text();
 			_CATALOGINFO["sprintfdelta"]     = $(cataloginfo.xml).find(query).children('sprintfdelta').text();
 
-			_CATALOGINFO["fullpreprocess"]   = $(cataloginfo.xml).find(query).children('fullpreprocess').text();			
+			_CATALOGINFO["fullpreprocess"]   = $(cataloginfo.xml).find(query).children('fullpreprocess').text();
 			_CATALOGINFO["fullpostprocess"]  = $(cataloginfo.xml).find(query).children('fullpostprocess').text();
 			_CATALOGINFO["fullfilelist"]     = $(cataloginfo.xml).find(query).children('fullfilelist').text();
 			_CATALOGINFO["fulllistscript"]   = $(cataloginfo.xml).find(query).children('fulllistscript').text();
@@ -287,32 +287,48 @@ function cataloginfo(galleryid) {
 			_CATALOGINFO["thumbdir"]         = $(cataloginfo.xml).find(query).children('thumbdir').text();
 		    }
 
-			// Find catalog with matching id in json array.
-			for (i = 0;i<cataloginfo.json.length;i++) {
-				if (cataloginfo.json[i]["id"] === galleryid) break;
-			}
-
-			if (typeof(cataloginfo.json[i]) !== "undefined") {
-				_CATALOGINFO["galleryid"] = cataloginfo.json[i]["id"]
-				for (key in cataloginfo.json[i]) {
-					_CATALOGINFO[key] = cataloginfo.json[i][key];
-				}
-			}
-
-			// Find catalog with matching id in json array.
-			for (i = 0;i<cataloginfo.js.length;i++) {
-				if (cataloginfo.js[i]["id"] === galleryid) break;
-			}
-
-			if (typeof(cataloginfo.js[i]) !== "undefined") {
-				_CATALOGINFO["galleryid"] = cataloginfo.js[i]["id"]
-				for (key in cataloginfo.js[i]) {
-					_CATALOGINFO[key] = cataloginfo.js[i][key];
-				}
-			}
-
+		    // Find catalog with matching id in json array.
+		    for (i = 0;i<cataloginfo.json.length;i++) {
+			if (cataloginfo.json[i]["id"] === galleryid) break;
+		    }
+		    
+		    if (typeof(cataloginfo.json[i]) !== "undefined") {
+			_CATALOGINFO["galleryid"] = cataloginfo.json[i]["id"]
+			    for (key in cataloginfo.json[i]) {
+				_CATALOGINFO[key] = cataloginfo.json[i][key];
+			    }
+		    }
+		    
+		    // Find catalog with matching id in json array.
+		    for (i = 0;i<cataloginfo.js.length;i++) {
+			if (cataloginfo.js[i]["id"] === galleryid) break;
+		    }
+		    
+		    if (typeof(cataloginfo.js[i]) !== "undefined") {
+			_CATALOGINFO["galleryid"] = cataloginfo.js[i]["id"]
+			    for (key in cataloginfo.js[i]) {
+				_CATALOGINFO[key] = cataloginfo.js[i][key];
+			    }
+		    }
+		    
 		}
-		
+
+
+		// Set defaults (gallery.js check for empty string)
+		if (!_CATALOGINFO["about"] || !_CATALOGINFO["about"]) {
+		    _CATALOGINFO["about"] = "";
+		} 
+		if (!_CATALOGINFO["aboutlink"] || !_CATALOGINFO["aboutlink"]) {
+		    _CATALOGINFO["aboutlink"] = "";
+		} 
+		if (!_CATALOGINFO["sprintfdelta"]|| !_CATALOGINFO["sprintfdelta"]) {
+		    _CATALOGINFO["sprintfdelta"] = "";
+		} 
+
+		if (_CATALOGINFO["title"] === "" || !_CATALOGINFO["title"]) {
+		    _CATALOGINFO["title"] = _CATALOGINFO["galleryid"];
+		}
+
 		// There must be a better way of doing this
 		re = new RegExp('[\\S\\s]*(<gallery id="' + galleryid + '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
 		if (typeof(cataloginfo.jqXHR.responseText) === "string") {

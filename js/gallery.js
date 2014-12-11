@@ -795,7 +795,6 @@ function gallery(wrapper) {
 	}
 	
 	function setdropdowns() {
-
 		$(wrapper + " #dropdownswrapper").empty();
 		dropdown("gallery", GALLERIES, wrapper + " #dropdownswrapper");
 		$(wrapper + " #gallery option[value='" + galleryid + "']").attr('selected','selected');

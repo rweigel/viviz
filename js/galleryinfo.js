@@ -367,6 +367,7 @@ function galleryinfo(galleryid) {
 		_GALLERYINFO["sprintfstop"]  = CATALOGINFO["sprintfstop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		_GALLERYINFO["sprintf"]      = CATALOGINFO["sprintf"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 
+
 		_GALLERYINFO["sprintfdelta"] = parseInt(CATALOGINFO["sprintfdelta"].replace(/\n/,'').replace(/^\s+|\s+$/g,''));
 		
 		if (isNaN(_GALLERYINFO["sprintfdelta"])) {
