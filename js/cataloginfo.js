@@ -9,6 +9,7 @@ function cataloginfo(galleryid) {
 
 
 	if (typeof(cataloginfo.js) != 'object') {
+		cataloginfo.js = new Object();
 	    if (typeof(catalogjsbase) === 'function') {
 		console.log("cataloginfo.js: catalogjsbase function is defined.");
 		cataloginfo.js = catalogjsbase();
@@ -107,6 +108,7 @@ function cataloginfo(galleryid) {
 						j = j+1;
 					});
 		}
+
 		if (cataloginfo.json.length > 0) {
 			cataloginfo.json.forEach(
 					function (el,i) {
