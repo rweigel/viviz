@@ -388,6 +388,10 @@ function galleryinfo(galleryid) {
 	    
 	if (CATALOGINFO["fulldir"]) {
 		_GALLERYINFO["fulldir"] = CATALOGINFO["fulldir"];
+		if (VIVIZ["baseDirectory"]) {
+		    _GALLERYINFO["fulldir"] = VIVIZ["baseDirectory"] + _GALLERYINFO["fulldir"];
+		}
+
 		if (VIVIZ["useCachedImages"]) {
 			_GALLERYINFO["fulldir"] = "http://imgconvert.org/convert.cgi?in="+_GALLERYINFO["fulldir"];
 		}
@@ -412,6 +416,11 @@ function galleryinfo(galleryid) {
 	}
 	if (CATALOGINFO["thumbdir"]) {
 		_GALLERYINFO["thumbdir"] = CATALOGINFO["thumbdir"];
+
+		if (VIVIZ["baseDirectory"]) {
+		    _GALLERYINFO["thumbdir"] = VIVIZ["baseDirectory"] + _GALLERYINFO["thumbdir"];
+		}
+
 		if (VIVIZ["useCachedImages"]) {
 			_GALLERYINFO["thumbdir"] = "http://imgconvert.org/convert.cgi?in="+_GALLERYINFO["thumbdir"];
 		}

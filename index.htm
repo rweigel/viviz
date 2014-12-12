@@ -66,29 +66,13 @@
 		<script id="xml"  type="text/x-jQuery-tmpl"></script>
 		-->
 
-		<script type="text/javascript" src="./xml/catalog.json"></script>
-		<script>
-			// Location of imgconvert (download from http://imgconverg.org/) script, e.g.,
-			// http://server/cgi-bin/convert.cgi
-			IMGCONVERT = "";
+		<script type="text/javascript" src="xml/catalog.js"></script>
+		<script type="text/javascript" src="config.js"></script>
 
-			//"CATALOGXML":"xml/catalog.xml",
-			VIVIZ = {
-				"defaultMode":"gallery",
-				"showThumbstrip":true,
-				"showFileName":true,
-				"showAboutText":true,
-				"showCatalog":true,
-				"showControls":true,
-				"showAttributes":true,
-				"showDownloads":true,
-				"showCatalog":true,
-				"showDropdowns":true,
-				"useAutoAttributes":true,
-				"lazyLoadMax":5,
-				"frameRate":200,
-				"useCachedImages":false
-			};
+		<script>
+		  // Location of imgconvert (download from http://imgconverg.org/) script, e.g.,
+		  // http://server/cgi-bin/convert.cgi
+		  IMGCONVERT = "";
 
 			if (location.origin === "http://viviz.org" && IMGCONVERT === "") {
 				// Note that imgconvert.org only works with requests from viviz.org, so using this
