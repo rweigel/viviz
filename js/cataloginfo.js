@@ -181,15 +181,15 @@ function cataloginfo(galleryid) {
 				}  
 				for (i = 0; i < queryarr.length; i++) {
 					var paramarr = queryarr[i].split('=');
-					var key = paramarr[0].charAt(0).toUpperCase() + paramarr[0].slice(1);
-					_CATALOGINFO[key] = paramarr[1];
+					var key = paramarr[0];
+					_CATALOGINFO[key] = decodeURIComponent(paramarr[1]);
 				}
 				if (_CATALOGINFO["fulldir"])					
-					galleryid = _CATALOGINFO["fulldir"];
+					galleryid = decodeURIComponent(_CATALOGINFO["fulldir"]);
 			}
 
 			if (_CATALOGINFO["strftime"])
-				_CATALOGINFO["strftime"] = _CATALOGINFO["strftime"].replace(/\$/g,"%");
+				_CATALOGINFO["strftime"] = decodeURIComponent(_CATALOGINFO["strftime"]).replace(/\$/g,"%");
 			if (_CATALOGINFO["sprintf"])
 				_CATALOGINFO["sprintf"] = _CATALOGINFO["sprintf"].replace(/\$/g,"%");
 		
@@ -341,7 +341,7 @@ function cataloginfo(galleryid) {
 
 		// TODO: Validate all catalogs and strip bad ones.
 		
-		//console.log(_CATALOGINFO)
+		console.log(_CATALOGINFO)
 		return _CATALOGINFO;
 		
 	}
