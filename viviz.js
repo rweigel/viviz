@@ -7,7 +7,7 @@ var server   = require("http").createServer(app);
 var qs       = require('querystring');
 var fs       = require('fs');
 var xml2js   = require('xml2js');
-var port     = process.argv[2] || 8005;
+var port     = process.argv[2] || 8002;
 var file     = process.argv[3] || "index.htm";
 var mkdirp   = require("mkdirp");
 var readdirp = require("readdirp");
@@ -136,6 +136,7 @@ app.get('/catalogs', function (req, res) {
 });
 
 app.get('/', function (req, res) {
+	res.setHeader('content-type','text/html');
 	res.write(fs.readFileSync(__dirname+"/"+file,"utf8"));
 	res.end();
 });

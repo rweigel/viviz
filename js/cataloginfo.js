@@ -164,18 +164,19 @@ function cataloginfo(galleryid) {
 		}
 
 		var _CATALOGINFO = new Object();
-		
-		if ( galleryid.match(/^ftp\:\//) || galleryid.match(/^http\:\//) || galleryid.match(/^https\:\//) || galleryid.match(/^file\:\//) ) {
+		console.log(galleryid)		
+		    if ( galleryid.match(/^ftp\:\//) || galleryid.match(/^http\:\//) || galleryid.match(/^https\:\//) || galleryid.match(/^file\:\//) || galleryid.match(/^fulldir/)) {
 			// Auto-generate catalog information from URL
 			
-			console.log(galleryid)
 			console.log('cataloginfo.js: URL-based galleryid found URL.  Parsing query parameters to create catalog information.')
 
 			_CATALOGINFO["source"] = "URL";
-
 			if (galleryid.match("&")) {
+				console.log("-------");
 				var querystr = galleryid;
+				console.log(querystr);
 				var queryarr = querystr.split("&");
+				console.log(queryarr)
 				if (!queryarr[0].match("=")) {  // First argument is assumed to be fulldir
 					queryarr[0] = "fulldir=" + queryarr[0];
 				}  
