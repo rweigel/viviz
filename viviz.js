@@ -15,6 +15,15 @@ var readdirp = require("readdirp");
 var debug = true;
 console.log((new Date()).toISOString() + " - [viviz] Listening on port " + port)
 
+process.on('uncaughtException', function(err) {
+	if (err.errno === 'EADDRINUSE') {
+		console.log("[viviz] - Address already in use.");
+	} else {
+		console.log(err);
+	}
+	process.exit(1);
+})
+
 function handleRequest(req, res) {
 	var options = parseOptions(req);
 	console.log("File content: " + JSON.stringify(options));
