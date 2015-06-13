@@ -13,6 +13,7 @@ var mkdirp   = require("mkdirp");
 var readdirp = require("readdirp");
 
 var debug = true;
+console.log((new Date()).toISOString() + " - [viviz] Listening on port " + port)
 
 function handleRequest(req, res) {
 	var options = parseOptions(req);
