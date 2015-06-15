@@ -11,13 +11,17 @@ var port     = process.argv[2] || 8002;
 var file     = process.argv[3] || "index.htm";
 var mkdirp   = require("mkdirp");
 var readdirp = require("readdirp");
+var clc      = require('cli-color');
+
+// Log to console with color
+console.logc = function (str,color) {var msg = clc.xterm(color); console.log(msg(str))}
 
 var debug = true;
-console.log((new Date()).toISOString() + " - [viviz] Listening on port " + port)
+console.log((new Date()).toISOString() + " [viviz] Starting viviz on port " + port)
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
-		console.log("[viviz] - Address already in use.");
+		console.logc((new Date()).toISOString() + " [viviz] Address already in use",4);
 	} else {
 		console.log(err);
 	}
