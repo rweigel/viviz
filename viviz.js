@@ -17,7 +17,7 @@ var clc      = require('cli-color');
 console.logc = function (str,color) {var msg = clc.xterm(color); console.log(msg(str))}
 
 var debug = true;
-console.log((new Date()).toISOString() + " [viviz] Starting viviz on port " + port)
+//console.log((new Date()).toISOString() + " [viviz] Starting viviz on port " + port)
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
@@ -157,4 +157,5 @@ app.get('/embed.htm', function (req, res) {
 	res.end();
 });
 
-server.listen(port);
+server.listen(port)
+console.log((new Date()).toISOString() + " [viviz] Listening on port " + port)

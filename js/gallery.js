@@ -28,7 +28,6 @@ function gallery(wrapper) {
 		// Default gallery to show is first in list.
 		var galleryid = GALLERIES["Values"][0]["Id"];
 	}
-
 	VIVIZ[galleryid] = {};
 
 	var GALLERYINFO = galleryinfo(galleryid);
@@ -71,6 +70,7 @@ function gallery(wrapper) {
 		$(" select").each(function () {$(this).tooltip({content: $(this).attr('title')})});
 	    }
 		var HEADER = cataloginfo(galleryid);
+
 		if (HEADER === "") {
 			error(wrapper,"Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
 			console.log("Gallery ID " + galleryid + " not found. Redirecting in 5 seconds.");
@@ -87,7 +87,12 @@ function gallery(wrapper) {
 		$("head title").html(HEADER["title"]+ ": " + HEADER["about"]);
 		$(wrapper + " #about").attr('title',HEADER["about"]);
 		if (HEADER["about"].length > 0) {
+			if (HEADER["about"].match("auto-generated")) {
+				$(wrapper + " #abouttext").html(HEADER["about"].replace("URL","<a style='text-decoration:underline' href='/#"+HEADER["title"]+"'>URL</a>"));
+			} else {
 			$(wrapper + " #abouttext").html(HEADER["title"]+ ": " + HEADER["about"]);
+			}
+
 		} else {
 			$(wrapper + " #abouttextwrapper").hide();
 		}
@@ -313,7 +318,7 @@ function gallery(wrapper) {
 				console.log("scrollHeight: " + elem[0].scrollHeight);
 				console.log("scrollHeight: " + elem[0].scrollTop);
 				console.log("scrollHeight: " + elem[0].clientHeight);
-				console.log(elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight)
+				//console.log(elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight)
 				if (elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight <= 0) {
 					console.log("Calling loadmore().")
 					loadmore();
@@ -476,8 +481,6 @@ function gallery(wrapper) {
 					// Hide loading indicator
 					$(wrapper + ' #workingfullframe').css('visibility','hidden');
 
-					setfilename($(this).attr('id'));
-
 					if ($(jq).hasClass('firstimage')) {
 						console.log('gallery.loadfull(): First full image loaded with dimensions '+this.naturalWidth+'x'+this.naturalHeight+'.  Setting table dimensions.');
 
@@ -542,16 +545,40 @@ function gallery(wrapper) {
 						prepnext();
 					}
 
+					setfilename($(this).attr('id'));
 
 				})
 				.attr('src', INFOjs[parseInt(id-1)]["FullFile"]);
 
 		function setfilename(id) {
+			var fname = INFOjs[parseInt(id-1)]["FullFile"]
 			$(wrapper + " #filename").html('');
+			var wo = $(wrapper + " #catalog").width()
+			console.log("#catalog div width "+wo)
+
 			$(wrapper + " #filename").append("<a>");
-			$(wrapper + " #filename a").
-			attr('href',INFOjs[parseInt(id-1)]["FullFile"]).
-			text(INFOjs[parseInt(id-1)]["FullFile"]);
+			$(wrapper + " #filename a")
+				.attr('href',INFOjs[parseInt(id-1)]["FullFile"])
+				.text(INFOjs[parseInt(id-1)]["FullFile"]);
+			var wx = $(wrapper + " #filename").width();
+			console.log("#filename div width "+wx)
+			if (wo < wx) {
+				// Fraction to remove. 0.9 to account for nonuniformity of charater width.
+				r = 0.9*wo/wx
+				console.log("Reduction factor: " + r)
+				l = fname.length
+				nr = l-r*l
+				console.log("Number of characters to remove:  "+nr)
+				c = l/2
+				console.log("Center value: " + c)
+				console.log("Number of characters to keep : " + nr)
+				fnamer = fname.substr(0,Math.floor(c-nr/2)) + "..." + fname.substr(Math.ceil(c+nr/2),l)
+				$(wrapper + " #filename a")
+					.attr('href',INFOjs[parseInt(id-1)]["FullFile"])
+					.text(fnamer);
+
+			}
+
 		}
 
 		function prepnext() {

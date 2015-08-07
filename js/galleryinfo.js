@@ -72,13 +72,11 @@ function extractattributes(galleryid) {
 					ATTRIBUTES["Values"][i]["Filters"] = new Array();
 	
 					el.filters.forEach(
-							function (el,j) {
-								ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
-								ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = el.title;
-								ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = el.value;
-							});
-	
-					
+						function (el,j) {
+							ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
+							ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = el.title;
+							ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = el.value;
+						});				
 				});
 	}
 	}
@@ -130,7 +128,6 @@ function extractfiles(URLFiles) {
 						//console.log(textStatus);
 					},
 			success: function (xml) {
-				
 						console.log('galleryinfo.js: Extracting files from ' + URLFiles);
 						if ($(xml).find("gallery images data").length > 0) {
 							eval("FILES = " + $(xml).find("gallery images data").text());
@@ -232,7 +229,6 @@ function galleryinfo(galleryid) {
 	}
 	
 	if (galleryinfo.GALLERYINFO[galleryid]) {
-		//console.log('galleryinfo: Using cached gallery information for ' + galleryid);
 		return galleryinfo.GALLERYINFO[galleryid]
 	}
 
@@ -284,95 +280,23 @@ function galleryinfo(galleryid) {
 		var xfiles = expandtemplate(options);
 		console.log(xfiles);
 
-		for (var i =0;i<xfiles.length;i++) {
+		for (var i =0; i < xfiles.length; i++) {
 			fullfiles[i] = [xfiles[i]];
-		}
-		//console.log(fullfiles)
-		if (false) {
-			// Generate list of files based on template, start, and stop.
-			// TODO: Generalize to handle hours, minutes, seconds.
-			
-			if (CATALOGINFO["strftimestart"].match(/^[0-9]{4}-[0-9]{3}$/)) {
-				// YYYY-DOY
-				var START_year = CATALOGINFO["strftimestart"].substr(0,4);
-				var START_day  = CATALOGINFO["strftimestart"].substr(5,3);
-				var START_date = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}).toString('yyyy-MM-dd'));
-				var START_ms   = new Date(Date.parse(START_year+"-01-01").add({days:parseInt(START_day)-1}));
-			} else {
-				var START_ms   = new Date(Date.parse(CATALOGINFO["strftimestart"]));
-				var START_date = new Date(Date.parse(CATALOGINFO["strftimestart"]));
-				var STOP_date = new Date(Date.parse(CATALOGINFO["strftimestop"]));
-				//console.log(START_ms)
-			}
-				
-			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/)) {
-				// YYY-DOY
-				var STOP_year = CATALOGINFO["strftimestop"].substr(0,4);
-				var STOP_day  = CATALOGINFO["strftimestop"].substr(5,3);
-				var STOP_ms   = new Date(Date.parse(STOP_year+"-01-01").add({days:parseInt(STOP_day)-1}));
-			} else {
-				var STOP_ms    = new Date(Date.parse(CATALOGINFO["strftimestop"]));
-			}
-
-			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{3}$/) || CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
-				var Ndays = 1 + Math.round((STOP_ms.valueOf()-START_ms.valueOf())/(1000*24*60*60));
-			}
-
-			// YYYY-MM
-			var incr = false;
-			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}-[0-9]{2}$/)) {
-				incr = {months:1};			
-			}
-			if (CATALOGINFO["strftimestop"].match(/^[0-9]{4}$/)) {
-				incr = {years:1};			
-			}
-			//console.log("Number of days: " + Ndays)
-			fullfiles = new Array();
-			var tic = new Date().getTime();
-			var i = 0;
-			// Remove time zone 
-			//console.log(CATALOGINFO["StrftimeStart"]);
-			//console.log("--")
-			//console.log(START_date);
-			//START_date = new Date(new Date(START_date).toUTCString().substr(0, 25));
-			//console.log(Date.compare(START_date,STOP_date));
-			//console.log(incr);
-			if (incr) {
-				while (Date.compare(START_date,STOP_date) <= 0) {
-					fname = START_date.strftime(CATALOGINFO["strftime"]);
-					//console.log(Date.compare(START_date,STOP_date));
-					//console.log(fname);
-					fullfiles[i] = [fname];
-					START_date.add(incr);
-					i = i+1;		
-				}
-			} else {	
-				// Faster to not use Date.compare().
-				while (i < Ndays) {
-					fname = START_date.strftime(CATALOGINFO["strftime"]);
-					//console.log(Date.compare(START_date,STOP_date));
-					//console.log(fname);
-					fullfiles[i] = [fname];
-					START_date.addDays(1);
-					i = i + 1;
-				}
-			}
-			var elapsed = new Date().getTime() - tic;
 		}
 		console.log(fullfiles)
 	} 
 
 	if (CATALOGINFO["sprintf"]) {
+
 		_GALLERYINFO["sprintfstart"] = CATALOGINFO["sprintfstart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		_GALLERYINFO["sprintfstop"]  = CATALOGINFO["sprintfstop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
 		_GALLERYINFO["sprintf"]      = CATALOGINFO["sprintf"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-
-
 		_GALLERYINFO["sprintfdelta"] = parseInt(CATALOGINFO["sprintfdelta"].replace(/\n/,'').replace(/^\s+|\s+$/g,''));
 		
 		if (isNaN(_GALLERYINFO["sprintfdelta"])) {
 			_GALLERYINFO["sprintfdelta"] = 1;
-			console.log("galleryinfo.js: sprintfdelta is not defined or is NaN.  Using value of 1.")
+			console.log("galleryinfo.js: sprintfdelta is not defined "
+						+ " or is NaN.  Using value of 1.")
 		}
 		var fullfiles = new Array();
 		io = parseInt(_GALLERYINFO["sprintfstart"]);
@@ -391,19 +315,19 @@ function galleryinfo(galleryid) {
 		if (VIVIZ["baseDirectory"]) {
 		    _GALLERYINFO["fulldir"] = VIVIZ["baseDirectory"] + _GALLERYINFO["fulldir"];
 		}
-
 		if (VIVIZ["useCachedImages"]) {
-			_GALLERYINFO["fulldir"] = "http://imgconvert.org/convert.cgi?in="+_GALLERYINFO["fulldir"];
+			_GALLERYINFO["fulldir"] = "http://imgconvert.org/convert.cgi?in="
+										+ _GALLERYINFO["fulldir"];
 		}
 		_GALLERYINFO["fullfiles"] = [];
-		for (var j = 0;j < fullfiles.length;j++) {
+		for (var j = 0; j < fullfiles.length; j++) {
 			_GALLERYINFO["fullfiles"][j] = [];
 			if (!fullfiles[0][0].match(/^http|^ftp|^file/)) {
 				_GALLERYINFO["fullfiles"][j][0] = _GALLERYINFO["fulldir"] + fullfiles[j][0];
 			} else {
 				_GALLERYINFO["fullfiles"][j][0] = fullfiles[j][0];
 			}
-			for (var i = 1;i<fullfiles[j].length;i++) {
+			for (var i = 1; i < fullfiles[j].length; i++) {
 				_GALLERYINFO["fullfiles"][j][i] = fullfiles[j][i];
 			}
 		}
@@ -422,7 +346,8 @@ function galleryinfo(galleryid) {
 		}
 
 		if (VIVIZ["useCachedImages"]) {
-			_GALLERYINFO["thumbdir"] = "http://imgconvert.org/convert.cgi?in="+_GALLERYINFO["thumbdir"];
+			_GALLERYINFO["thumbdir"] = "http://imgconvert.org/convert.cgi?in="
+										+ _GALLERYINFO["thumbdir"];
 		}
 		_GALLERYINFO["thumbfiles"] = [];
 		for (var j = 0;j < thumbfiles.length;j++) {
@@ -443,9 +368,6 @@ function galleryinfo(galleryid) {
 	_GALLERYINFO["totalingallery"] = _GALLERYINFO["fullfiles"].length;	
 	_GALLERYINFO["orders"]         = extractorders();
 	_GALLERYINFO["attributes"]     = extractattributes(galleryid);
-	//_GALLERYINFO["outputs"]		   = extractoutputs();
-	
-	//console.log(extractattributes(galleryid));
 
 	if (_GALLERYINFO["autoattributes"]) {		
 		if (VIVIZ["useAutoAttributes"]) {
@@ -473,5 +395,4 @@ function galleryinfo(galleryid) {
 	}
 	return _GALLERYINFO;
 
-		
 }
