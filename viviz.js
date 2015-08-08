@@ -156,5 +156,5 @@ app.get('/embed.htm', function (req, res) {
 	res.end();
 });
 
-server.listen(port);
+server.listen(port)
 console.log((new Date()).toISOString() + " [viviz] Listening on port " + port)
