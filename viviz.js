@@ -17,13 +17,12 @@ var clc      = require('cli-color');
 console.logc = function (str,color) {var msg = clc.xterm(color); console.log(msg(str))}
 
 var debug = true;
-console.log((new Date()).toISOString() + " [viviz] Starting viviz on port " + port)
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
-		console.logc((new Date()).toISOString() + " [viviz] Address already in use",4);
+		console.error((new Date()).toISOString() + " [viviz] Port " + port + " already in use")
 	} else {
-		console.log(err);
+		console.error(err);
 	}
 	process.exit(1);
 })
@@ -158,3 +157,4 @@ app.get('/embed.htm', function (req, res) {
 });
 
 server.listen(port);
+console.log((new Date()).toISOString() + " [viviz] Listening on port " + port)
