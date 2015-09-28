@@ -1,7 +1,6 @@
-//"CATALOGXML":"xml/catalog.xml",
 //"baseDirectory":"http://mag.gmu.edu/Differences/data/",
-
 VIVIZ = {
+	"catalog":"xml/catalog.xml",
 	"defaultMode":"gallery",
 	"showThumbstrip":true,
 	"showFileName":true,
@@ -9,7 +8,7 @@ VIVIZ = {
 	"showCatalog":true,
 	"showControls":true,
 	"showAttributes":true,
-	"showDownloads":true,
+	"showDownloads":false,
 	"showCatalog":true,
 	"showDropdowns":true,
 	"useAutoAttributes":true,

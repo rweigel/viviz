@@ -14,6 +14,16 @@ var readdirp = require("readdirp");
 
 var debug = true;
 
+process.on('uncaughtException', function (err) {
+	if (err.errno === 'EADDRINUSE') {
+		console.error("[viviz] - Address already in use.")
+	} else {
+		console.error("[viviz] - Uncaught Exception:")
+		console.error(err.stack)
+	}
+	process.exit(1)
+})
+
 function handleRequest(req, res) {
 	var options = parseOptions(req);
 	console.log("File content: " + JSON.stringify(options));
@@ -90,8 +100,8 @@ function parseOptions(req) {
 	options.thumbpreprocess	= req.query.thumbpreprocess	|| req.body.thumbpreprocess	|| "http://imgconvert.org/";
 	
 	return options;
-
 }
+
 var hourMs = 1000*60*60;
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/uploads',express.directory(__dirname + '/uploads'));

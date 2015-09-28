@@ -17,7 +17,7 @@
 		
 		<script type="text/javascript" src="js/deps/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
 		
-		<script type="text/javascript" src="js/deps/jquery.query-2.1.3.js"></script>
+		<script type="text/javascript" src="js/deps/jquery.parsequerystring.js"></script>
 		<script type="text/javascript" src="js/deps/jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="js/deps/strftime.js"></script>
 		<script type="text/javascript" src="js/deps/sprintf-0.7-beta1.js"></script>	
@@ -51,22 +51,14 @@
 		<script type="text/javascript" src="js/print.js"></script>
 		<script type="text/javascript" src="js/message.js"></script>
 
-		<!-- Base catalog specified as json variable catalogjsonbase
-		<script type="text/javascript" src="./xml/catalog.json"></script>
-		-->
-
-		<!-- Base catalog returned from function named catalogjsbase
-		<script type="text/javascript" src="./xml/catalog.js"></script>
-		-->
-
 		<!--
-		Configuration data inside this script node is read by default.
-		If empty, xml/catalog.xml is read.  Place configuration data here
-		if index.htm was read from a local file (file://) instead of http://.
+		Catalog information inside this script node is read by default.
+		If empty, VIVIZ.catalog is read if specified, otherwise xml/catalog.xml
+		is read.  Place configuration data here if index.htm was read from a
+		local file (file://) instead of http:// in address bar.
 		<script id="xml"  type="text/x-jQuery-tmpl"></script>
 		-->
 
-		<script type="text/javascript" src="xml/catalog.js"></script>
 		<script type="text/javascript" src="config.js"></script>
 
 		<script>
@@ -75,13 +67,17 @@
 		  IMGCONVERT = "";
 
 			if (location.origin === "http://viviz.org" && IMGCONVERT === "") {
-				// Note that imgconvert.org only works with requests from viviz.org, so using this
-				// as the location won't work.
+				// Note that imgconvert.org only works with requests from viviz.org,
+				// so using this as the location won't work in general.
 				IMGCONVERT = "http://imgconvert.org/convert.cgi";
-
 			}
 
-			$(document).ready(function(){
+
+			$(document).ready(function () {
+				qs = $.parseQueryString("id");
+				console.log(location.hash.replace("#/","#id="))
+				console.log(qs);
+				console.log(decodeURIComponent($.param(qs)).replace("id=",""));
 
 				// Code here executed when DOM is loaded and ready for manipulation.
 				$("#thumbbrowsebutton").click(function () {

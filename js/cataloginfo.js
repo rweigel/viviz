@@ -7,15 +7,13 @@ function cataloginfo(galleryid) {
 		return v
 	}
 
-
 	if (typeof(cataloginfo.js) != 'object') {
 		cataloginfo.js = new Object();
 	    if (typeof(catalogjsbase) === 'function') {
-		console.log("cataloginfo.js: catalogjsbase function is defined.");
-		cataloginfo.js = catalogjsbase();
+			console.log("cataloginfo.js: catalogjsbase function is defined.");
+			cataloginfo.js = catalogjsbase();
 	    }
 	}
-
 
 	if (typeof(cataloginfo.json) != 'object') {
 		console.log("cataloginfo.js: No client-side cache of catalogjsonbase information.");
@@ -39,11 +37,13 @@ function cataloginfo(galleryid) {
 	}
 
 	// Read XML catalog file.
-	if (typeof(cataloginfo.xml) != 'object') {
-		console.log("cataloginfo.js: No cached cataloginfo.xml");
+	if (!VIVIZ["catalog"]) {VIVIZ["catalog"]="";}
+	if ((typeof(cataloginfo.xml) != 'object') && VIVIZ["catalog"].match(/\.xml$/)) {
+		console.log("cataloginfo.js: No client side cache of catalog XML.");
 		cataloginfo.xml = new Object();
 		cataloginfo.jqXHR = new Object();
 
+		// Look for XML in index.html
 		var text = $("#xml").text();
 		if (text.match("catalog")) { 
 			console.log("cataloginfo.js: Found xml catalog node in index.html. Using it and ignoring xml/catalog.xml.")
@@ -52,31 +52,30 @@ function cataloginfo(galleryid) {
 			cataloginfo.jqXHR.responseText = $("#xml").text();
 			return cataloginfo();
 		} else {
-			console.log("cataloginfo.js: Did not find xml catalog information in index.html.")
+			if (VIVIZ["catalog"] === "") {
+			    console.log("cataloginfo.js: No catalog specified in configuration.")
+			} else {
+			    VIVIZ.catalog = "xml/catalog.xml";
+			    console.log("cataloginfo.js: Variable VIVIZ.catalog is not defined.  Using xml/catalog.xml.")
+
+				$.ajax({
+					type: "GET",
+					    url: VIVIZ.catalog,
+					    async: false,
+					    dataType: "xml",
+					    success: function (data,textStatus, jqXHR) {
+					    cataloginfo.jqXHR = jqXHR;
+					    cataloginfo.xml = data;
+					    console.log("cataloginfo.js: Finished reading " + VIVIZ.catalog)
+						},
+					    error: function (xhr, textStatus, errorThrown) {
+					    console.log("cataloginfo.js: Could not read " + VIVIZ.catalog + " " + errorThrown.message.split(":")[0])
+						}
+				    });
+			}
 		}
 
 
-		if (((cataloginfo.js) || (cataloginfo.json)) && (typeof(VIVIZ.CATALOGXML) === "undefined")) {
-		    console.log("cataloginfo.js: Not using xml/catalog.xml (if found) because catalog info found in js or json.")
-		} else {
-		    VIVIZ.CATALOGXML = "xml/catalog.xml";
-		    console.log("cataloginfo.js: Variable VIVIZ.CATALOGXML is not defined.  Using xml/catalog.xml.")
-
-			$.ajax({
-				type: "GET",
-				    url: VIVIZ.CATALOGXML,
-				    async: false,
-				    dataType: "xml",
-				    success: function (data,textStatus, jqXHR) {
-				    cataloginfo.jqXHR = jqXHR;
-				    cataloginfo.xml = data;
-				    console.log("cataloginfo.js: Finished reading " + VIVIZ.CATALOGXML)
-					},
-				    error: function (xhr, textStatus, errorThrown) {
-				    console.log("cataloginfo.js: Could not read " + VIVIZ.CATALOGXML + " " + errorThrown.message.split(":")[0])
-					}
-			    });
-		}
 	}
 
 	// If no arguments, return list of galleries.
