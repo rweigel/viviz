@@ -10,11 +10,7 @@
 		
 		<script type="text/javascript" src="js/deps/1.7.2/jquery.min.js"></script>
 		
-		<!-- Used for slider in thumb mode. If omitted, no slider will appear.  -->
-		<!--
-		<script type="text/javascript" src="js/deps/jquery-ui-1.8.21.custom/js/jquery-ui-1.8.21.custom.min.js"></script>
-		-->
-		
+		<!-- Used for slider in thumb mode. If omitted, no slider will appear.  -->		
 		<script type="text/javascript" src="js/deps/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
 		
 		<script type="text/javascript" src="js/deps/jquery.parsequerystring.js"></script>
@@ -107,8 +103,11 @@
 
 		<div id="g-container" style="display:none;text-align:center;">
 			<div id="gallery1" class="ui-widget ui-widget-content ui-corner-all" style="display:inline-block">
-				<span id="filename" title="Source file" style="float:center;color:white;cursor:pointer;">&nbsp;</span>
 				<div style="padding:4px;">
+
+					<div id="catalog" class="well" style="text-align:center">
+						<span id="filename" title="Source file" style="float:center;cursor:pointer;">&nbsp;</span>
+					</div>
 
 					<div id="catalog" class="well" style="text-align:center">
 						<span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">
@@ -141,7 +140,7 @@
 						<div style="text-align:center;display:inline-block;">
 							<button class="btn" type="button" title="Hide thumbnails" id="showhidethumb"><h4>x</h4></button>
 							<button class="btn" type="button" title="Play" id="play"><h4>&#9654;</h4></button>
-							<button class="btn" type="button" title="Stop" id="stop"><h4>&#11035;</h4></button>&nbsp;&nbsp;&nbsp;								  
+							<button class="btn" type="button" title="Stop" id="stop"><h4>&#9632;</h4></button>&nbsp;&nbsp;&nbsp;								  
 							<button class="btn" type="button" title="Previous frame" id="previous"><h4>|&#9664;</h4></button>
 							<button class="btn" type="button" title="Next frame" id="next"><h4>&#9654;|</h4></button>&nbsp;&nbsp;&nbsp;
 							<button class="btn" type="button" title="First frame" id="first"><h4>|&#9664;&#9664;</h4></button>
@@ -236,7 +235,7 @@
 						<div style="clear:both"></div>							
 					</div>      
 
-						<div class="well" id="thumbbrowseframe" style="margin-left:auto;margin-right:auto;padding:20px auto;background-color:black;"></div>
+						<div class="well ui-widget-content" id="thumbbrowseframe" style="margin-left:auto;margin-right:auto;padding:20px auto;"></div>
 						<img id="thumbbrowseoverlay" class="thumbbrowsetop" src="css/ajax-loader.gif"/>
 
 				</div>
