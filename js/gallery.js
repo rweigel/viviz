@@ -572,7 +572,7 @@ function gallery(wrapper) {
 				c = l/2
 				console.log("Center value: " + c)
 				console.log("Number of characters to keep : " + nr)
-				fnamer = fname.substr(0,Math.floor(c-nr/2)) + "..." + fname.substr(Math.ceil(c+nr/2),l)
+				fnamer = fname.substr(0,Math.floor(c-nr/2)) + " ... " + fname.substr(Math.ceil(c+nr/2),l)
 				$(wrapper + " #filename a")
 					.attr('href',INFOjs[parseInt(id-1)]["FullFile"])
 					.text(fnamer);
