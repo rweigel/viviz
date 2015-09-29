@@ -20,11 +20,12 @@ var debug = true;
 
 process.on('uncaughtException', function(err) {
 	if (err.errno === 'EADDRINUSE') {
-		console.error((new Date()).toISOString() + " [viviz] Port " + port + " already in use")
+		console.error((new Date()).toISOString() + " [viviz] Port " + port + " already in use.")
 	} else {
-		console.error(err);
+		console.error(err)
 	}
-	process.exit(1);
+	fs.writeFileSync('viviz.error', err);
+	process.exit(1)
 })
 
 function handleRequest(req, res) {
@@ -106,7 +107,6 @@ function parseOptions(req) {
 	return options;
 }
 
-var hourMs = 1000*60*60;
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/uploads',express.directory(__dirname + '/uploads'));
 app.use('/images', express.static(__dirname + '/images'));
