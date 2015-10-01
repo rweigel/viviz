@@ -7,11 +7,19 @@ var server   = require("http").createServer(app);
 var qs       = require('querystring');
 var fs       = require('fs');
 var xml2js   = require('xml2js');
-var port     = process.argv[2] || 8002;
-var file     = process.argv[3] || "index.htm";
 var mkdirp   = require("mkdirp");
 var readdirp = require("readdirp");
 var clc      = require('cli-color');
+
+var argv    = require('yargs')
+				.default
+				({
+					'port': 8002,
+					'file': "index.htm"
+				})
+				.argv
+var port     = argv.port || 8002;
+var file     = argv.file;
 
 // Log to console with color
 console.logc = function (str,color) {var msg = clc.xterm(color); console.log(msg(str))}
