@@ -8,6 +8,7 @@
 		"express"  : "3.1.0",
 		"mkdirp"   : "*",
 		"readdirp" : "*",
-		"cli-color": "*"
+		"cli-color": "*",
+	    "yargs"    : "*"
 	}
 }
