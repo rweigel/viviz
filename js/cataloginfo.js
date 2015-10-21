@@ -204,26 +204,21 @@ function cataloginfo(galleryid) {
 				+ " Parsing query parameters to create catalog information.")
 
 			_CATALOGINFO["source"] = "URL";
-			if (galleryid.match("&")) {
 
-				var querystr = galleryid;
-				console.log('cataloginfo.js: querystr = ' + querystr)
-				var queryarr = querystr.split("&");
-				console.log('cataloginfo.js: queryarr =')
-				console.log(queryarr)
+			var querystr = galleryid;
+			queryobj = $.parseQueryString(querystr)
+			console.log(queryobj)
 
-				// First argument is assumed to be dirprefx
-				if (!queryarr[0].match("=")) {  
-					queryarr[0] = "dirprefix=" + queryarr[0];
-				}  
-				for (i = 0; i < queryarr.length; i++) {
-					var paramarr = queryarr[i].split('=');
-					var key = paramarr[0];
-					_CATALOGINFO[key] = decodeURIComponent(paramarr[1]);
-				}
-				if (_CATALOGINFO["dirprefix"]) {				
-					galleryid = decodeURIComponent(_CATALOGINFO["dirprefix"]);
-				}
+			for (key in queryobj) {
+				_CATALOGINFO[key] = decodeURIComponent(queryobj[key]);
+			}
+
+			// One of these two must be specified.
+			if (_CATALOGINFO["fulldir"]) {				
+				galleryid = _CATALOGINFO["fulldir"];
+			}
+			if (_CATALOGINFO["dirprefix"]) {				
+				galleryid = _CATALOGINFO["dirprefix"];
 			}
 
 			if (!_CATALOGINFO["galleryid"]) {
@@ -251,22 +246,6 @@ function cataloginfo(galleryid) {
 			}
 			if (_CATALOGINFO["sprintf"] && _CATALOGINFO["start"]) {
 				_CATALOGINFO["sprintfstart"] = _CATALOGINFO["start"];
-			}
-
-			if (!_CATALOGINFO["fullfilelist"] && !_CATALOGINFO["sprintf"] && !_CATALOGINFO["strftime"]) {
-				_CATALOGINFO["fullfilelist"] = galleryid;
-			}
-						
-			if (!_CATALOGINFO["fulldir"]) {
-				_CATALOGINFO["fulldir"] = galleryid;
-			} else {
-				_CATALOGINFO["fulldir"] = _CATALOGINFO["dirprefix"] + decodeURIComponent(_CATALOGINFO["fulldir"])
-			}
-			
-			if (!_CATALOGINFO["thumbdir"]) {
-				_CATALOGINFO["thumbdir"]  = ""
-			} else {
-				_CATALOGINFO["thumbdir"] = _CATALOGINFO["dirprefix"] + decodeURIComponent(_CATALOGINFO["thumbdir"])
 			}
 
 			_CATALOGINFO["title"]     = galleryid;
@@ -401,15 +380,19 @@ function cataloginfo(galleryid) {
 		    _CATALOGINFO["title"] = _CATALOGINFO["galleryid"];
 		}
 
-		// There must be a better way of doing this
-		re = new RegExp('[\\S\\s]*(<gallery id="' 
-						+ galleryid 
-						+ '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
+		if (0) {
+			// There must be a better way of doing this
+			re = new RegExp('[\\S\\s]*(<gallery id="' 
+							+ galleryid 
+							+ '">[\\S\\s]*?<\/gallery>)[\\S\\s]*');
 
-		if (typeof(cataloginfo.jqXHR.responseText) === "string") {
-			_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
-			_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
+			if (typeof(cataloginfo.jqXHR.responseText) === "string") {
+				_CATALOGINFO["xml"] = cataloginfo.jqXHR.responseText.replace(re,"$1"); 
+				_CATALOGINFO["xml"] = _CATALOGINFO["xml"].replace(/\n\t/g,'\n');
+			}
 		}
+		
+		_CATALOGINFO["xml"] = JSON.stringify(_CATALOGINFO,null,4);
 
 		console.log("catalog.js: Adding cataloginfo to cache for "+galleryid)
 		cataloginfo.CATALOGINFO[galleryid] = _CATALOGINFO;

@@ -1,29 +1,13 @@
-http://2.bp.blogspot.com/-eI7mmbmOWjI/UkxofRa6pFI/AAAAAAAAKyM/C3IG4Jk0jiY/s1600/Menace+2.png
+ftp://ftp.ngdc.noaa.gov/STP/space-weather/solar-data/solar-imagery/composites/full-sun-drawings/boulder/1972/12/
 
 Start caching Full images when idle.
-viviz.org/gen?
 
-POST
-catalog - xml with catalog information. Insert into catalog-post.xml
-
-GET
-dir -> Means fulldir. 
-id=
-aboutlink=
-fulldir=
-thumbdir=
-
-overwrite=false
+http://viviz.org/gen?
 
 If ID collision, create virbo.org/images-1, virbo.org/images-2, etc.
 
 catalogs-posted.xml
 catalogs.xml
-
-$FULLWIDTH
-$FULLHEIGHT
-$THUMBWIDTH
-$THUMBHEIGHT
 
 --
 convert make progressive png
