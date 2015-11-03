@@ -3,19 +3,19 @@
 # Usage statement if input is off
 $usage="Usage: roll.pl input.html -html htmloutputbase -js jsoutputbase -c compiler.jar (-e excludefile)\n";
 
-#Find compiler based on where script is run from
+# Find compiler based on where script is run from
 if(-e "compiler.jar")
 {
 	$compiler="compiler.jar";
 }
 elsif(-e "build/compiler.jar")
 {
-	$compiler="../build/compiler.jar";
+	$compiler="build/compiler.jar";
 }
 
 #Get html file to read from
 $htmlin=shift;
-if($htmlin!~/.+\.html/)
+if($htmlin!~/.+\.htm/)
 {
 	print $usage and die;
 }

@@ -18,6 +18,8 @@ var argv    = require('yargs')
 					'file': "index.htm"
 				})
 				.argv
+
+// TODO: Read default port from index.js
 var port     = argv.port || 8002;
 var file     = argv.file;
 
@@ -115,26 +117,58 @@ function parseOptions(req) {
 	return options;
 }
 
-app.use('/uploads', express.static(__dirname + '/uploads'));
-app.use('/uploads',express.directory(__dirname + '/uploads'));
+// Allow files to be served from these directories
 app.use('/images', express.static(__dirname + '/images'));
-app.use('/images',express.directory(__dirname + '/images'));
 
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/css', express.static(__dirname + '/css'));
-app.use('/xml', express.static(__dirname + '/xml'));
+app.use('/catalogs', express.static(__dirname + '/catalogs'));
 app.use('/dat', express.static(__dirname + '/dat'));
 app.use('/', express.static(__dirname + '/'));
 
-
+// Allow directory listings of these directories
+app.use('/images',express.directory(__dirname + '/images'));
 app.use('/js',express.directory(__dirname + '/js'));
 app.use('/css',express.directory(__dirname + '/css'));
-app.use('/xml',express.directory(__dirname + '/xml'));
+app.use('/catalogs',express.directory(__dirname + '/catalogs'));
 app.use('/dat',express.directory(__dirname + '/dat'));
 
 //curl "http://localhost:8005/save/?id=test/test2"
 app.post('/save', function (req, res) {handleRequest(req,res)});
 app.get('/save', function (req, res) {handleRequest(req,res)});
+
+app.get('/proxy', function (req, res) {
+
+		// Remote address
+		var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+	    var u = req.query.url
+
+	    if (!u) {
+	        res.end("No URL found")
+	    }
+
+		console.log("Proxy request from " + remoteAddress + " for " + u)
+		if (req.headers['x-forwarded-for']) {
+			console.log("x-forwarded-for = " + req.headers['x-forwarded-for'])
+			console.log("remoteAddress = " + req.connection.remoteAddress)
+
+		}
+
+	    if (remoteAddress !== "::ffff:127.0.0.1") {
+		    console.log("Use of proxy requires originating request to be from localhost.")
+		    return
+	    	// TODO: If request is not from localhost, allow if URL is in index.js.
+		    //VIVIZ = require("./index.js").VIVIZ;
+	    }
+
+		request({
+		    url: u
+		}).on('error', function(e) {
+		    res.end(e)
+		    res.end("Error when attemtping to request " + u)
+		}).pipe(res)
+
+})
 
 app.get('/catalogs', function (req, res) {
 	var files = [];

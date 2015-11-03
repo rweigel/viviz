@@ -38,6 +38,8 @@ function extractattributes(galleryid) {
 	ATTRIBUTES["Values"][0]["Filters"][0]["Title"] = "All";
 	ATTRIBUTES["Values"][0]["Filters"][0]["Value"] = ".*";
 
+	return ATTRIBUTES;
+
 	xml = cataloginfo.xml;
 
 	var j = 0;
@@ -55,7 +57,7 @@ function extractattributes(galleryid) {
 								ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = $(this).find('value').text();
 								//console.log($(this).text());
 							})
-	});
+		});
 
 
 	for (i = 0;i<cataloginfo.json.length;i++) {
@@ -63,22 +65,22 @@ function extractattributes(galleryid) {
 	}
 
 	if (i < cataloginfo.json.length) {
-	if (typeof(cataloginfo.json[i]["attributes"]) !== "undefined") {
-		cataloginfo.json[i]["attributes"].forEach(
-				function (el,i) {
-					ATTRIBUTES["Values"][i] = new Object();
-					ATTRIBUTES["Values"][i]["Title"] = el.name;
-					ATTRIBUTES["Values"][i]["Value"] = i;
-					ATTRIBUTES["Values"][i]["Filters"] = new Array();
-	
-					el.filters.forEach(
-						function (el,j) {
-							ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
-							ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = el.title;
-							ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = el.value;
-						});				
-				});
-	}
+		if (typeof(cataloginfo.json[i]["attributes"]) !== "undefined") {
+			cataloginfo.json[i]["attributes"].forEach(
+					function (el,i) {
+						ATTRIBUTES["Values"][i] = new Object();
+						ATTRIBUTES["Values"][i]["Title"] = el.name;
+						ATTRIBUTES["Values"][i]["Value"] = i;
+						ATTRIBUTES["Values"][i]["Filters"] = new Array();
+		
+						el.filters.forEach(
+							function (el,j) {
+								ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
+								ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = el.title;
+								ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = el.value;
+							});				
+					});
+		}
 	}
 	//console.log(ATTRIBUTES)
 	if (ATTRIBUTES["Values"].length > 1) {
@@ -96,11 +98,41 @@ function extractfiles(URLFiles) {
 	//extractfiles.cache = {};
 	//if (extractfiles.cache[URLFiles])
 	//	return extractfiles.cache[URLFiles];
-		
+	
+	if (URLFiles.indexOf("http") != -1) {
+		var tmparr = URLFiles.split("/");
+		var tmparrp = VIVIZ["proxyServer"].split("/");
+
+		var proxy = tmparrp[2]
+		var files = tmparr[2]
+		var host = location.hostname+(location.port ? ':'+location.port: '')
+
+		if (VIVIZ["proxyServer"]) {
+			if (host !== files) {
+				console.log("Proxy server is required.");
+				if (proxy !== host) {
+					var msg = "proxyServer address (" + proxy + ") specified in configuation must match application address (" + host + ")"
+					console.log(msg)
+					error("#gallery1", msg)
+					return
+				} else {
+					// TODO: Check that proxy actually works.
+					URLFiles = VIVIZ["proxyServer"] + URLFiles;
+				}
+			}
+		} else {
+			if (host === files) {
+
+			} else {
+				console.log("Request is for file list from a http address, but no proxyServer specified in configuration and server address for file is not same as address of application.")
+				console.log("Request will fail because of Same Origin policy.")
+				error("#gallery1", "proxyServer must be specified in configuration or filelist URL must start with http://" + location.hostname+(location.port ? ':'+location.port: ''))
+			}
+
+		}
+	}
+
 	var FILES = new Array();
-	//var Proxy = "proxy.php?url=";
-	var Proxy = "";
-	URLFiles = Proxy + URLFiles;
 	$("#status").text("Retrieving list of files");
 	console.log("galleryinfo.extractfiles(): Getting file list from " + URLFiles)
 	if (URLFiles.match(/\.txt$/)) {
@@ -203,7 +235,7 @@ function menulist(StartYear,StopYear,TEMPLATE_YEAR) {
 	StopYear  = parseInt(StopYear.substring(0,4));
 
 	FILTERS = new Array();
-	for (var j=0;j<(StopYear-StartYear+1);j++) {
+	for (var j=0;j<(StopYear-StartYear);j++) {
 		var patt = new RegExp(TEMPLATE_YEAR);
 		year = ""+(j+StartYear);
 		var PATTERN_YEAR = TEMPLATE_YEAR.replace(TEMPLATE_YEAR,year);
@@ -224,6 +256,8 @@ function isimage(href) {
 
 function galleryinfo(galleryid) {
 
+	console.log("galleryinfo.js: Called.")
+
 	if (typeof(galleryinfo.GALLERYINFO) != 'object') {
 		galleryinfo.GALLERYINFO = new Object();
 	}
@@ -238,28 +272,45 @@ function galleryinfo(galleryid) {
 
 	var CATALOGINFO = cataloginfo(galleryid);
 
-	if (CATALOGINFO["fulllistscript"]) {
-		fullfiles = eval(CATALOGINFO["fulllistscript"])(); 
+	if (typeof(CATALOGINFO["fullscript"]) === 'string') {
+		fullfiles = eval("(" + CATALOGINFO["fullscript"] + ")()")
 	}
 
-	if (CATALOGINFO["thumblistscript"]) {
-		thumbfiles = eval(CATALOGINFO["thumblistscript"])(); 
+	if (typeof(CATALOGINFO["fullscript"]) === 'function') {
+		fullfiles = eval(CATALOGINFO["fullscript"]())
 	}
 
-	if (CATALOGINFO["fullfilelist"]) {
-		fullfiles  = extractfiles(CATALOGINFO["fullfilelist"]);
-	}		
-
-	if (CATALOGINFO["thumbfilelist"]) {
-		thumbfiles  = extractfiles(CATALOGINFO["thumbfilelist"]);
+	if (typeof(CATALOGINFO["thumbscript"]) === 'string') {
+		thumbfiles = eval("(" + CATALOGINFO["thumbscript"] + ")()")
 	}
 
-	if (CATALOGINFO["fullfiles"]) {
-		eval('fullfiles = ' + CATALOGINFO["fullfiles"])
+	if (typeof(CATALOGINFO["thumbscript"]) === 'function') {
+		thumbfiles = eval(CATALOGINFO["thumbscript"]())
 	}
 
-	if (CATALOGINFO["thumbfiles"]) {
-		eval('thumbfiles = ' + CATALOGINFO["thumbfiles"])
+	if (typeof(CATALOGINFO["fullfiles"]) === 'object') {
+		fullfiles = CATALOGINFO["fullfiles"]
+	}
+	if (typeof(CATALOGINFO["fullfiles"]) === 'string') {
+
+		// fullfiles is a string with newlines
+		if (CATALOGINFO["fullfiles"].indexOf(/\n/) != -1) {
+			fullfiles = CSVToArray(data.replace(/\n$/,''))			
+		} else {
+			if (location.href.match(/^file/)) {
+				error("#gallery1", "Configuration variable fullfiles cannot be an external file unless this page is loaded from a web server.<br/>")
+				return false
+			}
+			fullfiles = extractfiles(CATALOGINFO["fullfiles"])
+		}
+	}
+
+	if (typeof(CATALOGINFO["thumbfiles"]) === 'object') {
+		thumbfiles = CATALOGINFO["thumbfiles"]
+	}
+
+	if (typeof(CATALOGINFO["thumbfiles"]) === 'string') {
+		thumbfiles = extractfiles(CATALOGINFO["thumbfiles"])
 	}
 	
 	if (CATALOGINFO["strftime"]) {
@@ -273,25 +324,25 @@ function galleryinfo(galleryid) {
 		var options = {};
 		options.template = _GALLERYINFO["strftime"];
 		options.timeRange = _GALLERYINFO["strftimestart"] + "/" + _GALLERYINFO["strftimestop"];
-		options.debug = true;
+		options.debug = false;
 		options.type = "strftime";
-		console.log(options)
+		//console.log(options)
 		var fullfiles = [];
 		var xfiles = expandtemplate(options);
-		console.log(xfiles);
+		//console.log(xfiles);
 
 		for (var i =0; i < xfiles.length; i++) {
 			fullfiles[i] = [xfiles[i]];
 		}
-		console.log(fullfiles)
+		//console.log(fullfiles)
 	} 
 
 	if (CATALOGINFO["sprintf"]) {
-
-		_GALLERYINFO["sprintfstart"] = CATALOGINFO["sprintfstart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["sprintfstop"]  = CATALOGINFO["sprintfstop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["sprintf"]      = CATALOGINFO["sprintf"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["sprintfdelta"] = parseInt(CATALOGINFO["sprintfdelta"].replace(/\n/,'').replace(/^\s+|\s+$/g,''));
+		console.log(CATALOGINFO)
+		_GALLERYINFO["sprintfstart"] = parseInt(CATALOGINFO["sprintfstart"]);
+		_GALLERYINFO["sprintfstop"]  = parseInt(CATALOGINFO["sprintfstop"]);
+		_GALLERYINFO["sprintf"]      = CATALOGINFO["sprintf"];
+		_GALLERYINFO["sprintfdelta"] = parseInt(CATALOGINFO["sprintfdelta"]);
 		
 		if (isNaN(_GALLERYINFO["sprintfdelta"])) {
 			_GALLERYINFO["sprintfdelta"] = 1;
@@ -299,73 +350,57 @@ function galleryinfo(galleryid) {
 						+ " or is NaN.  Using value of 1.")
 		}
 		var fullfiles = new Array();
-		io = parseInt(_GALLERYINFO["sprintfstart"]);
+		io = _GALLERYINFO["sprintfstart"];
 		i = io;
 		z = io;
-		while (i < parseInt(_GALLERYINFO["sprintfstop"]) + 1) {			
+		while (i < _GALLERYINFO["sprintfstop"] + 1) {			
 			var tmps = _GALLERYINFO["sprintf"];
 			fullfiles[z-io] = [sprintf(tmps,i)];
 			z = z+1;
 			i = i + _GALLERYINFO["sprintfdelta"];
 		}
 	}
-	    
-	if (CATALOGINFO["fulldir"]) {
-		_GALLERYINFO["fulldir"] = CATALOGINFO["fulldir"];
-		if (VIVIZ["baseDirectory"]) {
-		    _GALLERYINFO["fulldir"] = VIVIZ["baseDirectory"] + _GALLERYINFO["fulldir"];
-		}
-		if (VIVIZ["useCachedImages"]) {
-			_GALLERYINFO["fulldir"] = "http://imgconvert.org/convert.cgi?in="
-										+ _GALLERYINFO["fulldir"];
-		}
-		_GALLERYINFO["fullfiles"] = [];
-		for (var j = 0; j < fullfiles.length; j++) {
-			_GALLERYINFO["fullfiles"][j] = [];
-			if (!fullfiles[0][0].match(/^http|^ftp|^file/)) {
-				_GALLERYINFO["fullfiles"][j][0] = _GALLERYINFO["fulldir"] + fullfiles[j][0];
-			} else {
-				_GALLERYINFO["fullfiles"][j][0] = fullfiles[j][0];
-			}
-			for (var i = 1; i < fullfiles[j].length; i++) {
-				_GALLERYINFO["fullfiles"][j][i] = fullfiles[j][i];
-			}
-		}
-	} else {
-		_GALLERYINFO["fulldir"] = "";			
-	}
 
+	if (!CATALOGINFO["thumbdir"]) {
+		CATALOGINFO["thumbdir"] = CATALOGINFO["fulldir"]
+	}
 	if (thumbfiles.length == 0) {
 		thumbfiles = fullfiles;
 	}
-	if (CATALOGINFO["thumbdir"]) {
-		_GALLERYINFO["thumbdir"] = CATALOGINFO["thumbdir"];
 
-		if (VIVIZ["baseDirectory"]) {
-		    _GALLERYINFO["thumbdir"] = VIVIZ["baseDirectory"] + _GALLERYINFO["thumbdir"];
-		}
+	var types = {"full":fullfiles,"thumb":thumbfiles}
+	var type;
+	for (var type in types) {
+		files = types[type]
+		if (CATALOGINFO[type+"dir"]) {
 
-		if (VIVIZ["useCachedImages"]) {
-			_GALLERYINFO["thumbdir"] = "http://imgconvert.org/convert.cgi?in="
-										+ _GALLERYINFO["thumbdir"];
-		}
-		_GALLERYINFO["thumbfiles"] = [];
-		for (var j = 0;j < thumbfiles.length;j++) {
-			_GALLERYINFO["thumbfiles"][j] = [];
-			if (!thumbfiles[0][0].match(/^http|^ftp|^file/)) {
-				_GALLERYINFO["thumbfiles"][j][0] = _GALLERYINFO["thumbdir"] + thumbfiles[j][0];
-			} else {
-				_GALLERYINFO["thumbfiles"][j][0] = thumbfiles[j][0];
+			_GALLERYINFO[type+"dir"] = CATALOGINFO[type+"dir"];
+
+			if (VIVIZ["basedir"]) {
+			    _GALLERYINFO[type+"dir"] = VIVIZ["basedir"] + _GALLERYINFO[type+"dir"];
 			}
-			for (var i = 1;i<thumbfiles[j].length;i++) {
-				_GALLERYINFO["thumbfiles"][j][i] = thumbfiles[j][i];
+			if (VIVIZ["useCachedImages"]) {
+				_GALLERYINFO[type+"dir"] = "http://imgconvert.org/convert.cgi?in=" + _GALLERYINFO[type+"dir"];
 			}
+
+			_GALLERYINFO[type+"files"] = [];
+			for (var j = 0; j < files.length; j++) {
+				_GALLERYINFO[type+"files"][j] = [];
+				if (!fullfiles[0][0].match(/^http|^ftp|^file/)) {
+					_GALLERYINFO[type+"files"][j][0] = _GALLERYINFO[type+"dir"] + files[j][0];
+				} else {
+					_GALLERYINFO[type+"files"][j][0] = files[j][0];
+				}
+				for (var i = 1; i < fullfiles[j].length; i++) {
+					_GALLERYINFO[type+"files"][j][i] = files[j][i];
+				}
+			}
+		} else {
+			_GALLERYINFO[type+"files"] = files
 		}
-	} else {
-		_GALLERYINFO["thumbdir"] = "";			
 	}
 
-	_GALLERYINFO["totalingallery"] = _GALLERYINFO["fullfiles"].length;	
+	_GALLERYINFO["totalingallery"] = _GALLERYINFO["fullfiles"].length;
 	_GALLERYINFO["orders"]         = extractorders();
 	_GALLERYINFO["attributes"]     = extractattributes(galleryid);
 
@@ -387,12 +422,12 @@ function galleryinfo(galleryid) {
 
 	galleryinfo.GALLERYINFO[galleryid] = _GALLERYINFO;
 	
-	console.log("galleryinfo.js: _GALLERYINFO = ");
+	console.log("galleryinfo.js: Returing");
 	console.log(_GALLERYINFO);
 
 	if (_GALLERYINFO.fullfiles.length == 0) {
+		console.log("No files")
 		return false;
 	}
 	return _GALLERYINFO;
-
 }

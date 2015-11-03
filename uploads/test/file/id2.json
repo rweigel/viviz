@@ -1,9 +1,0 @@
-{
-"id":"POES02/SEM/MEP90/P6/MAPS/OrthographicWest",
-"title":"POES02/SEM/MEP90/P6/MAPS/OrthographicWest",
-"about":"http://satdat.ngdc.noaa.gov/sem/poes/data/plots/maps/png/",
-"fulldir":"http://satdat.ngdc.noaa.gov/sem/poes/data/plots/maps/png/",
-"strftime":"%Y/%m/orthographic_west/poes_%Y%m%d_mep90p6_slide_bin2_days09_orthographic_west.png",
-"strftimestart": "1998-07-09",
-"strftimestop": "2000-12-31"
-}

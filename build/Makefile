@@ -1,17 +1,20 @@
-MINIMIZER=../build/roll.pl
-HTML=enlil.html
+MINIMIZER=roll.pl
+HTML=index.htm
+BASE=$(HTML:.htm=)
 #EXCLUDE=galleryinfo
 DOM=../build/dom.sh
 
-enlil:
-#	$(DOM) > $(HTML:.html=-dom.js)
-	cd ../enlil; perl $(MINIMIZER) $(HTML) -html $(HTML:.html=) -js $(HTML:.html=) -c ../build/compiler.jar  -e $(EXCLUDE) 
-#	perl $(MINIMIZER) $(HTML) -html . -js .
-
 all:
 #	$(DOM) > $(HTML:.html=-dom.js)
-	perl $(MINIMIZER) $(HTML) -html $(HTML:.html=) -js $(HTML:.html=) -e $(EXCLUDE)
+#	perl $(MINIMIZER) $(HTML) -html $(HTML:.html=) -js $(HTML:.html=) -e $(EXCLUDE)
+	cp ../$(HTML) .; perl $(MINIMIZER) $(HTML) -html $(BASE) -js $(BASE)
 #	perl $(MINIMIZER) $(HTML) -html . -js .
+
+enlil:
+#	$(DOM) > $(HTML:.html=-dom.js)
+#	cd ../enlil; perl $(MINIMIZER) $(HTML) -html $(HTML:.html=) -js $(HTML:.html=) -c ../build/compiler.jar  -e $(EXCLUDE) 
+#	perl $(MINIMIZER) $(HTML) -html . -js .
+
 
 dist:
 	rm -rf ../dist/viviz-gallery-`/bin/date +\%Y\%m\%d`

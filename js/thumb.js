@@ -1,128 +1,56 @@
-function thumb(wrapper) {
+function thumb(wrapper, galleryid) {
 
 	console.log("thumb.js: Called.")
 
-	var GALLERIES = cataloginfo();
-    if (GALLERIES === "") {
-    	console.log("thumb.js: Aborting because of problem with gallery.");
-    	$(wrapper).hide();
-    	return;
-    }
+	resetdom()
 
 	$(window).unbind('hashchange.thumb');
-	$(window).bind( 'hashchange.thumb',function() {
+	$(window).bind('hashchange.thumb',function() {
 		console.log('thumb.js: Hash has changed to ' + location.hash);
-        $(wrapper + " #thumbbrowseframe").html('');
-        thumb(wrapper);
+		// Special case where ID is only key specified in gallery object.
+		// This saves us from having to encode it.
+		location.hash = location.hash.replace("id=fulldir","fulldir");
+		qs = $.parseQueryString();
+		thumb(wrapper, qs["id"]);
 	});
 
-	var neww = $(window).width()-$.scrollbarWidth();
-	$("#t-container").css('width',neww);
+	// Get list of galleries
+	console.log("gallery.js: Getting list of galleries.");
+	var GALLERIES = cataloginfo();
 
-	// Thumb only
-	$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
-	$(window).resize(function(){
-		$('#t-container').css('max-width', $(document).width()-$.scrollbarWidth());
-	});
-
-	$(wrapper + " #error").html();
-	$(wrapper + " #instructions").html("Scroll down to load more images");
-
-	if (location.hash !== "") {
-		var hash = location.hash;
-		var galleryid = hash.replace(/^#/,'').replace(/^\//,"");
-	} else {
-		var galleryid = GALLERIES["Values"][0]["Id"];
+	if (GALLERIES === "") {
+		console.log("gallery.js: Call to cataloginfo() failed.");
+		$(wrapper + " #workingfullframe").hide();
+		return;
 	}
 
+	qs = $.parseQueryString();
+
+	// Default gallery to show is first in list.
+	var galleryid = galleryid || qs["id"] || GALLERIES["Values"][0]["Id"]
+	console.log("gallery.js: ID = " + galleryid)
 	VIVIZ[galleryid] = {};
 
+	console.log("gallery.js: ID = " + galleryid)
 	var GALLERYINFO = galleryinfo(galleryid);
-  	var THUMBDIR = GALLERYINFO['thumbdir'];
-	var FULLDIR  = GALLERYINFO['fulldir'];
-	var SORTBYS  = GALLERYINFO['attributes'];
-	var ORDERS   = GALLERYINFO['orders'];
-    //console.log(GALLERYINFO);
-    //return;
-    var HEADER = cataloginfo(galleryid);   
-    $(wrapper + " #about").attr('title',HEADER["about"]).show();
 
-	if ((HEADER["aboutlink"]) && (!HEADER["about"])) {
-		$(wrapper + " #about").attr("onclick","window.location='" + HEADER["aboutlink"]+"'");
-	}	
-	if ((!HEADER["aboutlink"]) && (HEADER["about"])) {
-		//$(wrapper + " #about").attr("onclick","window.location='" + HEADER["Fulldir"]+"'");
-		$(wrapper + " #about").show();
-		if (HEADER["about"].match(/^http/)) {
-			//$(wrapper + " #about").html('<a style="color:white"	>About this gallery</a>');
-			$(wrapper + " #about").attr('onclick',"window.location='" + HEADER["about"] + "'");
-		} else {
-			$(wrapper + " #about").attr('title',HEADER["about"]);
-		}
+	// If call to GALLERYINFO fails, something went wrong.
+	if (typeof(GALLERYINFO) === "boolean") {
+		console.log("gallery.js: Call to galleryinfo() failed.");	
+		$(wrapper + ' #workingfullframe').css('visibility','hidden');
+		error(wrapper,"Problem with configuration for gallery with id = " + galleryid);
+		setheader();
+		$(wrapper + ' #catalogxmlopen').click();
+		return;
 	}
 
-	$(wrapper + ' #catalogxmlopen').show();
-	$(wrapper + ' #catalogxmlclose').hide();
-	$(wrapper + " #catalogxmlopen").unbind('click');
-	$(wrapper + " #catalogxmlopen").click(
-			function () {
-				CodeMirror($('#thumb1 #catalogxml')[0], {lineNumbers:true,"mode":"xml", "value":HEADER["xml"]});
-				$(wrapper + ' #catalogxmlopen').hide();
-				$(wrapper + ' #catalogxmlclose').show();
-			});
-	$(wrapper + " #catalogxmlclose").unbind('click');
-	$(wrapper + " #catalogxmlclose").click(
-			function () {
-				$(wrapper + " #catalogxml").html('');
-				$(wrapper + ' #catalogxmlopen').show();
-				$(wrapper + ' #catalogxmlclose').hide();
-			}
-		);
-    	
-	//$(wrapper + " #thumbbrowsemode").css('display', 'inline-block;');
-	//console.log('thumb.js: galleryid = ' + galleryid);
-	
-	if ( (typeof(dom) == "function") && ($(wrapper).text() == "") ) {
-		//console.log('thumb.js: Inserting DOM from file.');
-		$('body').append(dom());
-	} else {
-		//console.log('thumb.js: Using existing DOM in HTML file.')
-	}
-
-	if (THUMBDIR == FULLDIR) {
-		$('#pngdirs').html('Images: <a href="'+FULLDIR+'">Full-size</a>');
-	} else {
-		$('#pngdirs').html('Images: <a href="'+THUMBDIR+'">Thumbnails</a>, <a href="'+FULLDIR+'">Full-size</a>');		
-	}
-	
-	$(wrapper + ' #thumbbrowsemode').unbind('change');
-	$(wrapper + ' #thumbbrowsemode').change(function () {
-		$(wrapper + " #instructions").html("Scroll down to load more images");
-		var galleryid = $(wrapper + " #gallery option:selected").val();
-		setthumbbindings(galleryid);
-	});
-
-	$(wrapper + " #dropdowns").empty();
-
-	dropdown("gallery", GALLERIES, wrapper + " #dropdowns");
-	$(wrapper + " #gallery option[value='" + galleryid + "']").attr('selected','selected');
-
-	$(wrapper + ' #dropdowns #gallery').unbind('change');
-	$(wrapper + ' #dropdowns #gallery').change(function (){
-		var galleryid = $(wrapper + " #gallery option:selected").val();
-		$(wrapper + " #instructions").html("Scroll down to load more images");
-		
-	    console.log('thumb.js: Gallery changed.  galleryid = ' + galleryid);
-		$(wrapper + ' #thumbframe').html('');
-		$(wrapper + ' #thumbframe').children().remove();
-		console.log("thumb.js: Changing hash.")
-		location.hash = "/" + galleryid;
-	});
-		
-
-	setdropdowns();
+	setheader(wrapper, galleryid);
+	setdropdowns(wrapper, galleryid);
 	setthumbs();
-	
+
+	function resetdom() {
+	}
+
 	function setthumbbindings() {
 		console.log('thumb.setthumbbindings(): Setting bindings.');
 			
@@ -138,17 +66,17 @@ function thumb(wrapper) {
 		function setfilename(jq) {
 	        $(wrapper + " #filename").html('');
 	        $(wrapper + " #filename").append("<a>");
-			$(wrapper + " #filename a").attr('href',jq.src.replace(THUMBDIR,FULLDIR)).text(jq.src.replace(THUMBDIR,""));
+			$(wrapper + " #filename a").attr('href',jq.src.replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir'])).text(jq.src.replace(GALLERYINFO['thumbdir'],""));
 		}
 		
 		if (mode == 0) {
 			// Needs work
 			$(wrapper + ' .thumbbrowse').hover(function(){
-				this.src = this.src.replace(THUMBDIR,FULLDIR);
+				this.src = this.src.replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']);
 				$(this).css('position', 'absolute');
 				setfilename(this);
 			}, function(){
-				this.src = this.src.replace(FULLDIR,THUMBDIR);
+				this.src = this.src.replace(GALLERYINFO['fulldir'],GALLERYINFO['thumbdir']);
 				$(this).css('position', 'relative');
 			});
 		}
@@ -156,9 +84,9 @@ function thumb(wrapper) {
 		if (mode == 1) {
 			// Needs work.
 			$(wrapper + ' .thumbbrowse').toggle(function(){
-				this.src = this.src.replace(THUMBDIR,FULLDIR);
+				this.src = this.src.replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']);
 			}, function(){
-				this.src = this.src.replace(FULLDIR,THUMBDIR);
+				this.src = this.src.replace(GALLERYINFO['fulldir'],GALLERYINFO['thumbdir']);
 			});
 		}
 	
@@ -248,7 +176,7 @@ function thumb(wrapper) {
 					$(setthumbbindings.active).css("border", "solid white 3px");
 				});
 
-				$(wrapper + ' #thumbbrowseoverlay').show().attr("src", this.src.replace(THUMBDIR,FULLDIR)).css("left", $(this).offset().left - deltaleft).css("top", deltatop+$(this).position().top);
+				$(wrapper + ' #thumbbrowseoverlay').show().attr("src", this.src.replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir'])).css("left", $(this).offset().left - deltaleft).css("top", deltatop+$(this).position().top);
 				$(this).css("border", "solid blue 3px");
 				
 				$(wrapper + ' #thumbbrowseoverlay').load(function () {
@@ -267,11 +195,8 @@ function thumb(wrapper) {
 		//console.log('thumbbrowse.js: setthumbs(): Setting thumbs.');		
 		//$(wrapper + " #working").show();
 		
-		var THUMBDIR = GALLERYINFO['thumbdir'];
-		var FULLDIR = GALLERYINFO['fulldir'];
-
 		var thumbwidth = "";
-		if ( (FULLDIR === THUMBDIR) || (THUMBDIR === "")) {
+		if ( (GALLERYINFO['fulldir'] === GALLERYINFO['thumbdir']) || (GALLERYINFO['thumbdir'] === "")) {
 			console.log('----thumbbrowse.js: No thumbnails detected.');
 			var thumbwidth = "50%";
 		}
@@ -333,12 +258,17 @@ function thumb(wrapper) {
 				console.log("thumb.setthumbs.setslider(): No slider extension available.");
 				return;
 			}
+
+			tw = $(".thumbbrowse").first().width();
+			th = $(".thumbbrowse").first().height();
+
 			$( "#slider" ).slider({
 				max: 4,
 				min: 1,
 				step: 1,
 				value: 4,
 				slide: function(event, ui) {
+
 					console.log("thumb.setthumbs.setslider(): Slide event.")
 					newWidth = tw*ui.value/4;
 					newHeight = th*ui.value/4
@@ -505,7 +435,8 @@ function thumb(wrapper) {
 					maxLength = INFOjs.length-Nl;
 					$(window).unbind('scroll');
 				}
-				console.log("thumb.setthumbs.setscrolltrigger(): maxLength="+maxLength+", th="+th)
+				th = $(".thumbbrowse").first().width()
+				console.log("thumb.setthumbs.setscrolltrigger(): maxLength = "+maxLength+", first thumbheight = "+th)
 				console.log("thumb.setthumbs.setscrolltrigger(): $(window).scrollTop() + $(window).height() + 2*th = "+(2*th+$(window).scrollTop() + $(window).height()))
 				console.log("thumb.setthumbs.setscrolltrigger(): $(document).height() = " + ($(document).height()))
 				if ($(window).scrollTop() + $(window).height() + 2*th >= $(document).height()) {
@@ -518,60 +449,7 @@ function thumb(wrapper) {
 				}
 			})
         }
-	
 	}
 
-	function setdropdowns() {
-
-		dropdown("order", ORDERS, wrapper + " #dropdowns");
-		
-		// TODO: Set this based on available space.
-		$(wrapper + " #gallery").css('width','15em');
-
-		$(wrapper + ' #dropdowns #order').change(function(){
-			setthumbs();
-			setthumbbindings();
-		});
-
-		if (GALLERYINFO['attributes']["Values"].length > 0) {
-		    dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns");
-			$(wrapper + ' #dropdowns #sortby').change(function(){
-				setregexps();
-				setthumbs();
-			});
-			setregexps();	
-		} else {
-			console.log("thumb.setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
-		}
-
-		return true;
-
-		function setregexps() {
-			var REGEXPS            = new Object();			
-			var n                  = $(wrapper + " #dropdowns #sortby option:selected").val();
-			REGEXPS["Title"]       = "Attribute constraints"
-			REGEXPS["Titleshort"]  = "-Constraints-"
-			REGEXPS["Values"]      = new Array();
-
-			for (i = 0; i < SORTBYS["Values"][n]["Filters"].length; i++) {
-				REGEXPS["Values"][i]          = new Object();
-				REGEXPS["Values"][i]["Title"] = SORTBYS["Values"][n]["Filters"][i]["Title"];
-				REGEXPS["Values"][i]["Value"] = SORTBYS["Values"][n]["Filters"][i]["Value"];
-			}
-
-			if (SORTBYS["Values"][n]["Filters"].length > 0) {
-				dropdown("regexp",REGEXPS,wrapper + " #dropdowns");
-			} else {
-				$("#thumb1 #dropdowns #regexp").remove();				
-			}
-
-			$(wrapper + ' #dropdowns #regexp').change(function(){
-				$(wrapper + " #instructions").html("Scroll down to load more images");
-				setthumbs();
-			    setthumbbindings();				
-			})
-
-		}
-	}
 
 }

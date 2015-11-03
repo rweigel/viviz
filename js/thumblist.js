@@ -42,7 +42,7 @@ function thumblist(wrapper){
 		INFOjs[j] = new Object();
 		INFOjs[j]["FileName"] = INFOG["fullfiles"][j][0];
 		INFOjs[j]["FullFile"] = INFOG["fullfiles"][j][0];
-		if (typeof(INFOG["thumbfiles"]) !== "undefined") {
+		if (INFOG["thumbfiles"].length > 0) {
 			INFOjs[j]["ThumbFile"] = INFOG["thumbfiles"][j][0];
         } else {
             INFOjs[j]["ThumbFile"] = INFOG["fullfiles"][j][0];

@@ -9,6 +9,10 @@
 		"mkdirp"   : "*",
 		"readdirp" : "*",
 		"cli-color": "*",
-	    "yargs"    : "*"
+	    "yargs"    : "*",
+	    "vulcanize": "*"
+	},
+	"scripts": {
+		"build": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm"
 	}
 }
