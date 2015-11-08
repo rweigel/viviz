@@ -1,10 +1,139 @@
-function reporterror(URL) {
-	$('#connectionerror').html('');
-	if (location.protocol.match("file")) {
-		error("galleryinfo.js: Error reading " + URL + ".<br>When the URL in the browser address bar starts with <b>file:/</b>, special configuration is needed.  See http://viviz.org/");
+function galleryinfo(galleryid) {
+
+	var usecache = true
+	var fullfiles = []
+	var thumbfiles = []
+
+	if (usecache) {
+		if (typeof(galleryinfo.GALLERYINFO) !== 'object') {
+			galleryinfo.GALLERYINFO = new Object()
+		}
+		
+		if (galleryinfo.GALLERYINFO[galleryid]) {
+			return galleryinfo.GALLERYINFO[galleryid]
+		}
+	}
+
+	var CATALOGINFO = cataloginfo(galleryid);
+
+	if (typeof(CATALOGINFO) === "string") {
+		return CATALOGINFO
+	}
+
+	if (typeof(CATALOGINFO["fullscript"]) === 'string') {
+		fullfiles = eval("(" + CATALOGINFO["fullscript"] + ")()")
+	}
+
+	if (typeof(CATALOGINFO["fullscript"]) === 'function') {
+		fullfiles = eval(CATALOGINFO["fullscript"]())
+	}
+
+	if (typeof(CATALOGINFO["thumbscript"]) === 'string') {
+		thumbfiles = eval("(" + CATALOGINFO["thumbscript"] + ")()")
+	}
+
+	if (typeof(CATALOGINFO["thumbscript"]) === 'function') {
+		thumbfiles = eval(CATALOGINFO["thumbscript"]())
+	}
+
+	if (typeof(CATALOGINFO["fullfiles"]) === 'object') {
+		fullfiles = CATALOGINFO["fullfiles"]
+	}
+
+	if (typeof(CATALOGINFO["fullfiles"]) === 'string') {
+		fullfiles = extractfiles(CATALOGINFO["fullfiles"])
+		if (typeof(fullfiles) === 'string') {
+			// Response is an error message.
+			return fullfiles
+		}
+	}
+
+	if (typeof(CATALOGINFO["thumbfiles"]) === 'object') {
+		thumbfiles = CATALOGINFO["thumbfiles"]
+	}
+
+	if (typeof(CATALOGINFO["thumbfiles"]) === 'string') {
+		thumbfiles = extractfiles(CATALOGINFO["thumbfiles"])
+	}
+	
+	var options = {};
+	if (CATALOGINFO["strftime"]) {
+		options.type = "strftime";
+		options.template = CATALOGINFO["strftime"]
+		options.timeRange = CATALOGINFO["start"] + "/" + CATALOGINFO["stop"]
+	} 
+
+	if (CATALOGINFO["sprintf"]) {
+		var step = parseInt(CATALOGINFO["delta"])
+		if (isNaN(step)) {
+			var step = 1
+			console.log("galleryinfo.js: delta is not defined " + " or is NaN.  Using value of 1.")
+		}
+		options.type = "sprintf";
+		options.template = CATALOGINFO["sprintf"]
+		options.indexRange = CATALOGINFO["start"] + "/" + CATALOGINFO["stop"] + "/" + step
+	}
+
+	if (CATALOGINFO["sprintf"] || CATALOGINFO["strftime"]) {
+		options.debug = false
+		var fullfiles = []
+		var xfiles = expandtemplate(options);
+		for (var i = 0; i < xfiles.length; i++) {
+			fullfiles[i] = [xfiles[i]]
+		}
+	}
+
+	VIVIZ["galleries"][galleryid]["fullfiles"] = fullfiles
+
+	if (thumbfiles.length == 0) {
+		VIVIZ["galleries"][galleryid]["thumbfiles"] = thumbfiles
 	} else {
-		error("galleryinfo.js: Error reading " + URL + ".<br>The domain name of this URL must match the domain name in your address bar " + window.location.host);
-	}		
+		VIVIZ["galleries"][galleryid]["thumbfiles"] = fullfiles		
+	}
+
+	VIVIZ["galleries"][galleryid]["totalingallery"] = fullfiles.length 
+	VIVIZ["galleries"][galleryid]["orders"] = extractorders()
+	VIVIZ["galleries"][galleryid]["attributes"] = extractattributes(galleryid)
+
+
+	if (VIVIZ["useAutoAttributes"] || VIVIZ["galleries"][galleryid]["useAutoAttributes"]) {		
+
+			// When useAutoAttributes is true, ignores attributes specified in file.
+			// TODO: Add options useAutoAttributesOnly (current meaning of useAutoAttributes) 
+			// and useAutoAttributesAlso (Append auto attributes to existing)?	
+
+			na = 0
+
+			// Create regexps based on time information
+			if (CATALOGINFO["strftime"]) {
+				VIVIZ["galleries"][galleryid]["autoattributes"] = filterlist(CATALOGINFO["start"],CATALOGINFO["stop"],CATALOGINFO["strftime"])
+			
+				VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"] = VIVIZ["galleries"][galleryid]["autoattributes"]
+
+				// Add an All attribute at the end.
+				na = VIVIZ["galleries"][galleryid]["autoattributes"].length || 0
+			}
+
+
+			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na] = {}
+			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Title = "All"
+			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Value = ".*"	
+
+	}
+
+	if (fullfiles.length == 0) {
+		console.log("No files")
+		return "No file list was generated."
+	}
+
+	if (usecache) {
+		galleryinfo.GALLERYINFO[galleryid] = VIVIZ["galleries"][galleryid]
+	}
+
+	console.log("galleryinfo.js: Returing")
+	console.log(VIVIZ["galleries"][galleryid])
+
+	return VIVIZ["galleries"][galleryid]
 }
 
 function extractorders() {
@@ -95,9 +224,18 @@ function extractattributes(galleryid) {
 
 function extractfiles(URLFiles) {
 	
-	//extractfiles.cache = {};
-	//if (extractfiles.cache[URLFiles])
-	//	return extractfiles.cache[URLFiles];
+	var msg = ""
+	if (location.href.indexOf("file") == 0) {
+		msg = "Configuration variable <code>fullfiles</code> cannot be an external file (local or remote) unless this page is loaded from a web server."
+		console.log(msg)
+		return msg
+	}
+
+	// fullfiles is a string with newlines
+	if (URLFiles.indexOf("\n") != -1) {
+		fullfiles = CSVToArray(URLFiles.replace(/\n$/,''))			
+		return fullfiles
+	}
 	
 	if (URLFiles.indexOf("http") != -1) {
 		var tmparr = URLFiles.split("/");
@@ -113,8 +251,6 @@ function extractfiles(URLFiles) {
 				if (proxy !== host) {
 					var msg = "proxyServer address (" + proxy + ") specified in configuation must match application address (" + host + ")"
 					console.log(msg)
-					error("#gallery1", msg)
-					return
 				} else {
 					// TODO: Check that proxy actually works.
 					URLFiles = VIVIZ["proxyServer"] + URLFiles;
@@ -126,7 +262,8 @@ function extractfiles(URLFiles) {
 			} else {
 				console.log("Request is for file list from a http address, but no proxyServer specified in configuration and server address for file is not same as address of application.")
 				console.log("Request will fail because of Same Origin policy.")
-				error("#gallery1", "proxyServer must be specified in configuration or filelist URL must start with http://" + location.hostname+(location.port ? ':'+location.port: ''))
+				msg = "proxyServer must be specified in configuration or filelist URL must start with http://" + location.hostname+(location.port ? ':'+location.port: '')
+				console.log(msg)
 			}
 
 		}
@@ -141,37 +278,17 @@ function extractfiles(URLFiles) {
 			url: URLFiles,
 			async: false,
 			dataType: "text",
-			error: function () {error("catalog.js: Error reading " + URLFiles,true)},
+			error: function () {
+				msg = "Error reading <a style='text-decoration:underline' href='" + URLFiles + "'>" + URLFiles + "</a>."
+				console.log(msg)	
+			},
 			success: function (data) {
-						//console.log('galleryinfo.js: Extracting files from ' + URLFiles);
+						console.log('galleryinfo.extractfiles(): Extracting files from ' + URLFiles);
 						FILES = CSVToArray(data.replace(/\n$/,''));
-						//FILES = data.split(/\n/); Use this instead.
+						//FILES = data.split(/\n/); Use this instead?
 					}
 		});
 		$("#status").text("");
-	} else if (URLFiles.match(/\.xml$/)) {
-		$.ajax({
-			type: "GET",
-			url: URLFiles,
-			async: false,
-			dataType: "xml",
-			error: function (xhr, textStatus, errorThrown) {
-						error("catalog.js: Error reading " + URLFiles,true);
-						//console.log(textStatus);
-					},
-			success: function (xml) {
-						console.log('galleryinfo.js: Extracting files from ' + URLFiles);
-						if ($(xml).find("gallery images data").length > 0) {
-							eval("FILES = " + $(xml).find("gallery images data").text());
-							console.log("galleryinfo.extractfiles(): Found " + FILES.length + " files in " + URLFiles);
-						}
-						if ($(xml).find("gallery images script").length > 0) {
-							//eval($(xml).find("gallery images script").text());
-							////console.log(files);
-						}
-						return FILES;
-					}
-		});
 	} else {
 
 		// A service request that returns a JSON array of files.
@@ -180,10 +297,21 @@ function extractfiles(URLFiles) {
 			url: URLFiles,
 			async: false,
 			dataType: "json",
-			error: function () {error("galleryinfo.js: Error reading " + URLFiles,true)},
+			error: function (err, textStatus, errorThrown) {
+				console.log(err)
+				msg = "Error reading <a style='text-decoration:underline' target='_blank' href='" + URLFiles + "'>" + URLFiles + "</a>."
+				if (textStatus && textStatus !== 'error') {
+					if (errorThrown) {
+						msg = msg + "<br/>Error: " + textStatus + ", " + errorThrown
+					} else {
+						msg = msg + "<br/>Error: " + textStatus + "."
+					}
+	
+				}
+				console.log(msg)
+			},
 			success: function (data) {
-						console.log('galleryinfo.js: Extracting files from ' + URLFiles);
-						
+						console.log('Extracting files from ' + URLFiles);
 						if (typeof(data[0]) === "string") {
 							for (var k=0;k<data.length;k++) {
 								FILES[k] = [];
@@ -191,21 +319,19 @@ function extractfiles(URLFiles) {
 							}
 						} else {
 							FILES = data;
-						}
-						
+						}	
 					}
-		});
+		})
 	}
 
-	$("#status").text("");
-	//extractfiles.cache[URLFiles] = FILES;
-	return FILES;
+	$("#status").text("")
 
+	if (msg !== "") return msg
+	return FILES
 }
 
-function menulist(StartYear,StopYear,TEMPLATE_YEAR) {
+function filterlist(StartYear,StopYear,TEMPLATE_YEAR) {
 
-	// menulist(FILES,TEMPLATE)
 	if (arguments.length == 2) {
 
 		TEMPLATEp = TEMPLATE.replace('%Y','([0-9][0-9][0-9][0-9])');
@@ -224,15 +350,13 @@ function menulist(StartYear,StopYear,TEMPLATE_YEAR) {
 		TEMPLATEp = TEMPLATEp.replace(/\./gi,'');
 		TEMPLATEp = TEMPLATEp.replace(/%[a-z]/gi,'.*');
 		
-		//console.log("menulist.js: No start/stop year given.  Computing from template " + TEMPLATEp);
-		//console.log("menulist.js: StartYear = " + StartYear + ", EndYear = " + StopYear);	
-		//console.log("menulist.js: Pattern to match for year = " + TEMPLATEp);
-
-		return menulist(StartYear,StopYear,TEMPLATEp);			
+		return filterlist(StartYear,StopYear,TEMPLATEp);			
 	}
 
-	StartYear = parseInt(StartYear.substring(0,4));
-	StopYear  = parseInt(StopYear.substring(0,4));
+	if (typeof(StartYear) === 'string') {
+		StartYear = parseInt(StartYear.substring(0,4));
+		StopYear  = parseInt(StopYear.substring(0,4));
+	}
 
 	FILTERS = new Array();
 	for (var j=0;j<(StopYear-StartYear);j++) {
@@ -243,191 +367,4 @@ function menulist(StartYear,StopYear,TEMPLATE_YEAR) {
 	}
 
 	return FILTERS;
-}
-
-function isimage(href) {
-	if (href.match(/\.png$/)) {
-		return true;
-	} else {
-		//console.log("galleryinfo.js: isimage: Rejected " + href);
-		return false;
-	}
-}
-
-function galleryinfo(galleryid) {
-
-	console.log("galleryinfo.js: Called.")
-
-	if (typeof(galleryinfo.GALLERYINFO) != 'object') {
-		galleryinfo.GALLERYINFO = new Object();
-	}
-	
-	if (galleryinfo.GALLERYINFO[galleryid]) {
-		return galleryinfo.GALLERYINFO[galleryid]
-	}
-
-	_GALLERYINFO = new Object();
-	var fullfiles = [];
-	var thumbfiles = [];
-
-	var CATALOGINFO = cataloginfo(galleryid);
-
-	if (typeof(CATALOGINFO["fullscript"]) === 'string') {
-		fullfiles = eval("(" + CATALOGINFO["fullscript"] + ")()")
-	}
-
-	if (typeof(CATALOGINFO["fullscript"]) === 'function') {
-		fullfiles = eval(CATALOGINFO["fullscript"]())
-	}
-
-	if (typeof(CATALOGINFO["thumbscript"]) === 'string') {
-		thumbfiles = eval("(" + CATALOGINFO["thumbscript"] + ")()")
-	}
-
-	if (typeof(CATALOGINFO["thumbscript"]) === 'function') {
-		thumbfiles = eval(CATALOGINFO["thumbscript"]())
-	}
-
-	if (typeof(CATALOGINFO["fullfiles"]) === 'object') {
-		fullfiles = CATALOGINFO["fullfiles"]
-	}
-	if (typeof(CATALOGINFO["fullfiles"]) === 'string') {
-
-		// fullfiles is a string with newlines
-		if (CATALOGINFO["fullfiles"].indexOf(/\n/) != -1) {
-			fullfiles = CSVToArray(data.replace(/\n$/,''))			
-		} else {
-			if (location.href.match(/^file/)) {
-				error("#gallery1", "Configuration variable fullfiles cannot be an external file unless this page is loaded from a web server.<br/>")
-				return false
-			}
-			fullfiles = extractfiles(CATALOGINFO["fullfiles"])
-		}
-	}
-
-	if (typeof(CATALOGINFO["thumbfiles"]) === 'object') {
-		thumbfiles = CATALOGINFO["thumbfiles"]
-	}
-
-	if (typeof(CATALOGINFO["thumbfiles"]) === 'string') {
-		thumbfiles = extractfiles(CATALOGINFO["thumbfiles"])
-	}
-	
-	if (CATALOGINFO["strftime"]) {
-		_GALLERYINFO["strftime"]      = CATALOGINFO["strftime"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["strftimestart"] = CATALOGINFO["strftimestart"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		_GALLERYINFO["strftimestop"]  = CATALOGINFO["strftimestop"].replace(/\n/,'').replace(/^\s+|\s+$/g,'');
-		
-		// Create regexps based on time information
-		_GALLERYINFO["autoattributes"]  = menulist(CATALOGINFO["strftimestart"],CATALOGINFO["strftimestop"],CATALOGINFO["strftime"]);
-
-		var options = {};
-		options.template = _GALLERYINFO["strftime"];
-		options.timeRange = _GALLERYINFO["strftimestart"] + "/" + _GALLERYINFO["strftimestop"];
-		options.debug = false;
-		options.type = "strftime";
-		//console.log(options)
-		var fullfiles = [];
-		var xfiles = expandtemplate(options);
-		//console.log(xfiles);
-
-		for (var i =0; i < xfiles.length; i++) {
-			fullfiles[i] = [xfiles[i]];
-		}
-		//console.log(fullfiles)
-	} 
-
-	if (CATALOGINFO["sprintf"]) {
-		console.log(CATALOGINFO)
-		_GALLERYINFO["sprintfstart"] = parseInt(CATALOGINFO["sprintfstart"]);
-		_GALLERYINFO["sprintfstop"]  = parseInt(CATALOGINFO["sprintfstop"]);
-		_GALLERYINFO["sprintf"]      = CATALOGINFO["sprintf"];
-		_GALLERYINFO["sprintfdelta"] = parseInt(CATALOGINFO["sprintfdelta"]);
-		
-		if (isNaN(_GALLERYINFO["sprintfdelta"])) {
-			_GALLERYINFO["sprintfdelta"] = 1;
-			console.log("galleryinfo.js: sprintfdelta is not defined "
-						+ " or is NaN.  Using value of 1.")
-		}
-		var fullfiles = new Array();
-		io = _GALLERYINFO["sprintfstart"];
-		i = io;
-		z = io;
-		while (i < _GALLERYINFO["sprintfstop"] + 1) {			
-			var tmps = _GALLERYINFO["sprintf"];
-			fullfiles[z-io] = [sprintf(tmps,i)];
-			z = z+1;
-			i = i + _GALLERYINFO["sprintfdelta"];
-		}
-	}
-
-	if (!CATALOGINFO["thumbdir"]) {
-		CATALOGINFO["thumbdir"] = CATALOGINFO["fulldir"]
-	}
-	if (thumbfiles.length == 0) {
-		thumbfiles = fullfiles;
-	}
-
-	var types = {"full":fullfiles,"thumb":thumbfiles}
-	var type;
-	for (var type in types) {
-		files = types[type]
-		if (CATALOGINFO[type+"dir"]) {
-
-			_GALLERYINFO[type+"dir"] = CATALOGINFO[type+"dir"];
-
-			if (VIVIZ["basedir"]) {
-			    _GALLERYINFO[type+"dir"] = VIVIZ["basedir"] + _GALLERYINFO[type+"dir"];
-			}
-			if (VIVIZ["useCachedImages"]) {
-				_GALLERYINFO[type+"dir"] = "http://imgconvert.org/convert.cgi?in=" + _GALLERYINFO[type+"dir"];
-			}
-
-			_GALLERYINFO[type+"files"] = [];
-			for (var j = 0; j < files.length; j++) {
-				_GALLERYINFO[type+"files"][j] = [];
-				if (!fullfiles[0][0].match(/^http|^ftp|^file/)) {
-					_GALLERYINFO[type+"files"][j][0] = _GALLERYINFO[type+"dir"] + files[j][0];
-				} else {
-					_GALLERYINFO[type+"files"][j][0] = files[j][0];
-				}
-				for (var i = 1; i < fullfiles[j].length; i++) {
-					_GALLERYINFO[type+"files"][j][i] = files[j][i];
-				}
-			}
-		} else {
-			_GALLERYINFO[type+"files"] = files
-		}
-	}
-
-	_GALLERYINFO["totalingallery"] = _GALLERYINFO["fullfiles"].length;
-	_GALLERYINFO["orders"]         = extractorders();
-	_GALLERYINFO["attributes"]     = extractattributes(galleryid);
-
-	if (_GALLERYINFO["autoattributes"]) {		
-		if (VIVIZ["useAutoAttributes"]) {
-			// When useAutoAttributes is true, ignore attributes specified in file.
-			_GALLERYINFO["attributes"]["Values"][0]["Filters"] = _GALLERYINFO["autoattributes"];
-
-			// Add an All attribute at the end.
-			var na = _GALLERYINFO["autoattributes"].length;
-			_GALLERYINFO["attributes"]["Values"][0]["Filters"][na] = {};
-			_GALLERYINFO["attributes"]["Values"][0]["Filters"][na].Title = "All";
-			_GALLERYINFO["attributes"]["Values"][0]["Filters"][na].Value = ".*";	
-
-			// TODO: Add options useAutoAttributesOnly (current meaning of useAutoAttributes) 
-			// and useAutoAttributesAlso (Append auto attributes to existing)?	
-		}
-	}
-
-	galleryinfo.GALLERYINFO[galleryid] = _GALLERYINFO;
-	
-	console.log("galleryinfo.js: Returing");
-	console.log(_GALLERYINFO);
-
-	if (_GALLERYINFO.fullfiles.length == 0) {
-		console.log("No files")
-		return false;
-	}
-	return _GALLERYINFO;
 }

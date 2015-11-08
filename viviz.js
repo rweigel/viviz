@@ -14,14 +14,14 @@ var clc      = require('cli-color');
 var argv    = require('yargs')
 				.default
 				({
-					'port': 8002,
 					'file': "index.htm"
 				})
 				.argv
 
-// TODO: Read default port from index.js
-var port     = argv.port || 8002;
-var file     = argv.file;
+var VIVIZ = require('./index.js').VIVIZ
+
+var port = VIVIZ["port"] || 8002;
+var file = argv.file;
 
 // Log to console with color
 console.logc = function (str,color) {var msg = clc.xterm(color); console.log(msg(str))}

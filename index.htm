@@ -24,66 +24,11 @@
 		<script type="text/javascript" src="js/deps/date.js"></script>
 		<script type="text/javascript" src="js/deps/expandtemplate.js"></script>
 
-		<script type="text/javascript" src="js/setWH.js"></script>
-		<script type="text/javascript" src="js/setheader.js"></script>
-		<script type="text/javascript" src="js/setdropdowns.js"></script>
-		<script type="text/javascript" src="js/scrollbarWidth.js"></script>
-
-		<script type="text/javascript" src="js/dropdown.js"></script>
-
-		<script type="text/javascript" src="js/gallery.js"></script>		
-		<script type="text/javascript" src="js/thumb.js"></script>					    
-				
-		<script type="text/javascript" src="js/thumblist.js"></script>    
-		<script type="text/javascript" src="js/gallery.js"></script>
-		<script type="text/javascript" src="js/attributemap.js"></script>
-		
-		<!-- Menu configuration -->
+		<script type="text/javascript" src="js/gallery.js"></script>	
 		<script type="text/javascript" src="js/galleryinfo.js"></script>
 		<script type="text/javascript" src="js/cataloginfo.js"></script>
 
-		<!-- Misc -->
-		<script type="text/javascript" src="js/cookie.js"></script>
-		<script type="text/javascript" src="js/print.js"></script>
-		<script type="text/javascript" src="js/message.js"></script>
-
-		<script>
-			$(document).ready(function () {
-
-				$("#thumbbrowsebutton").click(function () {
-					$('#g-container').hide()
-					$(window).unbind('hashchange.gallery')
-					$('#t-container').show()
-					thumb("#thumb1")
-				})
-				
-				$("#gallerybrowsebutton").click(function () {
-					$('#t-container').hide()
-					$(window).unbind('hashchange.thumb')
-					$('#g-container').show()
-					gallery("#gallery1")
-				})
-
-				qs = $.parseQueryString();
-
-				if (qs["mode"] === "gallery") {
-					$("#gallerybrowsebutton").click()					
-				}
-				if (qs["mode"] === "thumb") {
-					$("#thumbbrowsebutton").click()
-				}
-				if (!qs["mode"]) {
-					if (VIVIZ["defaultMode"] === "gallery") {
-						$("#gallerybrowsebutton").click()
-					} else if (VIVIZ["defaultMode"] === "thumb") {
-						$("#thumbbrowsebutton").click()
-					} else {
-						$("#gallerybrowsebutton").click()
-					}
-				}
-
-			})
-		</script>
+		<script>$(document).ready(viviz)</script>
 
 	</head>
 
@@ -94,24 +39,25 @@
 				
 				<div id="error" class="well" style="display:none;background-color:red;"></div>
 
-				<div id="catalog" class="well" style="text-align:center">
-					<span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">
+				<div id="catalogwrapper" class="well" style="text-align:center">
+					<span id="catalogopen" style="float:left;cursor:pointer;text-decoration:underline">
 						<i class="icon-info-sign"></i>Gallery configuration
 					</span>
-					<span id="catalogxmlclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;">
+					<span id="catalogclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;">
 						<i class="icon-remove"></i>
 					</span>
-					<span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
-					<span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
+					<span id="catalogtest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
+					<span id="catalogsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
 					<span style="float:right">Powered by <a href="http://viviz.org/" style="text-decoration: underline;">ViViz</a></span>
 					<br/>
-					<div id="catalogxml" style="text-align:left;overflow:auto;display:hidden"></div>
+					<div id="catalog" style="text-align:left;overflow:auto"></div>
 				</div>
 
-				<div id="dropdowns" style="display:none" class="well">
+				<div id="dropdownswrapper" class="well">
 					<div style="text-align:center;">
-						<span id="dropdownswrapper"></span>
-						<span id="downloadwrapper" style="display:none;">
+						<span id="dropdowns"></span>
+
+						<span id="downloadswrapper">
 							<select id="download" title="Download">
 								<option value="filelist" class="def" selected="true">-Download-</option>
 								<option value="filelist">File List</option>
@@ -124,8 +70,8 @@
 					</div>
 				</div>
 
-				<div id="controls" class="well">
-					<div style="text-align:center;display:inline-block;">
+				<div id="controlswrapper" class="well" style="text-align:center">
+					<div style="text-align:center;">
 						<button class="btn" type="button" title="Hide thumbnails" id="showhidethumb"><h4>x</h4></button>
 						<button class="btn" type="button" title="Play" id="play"><h4>&#9654;</h4></button>
 						<button class="btn" type="button" title="Stop" id="stop"><h4>&#9632;</h4></button>&nbsp;&nbsp;&nbsp;								  
@@ -148,15 +94,15 @@
 					</div>			
 				</div>
 
-				<div id="attributes" class="well">
-					<span id="stats" style="float:center">&nbsp;</span>
+				<div id="attributeswrapper" class="well">
+					<span id="attributes" style="float:center">&nbsp;</span>
 				</div>
 
-				<div class="well" id="abouttextwrapper" style="display:none">
+				<div id="abouttextwrapper" class="well">
 					<span id="abouttext" style="float:center">&nbsp;</span>
 				</div>
 
-				<div class="well" id="filenamewrapper" style="display:none">
+				<div id="filenamewrapper" class="well">
 					<span id="filename" title="Source file" style="float:center;color:white;cursor:pointer;">&nbsp;</span>
 				</div>				
 
@@ -174,40 +120,45 @@
 			</div>
 		</div>
 				
-		<div id="t-container" style="display:none;padding-left:4px">
+		<div id="t-container" style="display:none;padding:4px">
 			<div id="thumb1"  class="ui-widget ui-widget-content ui-corner-all" style="width:100%;display:inline-block;">
 
 				<div id="error" class="well" style="display:none;background-color:red;"></div>
 
-				<div id="catalog" class="well" style="text-align:center">
-					<span id="catalogxmlopen" style="float:left;cursor:pointer;text-decoration:underline">
+				<div id="catalogwrapper" class="well" style="text-align:center">
+					<span id="catalogopen" style="float:left;cursor:pointer;text-decoration:underline">
 						<i class="icon-info-sign"></i>Gallery configuration
 					</span>
-					<span id="catalogxmlclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;"><i class="icon-remove"></i></span>
-					<span id="catalogxmltest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
-					<span id="catalogxmlsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
+					<span id="catalogclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;">
+						<i class="icon-remove"></i>
+					</span>
+					<span id="catalogtest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
+					<span id="catalogsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
 					<span style="float:right">Powered by <a href="http://viviz.org/" style="text-decoration: underline;">ViViz</a></span>
 					<br/>
-					<div id="catalogxml" style="text-align:left;overflow:auto;display:hidden"></div>
+					<div id="catalog" style="text-align:left;overflow:auto"></div>
 				</div>
 
-				<div id="dropdowns" style="display:none" class="well">
+				<div id="dropdownswrapper" class="well">
 					<div style="text-align:center;">
+						<span id="dropdowns"></span>
 
-						<span id="dropdownswrapper"></span>
-
-						<span id="thumbbrowsemodewrapper">
-							<select id="thumbbrowsemode" title="Interaction Mode">
-							<option value="-1">-Interaction-</option>
-							<option value="3">Overlay on hover</option>
-							<option value="2" selected="true">Overlay on click</option>
+						<span id="downloadswrapper">
+							<select id="download" title="Download">
+								<option value="filelist" class="def" selected="true">-Download-</option>
+								<option value="filelist">File List</option>
+								<option value="gif">Animated GIF</option>
+								<option value="mp4">MP4</option>
+								<option value="mov">MOV</option>
+								<option value="zip">Zip</option>
 							</select>
 						</span>
-
-						<span>
-							<button class="btn" type="button" style="border:0px" title="Show in gallery view" id="gallerybrowsebutton">
-								<h4>&#9633;</h4>
-							</button>
+						<span id="thumbbrowsemodewrapper">
+							<select id="thumbbrowsemode" title="Interaction Mode">
+								<option value="-1">-Interaction-</option>
+								<option value="3">Overlay on hover</option>
+								<option value="2" selected="true">Overlay on click</option>
+							</select>
 						</span>
 
 						<span id="sliderright" style="border:none;float:right">
@@ -215,9 +166,14 @@
 							<span id="working" style="display:none"><img src="css/ajax-loader.gif"/></span>
 						</span>					 	
 
+					</div>
 				</div>
 
+
+
 				<div class="well ui-widget-content" id="thumbbrowseframe" style="margin-left:auto;margin-right:auto;padding:20px auto;"></div>
+
+				<div>
 					<img id="thumbbrowseoverlay" class="thumbbrowsetop" src="css/ajax-loader.gif"/>
 				</div>
 

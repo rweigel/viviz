@@ -91,6 +91,12 @@ The full application includes a web server and a proxy server that retrieves rem
 = Configuration =
 
 * See <code>index.htm</code> for many examples of gallery configurations.
+
+* Any configuration that appears in VIVIZ["config"] can be over-written by a parameter in the catalog or a parameter in the query string.
+
+For example, <code>#id=ACE/Multi/2</code> has <code>thumbWidth=0.1</code> in the gallery configuration, which over-rides the default <code>thumbWidth=0.25</code> in <code>index.htm</code>. This value can be over-ridden using <code>#id=ACE/Multi/2&thumbWidth=0.5</code>.
+
+* See <code>index.htm</code> for many examples of gallery configurations.
 * The configuration information for the gallery in view can be viewed by selecting the "Gallery Configuration" link.
 
 The main configuration elements for a gallery are

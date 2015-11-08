@@ -1,6 +1,6 @@
 function cataloginfo(galleryid) {
 
-	console.log("cataloginfo.js: Called.")
+	//console.log("cataloginfo.js: Called.")
 
 	qs = $.parseQueryString();
 	var hashisgallery = false
@@ -40,9 +40,7 @@ function cataloginfo(galleryid) {
 							}
 					})
 		}
-
 	}
-
 
 	// If no arguments, return list of galleries.
 	if (arguments.length == 0) {
@@ -52,6 +50,7 @@ function cataloginfo(galleryid) {
 			console.log("cataloginfo.js: Hash is a query string with gallery information:")
 			console.log(qs)
 			if (!VIVIZ["catalog"]) {
+				// No catalog, only query string
 				VIVIZ["catalog"] = []
 				VIVIZ["catalog"][0] = qs
 			if (!qs["id"]) {
@@ -92,8 +91,19 @@ function cataloginfo(galleryid) {
 		VIVIZ["catalog"]
 			.forEach(
 				function (el,i) {
-					GALLERIES["Values"][i]          = new Object();
-					GALLERIES["Values"][i]["Title"] = el.title || el.id;
+					GALLERIES["Values"][i] = new Object();
+					if (el.title) {
+						GALLERIES["Values"][i]["Title"] = el.id + ": " + el.title
+					} else {
+						GALLERIES["Values"][i]["Title"] = el.id;
+					}
+					if (el.id.indexOf("fulldir") == 0) {
+						// Save list of these.  Create new list where each element is
+						// string that is shorter but unique from others.
+						// ID = hash of query string
+						//  and
+						// title = "Gallery defined by query string: " + short unique string.
+					}
 					GALLERIES["Values"][i]["Value"] = el.id;
 					GALLERIES["Values"][i]["Id"]    = el.id;					
 				})
@@ -111,63 +121,62 @@ function cataloginfo(galleryid) {
 	// If galleryid given, return gallery information.
 	if (arguments.length == 1) {
 
-		console.log(qs)
-		for (key in qs) {
-			if (qs[key] === 'true') {qs[key] = true}
-			if (qs[key] === 'false') {qs[key] = false}
-			if ($.isNumeric(qs[key])) {qs[key] = parseFloat(qs[key])}
-			if (VIVIZ[galleryid]) {
-				if (VIVIZ[galleryid][key] !== qs[key] && qs[key] && VIVIZ[galleryid][key]) {
-					console.log("cataloginfo.js: Changing setting " + key + " from " + VIVIZ[galleryid][key] + " to " + qs[key]);
-					VIVIZ[galleryid][key] = qs[key]
-				}
-			}
-		}
-
-		console.log("cataloginfo.js: galleryid given.  Returning gallery information for galleryid = " + galleryid)
+		console.log("cataloginfo.js: Returning gallery information found in catalog for galleryid = " + galleryid)
 		var _CATALOGINFO = new Object();
 
-		// JSON information
-
 		// Find gallery with matching id in json array.
+		found = true
 		for (i = 0;i < VIVIZ["catalog"].length; i++) {
 			if (VIVIZ["catalog"][i]["id"] === galleryid) {
-				_CATALOGINFO["galleryid"] = VIVIZ["catalog"][i]["id"]
+				found = false
 				break
 			}
 		}
+
+		if (found) {
+	 		var msg = "Gallery with <code>id = "+ galleryid + "</code> not found in catalog:<br/><textarea style='width:40em;height:20em'>"+JSON.stringify(VIVIZ["catalog"], null, 4)+"</textarea>"
+	 		console.log(msg)
+	 		return msg
+	 	}
 		
+		VIVIZ["galleries"][galleryid] = {}
+
 		// Copy gallery information
 		for (key in VIVIZ["catalog"][i]) {
-			_CATALOGINFO[key] = VIVIZ["catalog"][i][key];
+			if (typeof(VIVIZ["catalog"][i]) === 'string') {
+				VIVIZ["galleries"][galleryid][key] = VIVIZ["catalog"][i][key].replace(/^\s+|\s+$/g,'')
+			} else {
+				VIVIZ["galleries"][galleryid][key] = VIVIZ["catalog"][i][key]
+			}
 		}
+
+		// Over-ride gallery information with values from query string
+		for (key in qs) {
+			if (qs[key]) {
+				if (qs[key] === 'true') {qs[key] = true}
+				if (qs[key] === 'false') {qs[key] = false}
+				if ($.isNumeric(qs[key])) {qs[key] = parseFloat(qs[key])}
+				console.log("cataloginfo.js: Setting " + key + " from " + VIVIZ["galleries"][galleryid][key] + " to " + qs[key]);
+				VIVIZ["galleries"][galleryid][key] = qs[key]
+			}
+		}
+				
+		if (VIVIZ["galleries"][galleryid]["fulldir"] && !VIVIZ["galleries"][galleryid]["thumbdir"]) {
+			VIVIZ["galleries"][galleryid]["thumbdir"] = VIVIZ["galleries"][galleryid]["fulldir"]
+		}
+
+		if (!VIVIZ["galleries"][galleryid]) {
+			VIVIZ["galleries"][galleryid]["fulldir"] = ""
+		}
+		if (!VIVIZ["galleries"][galleryid]) {
+			VIVIZ["galleries"][galleryid]["thumbdir"] = ""
+		}
+
+		VIVIZ["galleries"][galleryid]["json"] = VIVIZ["catalog"][i]
 		
-		if (_CATALOGINFO["sprintf"] && _CATALOGINFO["start"]) {
-			_CATALOGINFO["sprintfstart"] = _CATALOGINFO["start"]
-		}
-		if (_CATALOGINFO["sprintf"] && _CATALOGINFO["stop"]) {
-			_CATALOGINFO["sprintfstop"] = _CATALOGINFO["stop"]
-		}
-
-		if (_CATALOGINFO["strftime"] && _CATALOGINFO["start"]) {
-			_CATALOGINFO["strftimestart"] = _CATALOGINFO["start"]
-		}
-		if (_CATALOGINFO["strftime"] && _CATALOGINFO["stop"]) {
-			_CATALOGINFO["strftimestop"] = _CATALOGINFO["stop"]
-		}
-		
-		// Convert to string (for case where $Y alone is used in strftime, strftimestart could be a string.)
-		if (_CATALOGINFO["strftimestart"])
-			_CATALOGINFO["strftimestart"] = "" + _CATALOGINFO["strftimestart"]
-
-		if (_CATALOGINFO["strftimestop"])		
-		_CATALOGINFO["strftimestop"] = "" + _CATALOGINFO["strftimestop"]
-
-		_CATALOGINFO["json"] = VIVIZ["catalog"][i]
-	
 		console.log("cataloginfo.js: Returning")
-		console.log(_CATALOGINFO)
-		return _CATALOGINFO;	
+		console.log(VIVIZ["galleries"][galleryid])
+		return VIVIZ["galleries"][galleryid]
+
 	}
-		
 }
