@@ -1,0 +1,92 @@
+http://2.bp.blogspot.com/-eI7mmbmOWjI/UkxofRa6pFI/AAAAAAAAKyM/C3IG4Jk0jiY/s1600/Menace+2.png
+
+Start caching Full images when idle.
+viviz.org/gen?
+
+POST
+catalog - xml with catalog information. Insert into catalog-post.xml
+
+GET
+dir -> Means fulldir. 
+id=
+aboutlink=
+fulldir=
+thumbdir=
+
+overwrite=false
+
+If ID collision, create virbo.org/images-1, virbo.org/images-2, etc.
+
+catalogs-posted.xml
+catalogs.xml
+
+$FULLWIDTH
+$FULLHEIGHT
+$THUMBWIDTH
+$THUMBHEIGHT
+
+--
+convert make progressive png
+--
+http://sd-www.jhuapl.edu/AMPTE/summary_images/summary_image_files/1984/DOY229/hpce01_4229p.gif
+--
+http://satdat.ngdc.noaa.gov/sxi/archive/browse/goes12/2001/08/13/SXI_20010813_163410387_AA_12.PNG
+--
+Multiple PDF files!
+http://satdat.ngdc.noaa.gov/sem/goes/data/plots/1986/GOES-198601.pdf
+More plots:
+http://satdat.ngdc.noaa.gov/sem/goes/data/
+--
+Need to read response html page to get image name.
+http://www.intermagnet.org/apps/plt/dataplot_e.php?plot_type=b_plot
+--
+Need to read response to get image name.
+http://supermag.jhuapl.edu/script/plot.png.mag?cli=guest+20070101+00%3A00+24%3A00+-s+BLC+-delta%20none+-baseline+all+-imfgsm+-ncol+ff333333+-smlcol+ff666666+-smucol+ff999999+-auto
+--
+Link not working?
+http://www.srl.caltech.edu/ACE/ASC/browse/view_browse_data.html
+--
+http://sd-www.jhuapl.edu/datashop/filefinder/v2/VSPO_display_finders.txt
+http://sd-www.jhuapl.edu/datashop/filefinder/v2
+---
+http://satdat.ngdc.noaa.gov/sem/poes/data/plots/maps/png/
+Need to write a urltemplate | grep
+2001-2005-06 days06
+2005-07-2009 days04
+2009-03-2012-07 days03
+http://satdat.ngdc.noaa.gov/sem/poes/data/plots/maps/mpg/
+---
+Junk
+http://www.swpc.noaa.gov/tiger/
+---
+http://superdarn.jhuapl.edu/legacy/shfvec/index.html?795628800.north
+---
+http://cdaweb.gsfc.nasa.gov/cgi-bin/gif_walk
+
+if (title =~ / KP /) {ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/}
+if (title =~ / MP /) {ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/other/documentation/THEMIS_DescriptionMCD.pdf}
+if (title =~ / Orbit /) {ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/}
+
+ACE Daily KP Survey, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/ace/pdf/ac_200707600-200707700.pdf
+ACE 27 Day KP Survey,ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/ace27/pdf/ac27_crn2054_200706300-200709000.pdf
+Cluster Orbit,ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/cluster_orbit/pdf/C_20070641251-20070662201.pdf
+CNOFS VEFI 1-Hour Plots, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/cnofs/pdf/vefi_200813000-200813001.pdf
+Geotail Daily KP Survey, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/geotail/pdf/ge_200813000-200813100.pdf
+IMAGE Orbit, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/image_orbit/pdf/I_20081301530-20081310538.pdf
+Geosync/Ground KP Survey, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/geosync/pdf/gs_200728800-200728900.pdf
+Combined 4 Day Orbit @ 200 RE, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/istp_sc200/pdf/c200_orbit_20082340000-20082350000.pdf
+Combined 4 Day Orbit @ 50 RE, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/istp_sc050/pdf/c050_orbit_20082300000-20082310000.pdf
+Polar Footprint Plots, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/polar_footprints/pdf/POLAR_foot_print_20081480318-20081482157.pdf
+Polar Daily Survey, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/polar1/pdf/po_200807000-200807100.pdf
+Polar Orbit, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/polar_orbit/pdf/POLAR_orbit_20080700827-20080710306.pdf
+
+A->{B,C,D,E}, tha->{thb,thc,thd,the}
+THEMIS-A MP Crossing Survey Plots, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/other/tha/pdf/tha_r_b_2008051809-2008051812.pdf
+THEMIS-A MP Crossing Survey Plots, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/other/tha/pdf/tha_r_v_2008051809-2008051812.pdf
+THEMIS-A MP Crossing 1-Hour Detailed Plots,ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/other/tha_h/pdf/tha_h_b_2008051809-2008051810.pdf
+THEMIS-A MP Crossing 1-Hour Detailed Plots,ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/other/tha_h/pdf/tha_h_v_2008051809-2008051810.pdf
+
+Wind 27 Day KP Survey,ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/
+Wind Daily KP Survey,ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/wind/pdf/wi_200813400-200813500.pdf
+Wind Orbit (6 months),ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/wind/pdf/wind_orbit__20073190000-20081340000.pdf
+
