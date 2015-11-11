@@ -1,4 +1,7 @@
-VIVIZ = {
+
+// Default configuation options.
+var VIVIZ = {}
+VIVIZ["config"] = {
 	"defaultMode": "gallery",
 	"showThumbstrip": true,
 	"showFileName": true,
@@ -14,7 +17,7 @@ VIVIZ = {
 	"thumbHeight": 0.25,
 	"fullWidth": 1.0,
 	"fullHeight": 1.0,
-	"lazyLoadMax": 5,
+	"lazyLoadMax": 6,
 	"frameRate": 500,
 	"play": false,
 	"port": 8002,
@@ -22,32 +25,19 @@ VIVIZ = {
 	"useCachedImages": false
 }
 
-// Other Configuration options.			
-// "basedir"
-
 // Needed for server install.
 if (typeof(exports) !== "undefined" && require) {
 	exports.VIVIZ = VIVIZ
 }
 
-VIVIZ["galleries"] = {};
-
-// These variables are defined in index-vars.js.  Define them here in case index-vars.js was not 
-// loaded for any reason.
-if (!fullfilesDemo7) {
-	var fullfilesDemo7 = [["demo-2001.png"],["demo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
-}
-if (!fullfilesDemo8) {
-	var fullfilesDemo8 = "demo-2001.png\ndemo-2002.png\ndemo-2003.png\ndemo-2004.png"
-}
+// Variables referenced in demo catalog.
+var fullfilesDemo7 = [["demo-2001.png"],["demo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
+var fullfilesDemo8 = "demo-2001.png\ndemo-2002.png\ndemo-2003.png\ndemo-2004.png"
 
 // VIVIZ["catalog"] is an array of gallery objects.
 // Any of the default options specified in the VIVIZ object
 // that appear in a gallery object over-ride default options.  
-// Options may also be specified in URL query hash string, e.g.,
-// #ACE/Multi&thumbWidth=0.25&showFileName=false
 
-// Content below can be copied into index-vars.js.
 VIVIZ["catalog"] =
 	[
 		{
@@ -172,6 +162,6 @@ VIVIZ["catalog"] =
 		{
 			"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&strftimestart=1998-01-01&strftimestop=1998-01-04",
 			"title": "ID specified as URL in index.js.",
-			"about": "Configuration not recommended.  <code>fulldir</code> must be first argument."
+			"about": "Configuration not recommended.  <code>fulldir</code> must be first argument for this form of configuation to work."
 		}
 	]

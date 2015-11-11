@@ -1,129 +1,120 @@
-See http://viviz.org/
+Software for browsing, sorting, and subsetting pre-generated images and data in a web browser.  It is an out-growth of the <a href="http://virbo.org/"/>ViRBO</a> project.
 
-<addhtml><html><script>$(document).ready(function() {$('a[href=#ViViz_Gallery]').click()})</script></html></addhtml>
-<big>'''ViViz - [http://virbo.org/ ViRBO] Visualization'''</big>
-
-Software for browsing, sorting, and subsetting pre-generated images and data in a web browser.  It is an out-growth of the [http://virbo.org/ ViRBO] project.
-
-[http://viviz.org/gallery/ Demo page]
-
-<addhtml id="gallery">
-<html>
-<head>
-<style type="text/css">
-##iframe::-webkit-scrollbar {-webkit-appearance:none !important;width:15px !important}
-#iframe::-webkit-scrollbar {border-radius:12px !important;border:2px solid white !important;background-color:#ccc !important}
-#iframe::-webkit-scrollbar-thumb {border-radius:12px !important;border:2px solid white !important;background-color:rgba(0,0,0,.5) !important}
-#iframe {border: 2px midnightBlue solid;width:100%;height:400px;scrolling:yes}
-</style>
-</head>
-		<div style="text-align:center">
-			<a target="_blank" href="http://viviz.org/gallery/#/Polar/CAMMICE">
-				Open in new page
-			</a>
-			| 
-			<a id="expand" style="cursor:pointer" onclick="$('#iframe').height($(window).height())">
-				Expand
-			</a>
-		</div>
-		<iframe id="iframe" src="http://viviz.org/gallery/#/Polar/CAMMICE"></iframe>
-</html>
-</addhtml>
+<a href="http://viviz.org/gallery/"/>Demo page</a>
 
 = Basic Use =
 
-Files <code>demo-2001.png</code>, <code>demo-2002.png</code>, <code>demo-2003.png</code>, <code>demo-2004.png</code> exist in http://viviz.org/gallery/images/full/.  They can be viewed using
+In many cases, no installation is required.  If the images to view are all available from an HTTP address and the filenames follow a simple pattern, append a string to the URL <code><nowiki>http://viviz.org/gallery/#</code>.
 
- http://viviz.org/gallery/#fulldir=http://viviz.org/gallery/images/full/&strftime=demo-$Y.png&start=2001&stop=2004
+For example, the files <code>demo-2001.png</code>, <code>demo-2002.png</code>, <code>demo-2003.png</code>, <code>demo-2004.png</code> in http://viviz.org/gallery/images/full/ can be viewed using
 
-A thumbnail directory can be specified for improved load time for large galleries:
+<pre>
+ http://viviz.org/gallery/#dir=http://viviz.org/gallery/images/full/&strftime=demo-$Y.png&start=2001&stop=2004
+</pre>
 
+A thumbnail directory can be specified for improved load time:
+
+<pre>
  http://viviz.org/gallery/#fulldir=http://viviz.org/gallery/images/full/&thumbdir=../thumb/&strftime=demo-$Y.png&start=2001&stop=2004
+</pre>
 
-where <code>thumbdir</code> can be either a relative or absolute URL.
+<code>thumbdir</code> can be either a relative or absolute URL.
 
-When the files have a year, month, and date pattern <code>YYYYMMDD</code>, a drop-down menu is automatically created that allows viewing all of the images or only one year of images.  For example, the files at [http://virbo.org/images/pngwalk/ACE/Multi/] may be viewed by entering the URL
-
- http://viviz.org/gallery/#http://virbo.org/images/pngwalk/ACE/Multi/fulls/&thumbdir=../thumbs400/&strftime=product_$Y$m$d.png&start=1999-01-01&stop=1999-01-31
+When <code>strftime</code> has a year pattern (<code>$Y</code>), a drop-down menu is automatically created that allows viewing all of the images or only one year of images.
 
 = Performance Hints =
 
 * Use thumbnail images.
-* If the full-sized images are large, save them as interlaced (low quality image will be shown first and image will progressively improve as more of the image download completes).
+* Use interlaced PNG encoding for large full-sized images.
 * Use [https://pngquant.org/ PNGQuant] for compressing PNG images.
 
 = Installation =
 
-== Basic ===
+== Basic ==
 
 * Browse to http://viviz.org/gallery/index.htm
 * Select <code>File > Save As > index.htm</code>
 or
 * <code>curl -O <nowiki>http://viviz.org/gallery/index.htm</nowiki></code>
+
 Then
-* Modify one of the configuration examples at the top of <code>index.htm</code> with a text editor to add a gallery. 
+* Modify one of the gallery configuration examples at the top of <code>index.htm</code> with a text editor to add a gallery. 
 * Open <code>index.htm</code> in a web browser
 or
 * Append arguments to <code>index.htm</code>, e.g., 
-:<code>index.htm#fulllist=file:///path/to/image/list.txt</code>
-:<code>index.htm#fulldir=file:///path/to/images/&strftime=...&start=...&stop=...</code>
-: Note that the paths used in the URL must be absolute paths that start with <code>file://</code>.
+:<code>index.htm#dir=http:///server/path/to/images/&strftime=...&start=...&stop=...</code
+:<code>index.htm#dir=file:///path/to/images/&strftime=...&start=...&stop=...</code>
 
 == Web Server ==
 
-In this mode, an external (but local) ASCII or JSON file containing a list of files associated with the gallery can be pointed to in <code>index.htm</code> using the parameters <code>fulllist</code> and <code>thumblist</code>. 
+In this mode, 
+
+* Directories for the location of the full directory may be relative.
+* The parameters <code>fulllist</code> and <code>thumblist</code> may be relative paths.  (For absolute URLs, a [[#Full Application]] installation is required.)
 
 * Install a web server.
 * <code>curl http://viviz.org/gallery/index.htm > /server/root/dir/index.htm</code>
 * Optionally edit the configuration at the top of <code>index.htm</code> with a text editor to add galleries to the gallery drop-down menu.
 
-The parameters <code>fulllist</code> and <code>thumblist</code> must be relative paths.  For absolute URLs, a [[#Full Application]] installation is required.
-
 == Full Application ==
 
-The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs.  Requires installation of [http://node.js/ Node].  Then from the command line,
+The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs and requires installation of [http://node.js/ Node].  Then from the command line,
 
  git pull http://github.com/rweigel/viviz
  cd viviz
  npm install
  node viviz.js 8002
 
-= Configuration =
+and open http://localhost:8002/ with a web browser.
 
-* See <code>index.htm</code> for many examples of gallery configurations.
+== Configuration ==
 
-* Any configuration that appears in VIVIZ["config"] can be over-written by a parameter in the catalog or a parameter in the query string.
+The variable <code>VIVIZ</code> in <code>index.htm</code> contains all of the application and gallery configuation options.
 
-For example, <code>#id=ACE/Multi/2</code> has <code>thumbWidth=0.1</code> in the gallery configuration, which over-rides the default <code>thumbWidth=0.25</code> in <code>index.htm</code>. This value can be over-ridden using <code>#id=ACE/Multi/2&thumbWidth=0.5</code>.
+To see the gallery configuation for the gallery in view, select the Gallery configuration link.  See also <code>index.htm</code> for many examples of gallery configurations.  Any configuration option that appears in <code>VIVIZ["config"]</code> is over-ridden by a same-named option in a gallery configuation or a parameter in the query string.
 
-* See <code>index.htm</code> for many examples of gallery configurations.
-* The configuration information for the gallery in view can be viewed by selecting the "Gallery Configuration" link.
+For example, the gallery <code>ACE/Multi/2</code> has <code>thumbWidth=0.1</code> in its gallery configuration, which over-rides the default of <code>thumbWidth=0.25</code> in <code>VIVIZ["config"]</code>.  This gallery configuration value of <code>0.1</code> could be over-ridden using <code>#id=ACE/Multi/2&thumbWidth=0.5</code>.
 
 The main configuration elements for a gallery are
-# <code>fulldir</code> A URL to the location of the full-sized image files.
-# <code>thumbdir</code> A URL to the location of thumbnail version of the images (default is <code>fulldir</code>).
-# <code>{full,thumb}list</code> or <code>{full,thumb}script</code> or <code>{full,thumb}sprintf</code> or <code>{full,thumb}strftime</code>
-#* <code>list</code> is a [[#File_List|file]] containing a list of image file names and their attributes. (Only available in web server install; paths must be relative)
-#* <code>script</code> is a [[#Script|script]] that generates a list of files .
-#* <code>sprintf</code> is a [[#Sprintf|formatted string statement]] with one wildcard and start/stop values.
-#* <code>strftime</code> is a [[#Strftime|formatted time string statement]] with <code>$Y</code>, <code>$m</code>, <code>$d</code> wildcards and start/stop times.
+* <code>fulldir</code> A URL to the location of full-sized image files.
+* <code>thumbdir</code> A URL to the location of reduced-size versions of the full-sized images (default is <code>fulldir</code>).
+* <code>fullfiles</code> A list of filenames that are appended to <code>fulldir</code>.
+* <code>thumbfiles</code> A list of filenames that are appended to <code>thumbdir</code> (default is <code>fullfiles</code>).  The format of these lists is either as Javascript array of the form
+ [["demo-2001.png"],["demo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
+or a new-line separated list
+ "demo-2001.png\ndemo-2002.png\ndemo-2003.png\ndemo-2004.png"
 
-If one of <code>fulllist</code> or <code>fullscript</code> or <code>fullsprintf</code> or <code>strftime</code> is not specified, the list of available files can be generated using one of the tools in the directory <code>listgen</code>.
+The parameters <code>dir</code> or <code>files</code> can be used in place of <code>fulldir</code> and <code>fullfiles</code>.
 
-See [[#Attributes and Filters]] for information on subsetting a directory with many files.
+When the list of files is long and the filenames have a pattern the list of files may be represented by <code>sprintf</code> or <code>strftime</code> along with <code>start</code> and <code>stop</code> indices or dates.
+* <code>sprintf</code> is a [[#Sprintf|formatted string statement]] with one wildcard and start/stop values.
+* <code>strftime</code> is a [[#Strftime|formatted time string statement]] with <code>$Y</code>, <code>$m</code>, <code>$d</code> wildcards and start/stop times.
+* <code>start</code>
+* <code>stop</code>
+
+When the list of full- or reduced-size image files cannot be desribed using the above parameters, the lists may be generated using <code>list</code> or <code>script</code>, where
+* <code>list</code> is a [[#File_List|file]] containing a list of image file names and their attributes. (Only available in web server and full install; for web server instal, paths must be relative.)
+* <code>script</code> is a [[#Script|script]] that generates a list of files.
+
+If any of the above parameters applies only to either the full or reduced-sized images, the parameters should be prefixed by <code>full</code> or <code>thumb</code>, respectively.
 
 == File List ==
 
-Each gallery has an associated list of image file names located in the directory <code>fulldir</code>.  Each image can have
-attributes that can be used to view a subset of the images in <code>fulldir</code>.  The format is
+Each gallery has an associated list of image file names located in the directory <code>fulldir</code>.  Each image can have attributes that can be used to view a subset of the images.  The format is
 
  [
   ["file1.png", "attribute1", "attribute2", ..., "attributeM"],
   ...
   ["fileN.png", "attribute1", "attribute2", ..., "attributeM"]
  ]
+where attributes that are numbers do not need to be quoted in the Javascript format.  
 
-Attributes that are numbers do not need to be quoted.
+or
+
+  file1.png, attribute1, attribute2, ..., attributeM
+  fileN.png, attribute1, attribute2, ..., attributeM
+
+where all attributes are assumed to be strings unless they can be converted to floating point numbers.
 
 == Script ==
 
@@ -133,7 +124,7 @@ This example creates a file list that is equivalent to a text file using a scrip
   ["file2.png", 2]
  ]
 
-Note that the functions [http://viviz.org/gallery/js-deps/sprintf.js sprintf] and [http://viviz.org/gallery/js-deps/strftime.js strftime] are available for use.
+Note that the functions [http://viviz.org/gallery/js/deps/sprintf.js sprintf] and [http://viviz.org/gallery/js/deps/strftime.js strftime] are available for use.
 <source lang="javascript">
 <script>
 	(function () {
@@ -172,13 +163,13 @@ Uses a Javascript version [http://viviz.org/gallery/js-deps/strftime.js strftime
 </script>
 </source>
 
-== Attributes and Filters ==
+<h2>Attributes and Filters</h2>
 
-* Each image may have two or more attributes (the first attribute is always the image file name).
+* Each image may have two or more attributes.
 * Each attribute may have one or more associated filters.  When a filter is selected, only a subset of all images will be shown. 
 * Each filter has a title and a constraint.  Filter constraints can be either regular expressions (for string attributes) or logical expressions (for numeric attributes).
 
-=== Attributes ===
+<h3>Attributes</h3>
 
 At minimum, each attribute must have a name.  All attributes specified in the image file list must be given in the catalog in the correct order.  For example, if the file list contained
 
@@ -198,9 +189,9 @@ the attributes could be named as follows:
 </attribute>
 </source>
 
-=== Filters: Regular Expressions ===
+<h3>Filters: Regular Expressions</h3>
 
-The following attribute node in <code>catalog.xml</code> will result in a constraint menu with options of viewing all files and only files which match the expression <code>T1.*</code>.
+The following attribute node will result in a constraint drop-down menu with options of viewing all files and only files which match the expression <code>T1.*</code>.
 
 <source lang="xml">
 <attribute>
@@ -218,10 +209,11 @@ The following attribute node in <code>catalog.xml</code> will result in a constr
 </attribute>		
 </source>
 
-=== Filters: Logical ===
+<h3>Filters: Logical</h3>
 
-* A filter may operate on the attribute in which it is enclosed (by using the <code>this</code> keyword.
-* It usually only makes sense to apply logical constraints to attributes that are given as numbers (and not quoted) in the file list.
+A filter may operate on the attribute in which it is enclosed (by using the <code>this</code> keyword.
+
+It usually only makes sense to apply logical constraints to attributes that are given as numbers (and not quoted) in the file list.
 
 The following attribute node will result in a contraint menu for viewing images with with options of viewing all files and only images for which this attribute is greater than 10.
 

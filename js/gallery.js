@@ -1,31 +1,27 @@
-function viviz() {
+function viviz(mode) {
 
 	console.log("viviz.js: Called.")
 
-	qs = $.parseQueryString()
+	if (typeof(mode) !== "string") {
+		qs = $.parseQueryString()
 
-	if (qs["mode"] === "gallery") {
-		//$("#gallerybrowsebutton").click()
-		mode = "gallery"
-	}
-	if (qs["mode"] === "thumb") {
-		//$("#thumbbrowsebutton").click()
-		mode = "thumb"
-	}
-	if (!qs["mode"]) {
-		if (VIVIZ["defaultMode"] === "gallery") {
-			//$("#gallerybrowsebutton").click()
+		if (qs["mode"] === "gallery") {
 			mode = "gallery"
-		} else if (VIVIZ["defaultMode"] === "thumb") {
-			//$("#thumbbrowsebutton").click()
+		}
+		if (qs["mode"] === "thumb") {
 			mode = "thumb"
-		} else {
-			//$("#gallerybrowsebutton").click()
-			mode = "gallery"
+		}
+		if (!qs["mode"]) {
+			if (VIVIZ["config"]["defaultMode"] === "gallery") {
+				mode = "gallery"
+			} else if (VIVIZ["config"]["defaultMode"] === "thumb") {
+				mode = "thumb"
+			} else {
+				mode = "gallery"
+			}
 		}
 	}
 
-	mode = 'thumb'
 	wrapper = "#" + mode + "1"
 
 	// Get list of galleries
@@ -48,9 +44,9 @@ function viviz() {
 	var GALLERYINFO = galleryinfo(galleryid)
 
 	// Call to galleryinfo sets VIVIZ["galleries"][galleryid]
-	for (key in VIVIZ) {
+	for (key in VIVIZ["config"]) {
 		if (key.indexOf("show") == 0) {
-			if (VIVIZ["galleries"][galleryid][key] == false || VIVIZ[key]  == false) {
+			if (VIVIZ["galleries"][galleryid][key] == false || VIVIZ["config"][key]  == false) {
 				$(wrapper + " #" + key.replace("show","").toLowerCase() + "wrapper").hide()
 			}
 		}
@@ -69,6 +65,36 @@ function viviz() {
 	resetdom(wrapper)
 	setheader(wrapper, galleryid)
 	setdropdowns(wrapper, galleryid)
+
+	$("#gallerybrowsebutton").unbind('click')
+	$("#gallerybrowsebutton").click(function () {
+		$('#t-container').hide()
+		$(window).unbind('hashchange.thumb')
+		$('#g-container').show()
+		viviz('gallery')
+	})
+
+	$("#thumbbrowsebutton").unbind('click')
+	$("#thumbbrowsebutton").click(function () {
+		$('#g-container').hide()
+		$(window).unbind('hashchange.gallery')
+		$('#t-container').show()
+		viviz('thumb')
+	})
+	
+	$(window).unbind('hashchange.'+mode);
+	$(window).bind('hashchange.'+mode,function() {
+		console.log('viviz.js: Hash has changed to ' + location.hash);
+		// Special case where ID is only key specified in gallery object.
+		// This saves us from having to encode it.
+		location.hash = location.hash.replace("id=fulldir","fulldir");
+		qs = $.parseQueryString();
+		if (qs["id"]) {
+			viviz(mode)
+		} else {
+			location.hash.replace("id=","")
+		}
+	})
 
 	if (mode === 'gallery') {
 		$('#g-container').show()
@@ -103,39 +129,6 @@ function viviz() {
 		$(wrapper + " #catalog").html('');
 		$(wrapper + " #thumbbrowseframe").html('')
 		//$(wrapper + " #gallerythumbframe").css('width','').css('height','');
-	}
-
-	function dropdown(ID, list, after){
-
-		if (arguments.length < 3) {
-			after = "#controls";
-		}
-		////console.log("dropdown.js: Called with second argument");
-		////console.log(list);
-		////console.log("dropdown.js: Existing: ");
-		////console.log($(ID).html());
-		if (typeof(list) != "object") {
-			//console.log('dropdown.js: List is not an object.')
-			return;
-		}
-		//$(after + " #" + ID).remove();
-		$(after + " #" + ID).remove();
-		if (Object.keys(list).length === 0) {
-			return;
-		}
-		$(after).append('<select id="' + ID + '" title="' + list.Title + '" class="' + list.Class + '"></select>');
-		for (var k = 0; k < list["Values"].length; k++) {
-			VALUE = list["Values"][k]["Value"];
-			TITLE = list["Values"][k]["Title"];
-			if (k == 0) {
-				////console.log(after + ' #' + ID);
-				$(after + ' #' + ID).append('<option value="" class="def" id="def">' + list.Titleshort + '</option>');
-				$(after + ' #' + ID).append('<option value="' + VALUE + '" selected="true">' + TITLE + '</option>');
-			}
-			else {
-				$(after + ' #' + ID).append('<option value="' + VALUE + '">' + TITLE + '</option>');
-			}
-		}
 	}
 
 	function thumblist(wrapper){
@@ -502,14 +495,47 @@ function viviz() {
 					$(wrapper + ' #catalogopen').show()
 					$(wrapper + ' #catalogclose').hide()
 				})
-		}
+	}
 
 	function setdropdowns(wrapper, galleryid) {
 
+		function dropdown(ID, list, after){
+
+			if (arguments.length < 3) {
+				after = "#controls";
+			}
+			////console.log("dropdown.js: Called with second argument");
+			////console.log(list);
+			////console.log("dropdown.js: Existing: ");
+			////console.log($(ID).html());
+			if (typeof(list) != "object") {
+				//console.log('dropdown.js: List is not an object.')
+				return;
+			}
+			//$(after + " #" + ID).remove();
+			$(after + " #" + ID).remove();
+			if (Object.keys(list).length === 0) {
+				return;
+			}
+			$(after).append('<select id="' + ID + '" title="' + list.Title + '" class="' + list.Class + '"></select>');
+			for (var k = 0; k < list["Values"].length; k++) {
+				VALUE = list["Values"][k]["Value"];
+				TITLE = list["Values"][k]["Title"];
+				if (k == 0) {
+					////console.log(after + ' #' + ID);
+					$(after + ' #' + ID).append('<option value="" class="def" id="def">' + list.Titleshort + '</option>');
+					$(after + ' #' + ID).append('<option value="' + VALUE + '" selected="true">' + TITLE + '</option>');
+				}
+				else {
+					$(after + ' #' + ID).append('<option value="' + VALUE + '">' + TITLE + '</option>');
+				}
+			}
+		}
+
 		console.log("dropdowns(): Setting dropdowns in " + wrapper + " based on gallery information for " + galleryid)
 
+		// Gallery drop-down
 		dropdown("gallery", GALLERIES, wrapper + " #dropdowns")
-
 		$(wrapper + ' #dropdowns #gallery').unbind('change')
 		$(wrapper + ' #dropdowns #gallery').change(function () {
 			var galleryid = $(wrapper + " #gallery option:selected").val()
@@ -521,28 +547,32 @@ function viviz() {
 			}
 		})
 
+		// Select default galery.
 		if (typeof(GALLERYINFO) === "string") {
 			// galleryid not found or error when genering file list.
 			// Select gallery definition in gallery list drop-down and exit.
 			$(wrapper + " #gallery #def").attr('selected','selected')
 			return
+		} else {
+			$(wrapper + " #gallery option[value='" + galleryid + "']").attr('selected','selected')
 		}
 
-		$(wrapper + " #gallery option[value='" + galleryid + "']").attr('selected','selected')
-
+		// Order drop-down
 		dropdown("order", GALLERYINFO['orders'], wrapper + " #dropdowns")
-
+		$(wrapper + ' #dropdowns #order').unbind('change')
 		$(wrapper + ' #dropdowns #order').change(function () {
 			setthumbs()
 		})
 
+		// Attributes drop-down.  Only set if attributes exist.
 		if (GALLERYINFO['attributes']["Values"].length > 0) {
 			dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns")
+			setregexps()
+			$(wrapper + ' #dropdowns #sortby').unbind('change')
 			$(wrapper + ' #dropdowns #sortby').change(function () {
 				setregexps()
 				setthumbs()
 			})
-			setregexps()
 		} else {
 			console.log("setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
 		}
@@ -570,34 +600,9 @@ function viviz() {
 				setthumbs()
 			})
 		}
-
 	}
 
 	function gallery(wrapper, galleryid) {
-
-		$("#thumbbrowsebutton").click(function () {
-			$('#g-container').hide()
-			$(window).unbind('hashchange.gallery')
-			$('#t-container').show()
-			thumb(wrapper, galleryid)
-		})
-		
-
-		$(window).unbind('hashchange.'+mode);
-		$(window).bind('hashchange.'+mode,function() {
-			console.log('viviz.js: Hash has changed to ' + location.hash);
-			// Special case where ID is only key specified in gallery object.
-			// This saves us from having to encode it.
-			location.hash = location.hash.replace("id=fulldir","fulldir");
-			qs = $.parseQueryString();
-			if (qs["id"]) {
-				// Only show if id is not empty string
-				if (mode === 'gallery') gallery(wrapper, qs["id"])
-				if (mode === 'thumb') thumb(wrapper, qs["id"])
-			} else {
-				location.hash.replace("id=","")
-			}
-		})
 
 		setthumbs()
 
@@ -1220,28 +1225,6 @@ function viviz() {
 
 	function thumb(wrapper, galleryid) {
 
-		$("#gallerybrowsebutton").click(function () {
-			$('#t-container').hide()
-			$(window).unbind('hashchange.thumb')
-			$('#g-container').show()
-			gallery(wrapper, galleryid)
-		})
-
-		$(window).unbind('hashchange.'+mode);
-		$(window).bind('hashchange.'+mode,function() {
-			console.log('viviz.js: Hash has changed to ' + location.hash)
-
-			// Special case where ID is only key specified in gallery object.
-			// This saves us from having to encode it.
-			location.hash = location.hash.replace("id=fulldir","fulldir");
-			qs = $.parseQueryString();
-			if (qs["id"]) {
-				viviz()
-			} else {
-				location.hash.replace("id=","")
-			}
-		})
-
 		setthumbs()
 
 		function setthumbbindings() {
@@ -1296,7 +1279,7 @@ function viviz() {
 
 				$(wrapper + ' .thumbbrowse').click(function () {
 
-					var src = $(this).attr("srcfull");
+					var src = $(this).attr("srcfull")
 					//console.log(src);
 					// Where does this 30 pixels come from?
 					$(wrapper + ' #thumbbrowseoverlay').unbind('load');
@@ -1386,71 +1369,84 @@ function viviz() {
 
 		function setthumbs() {
 
-			window.onresize = function onresize() {console.log("thumb.setthumbs(): Zoom or resize event.");}
-
-			//$("#t-container").css('padding',$.scrollbarWidth())
-			//$("#t-container").css('padding',15)
-			//console.log('thumbbrowse.js: setthumbs(): Setting thumbs.');		
-			//$(wrapper + " #working").show();
+			window.onresize = function onresize() {console.log("thumb.setthumbs(): Zoom or resize event.")}
 			
-			thumb.Nloaded = 0;
+			thumb.Nset = 0; 	// # Set in DOM.
+			thumb.Nloaded = 0;  // # For which load event triggered.
+			// Note that we don't have a way of determining when image is
+			// visible or when image size has changed.
+
+			// This is set to a value by slider change.
 			var newWidth = false;
 			var newHeight = false;
+			
+			var th = 100; // Initial thumb height
+			var tw = 100; // Initial thumb width
 
-			var seterrorheight = false;
+			// Get list of thumbnails in order determined by drop-downs.
+			INFOjs = thumblist(wrapper)
 			
-			var th = 100;
-			var tw = 100;
-
-			INFOjs = thumblist(wrapper); 	
-			$(wrapper + " #thumbbrowseframe").empty();
+			// Maximum number of thumbnails to load.  Will change after we
+			// know how many images fit per row.
+			var maxLength = Math.min(INFOjs.length, 
+								VIVIZ["galleries"][galleryid]["lazyLoadMax"] 
+							 || VIVIZ["config"]["lazyLoadMax"])
 			
-			var maxLength = Math.min(INFOjs.length, VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["lazyLoadMax"])
-			
+			// Trigger setting of maxLength images in DOM.
 			loadmore()
+			setscrolltrigger()
 
-			//http://stackoverflow.com/questions/5612787/converting-javascript-object-to-string
+			function loadmore() {
+
+				// thumb.Nset may change, so get current value.
+				var Nset = thumb.Nset
+
+				if ($(wrapper).height() < $(window).height()) {
+					console.log("thumb.loadmore(): Called. Nset = " + Nset)
+					console.log("thumb.loadmore(): $(wrapper).height() = " + $(wrapper).height())
+					console.log("thumb.loadmore(): $(window).height() = " + $(window).height())
+					console.log("thumb.loadmore(): Loading more images because vertical space is available.")
+
+					for (var j = Nset; j < Nset+maxLength; j++) {
+						loadone(j)
+					}
+					
+					// This sets bindings on everything.  May take a long
+					// time when many are shown.
+					setthumbbindings()
+				}
+			}
+
 			function objToString (obj) {
-				var str = '';
-				var k = 0;
+				var str = ''
 				for (var p in obj) {
 					if (obj.hasOwnProperty(p)) {str += p + ':' + obj[p] + '\n'}
-					k = k+1;
 				}
 				return str;
 			}
 
 			function setslider() {
-				if (typeof($().slider) !== "function") {
-					console.log("thumb.setthumbs.setslider(): No slider extension available.");
-					return;
-				}
-
-				tw = $(".thumbbrowse").first().width();
-				th = $(".thumbbrowse").first().height();
-
-				$( "#slider" ).slider({
-					max: 4,
-					min: 1,
-					step: 1,
-					value: 4,
-					slide: function(event, ui) {
-
-						console.log("thumb.setthumbs.setslider(): Slide event.")
-						newWidth = tw*ui.value/4;
-						newHeight = th*ui.value/4
-						$('.thumbbrowse').css('width', newWidth);
-						$('.thumbbrowse').css('height', newHeight);
-						$(this).attr('data-curr-img-width', newWidth);
-						setpadding();
-						loadmore();
-					}
-				});
+				$( "#slider1" ).change(function () {
+					console.log("thumb.setslider(): Slider value changed to " + this.value)
+					newWidth = tw*this.value/4;
+					newHeight = th*this.value/4
+					$('.thumbbrowse').css('width', newWidth);
+					$('.thumbbrowse').css('height', newHeight);
+					setpadding()
+					loadmore()
+				})
 			}
 
-			function setpadding() {
+			function setpadding(el) {
 
-				x = $(wrapper + " #thumbbrowseframe img:first").outerWidth();
+				if (el) {
+					// Use actual element instead of querying DOM.
+					// (Element may be loaded, setpadding() called, but
+					// element may not yet be in DOM.)
+					x = $(el).outerWidth()
+				} else {
+					x = $(wrapper + " #thumbbrowseframe img:first").outerWidth()
+				}
 				var iw = $("#thumbbrowseframe").innerWidth()
 
 				// Only modify padding of #thumbbrowseframe if first image
@@ -1485,20 +1481,22 @@ function viviz() {
 				console.log("thumb.setpadding(): Setting left padding to " +  Math.floor(b/2))
 				$("#thumbbrowseframe").css('padding-left', Math.floor(b/2))
 
+				if (el)
+					fillrow(el)
 			}
 			
-			function loadone(INFOjs,i) {
+			function loadone(i) {
 
 				var fixed = false;
 				if (i > INFOjs.length-1) return;
-				thumb.Nloaded = thumb.Nloaded+1;
-				if (thumb.Nloaded == INFOjs.length-1) {
+				thumb.Nset = thumb.Nset+1;
+				if (thumb.Nset == INFOjs.length-1) {
 					$("#instructions").html("All images requested.");
 					$("#instructions2").html("All images requested.");
 				}
 
 				var src = VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[i]['ThumbFile'];
-				var srcfull = VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[i]['FullFile'];
+				var srcfull = VIVIZ["galleries"][galleryid]["fulldir"] + INFOjs[i]['FullFile'];
 
 				$('<img class="thumbbrowse" "src=css/transparent.png"/>')
 					.width(newWidth || tw || 100)
@@ -1519,124 +1517,112 @@ function viviz() {
 						if (tw > 0 && !fixed) {fixed = true;$(".loaderror").width(tw)}
 					})
 					.load(function () {
-						
-						//setpadding()
 
+						thumb.Nloaded = thumb.Nloaded + 1
 						if (!loadone.first) {
 							console.log("thumb.setthumbs.loadone(): First thumbnail loaded.")
 
 							loadone.first = true
 
+							// Set thumbWidth and Height in VIVIZ["galleries"][galleryid]
 							var tmp = setWH(this, galleryid, GALLERYINFO, 'thumb')
 
-							// If thumbnails exist.
 							tw = VIVIZ["galleries"][galleryid]["thumbWidth"]
 							th = VIVIZ["galleries"][galleryid]["thumbHeight"]
 
-							$(this).width(newWidth || tw)
-							$(this).height(newHeight || th)
+							setslider()
+						} else {
+							console.log("thumb.setthumbs.loadone(): Thumbnail loaded.")
 						}
 
 						$(this).width(newWidth || tw)
 						$(this).height(newHeight || th)
-
-						setpadding()
+						
+						setpadding(this)
+						loadmore()
 
 					})
-					.appendTo($(wrapper + ' #thumbbrowseframe'));		
+					.appendTo($(wrapper + ' #thumbbrowseframe'))		
 			}
 			
-			function fillrow() {
+			function fillrow(el) {
 				var delta = 0;
+				if (!el) {
+					//el = $(wrapper + " #thumbbrowseframe img:first")
+				}
 
 				if (loadone.first) {
 					console.log("thumb.setthumbs.fillrow(): #thumbbrowseframe "
 						+ "innerWidth:" + $("#thumbbrowseframe").innerWidth())
 					console.log("thumb.setthumbs.fillrow(): #thumbbrowseframe "
-						+ "img:first outerWidth:" 
-						+ $(wrapper + " #thumbbrowseframe img:first").outerWidth())
+						+ "img:first outerWidth:" + $(el).outerWidth())
 
-					var a = Math.floor($("#thumbbrowseframe").innerWidth()/
-						$(wrapper + " #thumbbrowseframe img:first").outerWidth())
+					var a = Math.floor($("#thumbbrowseframe").innerWidth()/$(el).outerWidth())
 
 					console.log("thumb.setthumbs.fillrow(): Images per row = " + a)
+					if (maxLength < a) {
+						console.log("thumb.setthumbs.fillrow(): Changing maxLength from " + maxLength + " to " + a)
+						maxLength = a
+					} else {
+						var c = a*Math.ceil(maxLength/a)
+						console.log("thumb.setthumbs.fillrow(): Changing maxLength from " + maxLength + " to " + c)
+						maxLength = c
+					}
+					console.log("thumb.setthumbs.fillrow(): thumb.Nset = " + thumb.Nset)
 
-					var delta = a - (thumb.Nloaded % a);
-					console.log("thumb.setthumbs.fillrow(): Modifying number "
-						+ "to load based on row width.  Room for "+delta+" extra.")
+					var delta = a - (thumb.Nset % a)
+					if (delta == a) {
+						// Last row is full
+						delta = 0
+					}
+					console.log("thumb.setthumbs.fillrow(): Room for " + delta + " more images")
 				}	
 
 				if (!isFinite(delta)) {
-					console.log("thumb.setthumbs.fillrow(): Delta is not finite.")
+					console.log("thumb.setthumbs.fillrow(): Delta is not finite")
 					return
 				}
 
-				Nl = thumb.Nloaded;
+				Nl = thumb.Nset;
 				for (var j = Nl; j < Nl+delta; j++) {
-					loadone(INFOjs,j)
-				}
-
-			}
-
-			function loadmore() {
-
-				Nl = thumb.Nloaded;
-				//loadone(INFOjs,0)
-				// /return
-				console.log("thumb.loadmore(): Called. Nloaded = " + Nl)
-
-				if ($(wrapper).height() < $(window).height()) {
-					console.log("thumb.loadmore(): Loading more images because "
-								+ "space is available.")
-
-					for (var j = Nl; j < Nl+maxLength; j++) {
-						loadone(INFOjs,j)
-					}
-
-					fillrow()
-					
-					// This sets bindings on everything.  May take a long
-					// time when many are shown.
-					setthumbbindings()
-
-					if (j < INFOjs.length) {
-						// Put this in a timeout to allow height to be set.
-						setTimeout(function () {loadmore()}, 100)
-					} else {
-						console.log("thumb.loadmore(): No more images to load: "
-							+ " j = "+j+", Nl = "+Nl+" INFOjs.length = " + INFOjs.length)
-					}
-				} else {
-					console.log("thumb.loadmore(): Setting scroll trigger.")
-					setscrolltrigger()
+					loadone(j)
 				}
 			}
 
 			function setscrolltrigger() {
 				$(window).unbind('scroll');
 				$(window).scroll(function (e) {
-					Nl = thumb.Nloaded;
-					console.log("thumb.setthumbs.setscrolltrigger(): Nl + lazyLoadMax = " + Nl)
-					if (Nl + maxLength > INFOjs.length - 1) {
-						maxLength = INFOjs.length-Nl
+					var Nset = thumb.Nset
+					if (Nset + maxLength > INFOjs.length - 1) {
+						console.log("thumb.setthumbs.setscrolltrigger(): Nset + maxLength > # images. Resetting maxLength.")
+						maxLength = INFOjs.length-Nset
+						for (var j = Nset; j < Nset+maxLength; j++) {
+							loadone(j)
+						}
+						setthumbbindings()
+
 						$(window).unbind('scroll')
 					}
 					th = $(".thumbbrowse").first().width()
-					console.log("thumb.setthumbs.setscrolltrigger(): maxLength = "
-						+ maxLength + ", first thumbheight = " + th)
-					console.log("thumb.setthumbs.setscrolltrigger(): "
-						+ "2*th + $(window).scrollTop() + $(window).height() = "
-						+ (2*th + $(window).scrollTop() + $(window).height()))
-					console.log("thumb.setthumbs.setscrolltrigger(): $(document).height() = " + ($(document).height()))
+					// Hidden space below is 
+					// $(document).height() - ($(window).scrollTop() + $(window).height())
+					// Want hidden space to be at least 2*th
 					if (2*th + $(window).scrollTop() + $(window).height() >= $(document).height()) {
+						console.log("thumb.setthumbs.setscrolltrigger(): Scroll triggered & criteria satisfied.")
+						console.log("thumb.setthumbs.setscrolltrigger(): maxLength = "
+							+ maxLength + ", first thumbheight = " + th)
+						console.log("thumb.setthumbs.setscrolltrigger(): "
+							+ "2*th + $(window).scrollTop() + $(window).height() = "
+							+ (2*th + $(window).scrollTop() + $(window).height()))
+						console.log("thumb.setthumbs.setscrolltrigger(): $(document).height() = " + ($(document).height()))
+
 						// TODO: The following code is duplicated in loadmore().
-						for (var j = Nl; j < Nl+maxLength; j++) {
-							loadone(INFOjs,j)
+						for (var j = Nset; j < Nset+maxLength; j++) {
+							loadone(j)
 						}
-						fillrow()
 						setthumbbindings()
 					} else {
-						console.log("thumb.setthumbs.setscrolltrigger(): Scroll triggered, but all loaded.")
+						console.log("thumb.setthumbs.setscrolltrigger(): Scroll triggered, but criteria not satisfied.")
 					}
 				})
 			}

@@ -96,7 +96,7 @@ function galleryinfo(galleryid) {
 	VIVIZ["galleries"][galleryid]["attributes"] = extractattributes(galleryid)
 
 
-	if (VIVIZ["useAutoAttributes"] || VIVIZ["galleries"][galleryid]["useAutoAttributes"]) {		
+	if (VIVIZ["config"]["useAutoAttributes"] || VIVIZ["galleries"][galleryid]["useAutoAttributes"]) {		
 
 			// When useAutoAttributes is true, ignores attributes specified in file.
 			// TODO: Add options useAutoAttributesOnly (current meaning of useAutoAttributes) 
@@ -239,13 +239,13 @@ function extractfiles(URLFiles) {
 	
 	if (URLFiles.indexOf("http") != -1) {
 		var tmparr = URLFiles.split("/");
-		var tmparrp = VIVIZ["proxyServer"].split("/");
+		var tmparrp = VIVIZ["config"]["proxyServer"].split("/");
 
 		var proxy = tmparrp[2]
 		var files = tmparr[2]
 		var host = location.hostname+(location.port ? ':'+location.port: '')
 
-		if (VIVIZ["proxyServer"]) {
+		if (VIVIZ["config"]["proxyServer"]) {
 			if (host !== files) {
 				console.log("Proxy server is required.");
 				if (proxy !== host) {
@@ -253,7 +253,7 @@ function extractfiles(URLFiles) {
 					console.log(msg)
 				} else {
 					// TODO: Check that proxy actually works.
-					URLFiles = VIVIZ["proxyServer"] + URLFiles;
+					URLFiles = VIVIZ["config"]["proxyServer"] + URLFiles;
 				}
 			}
 		} else {

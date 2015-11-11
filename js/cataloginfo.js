@@ -139,6 +139,9 @@ function cataloginfo(galleryid) {
 	 		return msg
 	 	}
 		
+		if (!VIVIZ["galleries"]) VIVIZ["galleries"] = {}
+
+
 		VIVIZ["galleries"][galleryid] = {}
 
 		// Copy gallery information
