@@ -149,6 +149,34 @@ function cataloginfo(galleryid) {
 		if (!VIVIZ["galleries"]) VIVIZ["galleries"] = {}
 		VIVIZ["galleries"][galleryid] = {}
 
+		if (VIVIZ["catalog"][i]["dir"] || VIVIZ["catalog"][i]["fulldir"] !== VIVIZ["catalog"][i]["thumbdir"]) {
+			// If thumbdir != fulldir in gallery configuration, set scaling of thumbs to 1.0
+			if (!VIVIZ["catalog"][i]["thumbWidth"] && !VIVIZ["catalog"][i]["thumbHeight"]) {
+				if (VIVIZ["catalog"][i]["thumbdir"]) {
+					VIVIZ["galleries"][galleryid]["thumbWidth"] = 1.0
+					VIVIZ["galleries"][galleryid]["thumbHeight"] = 1.0
+				}
+			}
+			// If only one was specified, assume other is same if fraction given
+			if (VIVIZ["catalog"][i]["thumbWidth"] && !VIVIZ["catalog"][i]["thumbHeight"]) {
+				if (VIVIZ["catalog"][i]["thumbWidth"] <= 1.0) {
+					VIVIZ["galleries"][galleryid]["thumbHeight"] = VIVIZ["catalog"][i]["thumbWidth"]
+				} else {
+					VIVIZ["galleries"][galleryid]["thumbHeight"] = ""
+				}
+			}
+			if (VIVIZ["catalog"][i]["thumbHeight"] && !VIVIZ["catalog"][i]["thumbWidth"]) {
+				if (VIVIZ["catalog"][i]["thumbHeight"] <= 1.0) {
+					VIVIZ["galleries"][galleryid]["thumbWidth"] = VIVIZ["catalog"][i]["thumbHeight"]
+				} else {
+					VIVIZ["galleries"][galleryid]["thumbWidth"] = ""
+				}
+			}
+		}
+
+		console.log("--")
+		console.log(VIVIZ["galleries"][galleryid])
+
 		// Copy gallery information
 		for (key in VIVIZ["catalog"][i]) {
 			if (typeof(VIVIZ["catalog"][i]) === 'string') {
@@ -158,7 +186,7 @@ function cataloginfo(galleryid) {
 			}
 		}
 
-		// Copy configuration information for gallery not found in global configuration
+		// Copy configuration information found in global configuration and not found in gallery configuration.
 		for (key in VIVIZ["config"]) {
 			if (typeof(VIVIZ["galleries"][galleryid][key]) === 'undefined') {
 				VIVIZ["galleries"][galleryid][key] = VIVIZ["config"][key]

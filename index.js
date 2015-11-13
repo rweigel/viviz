@@ -53,15 +53,57 @@ VIVIZ["catalog"] =
 		},
 		{
 			"id": "ACE/Multi/2",
-			"title": "ACE/Multi with no thumbdir and thumbWidth = 0.1",
+			"title": "ACE/Multi",
+			"titleshort": "ACE/Multi",
+			"about": "http://virbo.org/gallery#ACE",
+			"strftime": "product_%Y%m%d.png",
+			"start": "1998-01-01",
+			"stop": "2012-04-30",
+			"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+		},
+		{
+			"id": "ACE/Multi/3",
+			"title": "ACE/Multi with no thumbdir and thumbWidth = 0.1. thumbHeight assumed to be 0.1.",
 			"titleshort": "ACE/Multi/Alt",
 			"about": "http://virbo.org/gallery#ACE",
 			"strftime": "product_%Y%m%d.png",
 			"start": "1998-01-01",
 			"stop": "2012-04-30",
 			"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
-			"thumbWidth": 0.1,
-			"showThumbstrip":false
+			"thumbWidth": 0.1
+		},
+		{
+			"id": "ACE/Multi/4",
+			"title": "ACE/Multi with no thumbdir and thumbWidth = 100. thumbHeight assumed to be 0.1.",
+			"titleshort": "ACE/Multi/Alt",
+			"about": "http://virbo.org/gallery#ACE",
+			"strftime": "product_%Y%m%d.png",
+			"start": "1998-01-01",
+			"stop": "2012-04-30",
+			"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+			"thumbWidth": 100
+		},
+		{
+			"id": "ACE/Multi/5",
+			"title": "ACE/Multi with dir and no thumbdir and thumbWidth = 0.1. thumbHeight assumed to be 0.1.",
+			"titleshort": "ACE/Multi/Alt",
+			"about": "http://virbo.org/gallery#ACE",
+			"strftime": "product_%Y%m%d.png",
+			"start": "1998-01-01",
+			"stop": "2012-04-30",
+			"dir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+			"thumbWidth": 0.1
+		},
+		{
+			"id": "ACE/Multi/6",
+			"title": "ACE/Multi with no thumbdir and thumbWidth = 100. thumbHeight assumed to be 0.1.",
+			"titleshort": "ACE/Multi/Alt",
+			"about": "http://virbo.org/gallery#ACE",
+			"strftime": "product_%Y%m%d.png",
+			"start": "1998-01-01",
+			"stop": "2012-04-30",
+			"dir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+			"thumbWidth": 100
 		},
 		{
 			"id": "Demo/01",
@@ -152,13 +194,54 @@ VIVIZ["catalog"] =
 			"id": "Demo/13",
 			"title": "fullfiles as remote URL to text file. (Requires full application install.)",
 			"fulldir": "images/full/",
-			"fullfiles": "http://viviz.org/app/catalogs/lists/demo-filelist.txt"
+			"fullfiles": "https://raw.githubusercontent.com/rweigel/viviz/master/catalogs/lists/demo-filelist.txt"
 		},
 		{
 			"id": "Demo/14",
 			"title": "fullfiles as remote URL to file with JavaScript array. (Requires full application install.)",
 			"fulldir": "images/full/",
-			"fullfiles": "http://viviz.org/app/catalogs/lists/demo-filelist.json"
+			"fullfiles": "https://raw.githubusercontent.com/rweigel/viviz/master/catalogs/lists/demo-filelist.json"
+		},
+		{
+			"id": "Demo/15",
+			"title": "Should always fail. Response is 404.",
+			"fulldir": "images/full/",
+			"fullfiles": "http://mag.gmu.edu/demo-filelist.txt"
+		},
+		{
+			"id": "Demo/16",
+			"title": "Should always fail. Response is 404.",
+			"fulldir": "images/full/",
+			"fullfiles": "http://mag.gmu.edu/demo-filelist.json"
+		},
+		{
+			"id": "Demo/17",
+			"title": "Should always fail.  Site returns html instead of 404.",
+			"fulldir": "images/full/",
+			"fullfiles": "http://viviz.org/demo-filelist.txt"
+		},
+		{
+			"id": "Demo/18",
+			"title": "fullfiles as remote URL to file with JavaScript array. (Requires full application install.)",
+			"title": "Should always fail.  Site returns html instead of 404.",
+			"fullfiles": "http://viviz.org/demo-filelist.json"
+		},
+		{
+			"id": "Demo/19",
+			"title": "No dir given.",
+			"strftime": "demo-%Y.png",
+			"start": 2001,
+			"stop": 2004
+		},
+		{
+			"id": "strftime=demo-%Y.png&start=2001&stop=2004",
+			"title": "No dir given.  Will only work if dir=images/full set in VIVIZ.config.",
+			"about": ""
+		},
+		{
+			"id": "dir=images/full/&strftime=demo-%Y.png&start=2001&stop=2004",
+			"title": "Dir given.",
+			"about": ""
 		},
 		{
 			"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&start=1998-01-01&stop=1998-01-04",
@@ -174,16 +257,5 @@ VIVIZ["catalog"] =
 			"id": "dir=images/full/&strftime=demo-%Y.png&start=2001&stop=2004",
 			"title": "",
 			"about": ""
-		},
-		{
-			"id": "Demo/15",
-			"title": "No dir given.  Will only work if dir=images/full set in VIVIZ.config.",
-			"strftime": "demo-%Y.png",
-			"start": 2001,
-			"stop": 2004
-		},
-		{
-			"id": "strftime=demo-%Y.png&start=2001&stop=2004",
-			"title": "No dir given.  Will only work if dir=images/full set in VIVIZ.config.",
 		}
 	]

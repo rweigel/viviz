@@ -97,23 +97,12 @@ function galleryinfo(galleryid) {
 
 		VIVIZ["galleries"][galleryid][type+"files"] = files
 
-		// If no dir or {full,thumb}dir, see if one exists in configuration.
-		if (!CATALOGINFO[type+"dir"]) {
-			if (VIVIZ["config"][type+"dir"]) {
-				CATALOGINFO[type+"dir"] = VIVIZ["config"][type+"dir"]
-			} else if (VIVIZ["config"]["dir"]) {
-				CATALOGINFO[type+"dir"] = VIVIZ["config"]["dir"]
-			} else {
-				if (type === "full") {
-					console.log("galleryinfo(): No full directory given in gallery config or global config. Paths will be relative to location of index.htm")
-					CATALOGINFO["fulldir"] = ""
-				}
-			}
-		}
-
 	}
 
-
+	// If not full dir given, files are in same directory as index.htm 
+	if (!CATALOGINFO["fulldir"]) {
+		CATALOGINFO["fulldir"] = ""
+	}
 	if (!CATALOGINFO["thumbdir"]) {
 		CATALOGINFO["thumbdir"] = CATALOGINFO["fulldir"]
 	}
@@ -303,8 +292,8 @@ function extractfiles(URLFiles) {
 		}
 	}
 
-	var FILES = new Array();
-	$("#status").text("Retrieving list of files");
+	var FILES = new Array()
+	$("#status").text("Retrieving list of files")
 	console.log("galleryinfo.extractfiles(): Getting file list from " + URLFiles)
 	if (URLFiles.match(/\.txt$/)) {
 		$.ajax({
@@ -312,52 +301,57 @@ function extractfiles(URLFiles) {
 			url: URLFiles,
 			async: false,
 			dataType: "text",
-			error: function () {
-				msg = "Error reading <a style='text-decoration:underline' href='" + URLFiles + "'>" + URLFiles + "</a>."
-				console.log(msg)	
-			},
+			error: geterror,
 			success: function (data) {
-						console.log('galleryinfo.extractfiles(): Extracting files from ' + URLFiles);
-						FILES = CSVToArray(data.replace(/\n$/,''));
-						//FILES = data.split(/\n/); Use this instead?
+						if (data.indexOf("<html") >= 0) {
+							msg = "Error parsing <a style='text-decoration:underline' href='" + URLFiles + "'>" + URLFiles + "</a>.  File contains html tag."
+							console.log(msg)	
+						} else {
+							console.log('galleryinfo.extractfiles(): Extracting files from ' + URLFiles)
+							FILES = CSVToArray(data.replace(/\n$/,''))
+							//FILES = data.split(/\n/); Use this instead?
+						}
 					}
 		});
-		$("#status").text("");
+		$("#status").text("")
 	} else {
-
 		// A service request that returns a JSON array of files.
 		$.ajax({
 			type: "GET",
 			url: URLFiles,
 			async: false,
 			dataType: "json",
-			error: function (err, textStatus, errorThrown) {
+			error: geterror,
+			success: function (data) {
+						console.log('Extracting files from ' + URLFiles)
+						if (typeof(data[0]) === "string") {
+							for (var k=0;k<data.length;k++) {
+								FILES[k] = []
+								FILES[k][0] = data[k]
+							}
+						} else {
+							FILES = data
+						}	
+					}
+		})
+	}
+
+	function geterror(err,textStatus,errorThrown) {
 				console.log(err)
-				msg = "Error reading <a style='text-decoration:underline' target='_blank' href='" + URLFiles + "'>" + URLFiles + "</a>."
+				msg = "Error getting <a style='text-decoration:underline' target='_blank' href='" + URLFiles + "'>" + URLFiles + "</a>."
 				if (textStatus && textStatus !== 'error') {
 					if (errorThrown) {
 						msg = msg + "<br/>Error: " + textStatus + ", " + errorThrown
 					} else {
 						msg = msg + "<br/>Error: " + textStatus + "."
 					}
-	
+				}
+				if (err.status != 200) {
+					msg = msg + "<br/>Error: " + err.statusText + "."
 				}
 				console.log(msg)
-			},
-			success: function (data) {
-						console.log('Extracting files from ' + URLFiles);
-						if (typeof(data[0]) === "string") {
-							for (var k=0;k<data.length;k++) {
-								FILES[k] = [];
-								FILES[k][0] = data[k];
-							}
-						} else {
-							FILES = data;
-						}	
-					}
-		})
-	}
 
+	}
 	$("#status").text("")
 
 	if (msg !== "") return msg

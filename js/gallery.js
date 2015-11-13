@@ -118,13 +118,8 @@ function viviz(mode) {
 		$('#g-container').show()
 		$('#g-container .well').hide()
 		$('#g-container #error').show()
-		if (GALLERYINFO[galleryid]) {
-			setheader(wrapper, galleryid)
-			setdropdowns(wrapper, galleryid)
-		} else {
-			// Gallery id is not valid.  Only show gallery list.
-			setdropdowns(wrapper, "")
-		}
+		// Gallery id is not valid.  Only show gallery list.
+		setdropdowns(wrapper, "")
 		return
 	}
 
@@ -167,6 +162,11 @@ function viviz(mode) {
 	$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
 
 	function resetdom(galleryid) {
+
+
+		// Toggle state set when call to cataloginfo() failed.
+		$('#g-container').hide()
+		$('#g-container .well').show()
 
 		//$(wrapper + " #fullframe").html('').css('height','');
 		//$(wrapper).css('margin-top','0');
@@ -230,27 +230,7 @@ function viviz(mode) {
 			+ type + " images based on image size and options.")
 
 		var ar = el.naturalWidth/el.naturalHeight
-
-		if (type === "thumb") {
-			if (!VIVIZ["galleries"][galleryid][type+"Width"] && !VIVIZ["galleries"][galleryid][type+"Height"]) {
-				if ((GALLERYINFO["fulldir"] === GALLERYINFO["thumbdir"]) || (GALLERYINFO["thumbdir"] === "")) {
-					if (!VIVIZ["galleries"][galleryid][type+"Width"]) {
-						console.log("setWH(): " + type + "Width was not given.")
-						console.log("setWH(): Setting thumbnail width ratio to be 25% of natural width because fulldir = thumbdir or thumbdir was not specified.")
-						VIVIZ["galleries"][galleryid][type+"Width"] = 0.25
-					}
-					if (!VIVIZ["galleries"][galleryid][type+"Height"]) {
-						console.log("setWH(): " + type + "Height was not given.")
-						console.log("setWH(): Setting thumbnail height ratio to be 25% of natural width because fulldir = thumbdir or thumbdir was not specified.")
-						VIVIZ["galleries"][galleryid][type+"Height"] = 0.25
-					}
-				} else {
-					VIVIZ["galleries"][galleryid][type+"Width"] = 1.0
-					VIVIZ["galleries"][galleryid][type+"Height"] = 1.0
-				}
-			}
-		}
-
+		console.log(VIVIZ["galleries"][galleryid])
 		// Compute pixels if given fractions.
 		if (VIVIZ["galleries"][galleryid][type+"Width"]) {
 			if (VIVIZ["galleries"][galleryid][type+"Width"] <= 1.0) {
