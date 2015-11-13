@@ -2,8 +2,29 @@ function viviz(mode) {
 
 	console.log("viviz.js: Called.")
 
+	$(window).unbind('hashchange.'+mode);
+	$(window).bind('hashchange.'+mode,function() {
+		console.log('viviz.js: Hash has changed to ' + location.hash);
+		// Special case where id is only key specified in gallery object
+		// and its value is a query string.
+		var keys = ["dir","full","thumb","strftime","sprintf","script","list","start","stop"]
+		var hash = location.hash
+		for (var k in keys) {
+			key = keys[k]
+			hash = hash.replace("id="+key,key)
+			hash = hash.replace("id=full"+key,"full"+key)
+			hash = hash.replace("id=thumb"+key,"thumb"+key)
+		}
+		if (hash !== location.hash) {
+			console.log('viviz.js: Hash is a query string.')
+		}
+		location.hash = hash
+		viviz(mode)
+	})
+
+	var qs = $.parseQueryString()
+
 	if (typeof(mode) !== "string") {
-		qs = $.parseQueryString()
 
 		if (qs["mode"] === "gallery") {
 			mode = "gallery"
@@ -24,43 +45,88 @@ function viviz(mode) {
 
 	wrapper = "#" + mode + "1"
 
+	// Default configuration options
+	var _VIVIZ = {}
+	_VIVIZ["config"] = {
+		"defaultMode": "gallery",
+		"showThumbstrip": true,
+		"showFileName": true,
+		"showAboutText": true,
+		"showCatalog": true,
+		"showControls": true,
+		"showAttributes": true,
+		"showCatalog": true,
+		"showDropdowns": true,
+		"showDownloads": false,
+		"useAutoAttributes": true,
+		"thumbWidth": 0.25,
+		"thumbHeight": 0.25,
+		"fullWidth": 1.0,
+		"fullHeight": 1.0,
+		"lazyLoadMax": 6,
+		"frameRate": 500,
+		"play": false,
+		"port": 8002,
+		"proxyServer": "http://localhost:8002/proxy?url=",
+		"useCachedImages": false
+	}
+
+	// If key does not exist in passed VIVIZ object, add it.
+	for (key in _VIVIZ) {
+		if (typeof(VIVIZ[key]) === "undefined") {
+			VIVIZ[key] = _VIVIZ[key]
+		}
+	}
+
 	// Get list of galleries
 	console.log("viviz.js: Getting list of galleries.")
 	var GALLERIES = cataloginfo()
-
 	if (typeof(GALLERIES) === "string") {
 		console.log("viviz.js: Call to cataloginfo() failed.");
 		resetdom(galleryid)
 		error(wrapper, GALLERIES)
-		setheader(wrapper, galleryid)
-		setdropdowns(wrapper, galleryid)
+		$('#g-container').show()
+		$('#g-container .well').hide()
+		$('#g-container #error').show()
 		return
 	}
 
 	// Default gallery to show
-	var galleryid = galleryid || qs["id"] || GALLERIES["Values"][0]["Id"]
+	var keys = ["dir","full","thumb","strftime","sprintf","script","list","start","stop"]
+	var hash = location.hash
+	var hashisgallery = false
+	for (var j in keys) {
+		if (hash.indexOf(keys[j] + "=") > -1) {
+			hashisgallery = true
+		}
+	}
+	if (!hashisgallery) {
+		var galleryid = qs["id"] || GALLERIES["Values"][0]["Id"]
+	} else {
+		var galleryid = hash.replace("#","")
+	}
 	console.log("viviz.js: ID = " + galleryid)
 
 	var GALLERYINFO = galleryinfo(galleryid)
 
 	// Call to galleryinfo sets VIVIZ["galleries"][galleryid]
-	for (key in VIVIZ["config"]) {
-		if (key.indexOf("show") == 0) {
-			if (VIVIZ["galleries"][galleryid][key] == false || VIVIZ["config"][key]  == false) {
-				$(wrapper + " #" + key.replace("show","").toLowerCase() + "wrapper").hide()
-			}
-		}
-	}
-
 	if (typeof(GALLERYINFO) === "string") {
 		console.log("gallery.js: Call to galleryinfo() failed.")
 		resetdom(wrapper)
-		error(wrapper, "Problem with configuration for gallery with <code>id = " + galleryid + "</code>:<br/>" + GALLERYINFO)
-		setheader(wrapper, galleryid)
-		setdropdowns(wrapper, galleryid)
+		error(wrapper, "Problem with configuration for gallery with <code>id = "
+						+ galleryid + "</code>:<br/>" + GALLERYINFO)
+		$('#g-container').show()
+		$('#g-container .well').hide()
+		$('#g-container #error').show()
+		if (GALLERYINFO[galleryid]) {
+			setheader(wrapper, galleryid)
+			setdropdowns(wrapper, galleryid)
+		} else {
+			// Gallery id is not valid.  Only show gallery list.
+			setdropdowns(wrapper, "")
+		}
 		return
 	}
-
 
 	resetdom(wrapper)
 	setheader(wrapper, galleryid)
@@ -82,19 +148,6 @@ function viviz(mode) {
 		viviz('thumb')
 	})
 	
-	$(window).unbind('hashchange.'+mode);
-	$(window).bind('hashchange.'+mode,function() {
-		console.log('viviz.js: Hash has changed to ' + location.hash);
-		// Special case where ID is only key specified in gallery object.
-		// This saves us from having to encode it.
-		location.hash = location.hash.replace("id=fulldir","fulldir");
-		qs = $.parseQueryString();
-		if (qs["id"]) {
-			viviz(mode)
-		} else {
-			location.hash.replace("id=","")
-		}
-	})
 
 	if (mode === 'gallery') {
 		$('#g-container').show()
@@ -118,10 +171,21 @@ function viviz(mode) {
 		//$(wrapper + " #fullframe").html('').css('height','');
 		//$(wrapper).css('margin-top','0');
 		$(wrapper + ' #workingfullframe').css('visibility','hidden');
-		$(wrapper + " #gallerythumbframe").html('').hide()
-		$(wrapper + " #fullframe").html('').hide()
+		$(wrapper + " #gallerythumbframe").html('')
+
+		if ($(wrapper + " #catalogopen:visible").length == 0) {
+			$(wrapper + " #catalogclose").click()
+		}
+		// Keep full frame width and height what it was last.  When image is
+		// loaded, proper dimensions will be set.
+		if ($(wrapper + " #fullframe").width() > 0)
+			$(wrapper + " #fullframe").width($(wrapper + " #fullframe").width());
+		if ($(wrapper + " #fullframe").height() > 0)
+			$(wrapper + " #fullframe").height($(wrapper + " #fullframe").height());
+
+		$(wrapper + " #fullframe").html('')
 		$(wrapper).attr('nowvisible', '').attr('lastvisible', '').attr('totalvisible', '').attr('totalingallery', '');
-		$(wrapper + " #controls").hide()
+		$(wrapper + " #controls").html('&nbsp;');
 		$(wrapper + " #attributes").html('&nbsp;');
 		$(wrapper + " #error").html('').hide();
 		$(wrapper + " #warning").html('').hide();
@@ -131,7 +195,369 @@ function viviz(mode) {
 		//$(wrapper + " #gallerythumbframe").css('width','').css('height','');
 	}
 
-	function thumblist(wrapper){
+	function error(wrapper,msg,clear) {
+		$(wrapper + ' #error').show()
+		if (clear) {
+			$(wrapper + ' #error').html(msg)
+		} else {
+			if ($(wrapper + ' #error').text() === "") {
+				$(wrapper + ' #error').append(msg)
+			} else {
+				$(wrapper + ' #error').append("<br/>" + msg)
+			}
+		}
+	}
+
+	function warning(wrapper,msg,clear,totime) {
+		$(wrapper + ' #warning').show()
+		if (clear) {
+			$(wrapper + ' #warning').html(msg);
+		} else {
+			spacer = ""
+			if ($(wrapper + ' #warning').text().length > 0) {
+				spacer=" | "
+			}
+			$(wrapper + ' #warning').append(spacer + msg)
+		}
+
+		if (totime != Infinity)
+			setTimeout(function () {$(wrapper + ' #warning').html('').hide();},totime || 3000)
+	}
+
+	function setWH(el, galleryid, GALLERYINFO, type) {
+
+		console.log("setWH(): Computing width and height of " 
+			+ type + " images based on image size and options.")
+
+		var ar = el.naturalWidth/el.naturalHeight
+
+		if (type === "thumb") {
+			if (!VIVIZ["galleries"][galleryid][type+"Width"] && !VIVIZ["galleries"][galleryid][type+"Height"]) {
+				if ((GALLERYINFO["fulldir"] === GALLERYINFO["thumbdir"]) || (GALLERYINFO["thumbdir"] === "")) {
+					if (!VIVIZ["galleries"][galleryid][type+"Width"]) {
+						console.log("setWH(): " + type + "Width was not given.")
+						console.log("setWH(): Setting thumbnail width ratio to be 25% of natural width because fulldir = thumbdir or thumbdir was not specified.")
+						VIVIZ["galleries"][galleryid][type+"Width"] = 0.25
+					}
+					if (!VIVIZ["galleries"][galleryid][type+"Height"]) {
+						console.log("setWH(): " + type + "Height was not given.")
+						console.log("setWH(): Setting thumbnail height ratio to be 25% of natural width because fulldir = thumbdir or thumbdir was not specified.")
+						VIVIZ["galleries"][galleryid][type+"Height"] = 0.25
+					}
+				} else {
+					VIVIZ["galleries"][galleryid][type+"Width"] = 1.0
+					VIVIZ["galleries"][galleryid][type+"Height"] = 1.0
+				}
+			}
+		}
+
+		// Compute pixels if given fractions.
+		if (VIVIZ["galleries"][galleryid][type+"Width"]) {
+			if (VIVIZ["galleries"][galleryid][type+"Width"] <= 1.0) {
+				console.log('setWH(): Converting ' + type + 'Width to pixels')
+				VIVIZ["galleries"][galleryid][type+"Width"] = 
+					el.naturalWidth*VIVIZ["galleries"][galleryid][type+"Width"]
+			}
+		}
+		if (VIVIZ["galleries"][galleryid][type+"Height"]) {
+			if (VIVIZ["galleries"][galleryid][type+"Height"] <= 1.0) {
+				console.log('setWH(): Converting ' + type + 'Height to pixels')
+				VIVIZ["galleries"][galleryid][type+"Height"] = 
+					el.naturalHeight*VIVIZ["galleries"][galleryid][type+"Height"]
+			}
+		}
+
+		// Compute un-specified width or height.
+		if (VIVIZ["galleries"][galleryid][type+"Width"] && !VIVIZ["galleries"][galleryid][type+"Height"]) {
+			console.log('setWH(): ' + type + 'Width known but Height unknown.  Using aspect ratio to compute.')
+			VIVIZ["galleries"][galleryid][type+"Height"] = VIVIZ["galleries"][galleryid][type+"Width"]/ar
+		}
+		if (VIVIZ["galleries"][galleryid][type+"Height"] && !VIVIZ["galleries"][galleryid][type+"Width"]) {
+			console.log('setWH(): ' + type + 'Height known but Width unknown.  Using aspect ratio to compute.')
+			VIVIZ["galleries"][galleryid][type+"Width"] = VIVIZ["galleries"][galleryid][type+"Height"]*ar
+		}
+
+		if (!VIVIZ["galleries"][galleryid][type+"Height"]) {
+			console.log('setWH(): ' + type + 'Height unknown.  Using naturalHeight')
+			VIVIZ["galleries"][galleryid][type+"Height"] = el.naturalHeight
+		}
+		if (!VIVIZ["galleries"][galleryid][type+"Width"]) {
+			console.log('setWH(): ' + type + 'Width unknown.  Using naturalWidth')
+			VIVIZ["galleries"][galleryid][type+"Width"] = el.naturalWidth
+		}
+
+		VIVIZ["galleries"][galleryid][type+"NaturalHeight"] = el.naturalHeight
+		VIVIZ["galleries"][galleryid][type+"NaturalWidth"] = el.naturalWidth
+
+		return true
+	}
+
+	function setheader(wrapper, galleryid) {
+
+		console.log("setheader(): Setting header in " + wrapper 
+			+ " based on gallery information for " + galleryid)
+
+		for (key in VIVIZ["config"]) {
+			// Key name starts with "show"
+			if (key.indexOf("show") == 0) {
+				if (VIVIZ["galleries"][galleryid][key] == false) {
+					console.log("Hiding " + wrapper + " #" + key.replace("show",""))
+					$(wrapper + " #" + key.replace("show","").toLowerCase() + "wrapper").hide()
+				}
+			}
+		}
+
+		if (typeof(GALLERYINFO) === "string") {
+			$(wrapper + ' #workingfullframe').css('visibility','hidden')
+			$(wrapper + " #catalogopen").hide()
+			// TODO: Show catalog
+			return;
+		}
+
+		if (GALLERYINFO["title"]) {
+			$("head title").html(GALLERYINFO["title"])
+		} else {
+			$("head title").html(GALLERYINFO["id"])
+		}
+
+		if (GALLERYINFO["about"]) {
+			if (GALLERYINFO["about"].match("auto-generated")) {
+				$(wrapper + " #abouttext").html(GALLERYINFO["about"]
+					.replace("URL",
+						"<a style='text-decoration:underline' href='/#"
+							+ GALLERYINFO["title"]+"'>URL</a>"))
+			} else {
+				$(wrapper + " #abouttext").html(GALLERYINFO["about"])
+			}
+		} else {
+			if (GALLERYINFO["title"]) {
+				$(wrapper + " #abouttext").html(GALLERYINFO["title"])
+			}
+		}
+
+		if ((GALLERYINFO["aboutlink"])) {
+			$(wrapper + " #aboutbuttonwrapper").attr("onclick",
+				"window.open('" + GALLERYINFO["aboutlink"]+"','_blank')")
+			$(wrapper + " #aboutbutton").attr("title",
+				"Go to page with information about these images:\n"
+					+ GALLERYINFO["aboutlink"])
+			$(wrapper + " #aboutbuttonwrapper").show()
+		}	
+
+		$(wrapper + " #catalogopen").unbind('click')
+		$(wrapper + " #catalogopen").click(
+				function () {
+					$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
+					if (GALLERYINFO["json"]["fullscript"]) {
+						// Convert function declaration to string.
+						GALLERYINFO["json"]["fullscript"] = 
+							"" + GALLERYINFO["json"]["fullscript"]
+					}
+					if (GALLERYINFO["json"]["thumbscript"]) {
+						// Convert function declaration to string.
+						GALLERYINFO["json"]["thumbscript"] = 
+							"" + GALLERYINFO["json"]["thumbscript"]
+					}
+					$(wrapper+' #catalog')
+						.html(JSON.stringify(
+							GALLERYINFO["json"], null, 4).replace(/\n/g,"<br/>"))
+					$(wrapper + ' #catalogopen').hide()
+					$(wrapper + ' #catalogclose').show()
+				})
+
+		$(wrapper + " #catalogclose").unbind('click')
+		$(wrapper + " #catalogclose").click(
+				function () {
+					$(wrapper + " #catalog").html('')
+					$(wrapper + ' #catalogopen').show()
+					$(wrapper + ' #catalogclose').hide()
+				})
+	}
+
+	function setdropdowns(wrapper, galleryid) {
+
+		console.log("dropdowns(): Setting dropdowns in " 
+			+ wrapper + " based on gallery information for " + galleryid)
+
+		// Gallery drop-down
+		dropdown("gallery", GALLERIES, wrapper + " #dropdowns")
+		$(wrapper + ' #dropdowns #gallery').unbind('change')
+		$(wrapper + ' #dropdowns #gallery').change(function () {
+			var galleryid = $(wrapper + " #gallery option:selected").val()
+			console.log('setdropdowns(): Gallery changed.  galleryid = ' + galleryid)
+			$(wrapper + " #error").html("")
+			if (galleryid !== "") {
+				console.log('setdropdowns(): Setting location.hash')
+				location.hash = "id=" + galleryid
+			}
+		})
+		if (galleryid === "") {
+			// Invalid gallery id.
+			$(wrapper + " #dropdowns #gallery #def").attr('selected','selected')
+			$(wrapper + ' #dropdownswrapper').show()
+			$(wrapper + ' #dropdownswrapper select').hide()
+			$(wrapper + ' #dropdownswrapper #dropdowns #gallery').show()
+			return
+		}
+
+		// Select default gallery.
+		if (typeof(GALLERYINFO) === "string") {
+			// galleryid not found or error when genering file list.
+			// Select gallery definition in gallery list drop-down and exit.
+			$(wrapper + " #gallery #def").attr('selected','selected')
+			return
+		} else {
+			$(wrapper + " #gallery option[value='" + galleryid + "']").attr('selected','selected')
+		}
+
+		// Order drop-down
+		dropdown("order", GALLERYINFO['orders'], wrapper + " #dropdowns")
+		$(wrapper + ' #dropdowns #order').unbind('change')
+		$(wrapper + ' #dropdowns #order').change(function () {
+			console.log('setdropdowns(): Order changed.')
+			updatehash('order')
+		})
+
+		// Attributes drop-down.  Only set if attributes exist.
+		if (GALLERYINFO['attributes']["Values"].length > 0) {
+			dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns")
+			setregexps()
+			$(wrapper + ' #dropdowns #sortby').unbind('change')
+			$(wrapper + ' #dropdowns #sortby').change(function () {
+				console.log('setdropdowns(): Sortby changed.')
+				setregexps()
+				updatehash('sortby')
+			})
+		} else {
+			console.log("setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
+		}
+
+		setdownloads()
+
+		function dropdown(ID, list, after){
+
+			$(after + " #" + ID).remove()
+			$(after).append(
+				'<select id="' + ID + '" title="' + list.Title + '" class="' + list.Class + '"></select>')
+			for (var k = 0; k < list["Values"].length; k++) {
+				VALUE = list["Values"][k]["Value"]
+				TITLE = list["Values"][k]["Title"]
+				if (k == 0) {
+					$(after + ' #' + ID).append(
+						'<option value="" class="def" id="def">' + list.Titleshort + '</option>')
+					$(after + ' #' + ID).append(
+						'<option value="' + VALUE + '" selected="true">' + TITLE + '</option>')
+				}
+				else {
+					$(after + ' #' + ID).append(
+						'<option value="' + VALUE + '">' + TITLE + '</option>')
+				}
+			}
+
+			var qs = $.parseQueryString()
+			if (qs[ID]) {
+				console.log("setdropdowns.dropdown(): Setting selected value for " + ID + " to " + qs[ID])
+				$(wrapper + " #" + ID + " option[value='" + qs[ID] + "']").attr('selected','selected')
+			}
+		}
+
+		function updatehash(el) {
+
+				var val = $(wrapper + " #" + el + " option:selected").val()
+				if (val !== "") {
+					var qs = $.parseQueryString()
+					qs[el] = val
+					var hash = ""
+					for (var key in qs) {
+						hash = hash + "&" + key + "=" + qs[key]
+					}
+					console.log('setdropdowns(): Setting location.hash')
+					location.hash = hash.substr(1)
+				}
+		}
+
+		function setdownloads() {
+			var REGEXPS            = new Object();
+			REGEXPS["Title"]       = "Download options"
+			REGEXPS["Titleshort"]  = "-Download-"
+			REGEXPS["Values"]      = new Array()
+
+			REGEXPS["Values"][0]          = new Object()
+			REGEXPS["Values"][0]["Title"] = "File list"
+			REGEXPS["Values"][0]["Value"] = "filelist"
+
+			if (0) {
+				REGEXPS["Values"][1]          = new Object()
+				REGEXPS["Values"][1]["Title"] = "Zip file"
+				REGEXPS["Values"][1]["Value"] = "zip"
+
+				REGEXPS["Values"][2]          = new Object()
+				REGEXPS["Values"][2]["Title"] = "Animated GIF"
+				REGEXPS["Values"][2]["Value"] = "gif"
+
+				REGEXPS["Values"][3]          = new Object()
+				REGEXPS["Values"][3]["Title"] = "MP4"
+				REGEXPS["Values"][3]["Value"] = "mp4"
+			}
+
+			dropdown("downloads", REGEXPS, wrapper + " #dropdowns")
+			$(wrapper + " #downloads #def").attr('selected','selected')
+
+			$(wrapper + ' #dropdowns #downloads').change(function () {
+				// TODO: If full app is running, send file from server
+				// with proper content-type instead of opening a window.
+				$(wrapper + " #downloadlink").remove()
+				var val = $(wrapper + " #downloads option:selected").val()
+				if (val === "filelist") {
+					var list = ""
+					for (var i in INFOjs) {
+						list = list + INFOjs[i]["FullFile"] + "\n"
+					}
+					var popup = window.open('', 'fullframe')
+					// Clear content from previous selections.
+					popup.document.getElementsByTagName('body')[0].innerHTML = ''
+					popup.document.write('<html><head><title>File list</title>')
+					popup.document.write('<link rel="icon" type="image/ico" href="css/favicon.ico"/>')
+					popup.document.write('</head><body>')
+					popup.document.write('<pre>'+list+'</pre>')
+					popup.document.write('</body></html>')
+				} else if (val !== "") {
+					console.log('Not implemented.')
+					//http://stackoverflow.com/questions/3975648/how-to-set-content-disposition-attachment-via-javascript
+					$(wrapper + " #dropdowns").append('&nbsp;<a id="downloadlink" download href="'+INFOjs[0]["FullFile"]+'">&#11015;</a>')
+				} else {
+				}
+				$(wrapper + " #downloads #def").attr('selected','selected')
+			})
+
+		}
+
+		function setregexps() {
+			var REGEXPS            = new Object();		
+			var n                  = $(wrapper + " #dropdowns #sortby option:selected").val()
+			REGEXPS["Title"]       = "Attribute filters"
+			REGEXPS["Titleshort"]  = "-Constraints-"
+			REGEXPS["Values"]      = new Array()
+
+			for (i = 0; i < GALLERYINFO['attributes']["Values"][n]["Filters"].length; i++) {
+				REGEXPS["Values"][i]          = new Object()
+				REGEXPS["Values"][i]["Title"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Title"]
+				REGEXPS["Values"][i]["Value"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Value"]
+			}
+
+			if (GALLERYINFO['attributes']["Values"][n]["Filters"].length > 0) {
+				dropdown("regexp", REGEXPS, wrapper + " #dropdowns")
+			} else {
+				console.log("setdropdowns(): No regexp filters.  Not displaying drop-down.")
+			}
+
+			$(wrapper + ' #dropdowns #regexp').change(function () {
+				updatehash('regexp')
+			})
+		}
+	}
+
+	function thumblist(wrapper) {
 
 		var galleryid = $(wrapper + " #gallery").val();
 		var SORTBY    = $(wrapper + " #sortby").val();
@@ -306,305 +732,12 @@ function viviz(mode) {
 		}
 
 		return INFOrs;
-		}
-
-		function error(wrapper,msg,clear) {
-		$(wrapper + ' #error').show();
-		if (clear) {
-			$(wrapper + ' #error').html(msg);
-		} else {
-			if ($(wrapper + ' #error').text() === "") {
-				$(wrapper + ' #error').append(msg)
-			} else {
-				$(wrapper + ' #error').append("<br/>" + msg)
-			}
-		};
-		}
-
-		function warning(wrapper,msg,clear,totime) {
-		$(wrapper + ' #warning').show()
-		if (clear) {
-			$(wrapper + ' #warning').html(msg);
-		} else {
-			spacer = ""
-			if ($(wrapper + ' #warning').text().length > 0) {
-				spacer=" | "
-			};
-			$(wrapper + ' #warning').append(spacer + msg)
-		}
-
-		if (totime != Infinity)
-			setTimeout(function () {$(wrapper + ' #warning').html('').hide();},totime || 3000);
-		}
-
-		function PrintElem(div_element) {
-		var id  = $("#gallerythumbframe .active").attr('id');
-		var txt = $("#gallerythumbframe .active").attr('src');
-
-		var div_html = $("#fullframe").html();
-		var popup_window = window.open ('', 'fullframe');//, 'height=1010,width=1225');
-		popup_window.document.write ('<html><head><title></title>');
-		/*optional stylesheet*/ 
-		//popup_window.document.write ('<link rel="stylesheet" href="main.css" type="text/css" />');
-		popup_window.document.write ('</head><body>');
-		popup_window.document.write ('<div>'+txt+'</div><br/>');	
-		popup_window.document.write (div_html);
-		popup_window.document.write ('</body></html>');
-
-		popup_window.print ();
-		//popup_window.close ();
-
-		return true;
-	}
-
-	function setWH(el, galleryid, GALLERYINFO, type) {
-
-		console.log("setWH(): Computing width and height of " 
-			+ type + " images based on image size and options.")
-
-		var ar = el.naturalWidth/el.naturalHeight
-
-		if (type === "thumb") {
-			if (!VIVIZ["galleries"][galleryid][type+"Width"] && !VIVIZ["galleries"][galleryid][type+"Height"]) {
-				if ((GALLERYINFO["fulldir"] === GALLERYINFO["thumbdir"]) || (GALLERYINFO["thumbdir"] === "")) {
-					if (!VIVIZ["galleries"][galleryid][type+"Width"]) {
-						console.log("setWH(): " + type + "Width was not given.")
-						console.log("setWH(): Setting thumbnail width ratio to be 25% of natural width because fulldir = thumbdir or thumbdir was not specified.")
-						VIVIZ["galleries"][galleryid][type+"Width"] = 0.25
-					}
-					if (!VIVIZ["galleries"][galleryid][type+"Height"]) {
-						console.log("setWH(): " + type + "Height was not given.")
-						console.log("setWH(): Setting thumbnail height ratio to be 25% of natural width because fulldir = thumbdir or thumbdir was not specified.")
-						VIVIZ["galleries"][galleryid][type+"Height"] = 0.25
-					}
-				} else {
-					VIVIZ["galleries"][galleryid][type+"Width"] = 1.0
-					VIVIZ["galleries"][galleryid][type+"Height"] = 1.0
-				}
-			}
-		}
-
-		// Compute pixels if given fractions.
-		if (VIVIZ["galleries"][galleryid][type+"Width"]) {
-			if (VIVIZ["galleries"][galleryid][type+"Width"] <= 1.0) {
-				console.log('setWH(): Converting ' + type + 'Width to pixels')
-				VIVIZ["galleries"][galleryid][type+"Width"] = 
-					el.naturalWidth*VIVIZ["galleries"][galleryid][type+"Width"]
-			}
-		}
-		if (VIVIZ["galleries"][galleryid][type+"Height"]) {
-			if (VIVIZ["galleries"][galleryid][type+"Height"] <= 1.0) {
-				console.log('setWH(): Converting ' + type + 'Height to pixels')
-				VIVIZ["galleries"][galleryid][type+"Height"] = 
-					el.naturalHeight*VIVIZ["galleries"][galleryid][type+"Height"]
-			}
-		}
-
-		// Compute un-specified width or height.
-		if (VIVIZ["galleries"][galleryid][type+"Width"] && !VIVIZ["galleries"][galleryid][type+"Height"]) {
-			console.log('setWH(): ' + type + 'Width known but Height unknown.  Using aspect ratio to compute.')
-			VIVIZ["galleries"][galleryid][type+"Height"] = VIVIZ["galleries"][galleryid][type+"Width"]/ar
-		}
-		if (VIVIZ["galleries"][galleryid][type+"Height"] && !VIVIZ["galleries"][galleryid][type+"Width"]) {
-			console.log('setWH(): ' + type + 'Height known but Width unknown.  Using aspect ratio to compute.')
-			VIVIZ["galleries"][galleryid][type+"Width"] = VIVIZ["galleries"][galleryid][type+"Height"]*ar
-		}
-
-		if (!VIVIZ["galleries"][galleryid][type+"Height"]) {
-			console.log('setWH(): ' + type + 'Height unknown.  Using naturalHeight')
-			VIVIZ["galleries"][galleryid][type+"Height"] = el.naturalHeight
-		}
-		if (!VIVIZ["galleries"][galleryid][type+"Width"]) {
-			console.log('setWH(): ' + type + 'Width unknown.  Using naturalWidth')
-			VIVIZ["galleries"][galleryid][type+"Width"] = el.naturalWidth
-		}
-
-		VIVIZ["galleries"][galleryid][type+"NaturalHeight"] = el.naturalHeight
-		VIVIZ["galleries"][galleryid][type+"NaturalWidth"] = el.naturalWidth
-
-		return true
-	}
-
-	function setheader(wrapper, galleryid) {
-
-		console.log("setheader(): Setting header in " + wrapper 
-			+ " based on gallery information for " + galleryid)
-
-		if (typeof(GALLERYINFO) === "string") {
-			$(wrapper + ' #workingfullframe').css('visibility','hidden')
-			$(wrapper + " #catalogopen").hide()
-			// TODO: Show catalog
-			return;
-		}
-
-		if (GALLERYINFO["title"]) {
-			$("head title").html(GALLERYINFO["title"])
-		} else {
-			$("head title").html(GALLERYINFO["id"])
-		}
-
-		if (GALLERYINFO["about"]) {
-			if (GALLERYINFO["about"].match("auto-generated")) {
-				$(wrapper + " #abouttext").html(GALLERYINFO["about"]
-					.replace("URL",
-						"<a style='text-decoration:underline' href='/#"
-							+ GALLERYINFO["title"]+"'>URL</a>"))
-			} else {
-				$(wrapper + " #abouttext").html(GALLERYINFO["about"])
-			}
-		} else {
-			if (GALLERYINFO["title"]) {
-				$(wrapper + " #abouttext").html(GALLERYINFO["title"])
-			}
-		}
-
-		if ((GALLERYINFO["aboutlink"])) {
-			$(wrapper + " #aboutbuttonwrapper").attr("onclick",
-				"window.open('" + GALLERYINFO["aboutlink"]+"','_blank')")
-			$(wrapper + " #aboutbutton").attr("title",
-				"Go to page with information about these images:\n"
-					+ GALLERYINFO["aboutlink"])
-			$(wrapper + " #aboutbuttonwrapper").show()
-		}	
-
-		$(wrapper + " #catalogopen").unbind('click')
-		$(wrapper + " #catalogopen").click(
-				function () {
-					$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
-					if (GALLERYINFO["json"]["fullscript"]) {
-						// Convert function declaration to string.
-						GALLERYINFO["json"]["fullscript"] = 
-							"" + GALLERYINFO["json"]["fullscript"]
-					}
-					if (GALLERYINFO["json"]["thumbscript"]) {
-						// Convert function declaration to string.
-						GALLERYINFO["json"]["thumbscript"] = 
-							"" + GALLERYINFO["json"]["thumbscript"]
-					}
-					$(wrapper+' #catalog')
-						.html(JSON.stringify(
-							GALLERYINFO["json"], null, 4).replace(/\n/g,"<br/>"))
-					$(wrapper + ' #catalogopen').hide()
-					$(wrapper + ' #catalogclose').show()
-				})
-
-		$(wrapper + " #catalogclose").unbind('click')
-		$(wrapper + " #catalogclose").click(
-				function () {
-					$(wrapper + " #catalog").html('')
-					$(wrapper + ' #catalogopen').show()
-					$(wrapper + ' #catalogclose').hide()
-				})
-	}
-
-	function setdropdowns(wrapper, galleryid) {
-
-		function dropdown(ID, list, after){
-
-			if (arguments.length < 3) {
-				after = "#controls";
-			}
-			////console.log("dropdown.js: Called with second argument");
-			////console.log(list);
-			////console.log("dropdown.js: Existing: ");
-			////console.log($(ID).html());
-			if (typeof(list) != "object") {
-				//console.log('dropdown.js: List is not an object.')
-				return;
-			}
-			//$(after + " #" + ID).remove();
-			$(after + " #" + ID).remove();
-			if (Object.keys(list).length === 0) {
-				return;
-			}
-			$(after).append('<select id="' + ID + '" title="' + list.Title + '" class="' + list.Class + '"></select>');
-			for (var k = 0; k < list["Values"].length; k++) {
-				VALUE = list["Values"][k]["Value"];
-				TITLE = list["Values"][k]["Title"];
-				if (k == 0) {
-					////console.log(after + ' #' + ID);
-					$(after + ' #' + ID).append('<option value="" class="def" id="def">' + list.Titleshort + '</option>');
-					$(after + ' #' + ID).append('<option value="' + VALUE + '" selected="true">' + TITLE + '</option>');
-				}
-				else {
-					$(after + ' #' + ID).append('<option value="' + VALUE + '">' + TITLE + '</option>');
-				}
-			}
-		}
-
-		console.log("dropdowns(): Setting dropdowns in " + wrapper + " based on gallery information for " + galleryid)
-
-		// Gallery drop-down
-		dropdown("gallery", GALLERIES, wrapper + " #dropdowns")
-		$(wrapper + ' #dropdowns #gallery').unbind('change')
-		$(wrapper + ' #dropdowns #gallery').change(function () {
-			var galleryid = $(wrapper + " #gallery option:selected").val()
-			console.log('setdropdowns(): Gallery changed.  galleryid = ' + galleryid)
-			$(wrapper + " #error").html("")
-			if (galleryid !== "") {
-				console.log('setdropdowns(): Setting location.hash')
-				location.hash = "id=" + galleryid
-			}
-		})
-
-		// Select default galery.
-		if (typeof(GALLERYINFO) === "string") {
-			// galleryid not found or error when genering file list.
-			// Select gallery definition in gallery list drop-down and exit.
-			$(wrapper + " #gallery #def").attr('selected','selected')
-			return
-		} else {
-			$(wrapper + " #gallery option[value='" + galleryid + "']").attr('selected','selected')
-		}
-
-		// Order drop-down
-		dropdown("order", GALLERYINFO['orders'], wrapper + " #dropdowns")
-		$(wrapper + ' #dropdowns #order').unbind('change')
-		$(wrapper + ' #dropdowns #order').change(function () {
-			setthumbs()
-		})
-
-		// Attributes drop-down.  Only set if attributes exist.
-		if (GALLERYINFO['attributes']["Values"].length > 0) {
-			dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns")
-			setregexps()
-			$(wrapper + ' #dropdowns #sortby').unbind('change')
-			$(wrapper + ' #dropdowns #sortby').change(function () {
-				setregexps()
-				setthumbs()
-			})
-		} else {
-			console.log("setdropdowns(): No sort attributes.  Not displaying drop-downs for attributes.")
-		}
-
-		function setregexps() {
-			var REGEXPS            = new Object();		
-			var n                  = $(wrapper + " #dropdowns #sortby option:selected").val()
-			REGEXPS["Title"]       = "Attribute constraints"
-			REGEXPS["Titleshort"]  = "-Constraints-"
-			REGEXPS["Values"]      = new Array()
-
-			for (i = 0; i < GALLERYINFO['attributes']["Values"][n]["Filters"].length; i++) {
-				REGEXPS["Values"][i]          = new Object()
-				REGEXPS["Values"][i]["Title"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Title"]
-				REGEXPS["Values"][i]["Value"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Value"]
-			}
-
-			if (GALLERYINFO['attributes']["Values"][n]["Filters"].length > 0) {
-				dropdown("regexp", REGEXPS, wrapper + " #dropdowns")
-			} else {
-				console.log("setdropdowns(): No regexp filters.  Not displaying drop-down.")
-			}
-
-			$(wrapper + ' #dropdowns #regexp').change(function () {
-				setthumbs()
-			})
-		}
 	}
 
 	function gallery(wrapper, galleryid) {
 
 		setthumbs()
+		//$(wrapper + " #fullframe").css('visibility','visible')
 
 		function setthumbbindings() {
 
@@ -635,7 +768,7 @@ function viviz(mode) {
 			// 		 stat string if it already exists in DOM.
 			INFOjs = thumblist(wrapper); 
 
-			var statstr = "#" + (nowvisible) + "/" + (INFOjs.length) + " in subset. Attributes: ";
+			var statstr = "| #" + (nowvisible) + "/" + (INFOjs.length) + " for filter";
 			statstr = statstr + " | #" + (1+INFOjs[nowvisible-1].ImageNumber) + "/" + $(wrapper).attr('totalingallery') + " in gallery | ";
 			
 			for (var z = 1;z < GALLERYINFO['attributes']["Values"].length;z++) {
@@ -669,27 +802,23 @@ function viviz(mode) {
 
 			console.log('gallery.setthumbs(): Called.');
 			
-			INFOjs = thumblist(wrapper);  // Global variable.
+			INFOjs = thumblist(wrapper)
 
 			// Set attributes used by lazy loader
-			$(wrapper).attr('totalvisible', INFOjs.length);
-			$(wrapper).attr('totalingallery',GALLERYINFO["totalingallery"]);
+			$(wrapper).attr('totalvisible', INFOjs.length)
+			$(wrapper).attr('totalingallery',GALLERYINFO["totalingallery"])
 
-			var thumbframe = $(wrapper + ' #gallerythumbframe');
-
-			$(wrapper + " #gallerythumbframe").show()
-			$(wrapper + " #fullframe").show()
+			var thumbframe = $(wrapper + ' #gallerythumbframe')
 			
 			// Clear any previous scroll binding.  (Lazy load uses this.)
-			thumbframe.unbind('scroll');
+			thumbframe.unbind('scroll')
 
-			$(wrapper + ' #attributes').html('');
 			if (INFOjs.length == 0) {
-				$(wrapper + ' #attributes').html('No images in subset.');
-				return;
+				$(wrapper + ' #attributes').html('No images in subset.')
+				return
 			}
 			
-			s = setthumb(INFOjs,0,true);
+			setthumb(INFOjs,0,true);
 		}
 
 		function setthumb(INFOjs,i,allbad) {
@@ -711,6 +840,7 @@ function viviz(mode) {
 				$('<img class="gallerythumbbrowse firstimage"/>')
 					.appendTo($(wrapper + ' #gallerythumbframe'))
 					.attr("id",f+1)
+					.attr("src", VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[f].ThumbFile)
 					.error(function () {
 						// First image is bad.
 						console.log("gallery.firstimage(): Image " + f + " is bad.");
@@ -728,24 +858,22 @@ function viviz(mode) {
 						//findfirstimage(f+1,allbad);
 						firstimage(f+1,allbad);
 					})
-					//.bind('click',setthumbbindings)
-					.attr("src", VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[f].ThumbFile)
 					.load(function () {
 						
 						if (f > 0) {
 							if (f == 1) {
-								warning(wrapper,"The first image in this subset could not be loaded.",true);
+								warning(wrapper,"The first image in this subset could not be loaded.",true)
 							} else {
-								warning(wrapper,"The first " + f + " images" + " in this subset could not be loaded.",true);
+								warning(wrapper,"The first " + f + " images" + " in this subset could not be loaded.",true)
 							}
 						}
 						
 						// Trigger load of the first image.
 						if (!firstclicked) {
 							$(wrapper).attr('nowvisible',f+1)
-							console.log("gallery.firstimage(): First thumbnail image loaded.");
-							console.log("gallery.firstimage(): Applying click bindings and then clicking it to trigger load of full image.");
-							$(this).bind('click',setthumbbindings).click();
+							console.log("gallery.firstimage(): First thumbnail image loaded.")
+							console.log("gallery.firstimage(): Applying click bindings and then clicking it to trigger load of full image.")
+							$(this).bind('click',setthumbbindings).click()
 						}
 						firstclicked = true;
 
@@ -763,10 +891,17 @@ function viviz(mode) {
 						console.log('gallery.firstimage(): First thumbnail set to have dimensions = '
 							+VIVIZ["galleries"][galleryid]["thumbWidth"]+'x'+VIVIZ["galleries"][galleryid]["thumbHeight"]+'.');
 						
-						// Lazy Load images.
+
 						$('#gallerythumbframe').attr('data-thumb-length', INFOjs.length);
+
+						// Set attribute that indicates which thumbnail is active.
+						$('#gallerythumbframe').attr('data-thumb-displayed', f);
+						
+						setscrollbinding()
+
+						// Lazy Load images.
 						var maxLength = INFOjs.length;
-						var max = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["lazyLoadMax"]
+						var max = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["config"]["lazyLoadMax"]
 						if (INFOjs.length > max) {
 							maxLength = max
 						}
@@ -774,33 +909,7 @@ function viviz(mode) {
 							maxLength = INFOjs.length-f;
 						}
 
-						// Set attribute that indicates which thumbnail is active.
-						$('#gallerythumbframe').attr('data-thumb-displayed', f);
-						
-						setscrollbinding();
-
-						// Set next batch of thumbnails.
-						var tic = new Date().getTime();
-						var slowwarn = false;
-						console.log("gallery.firstimage(): Setting thumbnails "+(f+1)+"-"+(f+maxLength-1));
-						for (var j = f+1; j < f+maxLength; j++) {
-							if ($(wrapper + " #"+(j+1)).length == 0) { // Was not already loaded by findfirstimage
-								$('<img class="gallerythumbbrowse"/>')
-									.appendTo($(wrapper + ' #gallerythumbframe'))
-									.attr("id",j+1)
-									.attr("src", VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[j].ThumbFile)
-									.bind('click',setthumbbindings)
-									.attr("title",imgtitle(INFOjs[j]))
-									.css("height",VIVIZ["galleries"][galleryid]["thumbHeight"])
-									.css("width",VIVIZ["galleries"][galleryid]["thumbWidth"])
-									.load(function () {
-										if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-											warning(wrapper,"Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.");
-											slowwarn = true;	
-										}	
-									})
-							}
-						}
+						loadmore()
 				})   
 			}
 		}
@@ -972,6 +1081,7 @@ function viviz(mode) {
 							console.log('gallery.loadfull(): First full image loaded with dimensions '
 								+this.naturalWidth+'x'+this.naturalHeight+'.  Setting table dimensions.');
 
+							$(wrapper + " #fullframe").height('');
 							var tmp = setWH(this, galleryid, GALLERYINFO, 'full');
 
 							// Set height of full image.
@@ -999,7 +1109,7 @@ function viviz(mode) {
 
 				$(wrapper + " #filename").append("<a>");
 				$(wrapper + " #filename a")
-					.attr('href',INFOjs[parseInt(id-1)]["FullFile"])
+					.attr('href',VIVIZ["galleries"][galleryid]["fulldir"] + INFOjs[parseInt(id-1)]["FullFile"])
 					.text(INFOjs[parseInt(id-1)]["FullFile"]);
 				var wx = $(wrapper + " #filename").width();
 
@@ -1052,47 +1162,42 @@ function viviz(mode) {
 
 		function loadmore() {
 
-			var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
-			var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
-			if (shown < length) {
-				var maxLength = length;
-				var max = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["lazyLoadMax"]
-				if (length > (shown+max))
-					maxLength = shown+max;
-				
-				//$(wrapper).attr('totalvisible', maxLength);
-				//elem.attr('data-thumb-displayed', maxLength);
-				//console.log(shown)
-				var tic = new Date().getTime();
-				var slowwarn = false;
-				for (j=shown; j < shown+maxLength; j++) {
-					//console.log("j="+j)
-					if (j > INFOjs.length-1) break;
-					$('<img class="gallerythumbbrowse lazyload"/>')
-						.appendTo($(wrapper + ' #gallerythumbframe'))
-						.attr("id",j+1)
-						.attr("src", VIVIZ["galleries"][galleryid]["fulldir"] + INFOjs[j].ThumbFile)
-						.bind('click',setthumbbindings)
-						.attr("title",imgtitle(INFOjs[j]))
-						//.css("height",thumbheight)
-						.css("height",$("#gallerythumbframe > img").first().height())
-						.css("width",$("#gallerythumbframe > img").first().width())
-						//.error(function () {$(this).remove())
-						.load(function () {
-							//$(wrapper).attr('totalvisible', parseInt($(wrapper).attr('totalvisible'))+1);
-							if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-								//warning(wrapper,"Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.",true);
-								slowwarn = true;	
-								//setTimeout(function () {$('#connectionerror').html('')},5000);
-							}
+			var Navail = parseInt($(wrapper + ' #gallerythumbframe').attr('data-thumb-length'));
+			var Nshown = parseInt($(wrapper + " #gallerythumbframe > img").last().attr("id"));
+			if (Nshown == Navail) {
+				return
+			}
 
-							// The following will sometimes hide spinner before thumbnails are rendered on screen, because load
-							// is triggered when image has been downloaded and before it is rendered.  This is the reason
-							// for the 2*Nthumb ms delay (a guess).
-							////console.log('Thumb '+parseInt($(this).attr('id'))+' loaded.');
-															
-						});
-				}
+			var Nlazy = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["config"]["lazyLoadMax"]
+			
+			// Number of blocks of Nlazy images to fill document height.
+			Nfill = $(window).height()/(Math.max(Nlazy,Nshown)*VIVIZ["galleries"][galleryid]["thumbHeight"])
+
+			// If Nfill > 1, we need to load more images initially to trigger appearance
+			// of scroll bar.
+			Nlazy = Math.ceil(Nfill*Nlazy)
+
+			var tic = new Date().getTime()
+			var slowwarn = false
+			for (var j = Nshown; j < Nshown+Nlazy-1; j++) {
+				if (j == INFOjs.length) break;
+				$('<img class="gallerythumbbrowse lazyload"/>')
+					.appendTo($(wrapper + ' #gallerythumbframe'))
+					.attr("id",j+1)
+					.attr("src", VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[j].ThumbFile)
+					.bind('click',setthumbbindings)
+					.attr("title",imgtitle(INFOjs[j]))
+					//.css("height",thumbheight)
+					.css("height",$("#gallerythumbframe > img").first().height())
+					.css("width",$("#gallerythumbframe > img").first().width())
+					//.error(function () {$(this).remove())
+					.load(function () {
+						if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
+							//warning(wrapper,"Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.",true);
+							slowwarn = true;
+							//setTimeout(function () {$('#connectionerror').html('')},5000);
+						}														
+					})
 			}
 		}
 
@@ -1115,9 +1220,7 @@ function viviz(mode) {
 			// Show/Hide thumb button
 			$(wrapper + " #showhidethumb").unbind('toggle');
 			$(wrapper + " #showhidethumb").toggle(function(){
-					$(wrapper + " #gallerythumbframe").hide();
-					//$(wrapper + " #gallerythumbframe").css('visibility','hidden');
-					//$(wrapper + " #gallerythumbframe").css('width','0px');
+					$(wrapper + " #gallerythumbframe").hide()
 					setcontrolbindings.marginleft = $("#fullframe").css('margin-left');
 					$("#fullframe").css('margin-left','0');
 					$(wrapper + ' #showhidethumb').text('+');
@@ -1130,9 +1233,16 @@ function viviz(mode) {
 					$("#fullframe").css('margin-left',setcontrolbindings.marginleft)
 					$(wrapper + ' #showhidethumb').text('x');
 					$(wrapper + ' #showhidethumb').attr('title','Hide thumbnails')
-			});
+			})
 
-			if ((!VIVIZ["galleries"][galleryid]["showThumbstrip"] || !VIVIZ["showThumbstrip"])) {$("#showhidethumb").click();}
+			console.log(VIVIZ["galleries"][galleryid]["showThumbstrip"])
+			if (VIVIZ["config"]["showThumbstrip"] == false) {
+ 				if (typeof(VIVIZ["galleries"][galleryid]["showThumbstrip"]) !== "undefined") {
+ 					if (VIVIZ["galleries"][galleryid]["showThumbstrip"] == false) {					
+						$("#showhidethumb").click()
+					}
+ 				}
+			}
 			
 			var si = false;
 			$(wrapper + " #stop").unbind('click');
@@ -1211,11 +1321,11 @@ function viviz(mode) {
 				var elem = $(this);
 				var dh = elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight
 				console.log("gallery.setscrollbinding(): scrollHeight - scrollTop - clientHeight = " 
-					+ elem[0].scrollHeight + "-" + elem[0].scrollTop + "-" + elem[0].clientHeight + " = " + dh);
+					+ elem[0].scrollHeight + "-" + elem[0].scrollTop + "-" + elem[0].clientHeight + " = " + dh)
 
 				if (dh <= 0) {
 					console.log("gallery.setscrollbinding(): Calling loadmore() because dh <= 0.")
-					loadmore();
+					loadmore()
 				} else {
 					console.log("gallery.setscrollbinding(): Not calling loadmore() because dh > 0.")
 				}
@@ -1384,7 +1494,7 @@ function viviz(mode) {
 			var tw = 100; // Initial thumb width
 
 			// Get list of thumbnails in order determined by drop-downs.
-			INFOjs = thumblist(wrapper)
+			var INFOjs = thumblist(wrapper)
 			
 			// Maximum number of thumbnails to load.  Will change after we
 			// know how many images fit per row.
@@ -1630,4 +1740,3 @@ function viviz(mode) {
 	}
 
 }
-

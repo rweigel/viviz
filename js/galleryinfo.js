@@ -1,8 +1,6 @@
 function galleryinfo(galleryid) {
 
 	var usecache = true
-	var fullfiles = []
-	var thumbfiles = []
 
 	if (usecache) {
 		if (typeof(galleryinfo.GALLERYINFO) !== 'object') {
@@ -14,160 +12,196 @@ function galleryinfo(galleryid) {
 		}
 	}
 
-	var CATALOGINFO = cataloginfo(galleryid);
+	var CATALOGINFO = cataloginfo(galleryid)
 
-	if (typeof(CATALOGINFO) === "string") {
-		return CATALOGINFO
-	}
+	// Error message.
+	if (typeof(CATALOGINFO) === "string") {return CATALOGINFO}
 
-	if (typeof(CATALOGINFO["fullscript"]) === 'string') {
-		fullfiles = eval("(" + CATALOGINFO["fullscript"] + ")()")
-	}
+	var types = ["full", "thumb"]
 
-	if (typeof(CATALOGINFO["fullscript"]) === 'function') {
-		fullfiles = eval(CATALOGINFO["fullscript"]())
-	}
+	for (var j in types) {
 
-	if (typeof(CATALOGINFO["thumbscript"]) === 'string') {
-		thumbfiles = eval("(" + CATALOGINFO["thumbscript"] + ")()")
-	}
+		var type = types[j]
+		var files = []
 
-	if (typeof(CATALOGINFO["thumbscript"]) === 'function') {
-		thumbfiles = eval(CATALOGINFO["thumbscript"]())
-	}
-
-	if (typeof(CATALOGINFO["fullfiles"]) === 'object') {
-		fullfiles = CATALOGINFO["fullfiles"]
-	}
-
-	if (typeof(CATALOGINFO["fullfiles"]) === 'string') {
-		fullfiles = extractfiles(CATALOGINFO["fullfiles"])
-		if (typeof(fullfiles) === 'string') {
-			// Response is an error message.
-			return fullfiles
+		if (CATALOGINFO["dir"] && !CATALOGINFO[type+"dir"]) {
+			CATALOGINFO[type+"dir"] = CATALOGINFO["dir"]
 		}
-	}
 
-	if (typeof(CATALOGINFO["thumbfiles"]) === 'object') {
-		thumbfiles = CATALOGINFO["thumbfiles"]
-	}
-
-	if (typeof(CATALOGINFO["thumbfiles"]) === 'string') {
-		thumbfiles = extractfiles(CATALOGINFO["thumbfiles"])
-	}
-	
-	var options = {};
-	if (CATALOGINFO["strftime"]) {
-		options.type = "strftime";
-		options.template = CATALOGINFO["strftime"]
-		options.timeRange = CATALOGINFO["start"] + "/" + CATALOGINFO["stop"]
-	} 
-
-	if (CATALOGINFO["sprintf"]) {
-		var step = parseInt(CATALOGINFO["delta"])
-		if (isNaN(step)) {
-			var step = 1
-			console.log("galleryinfo.js: delta is not defined " + " or is NaN.  Using value of 1.")
+		if (CATALOGINFO["script"] && !CATALOGINFO[type+"script"]) {
+			CATALOGINFO[type+"script"] = CATALOGINFO["script"]
 		}
-		options.type = "sprintf";
-		options.template = CATALOGINFO["sprintf"]
-		options.indexRange = CATALOGINFO["start"] + "/" + CATALOGINFO["stop"] + "/" + step
-	}
-
-	if (CATALOGINFO["sprintf"] || CATALOGINFO["strftime"]) {
-		options.debug = false
-		var fullfiles = []
-		var xfiles = expandtemplate(options);
-		for (var i = 0; i < xfiles.length; i++) {
-			fullfiles[i] = [xfiles[i]]
+		if (typeof(CATALOGINFO[type+"script"]) === 'string') {
+			files = eval("(" + CATALOGINFO[type+"script"] + ")()")
 		}
-	}
+		if (typeof(CATALOGINFO[type+"script"]) === 'function') {
+			files = eval(CATALOGINFO[type+"script"]())
+		}
 
-	VIVIZ["galleries"][galleryid]["fullfiles"] = fullfiles
-
-	if (thumbfiles.length == 0) {
-		VIVIZ["galleries"][galleryid]["thumbfiles"] = thumbfiles
-	} else {
-		VIVIZ["galleries"][galleryid]["thumbfiles"] = fullfiles		
-	}
-
-	VIVIZ["galleries"][galleryid]["totalingallery"] = fullfiles.length 
-	VIVIZ["galleries"][galleryid]["orders"] = extractorders()
-	VIVIZ["galleries"][galleryid]["attributes"] = extractattributes(galleryid)
-
-
-	if (VIVIZ["config"]["useAutoAttributes"] || VIVIZ["galleries"][galleryid]["useAutoAttributes"]) {		
-
-			// When useAutoAttributes is true, ignores attributes specified in file.
-			// TODO: Add options useAutoAttributesOnly (current meaning of useAutoAttributes) 
-			// and useAutoAttributesAlso (Append auto attributes to existing)?	
-
-			na = 0
-
-			// Create regexps based on time information
-			if (CATALOGINFO["strftime"]) {
-				VIVIZ["galleries"][galleryid]["autoattributes"] = filterlist(CATALOGINFO["start"],CATALOGINFO["stop"],CATALOGINFO["strftime"])
-			
-				VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"] = VIVIZ["galleries"][galleryid]["autoattributes"]
-
-				// Add an All attribute at the end.
-				na = VIVIZ["galleries"][galleryid]["autoattributes"].length || 0
+		if (CATALOGINFO["files"] && !CATALOGINFO[type+"files"]) {
+			CATALOGINFO[type+"files"] = CATALOGINFO["files"]
+		}
+		if (typeof(CATALOGINFO[type+"files"]) === 'object') {
+			files = CATALOGINFO[type+"files"]
+		}
+		if (typeof(CATALOGINFO[type+"files"]) === 'string') {
+			files = extractfiles(CATALOGINFO[type+"files"])
+			if (typeof(files) === 'string') {
+				return files // Response is an error message.
 			}
+		}
+		
+		var options = {}
 
+		if (CATALOGINFO["start"] && !CATALOGINFO[type+"start"]) {
+			CATALOGINFO[type+"start"] = CATALOGINFO["start"]
+		}	
+		if (CATALOGINFO["stop"] && !CATALOGINFO[type+"stop"]) {
+			CATALOGINFO[type+"stop"] = CATALOGINFO["stop"]
+		}
 
-			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na] = {}
-			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Title = "All"
-			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Value = ".*"	
+		if (CATALOGINFO["strftime"] && !CATALOGINFO[type+"strftime"]) {
+			CATALOGINFO[type+"strftime"] = CATALOGINFO["strftime"]
+		}	
+		if (CATALOGINFO[type+"strftime"]) {
+			options.type = "strftime";
+			options.template = CATALOGINFO[type+"strftime"]
+			options.timeRange = CATALOGINFO[type+"start"] + "/" + CATALOGINFO[type+"stop"]
+		}
+
+		if (CATALOGINFO["sprintf"] && !CATALOGINFO[type+"sprintf"]) {
+			CATALOGINFO[type+"sprintf"] = CATALOGINFO["sprintf"]
+		}	
+		if (CATALOGINFO[type+"sprintf"]) {
+			if (CATALOGINFO["delta"] && !CATALOGINFO[type+"delta"]) {
+				CATALOGINFO[type+"delta"] = CATALOGINFO["delta"]
+			}	
+			var step = parseInt(CATALOGINFO[type+"delta"])
+			if (isNaN(step)) {
+				var step = 1
+				console.log("galleryinfo.js: delta is not defined " + " or is NaN.  Using value of 1.")
+			}
+			options.type = "sprintf";
+			options.template = CATALOGINFO[type+"sprintf"]
+			options.indexRange = CATALOGINFO[type+"start"] + "/" + CATALOGINFO[type+"stop"] + "/" + step
+		}
+
+		if (CATALOGINFO[type+"sprintf"] || CATALOGINFO[type+"strftime"]) {
+			options.debug = true
+			console.log(options)
+			var xfiles = expandtemplate(options)
+			for (var i = 0; i < xfiles.length; i++) {
+				files[i] = [xfiles[i]]
+			}
+		}
+
+		VIVIZ["galleries"][galleryid][type+"files"] = files
+
+		// If no dir or {full,thumb}dir, see if one exists in configuration.
+		if (!CATALOGINFO[type+"dir"]) {
+			if (VIVIZ["config"][type+"dir"]) {
+				CATALOGINFO[type+"dir"] = VIVIZ["config"][type+"dir"]
+			} else if (VIVIZ["config"]["dir"]) {
+				CATALOGINFO[type+"dir"] = VIVIZ["config"]["dir"]
+			} else {
+				if (type === "full") {
+					console.log("galleryinfo(): No full directory given in gallery config or global config. Paths will be relative to location of index.htm")
+					CATALOGINFO["fulldir"] = ""
+				}
+			}
+		}
 
 	}
 
-	if (fullfiles.length == 0) {
-		console.log("No files")
-		return "No file list was generated."
+
+	if (!CATALOGINFO["thumbdir"]) {
+		CATALOGINFO["thumbdir"] = CATALOGINFO["fulldir"]
+	}
+
+	if (VIVIZ["galleries"][galleryid]["fullfiles"].length == 0) {
+		console.log("No full file list was generated.")
+		return "No full file list was generated."
+	}
+	if (VIVIZ["galleries"][galleryid]["thumbfiles"].length == 0) {
+		VIVIZ["galleries"][galleryid]["thumbfiles"] = VIVIZ["galleries"][galleryid]["fullfiles"]
+	}
+	if (VIVIZ["galleries"][galleryid]["thumbfiles"].length != VIVIZ["galleries"][galleryid]["fullfiles"].length) {
+		console.log("Thumb file list length does not match full file length.")
+		return "Thumb file list length does not match full file list length."
+	}
+
+	VIVIZ["galleries"][galleryid]["totalingallery"] = files.length 
+	VIVIZ["galleries"][galleryid]["orders"] = extractorders()
+	VIVIZ["galleries"][galleryid]["attributes"] = extractattributes()
+
+	if (VIVIZ["config"]["useAutoAttributes"] || VIVIZ["galleries"][galleryid]["useAutoAttributes"]) {
+
+		// When useAutoAttributes is true, ignores attributes specified in file.
+		// TODO: Add options useAutoAttributesOnly (current meaning of useAutoAttributes) 
+		// and useAutoAttributesAlso (Append auto attributes to existing)?	
+
+		na = 0
+
+		// Create regexps based on time information
+		if (CATALOGINFO["fullstrftime"]) {
+			VIVIZ["galleries"][galleryid]["autoattributes"] = 
+				filterlist(CATALOGINFO["fullstart"],CATALOGINFO["fullstop"],CATALOGINFO["fullstrftime"])
+		
+			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"] = 
+				VIVIZ["galleries"][galleryid]["autoattributes"]
+
+			// Add an All attribute at the end.
+			na = VIVIZ["galleries"][galleryid]["autoattributes"].length || 0
+		}
+
+		VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na] = {}
+		VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Title = "All"
+		VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Value = ".*"	
 	}
 
 	if (usecache) {
 		galleryinfo.GALLERYINFO[galleryid] = VIVIZ["galleries"][galleryid]
 	}
 
-	console.log("galleryinfo.js: Returing")
-	console.log(VIVIZ["galleries"][galleryid])
-
+	console.log("galleryinfo.js: Returing"); console.log(VIVIZ["galleries"][galleryid])
 	return VIVIZ["galleries"][galleryid]
 }
 
 function extractorders() {
+
 	var ORDERS = {
 		    "Title": "Sort order",
 		    "Titleshort": "-Sort order-",
 		    "Class": "updatelocal",
-		    "Values": [{"Title": "No sort", "Value": "none"},
+		    "Values": [
+		    			{"Title": "No sort", "Value": "none"},
 						{"Title": "Ascending", "Value": "ascending"},
 		               	{"Title": "Descending","Value": "descending"},
-		               	{"Title": "Random","Value": "random"}]
+		               	{"Title": "Random","Value": "random"}
+		              ]
 	}
-	return ORDERS;
+	return ORDERS
 }
 
 function extractattributes(galleryid) {
 
 	ATTRIBUTES = new Object();
 	
-	ATTRIBUTES["Title"]      = "Sort attributes";
-	ATTRIBUTES["Titleshort"] = "-Sort by-";
-	ATTRIBUTES["Class"]      = "updatelocal";
+	ATTRIBUTES["Title"]      = "Sort attributes"
+	ATTRIBUTES["Titleshort"] = "-Sort by-"
+	ATTRIBUTES["Class"]      = "updatelocal"
 
-	ATTRIBUTES["Values"]             = new Array();
-	ATTRIBUTES["Values"][0]          = new Object();
-	ATTRIBUTES["Values"][0]["Title"] = "Filename";
-	ATTRIBUTES["Values"][0]["Value"] = "0";
+	ATTRIBUTES["Values"]             = new Array()
+	ATTRIBUTES["Values"][0]          = new Object()
+	ATTRIBUTES["Values"][0]["Title"] = "Filename"
+	ATTRIBUTES["Values"][0]["Value"] = "0"
 
-	ATTRIBUTES["Values"][0]["Filters"]    = new Array();
-	ATTRIBUTES["Values"][0]["Filters"][0] = new Object();
-	ATTRIBUTES["Values"][0]["Filters"][0]["Title"] = "All";
-	ATTRIBUTES["Values"][0]["Filters"][0]["Value"] = ".*";
+	ATTRIBUTES["Values"][0]["Filters"]    = new Array()
+	ATTRIBUTES["Values"][0]["Filters"][0] = new Object()
+	ATTRIBUTES["Values"][0]["Filters"][0]["Title"] = "All"
+	ATTRIBUTES["Values"][0]["Filters"][0]["Value"] = ".*"
 
-	return ATTRIBUTES;
+	return ATTRIBUTES
 
 	xml = cataloginfo.xml;
 

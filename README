@@ -1,12 +1,14 @@
-Software for browsing, sorting, and subsetting pre-generated images and data in a web browser.  It is an out-growth of the <a href="http://virbo.org/"/>ViRBO</a> project.
+Software for browsing, sorting, and subsetting pre-generated images and data in a web browser.  It is an out-growth of the [http://virbo.org/ ViRBO] project.
 
-<a href="http://viviz.org/gallery/"/>Demo page</a>
+[http://viviz.org/gallery/ Demo page]
 
-= Basic Use =
+= Use =
 
-In many cases, no installation is required.  If the images to view are all available from an HTTP address and the filenames follow a simple pattern, append a string to the URL <code><nowiki>http://viviz.org/gallery/#</code>.
+If the images to view are all available from an HTTP address and the filenames follow a simple pattern, the images may be viewed by appending a parameters to the URL <code><nowiki>http://viviz.org/gallery/#</code>.
 
-For example, the files <code>demo-2001.png</code>, <code>demo-2002.png</code>, <code>demo-2003.png</code>, <code>demo-2004.png</code> in http://viviz.org/gallery/images/full/ can be viewed using
+For offline browsing, see [[#Installation|Installation]].
+
+The files <code>demo-2001.png</code>, <code>demo-2002.png</code>, <code>demo-2003.png</code>, <code>demo-2004.png</code> in http://viviz.org/gallery/images/full/ can be viewed using
 
 <pre>
  http://viviz.org/gallery/#dir=http://viviz.org/gallery/images/full/&strftime=demo-$Y.png&start=2001&stop=2004
@@ -18,7 +20,7 @@ A thumbnail directory can be specified for improved load time:
  http://viviz.org/gallery/#fulldir=http://viviz.org/gallery/images/full/&thumbdir=../thumb/&strftime=demo-$Y.png&start=2001&stop=2004
 </pre>
 
-<code>thumbdir</code> can be either a relative or absolute URL.
+and <code>thumbdir</code> can be either a relative or absolute URL.
 
 When <code>strftime</code> has a year pattern (<code>$Y</code>), a drop-down menu is automatically created that allows viewing all of the images or only one year of images.
 
@@ -32,38 +34,36 @@ When <code>strftime</code> has a year pattern (<code>$Y</code>), a drop-down men
 
 == Basic ==
 
-* Browse to http://viviz.org/gallery/index.htm
+* Open http://viviz.org/gallery/index.htm
 * Select <code>File > Save As > index.htm</code>
 or
 * <code>curl -O <nowiki>http://viviz.org/gallery/index.htm</nowiki></code>
+* Open the saved <code>index.htm</code> file in a web browser
 
-Then
-* Modify one of the gallery configuration examples at the top of <code>index.htm</code> with a text editor to add a gallery. 
-* Open <code>index.htm</code> in a web browser
+To configure,
+* Modify one of the gallery configuration examples at the top of <code>index.htm</code> with a text editor. 
 or
 * Append arguments to <code>index.htm</code>, e.g., 
+:<code>index.htm#dir=file:///path/to/images/&strftime=...&start=...&stop=...</
 :<code>index.htm#dir=http:///server/path/to/images/&strftime=...&start=...&stop=...</code
-:<code>index.htm#dir=file:///path/to/images/&strftime=...&start=...&stop=...</code>
+code>
 
 == Web Server ==
 
-In this mode, 
+In this mode, directories for the location of the full directory may be relative and the parameters <code>fulllist</code> and <code>thumblist</code> may be relative paths.  For absolute URLs, a [[#Full Application]] installation is required.
 
-* Directories for the location of the full directory may be relative.
-* The parameters <code>fulllist</code> and <code>thumblist</code> may be relative paths.  (For absolute URLs, a [[#Full Application]] installation is required.)
-
-* Install a web server.
-* <code>curl http://viviz.org/gallery/index.htm > /server/root/dir/index.htm</code>
-* Optionally edit the configuration at the top of <code>index.htm</code> with a text editor to add galleries to the gallery drop-down menu.
+ curl http://viviz.org/gallery/index.htm > /server/root/dir/index.htm
+or
+ git pull http://github.com/rweigel/viviz
 
 == Full Application ==
 
-The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs and requires installation of [http://node.js/ Node].  Then from the command line,
+The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs and requires installation of [http://node.js/ Node].
 
  git pull http://github.com/rweigel/viviz
  cd viviz
  npm install
- node viviz.js 8002
+ node viviz.js --port 8002
 
 and open http://localhost:8002/ with a web browser.
 
@@ -71,45 +71,44 @@ and open http://localhost:8002/ with a web browser.
 
 The variable <code>VIVIZ</code> in <code>index.htm</code> contains all of the application and gallery configuation options.
 
-To see the gallery configuation for the gallery in view, select the Gallery configuration link.  See also <code>index.htm</code> for many examples of gallery configurations.  Any configuration option that appears in <code>VIVIZ["config"]</code> is over-ridden by a same-named option in a gallery configuation or a parameter in the query string.
+To see the gallery configuation for the gallery in view, select the Gallery configuration link.  See also <code>index.htm</code> for many examples of gallery configurations.
 
-For example, the gallery <code>ACE/Multi/2</code> has <code>thumbWidth=0.1</code> in its gallery configuration, which over-rides the default of <code>thumbWidth=0.25</code> in <code>VIVIZ["config"]</code>.  This gallery configuration value of <code>0.1</code> could be over-ridden using <code>#id=ACE/Multi/2&thumbWidth=0.5</code>.
+Any configuration option that appears in <code>VIVIZ["config"]</code> is over-ridden by a same-named option that appears in a gallery configuation or a parameter in the query string.
 
-The main configuration elements for a gallery are
-* <code>fulldir</code> A URL to the location of full-sized image files.
-* <code>thumbdir</code> A URL to the location of reduced-size versions of the full-sized images (default is <code>fulldir</code>).
-* <code>fullfiles</code> A list of filenames that are appended to <code>fulldir</code>.
-* <code>thumbfiles</code> A list of filenames that are appended to <code>thumbdir</code> (default is <code>fullfiles</code>).  The format of these lists is either as Javascript array of the form
+The main configuration parameters for a gallery are
+* <code>fulldir</code> or <code>dir</code>: A URL to the location of full-sized image files.
+* <code>thumbdir</code>: A URL to the location of reduced-size versions of the full-sized images (default is <code>fulldir</code>).
+* <code>fullfiles</code> or <code>files</code>: A list of filenames that are appended to <code>fulldir</code>.
+* <code>thumbfiles</code>: A list of filenames that are appended to <code>thumbdir</code> (default is <code>fullfiles</code>).  
+
+The format of the lists is either as Javascript array of the form
  [["demo-2001.png"],["demo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
 or a new-line separated list
  "demo-2001.png\ndemo-2002.png\ndemo-2003.png\ndemo-2004.png"
 
-The parameters <code>dir</code> or <code>files</code> can be used in place of <code>fulldir</code> and <code>fullfiles</code>.
+When the list of files is long and the filenames have a pattern, the list of files can be represented by <code>sprintf</code> or <code>strftime</code> along with <code>start</code> and <code>stop</code> indices or dates.
+* <code>sprintf</code> is a [http://linux.die.net/man/3/sprintf formatted string expression]]
+* <code>strftime</code> is a [http://linux.die.net/man/3/strftime formatted time string expression]
+* <code>start</code>: Either an integer or a date
+* <code>stop</code>: Either an integer or a date
 
-When the list of files is long and the filenames have a pattern the list of files may be represented by <code>sprintf</code> or <code>strftime</code> along with <code>start</code> and <code>stop</code> indices or dates.
-* <code>sprintf</code> is a [[#Sprintf|formatted string statement]] with one wildcard and start/stop values.
-* <code>strftime</code> is a [[#Strftime|formatted time string statement]] with <code>$Y</code>, <code>$m</code>, <code>$d</code> wildcards and start/stop times.
-* <code>start</code>
-* <code>stop</code>
-
-When the list of full- or reduced-size image files cannot be desribed using the above parameters, the lists may be generated using <code>list</code> or <code>script</code>, where
-* <code>list</code> is a [[#File_List|file]] containing a list of image file names and their attributes. (Only available in web server and full install; for web server instal, paths must be relative.)
+When the list of full- or reduced-size image files cannot be desribed using the above parameters, the lists can be specified using <code>list</code> or <code>script</code>, where
+* <code>list</code> is a [[#File List|file]] containing a list of image file names and their attributes. (Only available for web server and full install; for web server install, paths must be relative.)
 * <code>script</code> is a [[#Script|script]] that generates a list of files.
 
-If any of the above parameters applies only to either the full or reduced-sized images, the parameters should be prefixed by <code>full</code> or <code>thumb</code>, respectively.
+If any of the above parameters applies only to either the full- or reduced-sized images, the parameters should be prefixed by <code>full</code> or <code>thumb</code>, respectively.
 
 == File List ==
 
-Each gallery has an associated list of image file names located in the directory <code>fulldir</code>.  Each image can have attributes that can be used to view a subset of the images.  The format is
+Each image can have zero or more [[#Attributes|attributes]] that can be used to view a subset of the images.  The format is
 
  [
   ["file1.png", "attribute1", "attribute2", ..., "attributeM"],
   ...
   ["fileN.png", "attribute1", "attribute2", ..., "attributeM"]
  ]
-where attributes that are numbers do not need to be quoted in the Javascript format.  
 
-or
+where attributes that are numbers do not need to be quoted, or
 
   file1.png, attribute1, attribute2, ..., attributeM
   fileN.png, attribute1, attribute2, ..., attributeM
@@ -118,119 +117,72 @@ where all attributes are assumed to be strings unless they can be converted to f
 
 == Script ==
 
-This example creates a file list that is equivalent to a text file using a script.  
- [
-  ["file1.png", 1],
-  ["file2.png", 2]
- ]
+Any Javascript code that can run in a browser is allowed and the functions [https://github.com/alexei/sprintf.js sprintf] and [http://hacks.bluesmoon.info/strftime/strftime strftime] are available.
 
-Note that the functions [http://viviz.org/gallery/js/deps/sprintf.js sprintf] and [http://viviz.org/gallery/js/deps/strftime.js strftime] are available for use.
+The following three examples create the same list of four files.
+
 <source lang="javascript">
 <script>
-	(function () {
-	  files = new Array();
-	  files[0] = ["file1.png", 1];
-	  files[1] = ["file2.png", 2];						
-	})
+	function () {
+		files = []
+		for (i = 0; i < 4; i++) {
+			files[i] = ['demo-200' + (i+1) + '.png']
+		}
+		return files
+	}
 </script>
 </source>
 
-=== Sprintf ===
-
-A Javascript version [http://viviz.org/gallery/js-deps/strftime.js sprintf] that supports the core options of [http://linux.die.net/man/3/sprintf sprintf].
-
 <source lang="javascript">
 <script>
-	(function () {
-	  files = new Array();
-	  files[0] = ["file1.png", 1];
-	  files[1] = ["file2.png", 2];						
-	})
+	function () {
+		files = []
+		for (i = 0; i < 4; i++) {
+			files[i] = ['demo-' + sprintf('%02d',i+1) + '.png']
+		}
+		return files
+	}
 </script>
 </source>
 
-=== Strftime ===
-
-Uses a Javascript version [http://viviz.org/gallery/js-deps/strftime.js strftime] of  that supports the core options of [http://linux.die.net/man/3/strftime strftime].
-
 <source lang="javascript">
 <script>
-	(function () {
-	  files = new Array();
-	  files[0] = ["file1.png", 1];
-	  files[1] = ["file2.png", 2];						
-	})
+	function () {
+		files = []
+		for (i = 0; i < 4; i++) {
+			files[i] = ['demo-' + strftime('%Y',2000+i+1) + '.png']
+		}
+		return files
+	}
 </script>
 </source>
 
 <h2>Attributes and Filters</h2>
 
-* Each image may have two or more attributes.
-* Each attribute may have one or more associated filters.  When a filter is selected, only a subset of all images will be shown. 
-* Each filter has a title and a constraint.  Filter constraints can be either regular expressions (for string attributes) or logical expressions (for numeric attributes).
+* Each image can have zero or more attributes and each attribute can have zero or more filters that allow for showing only a subset of images. 
+* Filters expressions can be either regular expressions (for string attributes) or logical expressions (for numeric attributes).  To refer to the value of the attribute in logical expressions, use the <code>this</code> keyword.
 
-<h3>Attributes</h3>
-
-At minimum, each attribute must have a name.  All attributes specified in the image file list must be given in the catalog in the correct order.  For example, if the file list contained
-
- File1.png, 4.0
- File2.png, 5.0
+ file1.png, "AB", 4.0
+ file2.png, "BC", 5.0
  ...
 
-the attributes could be named as follows: 
-<source lang="xml">
-<attribute>
-	<name>Filename</name>
-</attribute>
-<attribute>
-	<name>Attribute 1</name>
-	<unit>nT&#183;hr</unit><!-- Use Unicode for special characters -->
-	<format>%.0f</format><!-- How the numbers should be displayed (using sprintf) -->
-</attribute>
-</source>
-
-<h3>Filters: Regular Expressions</h3>
-
-The following attribute node will result in a constraint drop-down menu with options of viewing all files and only files which match the expression <code>T1.*</code>.
-
-<source lang="xml">
-<attribute>
-	<name>Filename</name>
-	<filters>
-		<filter>
-			<title>All</title>
-			<value>.*</value>
-		</filter>
-		<filter>
-			<title>T1.*</title>
-			<value>T1.*</value>
-		</filter>
-	</filters>
-</attribute>		
-</source>
-
-<h3>Filters: Logical</h3>
-
-A filter may operate on the attribute in which it is enclosed (by using the <code>this</code> keyword.
-
-It usually only makes sense to apply logical constraints to attributes that are given as numbers (and not quoted) in the file list.
-
-The following attribute node will result in a contraint menu for viewing images with with options of viewing all files and only images for which this attribute is greater than 10.
-
-<source lang="xml">
-<attribute>
-	<name>Duration</name>
-	<unit>hour</unit>
-	<format>%d</format>
-	<filters>
-		<filter>
-			<title>All</title>
-			<value>true</value>
-		</filter>
-		<filter>
-			<title>Duration &gt; 10</title>
-			<value>this gt 10</value>
-		</filter>
-	</filters>
-</attribute>
-</source>
+[
+	{
+		"name": "Attribute 1",
+		"filters":
+			[
+				{"name": "All", "value": ".*"},
+				{"name": "Attribute 1 contains the letter C", "value": ".*C"},
+			]
+	},
+	{
+		"name": "Attribute 2",
+		"unit": "nT&#183;hr",
+		"format": "%.1f",
+		"filters":
+			[
+				{"name": "All", "value": true},
+				{"name": "Attribute 2 is greater than 4.0", "value": "this > 4.0"}
+			]
+	}
+}

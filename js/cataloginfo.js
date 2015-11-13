@@ -3,9 +3,13 @@ function cataloginfo(galleryid) {
 	//console.log("cataloginfo.js: Called.")
 
 	qs = $.parseQueryString();
+	var keys = ["dir","full","thumb","strftime","sprintf","script","list","start","stop"]
+	var hash = location.hash
 	var hashisgallery = false
-	if (location.hash.match(/fulldir=/)) {
-		hashisgallery = true
+	for (var j in keys) {
+		if (hash.indexOf(keys[j] + "=") > -1) {
+			hashisgallery = true
+		}
 	}
 
 	if (typeof(VIVIZ["catalog"]) === 'string') {
@@ -45,6 +49,9 @@ function cataloginfo(galleryid) {
 	// If no arguments, return list of galleries.
 	if (arguments.length == 0) {
 
+		if (!hashisgallery && !VIVIZ["catalog"]) {
+			return "No catalog object found in configuration variable."
+		}
 		if (hashisgallery) {
 			// Hash is query string with gallery information
 			console.log("cataloginfo.js: Hash is a query string with gallery information:")
@@ -53,10 +60,9 @@ function cataloginfo(galleryid) {
 				// No catalog, only query string
 				VIVIZ["catalog"] = []
 				VIVIZ["catalog"][0] = qs
-			if (!qs["id"]) {
-				VIVIZ["catalog"][0]["id"] = location.hash.replace(/^#/,'')
-			}
-
+				if (!qs["id"]) {
+					VIVIZ["catalog"][0]["id"] = location.hash.replace(/^#/,'')
+				}
 			} else {
 				// Place gallery specified by query string at front of list
 				console.log("cataloginfo.js: Prepending gallery specified by query string to gallery list.")
@@ -125,7 +131,7 @@ function cataloginfo(galleryid) {
 		var _CATALOGINFO = new Object();
 
 		// Find gallery with matching id in json array.
-		found = true
+		var found = true
 		for (i = 0;i < VIVIZ["catalog"].length; i++) {
 			if (VIVIZ["catalog"][i]["id"] === galleryid) {
 				found = false
@@ -139,9 +145,8 @@ function cataloginfo(galleryid) {
 	 		return msg
 	 	}
 		
+		// Gallery nodes will be stored in this object and be referenced by id.
 		if (!VIVIZ["galleries"]) VIVIZ["galleries"] = {}
-
-
 		VIVIZ["galleries"][galleryid] = {}
 
 		// Copy gallery information
@@ -153,7 +158,14 @@ function cataloginfo(galleryid) {
 			}
 		}
 
-		// Over-ride gallery information with values from query string
+		// Copy configuration information for gallery not found in global configuration
+		for (key in VIVIZ["config"]) {
+			if (typeof(VIVIZ["galleries"][galleryid][key]) === 'undefined') {
+				VIVIZ["galleries"][galleryid][key] = VIVIZ["config"][key]
+			}
+		}
+
+		// Replace gallery information with values in query string
 		for (key in qs) {
 			if (qs[key]) {
 				if (qs[key] === 'true') {qs[key] = true}
@@ -162,17 +174,6 @@ function cataloginfo(galleryid) {
 				console.log("cataloginfo.js: Setting " + key + " from " + VIVIZ["galleries"][galleryid][key] + " to " + qs[key]);
 				VIVIZ["galleries"][galleryid][key] = qs[key]
 			}
-		}
-				
-		if (VIVIZ["galleries"][galleryid]["fulldir"] && !VIVIZ["galleries"][galleryid]["thumbdir"]) {
-			VIVIZ["galleries"][galleryid]["thumbdir"] = VIVIZ["galleries"][galleryid]["fulldir"]
-		}
-
-		if (!VIVIZ["galleries"][galleryid]) {
-			VIVIZ["galleries"][galleryid]["fulldir"] = ""
-		}
-		if (!VIVIZ["galleries"][galleryid]) {
-			VIVIZ["galleries"][galleryid]["thumbdir"] = ""
 		}
 
 		VIVIZ["galleries"][galleryid]["json"] = VIVIZ["catalog"][i]

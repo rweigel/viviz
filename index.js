@@ -1,5 +1,5 @@
 
-// Default configuation options.
+// Configuation options.
 var VIVIZ = {}
 VIVIZ["config"] = {
 	"defaultMode": "gallery",
@@ -11,7 +11,7 @@ VIVIZ["config"] = {
 	"showAttributes": true,
 	"showCatalog": true,
 	"showDropdowns": true,
-	"showDownloads": false,
+	"showDownloads": true,
 	"useAutoAttributes": true,
 	"thumbWidth": 0.25,
 	"thumbHeight": 0.25,
@@ -53,14 +53,15 @@ VIVIZ["catalog"] =
 		},
 		{
 			"id": "ACE/Multi/2",
-			"title": "ACE/Multi with no thumbdir and thumbWidth = 0.25",
+			"title": "ACE/Multi with no thumbdir and thumbWidth = 0.1",
 			"titleshort": "ACE/Multi/Alt",
 			"about": "http://virbo.org/gallery#ACE",
 			"strftime": "product_%Y%m%d.png",
 			"start": "1998-01-01",
 			"stop": "2012-04-30",
 			"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
-			"thumbWidth": 0.1
+			"thumbWidth": 0.1,
+			"showThumbstrip":false
 		},
 		{
 			"id": "Demo/01",
@@ -139,13 +140,13 @@ VIVIZ["catalog"] =
 			"title": "fullfiles as localhost URL to text file. (Requires full application install)",
 			"aboutlink": "http://viviz.org/",
 			"fulldir": "images/full/",
-			"fullfiles": "http://localhost:"+VIVIZ["port"]+"/catalogs/lists/demo-filelist.txt"
+			"fullfiles": "http://localhost:"+VIVIZ["config"]["port"]+"/catalogs/lists/demo-filelist.txt"
 		},
 		{
 			"id": "Demo/12",
 			"title": "fullfiles as localhost URL to file with JavaScript array. (Requires full application install)",
 			"fulldir": "images/full/",
-			"fullfiles": "http://localhost:"+VIVIZ["port"]+"/catalogs/lists/demo-filelist.json"
+			"fullfiles": "http://localhost:"+VIVIZ["config"]["port"]+"/catalogs/lists/demo-filelist.json"
 		},
 		{
 			"id": "Demo/13",
@@ -160,8 +161,29 @@ VIVIZ["catalog"] =
 			"fullfiles": "http://viviz.org/app/catalogs/lists/demo-filelist.json"
 		},
 		{
-			"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&strftimestart=1998-01-01&strftimestop=1998-01-04",
+			"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&start=1998-01-01&stop=1998-01-04",
 			"title": "ID specified as URL in index.js.",
 			"about": "Configuration not recommended.  <code>fulldir</code> must be first argument for this form of configuation to work."
+		},
+		{
+			"id": "dir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&start=1998-01-01&stop=1998-01-04",
+			"title": "ID specified as URL in index.js.",
+			"about": "Configuration not recommended.  <code>fulldir</code> must be first argument for this form of configuation to work."
+		},
+		{
+			"id": "dir=images/full/&strftime=demo-%Y.png&start=2001&stop=2004",
+			"title": "",
+			"about": ""
+		},
+		{
+			"id": "Demo/15",
+			"title": "No dir given.  Will only work if dir=images/full set in VIVIZ.config.",
+			"strftime": "demo-%Y.png",
+			"start": 2001,
+			"stop": 2004
+		},
+		{
+			"id": "strftime=demo-%Y.png&start=2001&stop=2004",
+			"title": "No dir given.  Will only work if dir=images/full set in VIVIZ.config.",
 		}
 	]
