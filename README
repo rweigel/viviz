@@ -1,28 +1,31 @@
-Software for browsing, sorting, and subsetting pre-generated images and data in a web browser.  It is an out-growth of the [http://virbo.org/ ViRBO] project.
+Software for browsing, sorting, and subsetting pre-generated images in a web browser.  It is an out-growth of the [http://virbo.org/ ViRBO] project.
 
 [http://viviz.org/gallery/ Demo page]
 
 = Use =
 
-If the images to view are all available from an HTTP address and the filenames follow a simple pattern, the images may be viewed by appending a parameters to the URL <code><nowiki>http://viviz.org/gallery/#</code>.
-
-For offline browsing, see [[#Installation|Installation]].
+If remote images are available from an HTTP address and the filenames follow a simple pattern, the images may be viewed by appending parameters to the URL <code><nowiki>http://viviz.org/gallery/#</code>.  For alternative installations, including for viewing local images, see [[#Installation|Installation]].
 
 The files <code>demo-2001.png</code>, <code>demo-2002.png</code>, <code>demo-2003.png</code>, <code>demo-2004.png</code> in http://viviz.org/gallery/images/full/ can be viewed using
 
 <pre>
  http://viviz.org/gallery/#dir=http://viviz.org/gallery/images/full/&strftime=demo-$Y.png&start=2001&stop=2004
 </pre>
+or
+<pre>
+ http://viviz.org/gallery/#dir=images/full/&strftime=demo-$Y.png&start=2001&stop=2004
+</pre>
 
 A thumbnail directory can be specified for improved load time:
 
 <pre>
- http://viviz.org/gallery/#fulldir=http://viviz.org/gallery/images/full/&thumbdir=../thumb/&strftime=demo-$Y.png&start=2001&stop=2004
+ http://viviz.org/gallery/#fulldir=images/full/&thumbdir=../thumb/&strftime=demo-$Y.png&start=2001&stop=2004
+</pre>
+or
+<pre>
+ http://viviz.org/gallery/#fulldir=images/full/&thumbdir=images/thumb/&strftime=demo-$Y.png&start=2001&stop=2004
 </pre>
 
-and <code>thumbdir</code> can be either a relative or absolute URL.
-
-When <code>strftime</code> has a year pattern (<code>$Y</code>), a drop-down menu is automatically created that allows viewing all of the images or only one year of images.
 
 = Performance Hints =
 
@@ -76,7 +79,7 @@ To see the gallery configuation for the gallery in view, select the Gallery conf
 Any configuration option that appears in <code>VIVIZ["config"]</code> is over-ridden by a same-named option that appears in a gallery configuation or a parameter in the query string.
 
 The main configuration parameters for a gallery are
-* <code>fulldir</code> or <code>dir</code>: A URL to the location of full-sized image files.
+* <code>fulldir</code> or <code>dir</code>: A URL to the location of full-sized image files (default is same directory of index.html)
 * <code>thumbdir</code>: A URL to the location of reduced-size versions of the full-sized images (default is <code>fulldir</code>).
 * <code>fullfiles</code> or <code>files</code>: A list of filenames that are appended to <code>fulldir</code>.
 * <code>thumbfiles</code>: A list of filenames that are appended to <code>thumbdir</code> (default is <code>fullfiles</code>).  
@@ -161,6 +164,8 @@ The following three examples create the same list of four files.
 
 * Each image can have zero or more attributes and each attribute can have zero or more filters that allow for showing only a subset of images. 
 * Filters expressions can be either regular expressions (for string attributes) or logical expressions (for numeric attributes).  To refer to the value of the attribute in logical expressions, use the <code>this</code> keyword.
+
+When <code>strftime</code> has a year pattern (<code>$Y</code>), a drop-down menu is automatically created that allows viewing all of the images or only one year of images.
 
  file1.png, "AB", 4.0
  file2.png, "BC", 5.0
