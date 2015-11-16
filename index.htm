@@ -1,5 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
+
 	<head>
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 		<title>ViViz</title>
@@ -103,35 +104,15 @@
 
 				<div id="error" class="well" style="display:none;background-color:red;"></div>
 
-				<div id="catalogwrapper" class="well" style="text-align:center">
-					<span id="catalogopen" style="float:left;cursor:pointer;text-decoration:underline">
-						Gallery configuration
-					</span>
-					<span id="catalogclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;">
-						x
-					</span>
-					<span id="catalogtest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
-					<span id="catalogsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
-					<span style="float:right">Powered by <a href="http://viviz.org/" style="text-decoration: underline;">ViViz</a></span>
-					<br/>
-					<div id="catalog" style="text-align:left;overflow:auto"></div>
-				</div>
+				<!-- catalogwrapper gets copied here -->
 
 				<div id="dropdownswrapper" class="well">
 					<div style="text-align:center;">
 						<span id="dropdowns"></span>
 
-						<span id="thumbbrowsemodewrapper">
-							<select id="thumbbrowsemode" title="Interaction Mode">
-								<option value="-1">-Interaction-</option>
-								<option value="3">Overlay on hover</option>
-								<option value="2" selected="true">Overlay on click</option>
-							</select>
-						</span>
-
 						<span>
 							<button class="btn" type="button" title="Show as gallery" id="gallerybrowsebutton">
-								<h4>&#9634;</h4>
+								<h4>|&#9634;</h4>
 							</button>
 						</span>
 
@@ -142,12 +123,10 @@
 					</div>
 				</div>
 
-
-
-				<div class="well ui-widget-content" id="thumbbrowseframe" style="margin-left:auto;margin-right:auto;padding:20px auto;"></div>
+				<div class="well ui-widget-content" id="thumbbrowseframe"></div>
 
 				<div>
-					<img id="thumbbrowseoverlay" class="thumbbrowsetop" src="css/ajax-loader.gif"/>
+					<img id="thumbbrowseoverlay" class="thumbbrowsetop" style="border:1px solid black" src="css/ajax-loader.gif"/>
 				</div>
 
 				<div class="well">
@@ -163,4 +142,5 @@
 		</div>
 
 	</body>
+
 </html>

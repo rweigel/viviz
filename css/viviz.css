@@ -1,3 +1,4 @@
+/* Start definitions from bootstrap.css */
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -209,11 +210,11 @@ select {
   color: #555555;
   font-weight:bold;
 }
+/* End definitions from bootstrap.css */
 
 select #gallery {
 	width: 15em;
 }
-
 
 #g-container #gallerythumbframe {
 	overflow-y: auto;
@@ -229,15 +230,15 @@ select #gallery {
 	border: 0px solid green;
 }
 #g-container .gallerythumbbrowse {
-	overflow-y: auto;
-    margin:auto;
-    border: 2px solid white; /*3px*/
+  overflow-y: auto;
+  margin:auto;
+  border: 2px solid white; /*3px*/
 }
 #g-container .inactive {
-    border: 2px solid white;
+  border: 2px solid white;
 }
 #g-container .active {
-    border: 2px solid blue;
+  border: 2px solid blue;
 }
 #g-container > button {
 	background-color: white;
@@ -249,16 +250,6 @@ select #gallery {
 	cursor:pointer;
 }
 
-#t-container #sliderright {
-	margin: 0px;
-	padding: 10px;
-	border:1px solid #000000;
-	text-align:center;
-}
-#t-container #menuandslider {
-	margin: 0px;
-	padding: 0px;
-}
 #t-container > button {
 	background-color: white;
 	padding: 0px 0px;
@@ -270,7 +261,6 @@ select #gallery {
 }
 #t-container #thumbbrowseoverlay {
 	z-index:1;
-	margin:-30px;
 }
 #thumbframe {
 	float: left;

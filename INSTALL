@@ -1,0 +1,4 @@
+git pull http://github.com/rweigel/viviz
+cd viviz
+npm install
+node viviz.js --port 8002

@@ -2,7 +2,7 @@
 var VIVIZ = {}
 VIVIZ["config"] =
 	{
-		"defaultMode": "gallery",
+		"defaultMode": "thumb",
 		"showThumbstrip": true,
 		"showFileName": true,
 		"showAboutText": true,
@@ -26,6 +26,22 @@ VIVIZ["config"] =
 	}
 
 // Demonstration catalog.
+xVIVIZ = {}
+xVIVIZ["catalog"] = 
+		[
+			{
+				"id": "ACE/Multi/1",
+				"title": "ACE/Multi",
+				"aboutlink": "http://virbo.org/gallery#ACE",
+				"strftime": "product_%Y%m%d.png",
+				"start": "1998-01-01",
+				"stop": "2012-04-30",
+				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+				"thumbdir": "http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/",
+			}
+		]
+
+// Test catalog.
 VIVIZ["catalog"] = 
 		[
 			{
@@ -217,10 +233,10 @@ VIVIZ["catalog"] =
 			},
 			{
 				"id": "Demo/22",
-				"title": "No dir given.",
+				"title": "No dir given; images must be in same directory as index.htm",
 				"strftime": "demo-%Y.png",
 				"start": 2001,
-				"stop": 2004
+				"stop": 2002
 			},
 			{
 				"id": "strftime=demo-%Y.png&start=2001&stop=2001",
