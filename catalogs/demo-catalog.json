@@ -2,11 +2,10 @@
 	{
 		"id": "ACE/Multi",
 		"title": "ACE/Multi",
-		"titleshort": "ACE/Multi",
 		"about": "http://virbo.org/gallery#ACE",
 		"strftime": "product_%Y%m%d.png",
-		"strftimestart": "1998-01-01",
-		"strftimestop": "2012-04-30",
+		"start": "1998-01-01",
+		"stop": "2012-04-30",
 		"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
 		"thumbdir": "http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/"
 	}

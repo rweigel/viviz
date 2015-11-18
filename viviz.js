@@ -5,6 +5,13 @@ function viviz(VIVIZ, mode) {
 
 	console.log("viviz.js: Called.")
 
+	if ($("#favicon").length == 0 && location.protocol.indexOf("file") === 0) {
+		//Favicon for offline mode.  See also
+		//http://stackoverflow.com/questions/5199902/isnt-it-silly-that-a-tiny-favicon-requires-yet-another-http-request-how-to-mak
+		$('<link id="favicon" rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAQAAAAAAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAADQcAALonPQANAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERAREBEQERASEBIQEhASEBEQERAREBEQAAAAAAAAAAAREBEQEhAREBIQEhASEBIQERAREBEQERAAAAAAAAAAABEQERAREBEQEhASEBIQEhAREBEQERAREAAAAAAAAAAAMzAzMDMwMzAyMDIwMjAyMDMwMzAzMDMwAAAAAAAAAAAREQAAEREAABERAAD//wAAEREAABERAAAREQAA//8AABERAAAREQAAEREAAP//AAAREQAAEREAABERAAD//wAA" />')
+			.appendTo('head')
+	}
+
 	// Default configuration options
 	var _VIVIZ = {}
 	_VIVIZ["config"] = {
@@ -66,7 +73,7 @@ function viviz(VIVIZ, mode) {
 		console.log('viviz.js: Hash has changed to ' + location.hash + ".")
 		// Special case where id is only key specified in gallery object
 		// and its value is a query string.
-		var keys = ["dir","full","thumb","strftime",
+		var keys = ["catalog","dir","full","thumb","strftime",
 					"sprintf","script","list","start","stop"]
 		var hash = location.hash
 		for (var k in keys) {
@@ -82,6 +89,16 @@ function viviz(VIVIZ, mode) {
 		viviz(VIVIZ)
 	})
 
+	if (qs["catalog"]) {
+		if (VIVIZ["config"]["catalog"] !== qs["catalog"]) {
+			console.log("viviz.js: Hash contains catalog URL.")
+			VIVIZ["config"]["catalog"] = qs["catalog"]
+			location.hash = ""
+			viviz(VIVIZ)
+			return
+		}
+	}
+
 	// Get list of galleries
 	console.log("viviz.js: Getting list of galleries.")
 	var GALLERIES = cataloginfo()
@@ -89,9 +106,6 @@ function viviz(VIVIZ, mode) {
 		console.log("viviz.js: Call to cataloginfo() failed.")
 		resetdom()
 		error(GALLERIES)
-		$('#g-container').show()
-		$('#g-container .well').hide()
-		$('#g-container #error').show()
 		return
 	}
 
@@ -108,24 +122,22 @@ function viviz(VIVIZ, mode) {
 		var galleryid = qs["id"] || GALLERIES["Values"][0]["Id"]
 	}
 	console.log("viviz.js: galleryid = " + galleryid)
-
 	var GALLERYINFO = galleryinfo(galleryid)
 
-	// Call to galleryinfo sets VIVIZ["galleries"][galleryid]
+	// Call to galleryinfo with valid galleryid sets VIVIZ["galleries"][galleryid]
 	if (typeof(GALLERYINFO) === "string") {
-		console.log("gallery.js: Call to galleryinfo() failed.")
+		console.log("viviz.js: Call to galleryinfo() failed.")
 		resetdom()
 		error("Problem with configuration for gallery with <code>id = " 
 				+ galleryid + "</code>:<br/>" + GALLERYINFO)
-		$('#g-container').show()
-		$('#g-container .well').hide()
-		$('#g-container #error').show()
-		if (VIVIZ["galleries"][galleryid]) {
-			// Gallery is is valid.  Show header and only gallery list.
+		if (!VIVIZ["galleries"]) {
+			// Gallery id is not valid.  Only show gallery list.
+			setdropdowns(false)
+		} else if (VIVIZ["galleries"][galleryid]) {
+			// Gallery id is valid.  Show gallery configuration.
 			setheader()
 			setdropdowns(false)
 		} else {
-			// Gallery id is not valid.  Only show gallery list.
 			setdropdowns(false)
 		}
 		return
@@ -138,8 +150,6 @@ function viviz(VIVIZ, mode) {
 	// Button to switch between gallery and thumb view
 	$("#gallerybrowsebutton").unbind('click')
 	$("#gallerybrowsebutton").click(function () {
-		$('#t-container').hide()
-		$('#g-container').show()
 		if (VIVIZ["config"]["defaultMode"] === "gallery") {
 			location.hash = location.hash.replace("&mode=thumb","")
 		} else {
@@ -149,8 +159,6 @@ function viviz(VIVIZ, mode) {
 	})
 	$("#thumbbrowsebutton").unbind('click')
 	$("#thumbbrowsebutton").click(function () {
-		$('#g-container').hide()
-		$('#t-container').show()
 		if (VIVIZ["config"]["defaultMode"] === "thumb") {
 			location.hash = location.hash.replace("&mode=gallery","")
 		} else {
@@ -159,57 +167,48 @@ function viviz(VIVIZ, mode) {
 		viviz(VIVIZ, 'thumb')
 	})
 
-	if (mode === 'gallery') {
-		$('#t-container').hide()
-		$('#g-container').show()
-		gallery()
-	}
-	if (mode === 'thumb') {
-		$('#g-container').hide()
-		$('#t-container').show()
-		thumb()		
-	}
+	if (mode === 'gallery') gallery()
+	if (mode === 'thumb') thumb()		
 
 	function cataloginfo(galleryid) {
 
-		//console.log("cataloginfo.js: Called.")
+		//console.log("cataloginfo(): Called.")
 
 		qs = $.parseQueryString()
 
 		var hashisgallery = false
-		if (location.hash.indexOf("id=") == -1) {
+		if (location.hash.indexOf("id=") == -1){
 			if (location.hash.length > 1)
 				hashisgallery = true
 		}
 
-		if (typeof(VIVIZ["catalog"]) === 'string') {
+		if (typeof(VIVIZ["config"]["catalog"]) === 'string') {
 			if (location.href.match(/^file/)) {
-				console.log("cataloginfo.js: Application cannot read " + VIVIZ.catalog + " because it is not available from a server.")
-				warning("#gallery1", "Application cannot read <a style='text-decoration:underline' href='" + VIVIZ.catalog + "'>" + VIVIZ.catalog + "</a> because it is not available from a server.")
+				console.log("cataloginfo(): Application cannot read " + VIVIZ["config"]["catalog"] + " because it is not available from a server.")
+				warning("#gallery1", "Application cannot read <a style='text-decoration:underline' href='" + VIVIZ["config"]["catalog"] + "'>" + VIVIZ["config"]["catalog"] + "</a> because it is not available from a server.")
 				if (hashisgallery == false) {
-					console.log("cataloginfo.js: Problem with query string.")
+					console.log("cataloginfo(): Problem with query string.")
 					error("#gallery1", "Problem with query string and cannot read catalog.")
 					return ""
 				} else {
 					VIVIZ["catalog"] = []
 				}
 			} else {
-				console.log("cataloginfo.js: VIVIZ['catalog'] is a URL that returns JSON. Requesting it.")
+				console.log("cataloginfo(): VIVIZ['config']['catalog'] is a URL that returns JSON. Requesting it.")
 				$.ajax({
 							type: "GET",
-							url: VIVIZ["catalog"],
+							url: VIVIZ['config']["catalog"],
 							async: false,
 							dataType: "json",
 							success: 
 								function (data, textStatus, jqXHR) {
-									//cataloginfo.jqXHR = jqXHR;
-									console.log("cataloginfo.js: Finished reading " + VIVIZ["catalog"])
-									VIVIZ["catalog"] = data;
+									console.log("cataloginfo(): Finished reading " + VIVIZ['config']["catalog"])
+									VIVIZ["catalog"] = data
 								},
 							error: 
 								function (xhr, textStatus, errorThrown) {
-									error("#gallery1", "Could not read <a style='text-decoration:underline' href='" + VIVIZ.catalog + "'>" + VIVIZ.catalog + "</a>. Error: " + errorThrown.message.split(":")[0])
-									console.log("cataloginfo.js: Could not read " + VIVIZ["catalog"] + ". Error: " + errorThrown.message.split(":")[0])
+									error("#gallery1", "Could not read <a style='text-decoration:underline' href='" + VIVIZ['config']["catalog"] + "'>" + VIVIZ['config']["catalog"] + "</a>. Error: " + errorThrown.message.split(":")[0])
+									console.log("cataloginfo(): Could not read " + VIVIZ['config']["catalog"] + ". Error: " + errorThrown.message.split(":")[0])
 									VIVIZ["catalog"] = []
 								}
 						})
@@ -224,7 +223,7 @@ function viviz(VIVIZ, mode) {
 			}
 			if (hashisgallery) {
 				// Hash is query string with gallery information
-				console.log("cataloginfo.js: Hash is a query string with gallery information:")
+				console.log("cataloginfo(): Hash is a query string with gallery information:")
 				console.log(qs)
 				if (!VIVIZ["catalog"]) {
 					// No catalog, only query string
@@ -235,7 +234,7 @@ function viviz(VIVIZ, mode) {
 					}
 				} else {
 					// Place gallery specified by query string at front of list
-					console.log("cataloginfo.js: Prepending gallery specified by query string to gallery list.")
+					console.log("cataloginfo(): Prepending gallery specified by query string to gallery list.")
 					//console.log(VIVIZ["catalog"])
 					//console.log(VIVIZ["catalog"].length)
 					VIVIZ["catalog"].unshift(qs)
@@ -251,7 +250,7 @@ function viviz(VIVIZ, mode) {
 								//console.log("Element number: " + i)
 								//console.log(el)
 								if (i != 0 && el.id === location.hash.replace(/^#/,'')) {
-									console.log("cataloginfo.js: Removing existing gallery from catalog.")
+									console.log("cataloginfo(): Removing existing gallery from catalog.")
 									VIVIZ["catalog"].splice(i,1)
 								}
 							})
@@ -286,10 +285,10 @@ function viviz(VIVIZ, mode) {
 					
 			if (GALLERIES.Values.length == 0) {
 				$("#connectionerror").html("Problem reading gallery information.");
-				console.log("cataloginfo.js: Problem reading gallery information.");
+				console.log("cataloginfo(): Problem reading gallery information.");
 				return ""
 			}
-			console.log("cataloginfo.js: Returning list of " + GALLERIES.Values.length + " galleries.");
+			console.log("cataloginfo(): Returning list of " + GALLERIES.Values.length + " galleries.");
 
 			return GALLERIES;
 		}
@@ -297,7 +296,7 @@ function viviz(VIVIZ, mode) {
 		// If galleryid given, return gallery information.
 		if (arguments.length == 1) {
 
-			console.log("cataloginfo.js: Returning gallery information found in catalog for galleryid = " + galleryid)
+			console.log("cataloginfo(): Returning gallery information found in catalog for galleryid = " + galleryid)
 			var _CATALOGINFO = new Object();
 
 			// Find gallery with matching id in json array.
@@ -311,7 +310,7 @@ function viviz(VIVIZ, mode) {
 
 			if (found) {
 		 		var msg = "Gallery with <code>id = "+ galleryid + "</code> not found in catalog:<br/><textarea style='width:40em;height:20em'>"+JSON.stringify(VIVIZ["catalog"], null, 4)+"</textarea>"
-		 		console.log(msg)
+		 		console.log("cataloginfo(): Gallery with <code>id = "+ galleryid + "</code> not found in catalog.")
 		 		return msg
 		 	}
 			
@@ -366,14 +365,14 @@ function viviz(VIVIZ, mode) {
 					if (qs[key] === 'true') {qs[key] = true}
 					if (qs[key] === 'false') {qs[key] = false}
 					if ($.isNumeric(qs[key])) {qs[key] = parseFloat(qs[key])}
-					console.log("cataloginfo.js: Setting " + key + " from " + VIVIZ["galleries"][galleryid][key] + " to " + qs[key]);
+					console.log("cataloginfo(): Setting " + key + " from " + VIVIZ["galleries"][galleryid][key] + " to " + qs[key]);
 					VIVIZ["galleries"][galleryid][key] = qs[key]
 				}
 			}
 
 			VIVIZ["galleries"][galleryid]["json"] = VIVIZ["catalog"][i]
 			
-			console.log("cataloginfo.js: Returning")
+			console.log("cataloginfo(): Returning")
 			console.log(VIVIZ["galleries"][galleryid])
 			return VIVIZ["galleries"][galleryid]
 		}
@@ -786,8 +785,11 @@ function viviz(VIVIZ, mode) {
 		}
 
 		// Toggle state set when call to cataloginfo() failed.
-		$('#g-container').hide()
-		$('#g-container .well').show()
+		$("#thumb" + gallerynumber).parent().hide()
+		$("#gallery" + gallerynumber).parent().hide()
+
+		$("#thumb" + gallerynumber + " .well").show()
+		$("#gallery" + gallerynumber + " .well").show()
 
 		$(wrapper + ' #workingfullframe').css('visibility','hidden')
 		$(wrapper + " #gallerythumbframe").html('')
@@ -814,7 +816,9 @@ function viviz(VIVIZ, mode) {
 	}
 
 	function error(msg, clear) {
-		$(wrapper + ' #error').show()
+		$(wrapper).parent().show()
+		$(wrapper + " .well").hide()
+		$(wrapper + " #error").show()
 		if (clear) {
 			$(wrapper + ' #error').html(msg)
 		} else {
@@ -955,19 +959,23 @@ function viviz(VIVIZ, mode) {
 				qs[el] = val
 			}
 			var hash = ""
-			for (var key in qs) {
-				hash = hash + "&" + key + "=" + qs[key]
+			if (el === 'id') {
+				// Remove everything except for ID
+				hash = "id=" + val
+			} else {
+				for (var key in qs) {
+					hash = hash + "&" + key + "=" + qs[key]
+				}
+				hash = hash.substr(1)
 			}
 			console.log('updatehash(): Setting location.hash.')
-			location.hash = hash.substr(1)
+			location.hash = hash
 		}
 	}
 
 	function setdropdowns(all) {
 
-		console.log("dropdowns(): Setting dropdowns in " 
-			+ wrapper + " based on gallery information for "
-			+ galleryid + ".")
+		console.log("dropdowns(): Setting dropdowns in " + wrapper + ".")
 
 		// Gallery drop-down
 		dropdown("id", GALLERIES, wrapper + " #dropdowns")
@@ -987,6 +995,7 @@ function viviz(VIVIZ, mode) {
 			// galleryid not found or error when generating file list.
 			// Select gallery definition in gallery list drop-down and exit.
 			console.log("setdropdowns(): Only setting gallery dropdown because of error.")
+			console.log("setdropdowns(): Selecting defintion in gallery dropdown.")
 			$(wrapper + " #dropdowns #id #def").attr('selected','selected')
 			$(wrapper + ' #dropdownswrapper').show()
 			$(wrapper + ' #dropdownswrapper select').hide()
@@ -1340,6 +1349,9 @@ function viviz(VIVIZ, mode) {
 	}
 
 	function gallery() {
+
+		$("#thumb" + gallerynumber).parent().hide()
+		$("#gallery" + gallerynumber).parent().show()
 
 		setthumbs()
 
@@ -1923,6 +1935,9 @@ function viviz(VIVIZ, mode) {
 
 	function thumb() {
 
+		$("#gallery" + gallerynumber).parent().hide()
+		$("#thumb" + gallerynumber).parent().show()
+
 		setthumbs()
 
 		function setthumbbindings() {
@@ -1971,7 +1986,7 @@ function viviz(VIVIZ, mode) {
 					console.log('Window width:  ' + $(window).width())
 					console.log('Window height: ' + $(window).height())
 					if ($(el).offset().left > $(window).width()/2) {
-						var lt = [$(el).offset().left-setthumbbindings.overlayDimensions[0]+$(el).width(),$(el).position().top]						
+						var lt = [$(el).offset().left-setthumbbindings.overlayDimensions[0]+$(el).outerWidth(),$(el).position().top]						
 					}
 
 				}
@@ -1988,20 +2003,27 @@ function viviz(VIVIZ, mode) {
 
 				lt = positionoverlay(this)
 				console.log(lt)
+				$(wrapper + ' #thumbbrowseoverlay').parent().prepend('<img style="position:absolute; z-index:2; display:none" id="thumboverlayloading" src="css/ajax-loader.gif"/>')
+				$(wrapper + ' #thumboverlayloading').css("left", lt[0]).css("top", lt[1]).fadeIn(2000)
+
+				// http://stackoverflow.com/questions/3877027/jquery-callback-on-image-load-even-when-the-image-is-cached
 				$(wrapper + ' #thumbbrowseoverlay').unbind('load')
 				$(wrapper + ' #thumbbrowseoverlay')
 					.show()
 					.attr("src", $(this).attr("srcfull"))
 					.css("left", lt[0])
 					.css("top", lt[1])
-					.load(function () {
+					.one("load",function () {
 						setthumbbindings.overlayOffset   = [$(wrapper + ' #thumbbrowseoverlay').offset().left, $(wrapper + ' #thumbbrowseoverlay').offset().top]
 						setthumbbindings.overlayPosition = [$(wrapper + ' #thumbbrowseoverlay').position().left, $(wrapper + ' #thumbbrowseoverlay').position().top]
-						setthumbbindings.overlayDimensions = [$(wrapper + ' #thumbbrowseoverlay').width(), $(wrapper + ' #thumbbrowseoverlay').height()]
+						setthumbbindings.overlayDimensions = [$(wrapper + ' #thumbbrowseoverlay').outerWidth(), $(wrapper + ' #thumbbrowseoverlay').height()]
 						lt = positionoverlay(setthumbbindings.active)
 						console.log(lt)
 						$(this).css("left", lt[0])
 						$(this).css("top", lt[1])
+						$(wrapper + ' #thumboverlayloading').remove()
+					}).each(function() {
+  						if(this.complete) $(this).load();
 					})
 			})
 
@@ -2099,6 +2121,10 @@ function viviz(VIVIZ, mode) {
 
 			function setpadding(el) {
 
+				// Set left padding so that block of images is centered.
+				// Could avoid this call if text-alignment:center was used,
+				// except that if there is an un-filled last row
+				// the images will be centered instead of left-justified.
 				if (el) {
 					// Use actual element instead of querying DOM.
 					// (Element may be loaded, setpadding() called, but
@@ -2110,9 +2136,12 @@ function viviz(VIVIZ, mode) {
 				var iw = $("#thumbbrowseframe").innerWidth()
 
 				// Only modify padding of #thumbbrowseframe if first image
-				// size has changed or innerWidth has changed.
+				// size has changed or innerWidth has changed.  
 				if (typeof(setpadding.lastx) !== 'undefined') {
-					if (setpadding.lastx == x && setpadding.lastiw == iw) return
+					// Only modify padding if iw has changed.
+					if (setpadding.lastiw == iw)  {
+						return
+					}
 				}
 
 				console.log("thumb.setpadding(): First image outer width = " + x)
@@ -2127,13 +2156,13 @@ function viviz(VIVIZ, mode) {
 				console.log("thumb.setpadding(): padding-left/right of thumbbrowseframe = " + pl + "/" + pr)
 
 				a = (iw)/x
-				console.log("thumb.setpadding(): # images per row = " + a);
+				console.log("thumb.setpadding(): Max # images per row = " + a);
 				b = (a - Math.floor(a))*x
 
 
 				if (INFOjs.length < Math.floor(a)) {
 					// # of images is less than number of images possible per row.
-					console.log('thumb.setpadding(): ' + INFOjs.length)
+					console.log('thumb.setpadding(): Total # images in row ' + INFOjs.length)
 					b =  iw - x*INFOjs.length
 				}
 
@@ -2158,7 +2187,7 @@ function viviz(VIVIZ, mode) {
 				var src = VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[i]['ThumbFile'];
 				var srcfull = VIVIZ["galleries"][galleryid]["fulldir"] + INFOjs[i]['FullFile'];
 
-				$('<img class="thumbbrowse" src="css/transparent.png"/>')
+				$('<img class="thumbbrowse"/>')
 					.width(newWidth || tw || 100)
 					.attr("src", src)
 					.attr("srcfull", srcfull)
@@ -2178,8 +2207,14 @@ function viviz(VIVIZ, mode) {
 					})
 					.load(function () {
 
+
+						// See caveats at https://api.jquery.com/load-event/
+						// This checks if load event was fired after error event
+						// (and after class was set, hopefully.)
+						var err = $(this).hasClass('loaderror')
+
 						thumb.Nloaded = thumb.Nloaded + 1
-						if (!loadone.first) {
+						if (!loadone.first && !err) {
 							console.log("thumb.setthumbs.loadone(): First thumbnail loaded.")
 
 							loadone.first = true

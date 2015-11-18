@@ -239,10 +239,6 @@ VIVIZ["catalog"] =
 				"stop": 2002
 			},
 			{
-				"id": "strftime=demo-%Y.png&start=2001&stop=2001",
-				"title": "No dir given, no file list generated."
-			},
-			{
 				"id": "dir=images/full/&strftime=demo-%Y.png&start=2001&stop=2004",
 				"title": "Example in documentation."
 			},
@@ -265,5 +261,17 @@ VIVIZ["catalog"] =
 			{
 				"id": "dir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&start=1998-01-01&stop=1998-01-04&thumbWidth=0.1",
 				"title": "ID specified as URL in index.js."
+			},
+			{
+				"id": "catalog=catalogs/demo-catalog.json",
+				"title": "Catalog given as URL.  For testing VIVIZ['config']['catalog'] only.  Screws up back button."
+			},
+			{
+				"id": "strftime=demo-%Y.png&start=2001&stop=2001",
+				"title": "Error expected.  No dir given, no file list generated."
+			},
+			{
+				"id": "INVALID/ID",
+				"title": "Invalid ID.  Error message is wrong because of use of configuration URL in gallery configuration. URL is assumed to be gallery configuration. Append x to id in address bar to see proper error message."
 			}
 		]
