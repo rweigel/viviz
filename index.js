@@ -2,7 +2,8 @@
 var VIVIZ = {}
 VIVIZ["config"] =
 	{
-		"defaultMode": "thumb",
+		"catalog": "catalogs/virbo.json",
+		"defaultMode": "gallery",
 		"showThumbstrip": true,
 		"showFileName": true,
 		"showAboutText": true,
@@ -25,22 +26,6 @@ VIVIZ["config"] =
 		"useCachedImages": false,
 	}
 
-// Demonstration catalog.
-xVIVIZ = {}
-xVIVIZ["catalog"] = 
-		[
-			{
-				"id": "ACE/Multi/1",
-				"title": "ACE/Multi",
-				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
-				"start": "1998-01-01",
-				"stop": "2012-04-30",
-				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
-				"thumbdir": "http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/",
-			}
-		]
-
 // Test catalog.
 VIVIZ["catalog"] = 
 		[
@@ -52,7 +37,7 @@ VIVIZ["catalog"] =
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
-				"thumbdir": "http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/",
+				"thumbdir": "http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/"
 			},
 			{
 				"id": "ACE/Multi/2",
@@ -61,7 +46,7 @@ VIVIZ["catalog"] =
 				"strftime": "product_%Y%m%d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
-				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/"
 			},
 			{
 				"id": "ACE/Multi/3",
@@ -102,6 +87,16 @@ VIVIZ["catalog"] =
 				"stop": "2012-04-30",
 				"dir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
 				"thumbWidth": 100
+			},
+			{
+				"id": "ACE/Multi/7",
+				"title": "ACE/Multi thumbdir is relative path.",
+				"aboutlink": "http://virbo.org/gallery#ACE",
+				"strftime": "product_%Y%m%d.png",
+				"start": "1998-01-01",
+				"stop": "2012-04-30",
+				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+				"thumbdir": "../thumbs400/"
 			},
 			{
 				"id": "Demo/01",
@@ -239,6 +234,14 @@ VIVIZ["catalog"] =
 				"stop": 2002
 			},
 			{
+				"id": "Demo/23",
+				"title": "No dir given; images must be in same directory as index.htm",
+				"strftime": "demo-%Y.png",
+				"start": 2001,
+				"stop": 2002,
+				"fullfiles": ""
+			},
+			{
 				"id": "dir=images/full/&strftime=demo-%Y.png&start=2001&stop=2004",
 				"title": "Example in documentation."
 			},
@@ -265,10 +268,6 @@ VIVIZ["catalog"] =
 			{
 				"id": "catalog=catalogs/demo-catalog.json",
 				"title": "Catalog given as URL.  For testing VIVIZ['config']['catalog'] only.  Screws up back button."
-			},
-			{
-				"id": "strftime=demo-%Y.png&start=2001&stop=2001",
-				"title": "Error expected.  No dir given, no file list generated."
 			},
 			{
 				"id": "INVALID/ID",

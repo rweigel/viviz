@@ -200,7 +200,6 @@ function expandtemplate(options,callback) {
 		
 }
 
-
 function expandISO8601Duration(timeRange,options) {
 
 	function s2b(str) {if (str === "true") {return true} else {return false}}

@@ -275,8 +275,8 @@ select #gallery {
 	z-index:1;
 }
 .thumbbrowsetop {
-	filter:alpha(opacity=90);
-	opacity:0.9;
+	filter:alpha(opacity=99);
+	opacity:0.99;
 	position: absolute;
 	display:none;
 	z-index:-1;

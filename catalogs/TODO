@@ -1,3 +1,5 @@
+http://gong.nso.edu/
+
 ftp://ftp.ngdc.noaa.gov/STP/space-weather/solar-data/solar-imagery/composites/full-sun-drawings/boulder/1972/12/
 
 Start caching Full images when idle.
@@ -8,6 +10,7 @@ If ID collision, create virbo.org/images-1, virbo.org/images-2, etc.
 
 catalogs-posted.xml
 catalogs.xml
+http://soi.stanford.edu/cgi-bin/mdi/gif_dir.pl?Directory=/synoptic/gifs/magnetograms/1997/05
 
 --
 convert make progressive png
