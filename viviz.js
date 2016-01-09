@@ -188,7 +188,8 @@ function viviz(VIVIZ, mode) {
 
 	function cataloginfo(galleryid) {
 
-		qs = $.parseQueryString()
+		var qs = location.hash.replace(/^#/,'')
+		var qo = $.parseQueryString()
 
 		var hashisgallery = false
 		if (location.hash.indexOf("id=") == -1){
@@ -197,7 +198,7 @@ function viviz(VIVIZ, mode) {
 		}
 
 		var errmsg = ""
-		if (typeof(VIVIZ["config"]["catalog"]) === 'string') {
+		if (typeof(VIVIZ["config"]["catalog"]) === 'string' && VIVIZ["config"]["catalog"] !== "") {
 			if (location.href.match(/^file/)) {
 				console.log("cataloginfo(): Application cannot read " 
 						+ VIVIZ["config"]["catalog"] 
@@ -257,19 +258,19 @@ function viviz(VIVIZ, mode) {
 			if (hashisgallery) {
 				// Hash is query string with gallery information
 				console.log("cataloginfo(): Hash is a query string with gallery information: ")
-				console.log("cataloginfo(): " + location.hash.replace(/^#/,''))
+				console.log(qs)
 				if (!VIVIZ["catalog"]) {
 					// No catalog, only query string
 					VIVIZ["catalog"] = []
 					VIVIZ["catalog"][0] = qs
-					VIVIZ["catalog"][0]["id"] = location.hash.replace(/^#/,'')
+					VIVIZ["catalog"][0]["id"] = qs
 					VIVIZ["catalog"][0]["isqs"] = true
 				} else {
 					// Place gallery at front of list if existing configuration
 					// not found in list.
 					var match = false
 					for (var i in VIVIZ["catalog"]) {
-						if (VIVIZ["catalog"][i]["id"] === location.hash.replace(/^#/,'')) {
+						if (VIVIZ["catalog"][i]["id"] === qs) {
 							match = true
 							break
 						}
@@ -279,8 +280,8 @@ function viviz(VIVIZ, mode) {
 						console.log("cataloginfo(): Prepending gallery specified by "
 										+ " query string to gallery list.")
 						VIVIZ["catalog"].splice(i,1)
-						VIVIZ["catalog"].unshift(qs)
-						VIVIZ["catalog"][0]["id"] = location.hash.replace(/^#/,'')
+						VIVIZ["catalog"].unshift(qo)
+						VIVIZ["catalog"][0]["id"] = qs
 						VIVIZ["catalog"][0]["isqs"] = true
 					}
 				}
@@ -395,14 +396,14 @@ function viviz(VIVIZ, mode) {
 			}
 
 			// Replace gallery information with values in query string.
-			for (key in qs) {
-				if (qs[key]) {
-					if (qs[key] === 'true') {qs[key] = true}
-					if (qs[key] === 'false') {qs[key] = false}
-					if ($.isNumeric(qs[key])) {qs[key] = parseFloat(qs[key])}
+			for (key in qo) {
+				if (qo[key]) {
+					if (qo[key] === 'true') {qo[key] = true}
+					if (qo[key] === 'false') {qo[key] = false}
+					if ($.isNumeric(qo[key])) {qo[key] = parseFloat(qo[key])}
 					console.log("cataloginfo(): Setting " + key + " from " 
-									+ VIVIZ["galleries"][galleryid][key] + " to " + qs[key])
-					VIVIZ["galleries"][galleryid][key] = qs[key]
+									+ VIVIZ["galleries"][galleryid][key] + " to " + qo[key])
+					VIVIZ["galleries"][galleryid][key] = qo[key]
 				}
 			}
 
@@ -1753,14 +1754,22 @@ function viviz(VIVIZ, mode) {
 					})
 
 			function setfilename(id) {
-				var fname = INFOjs[parseInt(id-1)]["FullFile"]
 				$(wrapper + " #filename").html('');
 				var wo = $(wrapper).width()
 
 				$(wrapper + " #filename").append("<a>");
+				console.log(INFOjs[parseInt(id-1)])
+				var href = VIVIZ["galleries"][galleryid]["fulldir"] + INFOjs[parseInt(id-1)]["FullFile"];
+				var fname = INFOjs[parseInt(id-1)]["FullFile"];
+				if (fname.match("&")) {
+					// URL is not a file but a URL with query parameters.
+					fname = href;
+				}
+				
+				//alert(href)
 				$(wrapper + " #filename a")
-					.attr('href',VIVIZ["galleries"][galleryid]["fulldir"] + INFOjs[parseInt(id-1)]["FullFile"])
-					.text(INFOjs[parseInt(id-1)]["FullFile"]);
+					.attr('href', href)
+					.text(fname);
 
 				var wx = $(wrapper + " #filename").width();
 
@@ -1769,7 +1778,7 @@ function viviz(VIVIZ, mode) {
 					console.log("loadfull.setfilename(): " + wrapper + " width "+wo)
 					console.log("loadfull.setfilename(): #filename div width "+wx)
 
-					// Fraction to remove. 0.9 to account for nonuniformity of charater width.
+					// Fraction to remove. 0.9 to account for nonuniformity of charcter width.
 					r = 0.9*wo/wx
 					console.log("Reduction factor: 0.9*"+wo+"/"+wx)
 					l = fname.length
@@ -1779,9 +1788,7 @@ function viviz(VIVIZ, mode) {
 					console.log("loadfull.setfilename(): Center value: " + c)
 					console.log("loadfull.setfilename(): Number of characters to keep : " + nr)
 					fnamer = fname.substr(0,Math.floor(c-nr/2)) + " ... " + fname.substr(Math.ceil(c+nr/2),l)
-					$(wrapper + " #filename a")
-						.attr('href',INFOjs[parseInt(id-1)]["FullFile"])
-						.text(fnamer);
+					$(wrapper + " #filename a").text(fnamer);
 
 				}
 			}
