@@ -27,7 +27,11 @@ VIVIZ["config"] =
 	}
 
 // Test catalog.  Comment out next line to use above catalog.
-delete VIVIZ["config"]["catalog"]
+if (location.hostname === "localhost") {
+	console.log("index.js: hostname is localhost.  Using test catalog.")
+	delete VIVIZ["config"]["catalog"]
+}
+
 VIVIZ["catalog"] = 
 		[
 			{
@@ -98,6 +102,18 @@ VIVIZ["catalog"] =
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
 				"thumbdir": "../thumbs400/"
+			},
+			{
+				"id": "ACE/Multi/8",
+				"title": "ACE/Multi with start number and regexp.",
+				"aboutlink": "http://virbo.org/gallery#ACE",
+				"strftime": "product_%Y%m%d.png",
+				"start": "1998-01-01",
+				"stop": "2012-04-30",
+				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+				"thumbdir": "../thumbs400/",
+				"defaultRegExp": "2000",
+				"defaultFirstImage": 10
 			},
 			{
 				"id": "Demo/01",

@@ -17,6 +17,8 @@ function viviz(VIVIZ, mode) {
 	// Default configuration options
 	_VIVIZ = {
 		"defaultMode": "gallery",
+		"defaultFirstImage": 1,
+		"defaultRegExp": "2002",
 		"showThumbstrip": true,
 		"showFileName": true,
 		"showAboutText": true,
@@ -46,6 +48,7 @@ function viviz(VIVIZ, mode) {
 		}
 	}
 
+
 	// Read and parse query string
 	var qs = $.parseQueryString()
 	if (typeof(mode) === "undefined") {
@@ -64,12 +67,17 @@ function viviz(VIVIZ, mode) {
 		}
 	}
 
+	if (qs["number"]) {
+		VIVIZ["config"]["defaultFirstImage"] = parseInt(qs["number"])
+	}
+
 	var gallerynumber = "1"
 	var wrapper = "#" + mode + gallerynumber
 
 	$(window).unbind('hashchange.' + mode)
 	$(window).bind('hashchange.' + mode, function() {
-		console.log('viviz.js: Hash has changed to ' + location.hash + ".")
+		console.log('viviz.js: Hash has changed to ' + location.hash + ".");
+
 		// Special case where id is only key specified in gallery object in VIVIZ
 		// and its value is a query string. (Allowed in order to simplify testing
 		// of query strings.)
@@ -86,7 +94,15 @@ function viviz(VIVIZ, mode) {
 			console.log('viviz.js: Hash is a query string.')
 		}
 		location.hash = hash
-		viviz(VIVIZ)
+
+		if (viviz.triggerhashchange == false) {
+			console.log('viviz.js: viviz.triggerhashchange = false.  Not resetting application.');
+			viviz.triggerhashchange = true;
+		} else {
+			console.log('viviz.js: viviz.triggerhashchange = true. Resetting application.');
+			viviz(VIVIZ)
+		}
+
 	})
 
 	if (qs["catalog"]) {
@@ -205,12 +221,20 @@ function viviz(VIVIZ, mode) {
 						+ " because it is not available from a server.")
 				if (hashisgallery == false) {
 					console.log("cataloginfo(): Problem with query string.")
-					errmsg = "In this mode, ViViz is not allowed to read configuration file specified as string (VIVIZ['config']['catalog'] = <a style='text-decoration:underline' href='" + VIVIZ["config"]["catalog"] + "'>" + VIVIZ["config"]["catalog"] + "</a>).<br/>Contents of this file must be copied into index.htm or index.htm must be viewed from a server."
+					errmsg =  "In this mode, ViViz is not allowed to read "
+							+ "configuration file specified as string "
+							+ " (VIVIZ['config']['catalog'] = "
+							+ " <a style='text-decoration:underline' href='" 
+							+ VIVIZ["config"]["catalog"] + "'>" 
+							+ VIVIZ["config"]["catalog"] + "</a>).<br/>"
+							+ "Contents of this file must be copied into "
+							+ " index.htm or index.htm must be viewed from a server."
 				} else {
 					VIVIZ["catalog"] = []
 				}
 			} else {
-				console.log("cataloginfo(): VIVIZ['config']['catalog'] is a URL that returns JSON. Requesting it.")
+				console.log("cataloginfo(): VIVIZ['config']['catalog']"
+								+ " is a URL that returns JSON. Requesting it.")
 				try {
 					$.ajax({
 							type: "GET",
@@ -991,14 +1015,26 @@ function viviz(VIVIZ, mode) {
 				})
 	}
 
-	function updatehash(el) {
-		console.log(el)
-		var val = $(wrapper + " #" + el + " option:selected").val()
+	function updatehash(el, val) {
+
+		console.log('updatehash(): Called.')
+		if (!val) {
+			console.log('updatehash(): Updating based on element ' + el + '.');
+			var val = $(wrapper + " #" + el + " option:selected").val()
+			viviz.triggerhashchange = true
+		} else {
+			val = "" + val;
+			console.log('updatehash(): Updating based on passed parameter for ' 
+							+ el + ' = ' + val);
+			viviz.triggerhashchange = false
+		}
+
 		if (val !== "") {
 			var qs = $.parseQueryString()
-			console.log(qs)
+			//console.log(qs)
 			if (el !== 'id' && $($("#" + el + " option")[1]).val() === val) {
-				// If selected is not gallery id and is second option, it is default.  Remove from hash.
+				// If selected is not gallery id and is second option,
+				// it is default.  Remove from hash.
 				delete qs[el]
 			} else {
 				qs[el] = val
@@ -1172,6 +1208,11 @@ function viviz(VIVIZ, mode) {
 			} else {
 				console.log("setdropdowns(): No regexp filters.  Not displaying drop-down.")
 				$(wrapper + " #regexp").remove()
+			}
+
+			var qs = $.parseQueryString();
+			if (VIVIZ["config"]["defaultRegExp"] && !qs["regexp"]) {
+				$(wrapper + " #regexp").val(VIVIZ["config"]["defaultRegExp"])
 			}
 
 			$(wrapper + ' #dropdowns #regexp').change(function () {
@@ -1445,6 +1486,12 @@ function viviz(VIVIZ, mode) {
 
 			$(wrapper + ' #attributes').html(statstr);
 
+			var qs = $.parseQueryString()
+			//if (nowvisible > 1) {
+				console.log("sethumbbindings(): Calling updatehash().")
+				updatehash('number', nowvisible);
+			//}
+
 			// Load full image.
 			loadfull(this); 
 			
@@ -1476,7 +1523,7 @@ function viviz(VIVIZ, mode) {
 				return
 			}
 			
-			firstimage(0)
+			firstimage(VIVIZ["config"]["defaultFirstImage"]-1);
 
 			// TODO: Detect bad images:
 			// https://github.com/desandro/imagesloaded
@@ -1486,20 +1533,26 @@ function viviz(VIVIZ, mode) {
 			// Find first valid thumbnail
 			function firstimage(f) {
 
-				console.log("gallery.firstimage(): Called.  Setting thumb #" + f + " into DOM.");
-				if (f == 0) setcontrolbindings();
+				console.log("gallery.firstimage(): Called."
+								+ " Setting thumb #" + f + " into DOM.");
+
+				if (f == VIVIZ["config"]["defaultFirstImage"]-1) {
+					setcontrolbindings();
+				}
 
 				$('<img class="gallerythumbbrowse firstimage"/>')
 					.appendTo($(wrapper + ' #gallerythumbframe'))
 					.attr("id",f+1)
-					.attr("src", VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[f].ThumbFile)
+					.attr("src", 
+						  VIVIZ["galleries"][galleryid]["thumbdir"] 
+						+ INFOjs[f].ThumbFile)
 					.error(function () {
 						// First image is bad.
 						console.log("gallery.firstimage(): Image " + f + " is bad.");
 						//warning("Image " + f + " not found.",true);
 						$(this).remove();
 
-						warning("Image " + (f+1) + " could not be loaded.",true,Infinity);
+						warning("Image " + (f+1) + " could not be loaded.", true, Infinity);
 						
 						if (f == INFOjs.length-1) {
 							warning("No images could be loaded.",true,Infinity)
@@ -1511,9 +1564,9 @@ function viviz(VIVIZ, mode) {
 					})
 					.load(function () {
 						
-						if (f > 0) {
-							if (f == 1) {
-								warning("The first image in this subset could not be loaded.",true)
+						if (f > VIVIZ["config"]["defaultFirstImage"]-1) {
+							if (f == VIVIZ["config"]["defaultFirstImage"]) {
+								warning("The first image in this subset could not be loaded.", true)
 							} else {
 								warning("The first " + f + " images" + " in this subset could not be loaded.",true)
 							}
@@ -1523,7 +1576,7 @@ function viviz(VIVIZ, mode) {
 						$(wrapper).attr('nowvisible',f+1)
 						console.log("gallery.firstimage(): First thumbnail image loaded.")
 						console.log("gallery.firstimage(): Applying click bindings and then clicking it to trigger load of full image.")
-						$(this).bind('click',setthumbbindings).click()
+						$(this).bind('click', setthumbbindings).click()
 
 						// Scroll to top.
 						$(wrapper + " #gallerythumbframe").scrollTo(0);
@@ -1531,33 +1584,38 @@ function viviz(VIVIZ, mode) {
 						console.log('gallery.firstimage(): First thumbnail has natural dimensions = '
 							+this.naturalWidth+'x'+this.naturalHeight+'.');
 
-						// Set height of thumbnail image - setWH() Modifies VIVIZ["galleries"][galleryid]
+						// Set height of thumbnail image - setWH()
+						// Modifies VIVIZ["galleries"][galleryid]
 						var tmp = setWH(this, 'thumb');
 						$(this).css("height",VIVIZ["galleries"][galleryid]["thumbHeight"]);
 						$(this).css("width",VIVIZ["galleries"][galleryid]["thumbWidth"]);
 
-						console.log('gallery.firstimage(): First thumbnail set to have dimensions = '
-							+VIVIZ["galleries"][galleryid]["thumbWidth"]+'x'+VIVIZ["galleries"][galleryid]["thumbHeight"]+'.');
-						
+						console.log('gallery.firstimage(): First thumbnail set to '
+								+ 'have dimensions = '
+								+ VIVIZ["galleries"][galleryid]["thumbWidth"]
+								+ 'x'
+								+ VIVIZ["galleries"][galleryid]["thumbHeight"]
+								+ '.');
 
 						$('#gallerythumbframe').attr('data-thumb-length', INFOjs.length);
 
 						// Set attribute that indicates which thumbnail is active.
 						$('#gallerythumbframe').attr('data-thumb-displayed', f);
 						
-						setscrollbinding()
+						setscrollbinding();
 
 						// Lazy Load images.
 						var maxLength = INFOjs.length;
-						var max = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["config"]["lazyLoadMax"]
+						var max = VIVIZ["galleries"][galleryid]["lazyLoadMax"]
+								 || VIVIZ["config"]["lazyLoadMax"]
 						if (INFOjs.length > max) {
-							maxLength = max
+							maxLength = max;
 						}
 						if (maxLength + f > INFOjs.length) {
 							maxLength = INFOjs.length-f;
 						}
 
-						loadmore()
+						loadmore();
 				})   
 			}
 		}
@@ -1754,11 +1812,11 @@ function viviz(VIVIZ, mode) {
 					})
 
 			function setfilename(id) {
+				console.log("Setting filename.")
 				$(wrapper + " #filename").html('');
 				var wo = $(wrapper).width()
 
 				$(wrapper + " #filename").append("<a>");
-				console.log(INFOjs[parseInt(id-1)])
 				var href = VIVIZ["galleries"][galleryid]["fulldir"] + INFOjs[parseInt(id-1)]["FullFile"];
 				var fname = INFOjs[parseInt(id-1)]["FullFile"];
 				if (fname.match("&")) {
@@ -1766,14 +1824,11 @@ function viviz(VIVIZ, mode) {
 					fname = href;
 				}
 				
-				//alert(href)
-				$(wrapper + " #filename a")
-					.attr('href', href)
-					.text(fname);
+				$(wrapper + " #filename a").attr('href', href).css("white-space", "nowrap").html(fname);
 
 				var wx = $(wrapper + " #filename").width();
 
-				if (wo < wx) {
+				while (wx > wo) {
 
 					console.log("loadfull.setfilename(): " + wrapper + " width "+wo)
 					console.log("loadfull.setfilename(): #filename div width "+wx)
@@ -1789,7 +1844,7 @@ function viviz(VIVIZ, mode) {
 					console.log("loadfull.setfilename(): Number of characters to keep : " + nr)
 					fnamer = fname.substr(0,Math.floor(c-nr/2)) + " ... " + fname.substr(Math.ceil(c+nr/2),l)
 					$(wrapper + " #filename a").text(fnamer);
-
+					wx = $(wrapper + " #filename").width();
 				}
 			}
 
@@ -1809,7 +1864,7 @@ function viviz(VIVIZ, mode) {
 				while (idn < ido + 3) {
 					if (idn > INFOjs.length) {break}					
 					if ($(wrapper + " #fullframe img[id="+idn+"]").length == 0) {
-						console.log("Setting " + idn)
+						console.log("Setting full image with id = " + idn)
 						$(wrapper + " #fullframe").prepend('<img id="'+idn+'" class="full" style="display:none"/>');
 						$(wrapper + " #fullframe img[id="+idn+"]")
 							.css('height',VIVIZ["galleries"][galleryid]['fullHeight'])
@@ -1827,44 +1882,96 @@ function viviz(VIVIZ, mode) {
 			}
 		}
 
-		function loadmore() {
+		function loadmore(direction) {
+
+			if (!direction) {
+				var direction = "both";
+			}
 
 			var Navail = parseInt($(wrapper + ' #gallerythumbframe').attr('data-thumb-length'));
-			var Nshown = parseInt($(wrapper + " #gallerythumbframe > img").last().attr("id"));
+			var Nshown = parseInt($(wrapper + " #gallerythumbframe > img.active").attr("id"));
 			if (Nshown == Navail) {
 				return
 			}
 
-			var Nlazy = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["config"]["lazyLoadMax"]
+			var Nlazy = VIVIZ["galleries"][galleryid]["lazyLoadMax"]
+						|| VIVIZ["config"]["lazyLoadMax"]
 			
+			var firstidx = parseInt(VIVIZ["config"]["defaultFirstImage"])-1;
+			Nbefore = 0;
+			if (firstidx > 0) {
+				Nbefore = Nlazy;
+			//	console.log("loadmore(): defaultFirstImage > 1."
+			//			+ " Will set thumbs before and after active image.")
+			}
+
 			// Number of blocks of Nlazy images to fill document height.
 			Nfill = $(window).height()/(Math.max(Nlazy,Nshown)*VIVIZ["galleries"][galleryid]["thumbHeight"])
 
-			// If Nfill > 1, we need to load more images initially to trigger appearance of scroll bar.
-			if (Nfill > 1)
+			// If Nfill > 1, we need to load more images initially
+			// to trigger appearance of scroll bar.
+			if (Nfill > 1) {
 				Nlazy = Math.ceil(Nfill*Nlazy)
+			}
 
 			var tic = new Date().getTime()
 			var slowwarn = false
-			for (var j = Nshown; j < Nshown+Nlazy-1; j++) {
-				if (j == INFOjs.length) break;
-				$('<img class="gallerythumbbrowse lazyload"/>')
-					.appendTo($(wrapper + ' #gallerythumbframe'))
+			var imgstr = '<img class="gallerythumbbrowse lazyload"/>';
+
+			if (direction === "both" || direction === "backward") {
+				for (var j = Nshown-1; j > Nshown-Nlazy-2; j--) {
+					if (j < 0) continue;
+					if ($("#gallerythumbframe img[id='" + (j+1) + "']").length > 0) {
+						console.log("loadmore(): Found thumb with id = " 
+										+ (j+1) + " in DOM.  Not setting.");
+						continue;
+					}
+					console.log("loadmore(): Setting thumb " + (j+1));
+					console.log("Prepending.");
+					var first = $("#gallerythumbframe img").first();
+					var el = $(imgstr).insertBefore(first);
+					setel(el);
+				}
+			}
+
+			if (direction === "both" || direction === "forward") {
+				for (var j = Nshown; j < Nshown+Nlazy; j++) {
+					if ($("#gallerythumbframe img[id='" + (j+1) + "']").length > 0) {
+						console.log("loadmore(): Found thumb with id = " 
+										+ (j+1) + " in DOM.  Not setting.");
+						continue;
+					}
+					if (j == INFOjs.length) break;
+					console.log("loadmore(): Setting thumb " + (j+1));
+					console.log("Appending.");
+					var last = $("#gallerythumbframe img").last();
+					var el = $(imgstr).insertAfter(last);
+					setel(el);
+				}
+			}
+
+			function setel(el) {
+				$(el)
 					.attr("id",j+1)
-					.attr("src", VIVIZ["galleries"][galleryid]["thumbdir"] + INFOjs[j].ThumbFile)
+					.attr("src", VIVIZ["galleries"][galleryid]["thumbdir"]
+								+ INFOjs[j].ThumbFile)
 					.bind('click',setthumbbindings)
 					.attr("title",imgtitle(INFOjs[j]))
-					.css("height",$("#gallerythumbframe > img").first().height())
-					.css("width",$("#gallerythumbframe > img").first().width())
+					.css("height",$("#gallerythumbframe > img.firstimage").height())
+					.css("width",$("#gallerythumbframe > img.firstimage").width())
 					.error(function () {
 						$(this).attr("src","css/transparent.png")
 					})
 					.load(function () {
+						var active = $(wrapper + " #gallerythumbframe img.active");
+						$(wrapper + " #gallerythumbframe").scrollTo(active, 0, {
+							duration: 80, offset: 0
+						});
 						if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
 							//warning("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.",true);
 							slowwarn = true;
 							//setTimeout(function () {$('#connectionerror').html('')},5000);
-						}														
+						}													
 					})
 			}
 		}
@@ -1936,45 +2043,52 @@ function viviz(VIVIZ, mode) {
 			// Time step buttons
 			$(wrapper + " #next").unbind('click');
 			$(wrapper + ' #next').click(function(){
-				lastvisible = parseInt($(wrapper).attr('lastvisible'));
-				if (lastvisible == parseInt($(wrapper).attr('totalvisible'))) {				
-					nowvisible = parseInt($(wrapper + " #gallerythumbframe img.firstimage").attr('id'));
-				} else {
-					nowvisible = lastvisible + 1;        	
-				}
-				console.log("gallery.setcontrolbindings: Next button clicked.  Clicking on thumbnail "+nowvisible)
-				$(wrapper + " #gallerythumbframe #" + nowvisible).click();
 
+				var lastvisible = parseInt($(wrapper).attr('lastvisible'));
+				if (lastvisible == parseInt($(wrapper).attr('totalvisible'))) {				
+					var nowvisible = parseInt($(wrapper + " #gallerythumbframe img.firstimage").attr('id'));
+				} else {
+					var nowvisible = lastvisible + 1;        	
+				}
+				console.log("gallery.setcontrolbindings: Next button clicked."
+								+ " Clicking on thumbnail " + nowvisible + ".")
+				$(wrapper + " #gallerythumbframe #" + nowvisible).click();
 
 				var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
 				var shown = parseInt($("#gallerythumbframe > img").last().attr("id"));
 				var max = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["lazyLoadMax"]
 
 				var f = Math.ceil(nowvisible/max) - nowvisible/max
-				if (f < 0.5) loadmore();
+				if (f < 0.5) loadmore("forward");
 			});
 			
 			$(wrapper + " #previous").unbind('click');
 			$(wrapper + ' #previous').click(function(){
-				lastvisible = parseInt($(wrapper).attr('lastvisible'));
+
+				var lastvisible = parseInt($(wrapper).attr('lastvisible'));
 				if (lastvisible == 1) {
-					nowvisible = parseInt($(wrapper).attr('totalvisible'));
+					var nowvisible = parseInt($(wrapper).attr('totalvisible'));
 				} else {
-					nowvisible = lastvisible - 1;
+					var nowvisible = lastvisible - 1;
 				}
 				$(wrapper + " #" + nowvisible).click();
-
+				
+				var max = VIVIZ["galleries"][galleryid]["lazyLoadMax"] || VIVIZ["lazyLoadMax"]
+				var first = parseInt($(wrapper + " #gallerythumbframe > img").first().attr("id"));
+				if (nowvisible-first < max) {
+					loadmore("backward");
+				}
 			})
 			
 			$(wrapper + " #last").unbind('click');
 			$(wrapper + ' #last').click(function(){
-				nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").last().attr("id"));
+				var nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").last().attr("id"));
 				$(wrapper + " #" + nowvisible).click();
 			});
 
 			$(wrapper + " #first").unbind('click');    
 			$(wrapper + ' #first').click(function(){
-				nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").first().attr("id"));
+				var nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").first().attr("id"));
 				$(wrapper + " #" + nowvisible).click();
 			});  
 		}

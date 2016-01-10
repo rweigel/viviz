@@ -9,8 +9,13 @@ jQuery.extend({
 			if ((typeof(pair[1]) === "undefined") && def) {
 			  nvpair[def] = pair[0]	  	
 			} else {
-				if (pair[0] !== '')
-					nvpair[pair[0]] = decodeURIComponent(pair[1])
+				if (pair[0] !== '') {
+					try {
+						nvpair[pair[0]] = decodeURIComponent(pair[1])
+					} catch(err) {
+						nvpair[pair[0]] = pair[1]
+					}
+				}
 			}
 		})
 		return nvpair
