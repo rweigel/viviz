@@ -27,9 +27,11 @@ VIVIZ["config"] =
 	}
 
 // Test catalog.  Comment out next line to use above catalog.
-if (location.hostname === "localhost") {
-	console.log("index.js: hostname is localhost.  Using test catalog.")
-	delete VIVIZ["config"]["catalog"]
+if (typeof(location) !== "undefined") { // To allow server-side use of this file.
+	if (location.hostname === "localhost") {
+		console.log("index.js: hostname is localhost.  Using test catalog.")
+		delete VIVIZ["config"]["catalog"]
+	}
 }
 
 VIVIZ["catalog"] = 
