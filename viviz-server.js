@@ -153,9 +153,11 @@ app.get('/proxy', function (req, res) {
 
 		}
 
-	    if (remoteAddress !== "::ffff:127.0.0.1") {
-		    console.log("Use of proxy requires originating request to be from localhost.")
-		    return
+	    if (remoteAddress !== "::ffff:127.0.0.1" && remoteAddress !== "::1") {
+	    	var msg = "Use of proxy requires originating request to be from localhost.";
+		    console.log(msg + ". Request was from " + remoteAddress);
+		    res.status(500).send(msg)
+		    return;
 	    	// TODO: If request is not from localhost, allow if URL is in index.js.
 		    //VIVIZ = require("./index.js").VIVIZ;
 	    }

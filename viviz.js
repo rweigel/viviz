@@ -18,7 +18,6 @@ function viviz(VIVIZ, mode) {
 	_VIVIZ = {
 		"defaultMode": "gallery",
 		"defaultFirstImage": 1,
-		"defaultRegExp": "2002",
 		"showThumbstrip": true,
 		"showFileName": true,
 		"showAboutText": true,
@@ -513,6 +512,7 @@ function viviz(VIVIZ, mode) {
 			}	
 			if (CATALOGINFO[type+"strftime"]) {
 				options.type = "strftime";
+				// TODO: Need to document why this try/catch is needed.
 				try {
 					options.template = decodeURIComponent(CATALOGINFO[type+"strftime"])
 				} catch(err) {
@@ -530,7 +530,7 @@ function viviz(VIVIZ, mode) {
 					options.template = decodeURIComponent(CATALOGINFO[type+"sprintf"])
 				} catch(err) {
 					options.template = CATALOGINFO[type+"sprintf"]
-				}s
+				}
 				if (CATALOGINFO["delta"] && !CATALOGINFO[type+"delta"]) {
 					CATALOGINFO[type+"delta"] = CATALOGINFO["delta"]
 				}	
@@ -544,6 +544,7 @@ function viviz(VIVIZ, mode) {
 
 			if (CATALOGINFO[type+"sprintf"] || CATALOGINFO[type+"strftime"]) {
 				options.debug = false
+				//console.log(options)
 				var xfiles = expandtemplate(options)
 				for (var i = 0; i < xfiles.length; i++) {
 					files[i] = [xfiles[i]]
@@ -810,21 +811,20 @@ function viviz(VIVIZ, mode) {
 				})
 			}
 
-			function geterror(err,textStatus,errorThrown) {
-						console.log(err)
-						msg = "Error getting <a style='text-decoration:underline' target='_blank' href='" + URLFiles + "'>" + URLFiles + "</a>."
-						if (textStatus && textStatus !== 'error') {
-							if (errorThrown) {
-								msg = msg + "<br/>Error: " + textStatus + ", " + errorThrown
-							} else {
-								msg = msg + "<br/>Error: " + textStatus + "."
-							}
-						}
-						if (err.status != 200) {
-							msg = msg + "<br/>Error: " + err.statusText + "."
-						}
-						console.log(msg)
-
+			function geterror(err, textStatus, errorThrown) {
+				console.log(err)
+				msg = "Error getting <a style='text-decoration:underline' target='_blank' href='" + URLFiles + "'>" + URLFiles + "</a>."
+				if (textStatus && textStatus !== 'error') {
+					if (errorThrown) {
+						msg = msg + "<br/>Error: " + textStatus + ", " + errorThrown
+					} else {
+						msg = msg + "<br/>Error: " + textStatus + "."
+					}
+				}
+				if (err.status != 200) {
+					msg = msg + "<br/>Error: " + err.statusText + "; " + err.responseText;
+				}
+				console.log(msg)
 			}
 			$("#status").text("")
 
@@ -1030,28 +1030,39 @@ function viviz(VIVIZ, mode) {
 
 	function updatehash(el, val) {
 
-		console.log('updatehash(): Called.')
+		console.log('updatehash(): Called initial hash = ' + location.hash)
 		if (!val) {
-			console.log('updatehash(): Updating based on element ' + el + '.');
 			var val = $(wrapper + " #" + el + " option:selected").val()
+			console.log('updatehash(): Updating based on selected value of element ' + el + ' which is ' + val + '.');
 			viviz.triggerhashchange = true
 		} else {
 			val = "" + val;
-			console.log('updatehash(): Updating based on passed parameter for ' 
-							+ el + ' = ' + val);
+			console.log("updatehash(): Updating based on passed parameter for element '" 
+							+ el + "' to " + val);
 			viviz.triggerhashchange = false
 		}
 
 		if (val !== "") {
+			var def = VIVIZ["galleries"][galleryid]["defaultRegExp"]
 			var qs = $.parseQueryString()
-			//console.log(qs)
-			if (el !== 'id' && $($("#" + el + " option")[1]).val() === val) {
-				// If selected is not gallery id and is second option,
-				// it is default.  Remove from hash.
-				delete qs[el]
-			} else {
+			if (el !== 'id') {
+				console.log("updatehash(): Setting query string object element " + el + " to " + val);
 				qs[el] = val
+				if (def) {
+					if (def === val) {
+						console.log("updatehash(): Selected is equal to defaultRegExp.  Deleting from query object.")
+						delete qs[el]	
+					}
+				} else {
+					if ($($("#" + el + " option")[1]).val() === val) {
+						console.log("updatehash(): No defaultRegExp and select = second option.  Deleting from query object.")
+						// If selected is not gallery id and is second option,
+						// it is default.  Remove from hash.
+						delete qs[el]
+					}
+				}
 			}
+
 			var hash = ""
 			if (el === 'id') {
 				// Remove everything except for ID
@@ -1062,7 +1073,7 @@ function viviz(VIVIZ, mode) {
 				}
 				hash = hash.substr(1)
 			}
-			console.log('updatehash(): Setting location.hash.')
+			console.log('updatehash(): Setting location.hash = ' + hash)
 			location.hash = hash
 		}
 	}
@@ -1125,7 +1136,7 @@ function viviz(VIVIZ, mode) {
 
 			$(after + " #" + ID).remove()
 			$(after).append(
-				'<select id="' + ID + '" title="' + list.Title + '" class="' + list.Class + '"></select>')
+				'<select id="' + ID + '" title="' + list.Title + '" class="' + (list.Class || "updatelocal") + '"></select>')
 			for (var k = 0; k < list["Values"].length; k++) {
 				VALUE = list["Values"][k]["Value"]
 				TITLE = list["Values"][k]["Title"]
@@ -1217,17 +1228,14 @@ function viviz(VIVIZ, mode) {
 			}
 
 			if (GALLERYINFO['attributes']["Values"][n]["Filters"].length > 1) {
+				console.log("setdropdowns(): Setting filter dropdown.")
 				dropdown("regexp", REGEXPS, wrapper + " #dropdowns")
 			} else {
 				console.log("setdropdowns(): No regexp filters.  Not displaying drop-down.")
 				$(wrapper + " #regexp").remove()
 			}
 
-			var qs = $.parseQueryString();
-			if (VIVIZ["config"]["defaultRegExp"] && !qs["regexp"]) {
-				$(wrapper + " #regexp").val(VIVIZ["config"]["defaultRegExp"])
-			}
-
+			$(wrapper + ' #dropdowns #regexp').unbind('change')
 			$(wrapper + ' #dropdowns #regexp').change(function () {
 				updatehash('regexp')
 			})
@@ -1244,14 +1252,14 @@ function viviz(VIVIZ, mode) {
 		// Compute pixels if given fractions.
 		if (VIVIZ["galleries"][galleryid][type+"Width"]) {
 			if (VIVIZ["galleries"][galleryid][type+"Width"] <= 1.0) {
-				console.log('setWH(): Converting ' + type + 'Width to pixels')
+				console.log('setWH(): Converting ' + type + 'Width to pixels.')
 				VIVIZ["galleries"][galleryid][type+"Width"] = 
 					el.naturalWidth*VIVIZ["galleries"][galleryid][type+"Width"]
 			}
 		}
 		if (VIVIZ["galleries"][galleryid][type+"Height"]) {
 			if (VIVIZ["galleries"][galleryid][type+"Height"] <= 1.0) {
-				console.log('setWH(): Converting ' + type + 'Height to pixels')
+				console.log('setWH(): Converting ' + type + 'Height to pixels.')
 				VIVIZ["galleries"][galleryid][type+"Height"] = 
 					el.naturalHeight*VIVIZ["galleries"][galleryid][type+"Height"]
 			}
@@ -1268,11 +1276,11 @@ function viviz(VIVIZ, mode) {
 		}
 
 		if (!VIVIZ["galleries"][galleryid][type+"Height"]) {
-			console.log('setWH(): ' + type + 'Height unknown.  Using naturalHeight')
+			console.log('setWH(): ' + type + 'Height unknown.  Using naturalHeight.')
 			VIVIZ["galleries"][galleryid][type+"Height"] = el.naturalHeight
 		}
 		if (!VIVIZ["galleries"][galleryid][type+"Width"]) {
-			console.log('setWH(): ' + type + 'Width unknown.  Using naturalWidth')
+			console.log('setWH(): ' + type + 'Width unknown.  Using naturalWidth.')
 			VIVIZ["galleries"][galleryid][type+"Width"] = el.naturalWidth
 		}
 
@@ -1436,6 +1444,12 @@ function viviz(VIVIZ, mode) {
 			thumblist.cache[state] = INFOrs;
 		}
 
+		var qs = $.parseQueryString();
+		if (parseInt(qs["number"]) > INFOrs.length) {
+			warning("Number of images in subset < number in query string.  Resetting number to 1.", true, Infinity);
+			VIVIZ["config"]["defaultFirstImage"] = 1;
+			updatehash("number",1)
+		}
 		return INFOrs
 	}
 
@@ -1446,68 +1460,89 @@ function viviz(VIVIZ, mode) {
 
 		setthumbs()
 
+		// Actions to take when a thumbnail is clicked.
 		function setthumbbindings() {
 
-			// Actions to take when a thumbnail is clicked.
-			
 			console.log("gallery.setthumbbindings(): Called.")
 
-			var nowvisible  = parseInt($(wrapper).attr('nowvisible'));
+			var nowvisible = parseInt($(wrapper).attr('nowvisible'));
+			var lastvisible = parseInt($(wrapper).attr('lastvisible'));
+
 			if (isNaN(nowvisible)) {
+				console.log("gallery.setthumbbindings(): nowvisible is NaN. Setting nowvisible attribute on " + wrapper + " to 1.");
 				nowvisible = 1;
 				$(wrapper).attr('nowvisible', '1');
 			} else {
 				nowvisible = $(this).attr('id');
-				//console.log('Setting nowvisible to ' + nowvisible);
+				console.log("gallery.setthumbbindings(): Setting nowvisible attribute on " + wrapper + " to " + nowvisible + ".");
 				$(wrapper).attr('nowvisible', nowvisible);
 			}
-			var lastvisible = parseInt($(wrapper).attr('lastvisible'));
 			if (isNaN(lastvisible)) {
+				console.log("gallery.setthumbbindings(): lastvisible is NaN. Setting nowvisible attribute on " + wrapper + " to 1.");
 				lastvisible = 1;
 				$(wrapper).attr('lastvisible', '1');
 			}
-			
-			$(wrapper + " #gallerythumbframe #" + lastvisible).removeClass('active').addClass('inactive');
 
-			$(wrapper + " #gallerythumbframe #" + nowvisible).removeClass('inactive').addClass('active');
+			console.log("gallery.setthumbbindings():"
+				+ " Setting class on thumb #" + lastvisible + " to inactive.");
+			$(wrapper + " #gallerythumbframe #" + lastvisible)
+					.removeClass('active').addClass('inactive');
+
+			console.log("gallery.setthumbbindings():"
+				+ " Setting class on thumb #" + nowvisible + " to active.");
+			$(wrapper + " #gallerythumbframe #" + nowvisible)
+					.removeClass('inactive').addClass('active');
 			
-			// TODO: Duplicate calls can be avoided by giving each stat string an id and then showing hidden
-			// 		 stat string if it already exists in DOM.
+			console.log("gallery.setthumbbindings(): Setting stat string.");
 			INFOjs = thumblist(); 
-
-			var statstr = "| #" + (nowvisible) + "/" + (INFOjs.length) + " for filter";
-			statstr = statstr + " | #" + (1+INFOjs[nowvisible-1].ImageNumber) + "/" + $(wrapper).attr('totalingallery') + " in gallery | ";
+			var statstr = "| #" + (nowvisible) 
+								+ "/" + (INFOjs.length) + " for filter";
+			statstr = statstr + " | #" 
+							  + (1+INFOjs[nowvisible-1].ImageNumber)
+							  + "/" + $(wrapper).attr('totalingallery')
+							  + " in gallery | ";
 			
 			for (var z = 1;z < GALLERYINFO['attributes']["Values"].length;z++) {
-				statstr = statstr + GALLERYINFO['attributes']["Values"][z].Title + " = ";
+				statstr = statstr 
+							+ GALLERYINFO['attributes']["Values"][z].Title 
+							+ " = ";
 				if (GALLERYINFO['attributes']["Values"][z].Format) {
-					statstr = statstr + sprintf(GALLERYINFO['attributes']["Values"][z].Format,parseFloat(INFOjs[nowvisible-1][GALLERYINFO['attributes']["Values"][z].Value]));
+					statstr = statstr + sprintf(GALLERYINFO['attributes']["Values"][z].Format, parseFloat(INFOjs[nowvisible-1][GALLERYINFO['attributes']["Values"][z].Value]));
 				} else {
 					statstr = statstr + INFOjs[nowvisible-1][GALLERYINFO['attributes']["Values"][z].Value];            		
 				}
 				if (GALLERYINFO['attributes']["Values"][z].Unit) {
-					statstr = statstr + " [" + GALLERYINFO['attributes']["Values"][z].Unit + "] " +  " | ";
+					statstr = statstr 
+								+ " [" 
+								+ GALLERYINFO['attributes']["Values"][z].Unit 
+								+ "] " 
+								+  " | ";
 				} else {
 					statstr = statstr + " | ";
 				}
 			}
-
 			$(wrapper + ' #attributes').html(statstr);
 
 			var qs = $.parseQueryString()
-			//if (nowvisible > 1) {
-				console.log("sethumbbindings(): Calling updatehash().")
-				updatehash('number', nowvisible);
-			//}
+			console.log("gallery.sethumbbindings(): Calling updatehash('number',"+ nowvisible + ").")
+			updatehash('number', nowvisible);
+
+			//$(wrapper + " #fullframe img[id=" + lastvisible + "]").css("opacity","0.4");
+			console.log("gallery.sethumbbindings(): Hiding full image #" + lastvisible + ".");
+			$(wrapper + " #fullframe img[id=" + lastvisible + "]").hide();
 
 			// Load full image.
-			loadfull(this); 
-			
-			$(wrapper).attr("lastvisible",nowvisible);
+			console.log("gallery.sethumbbindings(): Calling loadfull.");
+			loadfull($(this).attr('id')); 
+
+			// Update lastvisible attribute on wrapper.
+			console.log("gallery.sethumbbindings(): Setting lastvisible attribute on " + wrapper + " to " + nowvisible + ".");
+			$(wrapper).attr("lastvisible", nowvisible);
 
 			// Scroll thumbnail list
+			console.log("gallery.sethumbbindings(): Scrolling #gallerythumbframe to #" + nowvisible + ".");
 			$(wrapper + " #gallerythumbframe").scrollTo(this, 0, {
-			   duration: 80, offset: 0
+			   duration: 0, offset: 0
 			});
 		}
 
@@ -1531,9 +1566,9 @@ function viviz(VIVIZ, mode) {
 				return
 			}
 			
-			firstimage(VIVIZ["config"]["defaultFirstImage"]-1);
+			firstimage(VIVIZ["config"]["defaultFirstImage"]);
 
-			// TODO: Detect bad images:
+			// TODO: (?) Detect bad images:
 			// https://github.com/desandro/imagesloaded
 			// http://stackoverflow.com/questions/821516/browser-independent-way-to-detect-when-image-has-been-loaded
 			// http://stackoverflow.com/questions/3877027/jquery-callback-on-image-load-even-when-the-image-is-cached
@@ -1542,28 +1577,34 @@ function viviz(VIVIZ, mode) {
 			function firstimage(f) {
 
 				console.log("gallery.firstimage(): Called."
-								+ " Setting thumb #" + f + " into DOM.");
+								+ " Setting thumb #" + (f) + " into DOM.");
 
-				if (f == VIVIZ["config"]["defaultFirstImage"]-1) {
+				if (f == VIVIZ["config"]["defaultFirstImage"]) {
 					setcontrolbindings();
 				}
 
-				console.log(VIVIZ["galleries"][galleryid]["thumbdirdecoded"])
-				console.log(INFOjs[f].ThumbFile)
 				$('<img class="gallerythumbbrowse firstimage"/>')
 					.appendTo($(wrapper + ' #gallerythumbframe'))
-					.attr("id",f+1)
-					.attr("src", VIVIZ["galleries"][galleryid]["thumbdirdecoded"] + INFOjs[f].ThumbFile)
+					.attr("id",f)
+					.attr("src", VIVIZ["galleries"][galleryid]["thumbdirdecoded"] 
+									+ INFOjs[f-1].ThumbFile)
 					.error(function () {
 						// First image is bad.
-						console.log("gallery.firstimage(): Image " + f + " is bad.");
-						//warning("Image " + f + " not found.",true);
-						$(this).remove();
+						console.log("gallery.firstimage.error(): Error event when setting thumb image " + (f) + " is bad.");
+						$(this).addClass("error")
+						warning("Thumbnail image " + (f) + " could not be loaded.", true, Infinity);
 
-						warning("Image " + (f+1) + " could not be loaded.", true, Infinity);
-						
-						if (f == INFOjs.length-1) {
-							warning("No images could be loaded.",true,Infinity)
+						$(this).attr("src","css/transparent.png");
+						// Need to do this here and in .load in case error
+						// event is triggered after .load event of first non-
+						// error image.
+						console.log("gallery.firstimage.error(): Setting dimensions on image to " + VIVIZ["galleries"][galleryid]["thumbWidth"] + "x" + VIVIZ["galleries"][galleryid]["thumbHeight"] + ".");
+						$(this).css("height", VIVIZ["galleries"][galleryid]["thumbHeight"]);
+						$(this).css("width", VIVIZ["galleries"][galleryid]["thumbWidth"]);
+
+						//$(this).remove();
+						if (f == INFOjs.length) {
+							warning("No images could be loaded.", true, Infinity)
 							console.log("No images could be loaded.")
 							$(wrapper + " #workingfullframe").css('visibility','hidden')
 							return
@@ -1572,24 +1613,28 @@ function viviz(VIVIZ, mode) {
 					})
 					.load(function () {
 						
-						if (f > VIVIZ["config"]["defaultFirstImage"]-1) {
-							if (f == VIVIZ["config"]["defaultFirstImage"]) {
-								warning("The first image in this subset could not be loaded.", true)
+						//if (f > VIVIZ["config"]["defaultFirstImage"]) {
+							if (f == VIVIZ["config"]["defaultFirstImage"]+1) {
+								if (VIVIZ["config"]["defaultFirstImage"] > 1) {
+									warning("The selected thumbnail image in this subset could not be loaded.", true)
+								} else {
+									warning("The first thumbnail image in this subset could not be loaded.", true)
+								}
 							} else {
-								warning("The first " + f + " images" + " in this subset could not be loaded.",true)
+								//warning("The first " + (VIVIZ["config"]["defaultFirstImage"]-f+1) + " images" + " in this subset could not be loaded.",true)
 							}
-						}
+						//}
 						
 						// Trigger load of the first full image.
-						$(wrapper).attr('nowvisible',f+1)
-						console.log("gallery.firstimage(): First thumbnail image loaded.")
-						console.log("gallery.firstimage(): Applying click bindings and then clicking it to trigger load of full image.")
+						$(wrapper).attr('nowvisible', f)
+						console.log("gallery.firstimage.load(): First successful thumbnail image load.")
+						console.log("gallery.firstimage.load(): Applying click bindings and then clicking it to trigger load of full image.")
 						$(this).bind('click', setthumbbindings).click()
 
 						// Scroll to top.
 						$(wrapper + " #gallerythumbframe").scrollTo(0);
 
-						console.log('gallery.firstimage(): First thumbnail has natural dimensions = '
+						console.log('gallery.firstimage.load(): First thumbnail has natural dimensions = '
 							+this.naturalWidth+'x'+this.naturalHeight+'.');
 
 						// Set height of thumbnail image - setWH()
@@ -1598,17 +1643,36 @@ function viviz(VIVIZ, mode) {
 						$(this).css("height",VIVIZ["galleries"][galleryid]["thumbHeight"]);
 						$(this).css("width",VIVIZ["galleries"][galleryid]["thumbWidth"]);
 
-						console.log('gallery.firstimage(): First thumbnail set to '
+						//setTimeout(function () {
+							var l = $(wrapper + ' #gallerythumbframe img.error').length;
+							console.log("gallery.firstimage.load(): Setting dimensions on " + (l) + " images with class error to " + VIVIZ["galleries"][galleryid]["thumbWidth"] + "x" + VIVIZ["galleries"][galleryid]["thumbHeight"] + ".");
+							$(wrapper + ' #gallerythumbframe img.error').css("height",VIVIZ["galleries"][galleryid]["thumbHeight"]);
+							$(wrapper + ' #gallerythumbframe img.error').css("width",VIVIZ["galleries"][galleryid]["thumbWidth"]);
+						//}, 0);
+
+						if (VIVIZ["config"]["defaultFirstImage"] > 1) {
+							console.log("gallery.firstimage.load(): First image to show > 1.  Inserting spacers before first image.");
+
+							for (var i = 1; i < VIVIZ["config"]["defaultFirstImage"]; i++) {
+								$('<img class="spacer"/>')
+									.prependTo($(wrapper + ' #gallerythumbframe'))
+									.attr("src", "css/transparent.png")
+									.css("height",VIVIZ["galleries"][galleryid]["thumbHeight"])
+									.css("width",VIVIZ["galleries"][galleryid]["thumbWidth"])
+							}
+						}
+
+						console.log('gallery.firstimage.load(): First thumbnail set to '
 								+ 'have dimensions = '
 								+ VIVIZ["galleries"][galleryid]["thumbWidth"]
 								+ 'x'
 								+ VIVIZ["galleries"][galleryid]["thumbHeight"]
 								+ '.');
 
-						$('#gallerythumbframe').attr('data-thumb-length', INFOjs.length);
+						$(wrapper + ' #gallerythumbframe').attr('data-thumb-length', INFOjs.length);
 
 						// Set attribute that indicates which thumbnail is active.
-						$('#gallerythumbframe').attr('data-thumb-displayed', f);
+						$(wrapper + ' #gallerythumbframe').attr('data-thumb-displayed', f);
 						
 						setscrollbinding();
 
@@ -1623,8 +1687,8 @@ function viviz(VIVIZ, mode) {
 							maxLength = INFOjs.length-f;
 						}
 
-						loadmore();
-				})   
+						loadmore("both");
+					})   
 			}
 		}
 
@@ -1640,33 +1704,42 @@ function viviz(VIVIZ, mode) {
 				// DOM already.  Instead, get it from function parameter.
 				var bw = 2*parseFloat($(el).css('border-width').replace("px",''));
 				if (isNaN(bw)) {
-					bw = $(wrapper + ' #gallerythumbframe img:first').outerWidth() - VIVIZ["galleries"][galleryid]["thumbWidth"];
+					bw = $(wrapper + ' #gallerythumbframe img:first')
+							.outerWidth() - VIVIZ["galleries"][galleryid]["thumbWidth"];
 				}
 				if  (isNaN(bw)) {
 					bw = 2;
 				}
-				var w = VIVIZ["galleries"][galleryid]["thumbWidth"] + $.scrollbarWidth() + bw + 8; // Why 8?
-				console.log("gallery.settabledims(): Setting #gallerythumbframe width to = "+w);
+				var w = VIVIZ["galleries"][galleryid]["thumbWidth"] 
+							+ $.scrollbarWidth() + bw + 8; // Why 8?
+				console.log("gallery.settabledims(): Setting #gallerythumbframe "
+					+ "width to = " + w + ".");
 				$(wrapper + ' #gallerythumbframe').width(w);
 			}
 
 			console.log("gallery.settabledims(): Full img natural dimensions = " 
-				+ VIVIZ["galleries"][galleryid]["fullNaturalWidth"] + "x" + VIVIZ["galleries"][galleryid]["fullNaturalHeight"])
+				+ VIVIZ["galleries"][galleryid]["fullNaturalWidth"] 
+				+ "x" 
+				+ VIVIZ["galleries"][galleryid]["fullNaturalHeight"])
 			console.log("gallery.settabledims(): Full img scaled dimensions  = " 
-				+ VIVIZ["galleries"][galleryid]["fullWidth"] + "x" + VIVIZ["galleries"][galleryid]["fullHeight"])
+				+ VIVIZ["galleries"][galleryid]["fullWidth"] 
+				+ "x" 
+				+ VIVIZ["galleries"][galleryid]["fullHeight"])
 			
 			// Set heights of thumbframe and fullframe. When first image is loaded, fullNaturalHeight is set.
 			if (VIVIZ["galleries"][galleryid]["fullHeight"] > 0) {
 				
 				// Aspect ratio;
 				var ar = VIVIZ["galleries"][galleryid]["fullWidth"]/VIVIZ["galleries"][galleryid]["fullHeight"];
-				console.log("gallery.settabledims(): Full image aspect ratio = "+ar);
+				console.log("gallery.settabledims(): Full image aspect ratio = " + ar + ".");
 
-				// Force outer frame to stay the same size after image is removed and before new image is inserted.
+				// Force outer frame to stay the same size after image is
+				// removed and before new image is inserted.
 				//$(wrapper + " #fullframe").width($(wrapper + " #fullframe").width())
 				
 				// Set height of thumb strip to be full height of image.
-				$(wrapper + ' #gallerythumbframe').height(VIVIZ["galleries"][galleryid]["fullHeight"]);
+				$(wrapper + ' #gallerythumbframe')
+					.height(VIVIZ["galleries"][galleryid]["fullHeight"]);
 
 				// For iframe?
 				//enclosure = $(wrapper).parents().filter('body')[0];
@@ -1675,35 +1748,46 @@ function viviz(VIVIZ, mode) {
 				console.log("gallery.settabledims(): Window dimensions: " 
 					+ $(window).width() + "x" + $(window).height())
 				console.log("gallery.settabledims(): Client dimensions: " 
-					+ document.documentElement.clientWidth + "x" + document.documentElement.clientHeight)
+					+ document.documentElement.clientWidth 
+					+ "x"
+					+ document.documentElement.clientHeight + ".");
 				console.log("gallery.settabledims(): Document dimensions: "
 					+  $(document).width() + "x" + $(document).height())
 				console.log("gallery.settabledims(): Body element dimensions: " 
-					+ $(enclosure).width() + "x" + $(enclosure).height())
+					+ $(enclosure).width() + "x" + $(enclosure).height() + ".")
 
 				// Amount height needs to shrink so that no scrollbar appears.
 				dh = $(enclosure).height() - $(window).height();
 
 				if (dh > 0) {
-					console.log("gallery.settabledims(): Amount full image height needs to decrease so that no scrollbar appears: dh = "+dh);
-					console.log("gallery.settabledims(): Reducing height and width of #fullframe img.")
+					console.log("gallery.settabledims(): Amount full image "
+						+ "height needs to decrease so that no scrollbar appears: dh = "+dh);
+					console.log("gallery.settabledims(): Reducing height "
+						+ "and width of #fullframe img.")
 					var newh = VIVIZ["galleries"][galleryid]["fullHeight"]-dh
 					$(wrapper + ' #fullframe img').height(newh)
 					$(wrapper + ' #fullframe img').width(newh*ar)
-					console.log("gallery.settabledims(): Shrinking height of #gallerythumbframe to "+(VIVIZ["galleries"][galleryid]["fullHeight"]-dh));
+					console.log("gallery.settabledims(): Shrinking height "
+						+ "of #gallerythumbframe to "+(VIVIZ["galleries"][galleryid]["fullHeight"]-dh + "."));
 					$(wrapper + ' #gallerythumbframe').height(newh);
 					VIVIZ["galleries"][galleryid]['fullHeight'] = newh;
 					VIVIZ["galleries"][galleryid]['fullWidth']  = newh*ar
 				} else {
-					console.log("gallery.settabledims(): Full image does not need to be reduced in height to prevent vert. scrollbar.")
-					console.log("gallery.settabledims(): Setting #gallerythumbframe height to be height of full image = " + VIVIZ["galleries"][galleryid]["fullHeight"] + ".");
-					$(wrapper + " #gallerythumbframe").height(VIVIZ["galleries"][galleryid]["fullHeight"]);
+					console.log("gallery.settabledims(): Full image does not "
+						+ " need to be reduced in height to prevent vertical scrollbar.")
+					console.log("gallery.settabledims(): Setting " 
+						+ "#gallerythumbframe height to be height of full "
+						+ "image = " + VIVIZ["galleries"][galleryid]["fullHeight"] + ".");
+					$(wrapper + " #gallerythumbframe")
+						.height(VIVIZ["galleries"][galleryid]["fullHeight"]);
 				}
 
 				console.log("gallery.settabledims(): Window dimensions: " 
 					+ $(window).width() + "x" + $(window).height())
 				console.log("gallery.settabledims(): Client dimensions: " 
-					+ document.documentElement.clientWidth + "x" + document.documentElement.clientHeight)
+					+ document.documentElement.clientWidth 
+					+ "x" 
+					+ document.documentElement.clientHeight)
 				console.log("gallery.settabledims(): Document dimensions: "
 					+  $(document).width() + "x" + $(document).height())
 				console.log("gallery.settabledims(): Enclosing Body dimensions: " 
@@ -1712,14 +1796,14 @@ function viviz(VIVIZ, mode) {
 				dw = $(document).width()-$(enclosure).width();
 
 				if (dw > 0) {
-					console.log("gallery.settabledims(): Document width is larger than body element width by dw = "+dw);
+					console.log("gallery.settabledims(): Document width is larger than body element width by dw = " + dw + ".");
 					if (dh > 0) {
-						newh = VIVIZ["galleries"][galleryid]["fullNaturalHeight"]-dh-dw/ar;
+						newh = VIVIZ["galleries"][galleryid]["fullNaturalHeight"] - dh - dw/ar;
 					} else {
-						newh = VIVIZ["galleries"][galleryid]["fullNaturalHeight"]-dw/ar;
+						newh = VIVIZ["galleries"][galleryid]["fullNaturalHeight"]- dw/ar;
 					}
 					newh = newh - 1;
-					console.log("gallery.settabledims(): Shrinking height of #fullframe img and #gallerythumbframe because dw > 0.  New height: "+newh)
+					console.log("gallery.settabledims(): Shrinking height of #fullframe img and #gallerythumbframe because dw > 0.  New height: " + newh + ".");
 					$(wrapper + ' #fullframe img').height(newh)
 					$(wrapper + ' #gallerythumbframe').height(newh);
 					$(wrapper + ' #fullframe img').width(newh*ar)
@@ -1730,14 +1814,18 @@ function viviz(VIVIZ, mode) {
 
 				dh = $(enclosure).height() - $(window).height() - parseInt($(wrapper).css('margin-top'))
 				if (dh < 0) {
-					console.log("gallery.settabledims(): Setting top margin to " + -dh/2);
-					$(wrapper).css('margin-top',-dh/2);
+					console.log("gallery.settabledims(): Setting top margin to "
+									+ (-dh/2) + ".");
+					$(wrapper).css('margin-top', -dh/2);
 				}	
 			} else {
-				console.log("gallery.settabledims(): Full image height unknown but thumb height known.");
+				console.log("gallery.settabledims(): Full image height unknown "
+					+ " but thumb height known.");
 				var a = 4*VIVIZ["galleries"][galleryid]["thumbHeight"];
-				console.log("gallery.settabledims(): Setting thumb frame height to be 4*(first thumb outer height) = "+a);
-				console.log("gallery.settabledims(): First thumbnail height = " + $('#gallerythumbframe img').eq(0).height());
+				console.log("gallery.settabledims(): Setting thumb frame height "
+					+ " to be 4*(first thumb outer height) = " + a + ".");
+				console.log("gallery.settabledims(): First thumbnail height = " 
+					+ $('#gallerythumbframe img').eq(0).height());
 				$(wrapper + ' #gallerythumbframe').height("" + a);
 			}
 
@@ -1750,18 +1838,17 @@ function viviz(VIVIZ, mode) {
 			}
 		}
 
-		function loadfull(jq) {
+		function loadfull(id) {
 
-			console.log("gallery.loadfull(): Called.");
+			id = parseInt(id);
+			console.log("gallery.loadfull(): Called with image object with id = "
+							 + id + ".");
 
-			var id = $(jq).attr('id')
-			var lastvisible = parseInt($(wrapper).attr('lastvisible'))
-			$(wrapper + " #fullframe img[id=" + lastvisible + "]").hide()
-			
 			if (id > INFOjs.length) {return}
 			
 			if ($(wrapper + " #fullframe img[id="+id+"]").length == 1) {
-				console.log('gallery.loadfull(): Found hidden full image in DOM.  Showing.');
+				console.log("gallery.loadfull(): "
+							+ "Found hidden full image in DOM.  Showing.");
 				$(wrapper + " #fullframe img[id=" + id + "]").show();
 				prepnext(id)
 				setfilename(id)
@@ -1769,98 +1856,81 @@ function viviz(VIVIZ, mode) {
 			}
 
 			// Show loading indicator
+			console.log("gallery.loadfull(): Showing loading indicator.")
 			$(wrapper + ' #workingfullframe').css('visibility','visible');
 
 			// Place empty image element in DOM.
-			$(wrapper + " #fullframe").prepend('<img id="'+id+'" class="full"/>');
-			
+			console.log("gallery.loadfull(): Placing empty img element with id = "
+						+ id + " in DOM.");
+			$(wrapper + " #fullframe").prepend('<img id="' +id +'" class="full"/>');
+
+			console.log("gallery.loadfull(): Setting attributes and binding"
+							+ " load event on # " + id + ".");			
 			$(wrapper + " #fullframe img[id="+id+"]")
 					.unbind('load')
 					.error(function () {
 						$(wrapper + ' #workingfullframe').css('visibility','hidden');
-						//$(wrapper + ' #error').html('Could not load <a href="'+$(this).attr('src')+'">'+$(this).attr('src')+'</a>')
-						console.log("Error loading ")
-						$(this).width(VIVIZ["galleries"][galleryid]["fullWidth"]);
-						$(this).height(VIVIZ["galleries"][galleryid]["fullHeight"]);
+						console.log("-- gallery.loadfull(): Error "
+							+ "loading full image #" + id + ".");
+						$(this).attr("src","css/transparent.png")
+						$(this).addClass("class","error")
+						warning("The full image for this thumbnail could "
+							+ "not be loaded.", true)
+						// Above set will trigger load event so following not needed.
+						//$(this).trigger('load')
 					})
-					.css("height",VIVIZ["galleries"][galleryid]["fullHeight"] || 400)
-					.css('width',VIVIZ["galleries"][galleryid]['fullWidth'] || 400)
-					.attr('src', VIVIZ["galleries"][galleryid]["fulldirdecoded"] + INFOjs[parseInt(id-1)]["FullFile"])
-					.load(function(){
+					.css("height", VIVIZ["galleries"][galleryid]["fullHeight"] || 400)
+					.css('width', VIVIZ["galleries"][galleryid]['fullWidth'] || 400)
+					.attr('src', VIVIZ["galleries"][galleryid]["fulldirdecoded"] 
+								+ INFOjs[parseInt(id)-1]["FullFile"])
+					.load(function() {
 
-						console.log("gallery.loadfull(): Load event.")
-
+						console.log("gallery.loadfull(): Load event for full image #" + id + ".");
+						
 						// Hide loading indicator
-						$(wrapper + ' #workingfullframe').css('visibility','hidden');
+						console.log("gallery.loadfull(): Hiding loading indicator.");
+						$(wrapper + ' #workingfullframe').css('visibility', 'hidden');
 
-						if ($(jq).hasClass('firstimage')) {
+						if ($("#"+id).hasClass('firstimage')) {
 
-							console.log('gallery.loadfull(): First full image loaded with dimensions '
-								+this.naturalWidth+'x'+this.naturalHeight+'.  Setting table dimensions.');
+							console.log("gallery.loadfull(): "
+								+ "First full image load event. Full image has dimensions "
+								+ this.naturalWidth 
+								+ "x" 
+								+ this.naturalHeight
+								+ ".  Setting table dimensions.");
 
 							$(wrapper + " #fullframe").height('');
+
 							var tmp = setWH(this, 'full');
 
 							// Set height of full image.
-							console.log("gallery.loadfull(): Setting full image height")
-							$(this).css("height",VIVIZ["galleries"][galleryid]["fullHeight"]);
-							$(this).css('width',VIVIZ["galleries"][galleryid]['fullWidth'])
+							console.log("gallery.loadfull(): "
+									+ "Setting full image height on #" + id + ".");
+							$(this).css("height",
+									VIVIZ["galleries"][galleryid]["fullHeight"]);
+							$(this).css('width',
+									VIVIZ["galleries"][galleryid]['fullWidth'])
 
-							// After this function sets VIVIZ[gallerid] dimensions, 
+							// After this function sets VIVIZ[galleryid] dimensions, 
 							// then call prepnext(), which uses these dimensions.
-							console.log("gallery.loadfull(): Calling settabledims().")
+							console.log("gallery.loadfull(): Calling "
+								+ "settabledims() with callback prepnext(" + id + ").");
 							settabledims(this, function () {prepnext(id)})
-
 						} else {
 							prepnext(id)
 						}
 
-						setfilename($(this).attr('id'))
+						console.log("gallery.loadfull(): Calling setfilename(" + id + ").");
+						setfilename(id)
 
 					})
-
-			function setfilename(id) {
-				console.log("Setting filename.")
-				$(wrapper + " #filename").html('');
-				var wo = $(wrapper).width()
-
-				$(wrapper + " #filename").append("<a>");
-				var href = VIVIZ["galleries"][galleryid]["fulldirdecoded"] + INFOjs[parseInt(id-1)]["FullFile"];
-				var fname = INFOjs[parseInt(id-1)]["FullFile"];
-				if (fname.match("&")) {
-					// URL is not a file but a URL with query parameters.
-					fname = href;
-				}
-				
-				$(wrapper + " #filename a").attr('href', href).css("white-space", "nowrap").html(fname);
-
-				var wx = $(wrapper + " #filename").width();
-
-				while (wx > wo) {
-
-					console.log("loadfull.setfilename(): " + wrapper + " width "+wo)
-					console.log("loadfull.setfilename(): #filename div width "+wx)
-
-					// Fraction to remove. 0.9 to account for nonuniformity of charcter width.
-					r = 0.9*wo/wx
-					console.log("Reduction factor: 0.9*"+wo+"/"+wx)
-					l = fname.length
-					nr = l-r*l
-					console.log("loadfull.setfilename(): Number of characters to remove:  "+nr)
-					c = l/2
-					console.log("loadfull.setfilename(): Center value: " + c)
-					console.log("loadfull.setfilename(): Number of characters to keep : " + nr)
-					fnamer = fname.substr(0,Math.floor(c-nr/2)) + " ... " + fname.substr(Math.ceil(c+nr/2),l)
-					$(wrapper + " #filename a").text(fnamer);
-					wx = $(wrapper + " #filename").width();
-				}
-			}
 
 			function prepnext(id) {
 
 				// If next few images not in DOM, load them.
 				
-				console.log("prepnext(): Called with id = " + id)
+				console.log("gallery.loadfull.prepnext(): Called with id = " + id + ".")
 
 				var idn = parseInt(id) + 1
 				
@@ -1872,35 +1942,98 @@ function viviz(VIVIZ, mode) {
 				while (idn < ido + 3) {
 					if (idn > INFOjs.length) {break}					
 					if ($(wrapper + " #fullframe img[id="+idn+"]").length == 0) {
-						console.log("Setting full image with id = " + idn)
+						console.log("gallery.loadfull.prepnext(): Setting full image with id = " + idn + ".");
 						$(wrapper + " #fullframe").prepend('<img id="'+idn+'" class="full" style="display:none"/>');
 						$(wrapper + " #fullframe img[id="+idn+"]")
 							.css('height',VIVIZ["galleries"][galleryid]['fullHeight'])
 							.css('width',VIVIZ["galleries"][galleryid]['fullWidth'])
 							.attr('src',VIVIZ["galleries"][galleryid]["fulldirdecoded"] + INFOjs[idn-1]["FullFile"])
 							.error(function () {
+								$(this).attr("src", "css/transparent.png")
+								$(this).attr("class","error")
 								$(this).height(VIVIZ["galleries"][galleryid]["fullHeight"]);
 								$(this).width(VIVIZ["galleries"][galleryid]["fullWidth"]);
 							})
-							.load (function () {})
+							.load(function () {
+								console.log("gallery.loadfull.prepnext(): Full image #" + $(this).attr('id') + " load event.")
+								if ($(wrapper + " #fullframe img[id="+(parseInt($(this).attr('id'))-1)+"]").hasClass("error")) {
+									console.log("gallery.loadfull.prepnext(): Previous full image did not load.  Setting full image dimensions and setting table dimensions.")
+									var tmp = setWH(this, 'full');
+
+									// Set height of full image.
+									console.log("gallery.loadfull.prepnext(): Setting full image height on #" + id + ".");
+									$(this).css("height",VIVIZ["galleries"][galleryid]["fullHeight"]);
+									$(this).css('width',VIVIZ["galleries"][galleryid]['fullWidth'])
+
+									// After this function sets VIVIZ[galleryid] dimensions, 
+									// then call prepnext(), which uses these dimensions.
+									console.log("gallery.loadfull(): Calling settabledims() with callback prepnext(" + id + ").");
+									settabledims(this, function () {
+										console.log("gallery.loadfull(): Calling setfilename(" + id + ").");
+										setfilename(id)
+									});
+
+								}
+							})
 					}
 					idn = idn+1
 				}
+			}
 
+			function setfilename(id) {
+				console.log("gallery.loadfull.setfilename(): Called.");
+				$(wrapper + " #filename").html('');
+				var wo = $(wrapper).width()
+
+				$(wrapper + " #filename").append("<a>");
+				var href = VIVIZ["galleries"][galleryid]["fulldirdecoded"] 
+							+ INFOjs[parseInt(id-1)]["FullFile"];
+				var fname = INFOjs[parseInt(id-1)]["FullFile"];
+				if (fname.match("&")) {
+					// URL is not a file but a URL with query parameters.
+					fname = href;
+				}
+				
+				$(wrapper + " #filename a")
+					.attr('href', href)
+					.css("white-space", "nowrap")
+					.html(fname);
+
+				var wx = $(wrapper + " #filename").width();
+
+				while (wx > wo) {
+
+					console.log("gallery.loadfull.setfilename(): "
+									+ wrapper + " width "+wo)
+					console.log("gallery.loadfull.setfilename(): "
+									+ "#filename div width "+wx)
+
+					// Fraction to remove. 0.9 is to account for nonuniformity
+					// of charcter width.
+					r = 0.9*wo/wx
+					console.log("gallery.loadfull.setfilename(): " 
+								+ "Reduction factor: 0.9*" + wo + "/" + wx)
+					l = fname.length
+					nr = l-r*l
+					console.log("gallery.loadfull.setfilename(): "
+								+ "Number of characters to remove: " + nr)
+					c = l/2
+					console.log("gallery.loadfull.setfilename(): Center value: " + c)
+					console.log("gallery.loadfull.setfilename(): "
+							+ "Number of characters to keep: " + nr)
+					fnamer = fname.substr(0,Math.floor(c-nr/2)) 
+								+ " ... " 
+								+ fname.substr(Math.ceil(c+nr/2),l)
+					$(wrapper + " #filename a").text(fnamer);
+					wx = $(wrapper + " #filename").width();
+				}
 			}
 		}
 
-		function loadmore(direction) {
-
-			if (!direction) {
-				var direction = "both";
-			}
+		function loadmore(direction, Nshown, scrollEvent) {
 
 			var Navail = parseInt($(wrapper + ' #gallerythumbframe').attr('data-thumb-length'));
-			var Nshown = parseInt($(wrapper + " #gallerythumbframe > img.active").attr("id"));
-			//if (Nshown == Navail) {
-			//	return
-			//}
+			Nshown = Nshown || parseInt($(wrapper + " #gallerythumbframe > img.active").attr("id"));
 
 			var Nlazy = VIVIZ["galleries"][galleryid]["lazyLoadMax"]
 						|| VIVIZ["config"]["lazyLoadMax"]
@@ -1909,12 +2042,10 @@ function viviz(VIVIZ, mode) {
 			Nbefore = 0;
 			if (firstidx > 0) {
 				Nbefore = Nlazy;
-			//	console.log("loadmore(): defaultFirstImage > 1."
-			//			+ " Will set thumbs before and after active image.")
 			}
 
 			// Number of blocks of Nlazy images to fill document height.
-			var d = Math.max(Nlazy,Nshown)*VIVIZ["galleries"][galleryid]["thumbHeight"];
+			var d = Math.max(Nlazy, Nshown)*VIVIZ["galleries"][galleryid]["thumbHeight"];
 			var Nfill = $(window).height()/(d)
 
 			// If Nfill > 1, we need to load more images initially
@@ -1927,58 +2058,78 @@ function viviz(VIVIZ, mode) {
 			var slowwarn = false
 			var imgstr = '<img class="gallerythumbbrowse lazyload"/>';
 
+			if (direction === "both" || direction === "forward") {
+				for (var j = Nshown + 1; j < Nshown + Nlazy; j++) {
+					if ($("#gallerythumbframe img[id='" + (j) + "']").length > 0) {
+						console.log("gallery.loadmore(): Found thumb with id = " 
+										+ (j) + " in DOM.  Not appending.");
+						continue;
+					}
+					if (j == INFOjs.length + 1) break;
+					var last = $("#gallerythumbframe img").last();
+					var bottom = parseInt(last.attr('id'));
+					console.log("gallery.loadmore(): Bottom image is #" 
+									+ bottom 
+									+ ". Inserting thumb #" 
+									+ bottom 
+									+ " after #" + (j) + ".");
+					var el = $(imgstr)
+								.css("height",
+									$("#gallerythumbframe > img.active").height())
+								.css("width",
+									$("#gallerythumbframe > img.active").width())
+								.insertAfter(last);
+					setel(el,j);
+				}
+			}
+
 			if (direction === "both" || direction === "backward") {
 				for (var j = Nshown-1; j > Nshown-Nlazy-2; j--) {
-					if (j < 0) continue;
-					if ($("#gallerythumbframe img[id='" + (j+1) + "']").length > 0) {
-						console.log("loadmore(): Found thumb with id = " 
-										+ (j+1) + " in DOM.  Not setting.");
+					if (j < 1) continue;
+					if ($("#gallerythumbframe img[id='" + (j) + "']").length > 0) {
+						console.log("gallery.loadmore(): Found thumb with id = " 
+										+ (j) + " in DOM.  Not prepending.");
 						continue;
 					}
-					console.log("loadmore(): Setting thumb " + (j+1));
-					console.log("Prepending.");
-					var first = $("#gallerythumbframe img").first();
-					var el = $(imgstr).insertBefore(first);
-					setel(el);
+					var first = $("#gallerythumbframe img").not(".spacer").first();
+					var top = parseInt(first.attr('id'));
+					console.log("gallery.loadmore(): Top non-spacer image is #" + top 
+						+ ". Inserting thumb #" + (j) + " before #" + top + ".");
+					var lastspacer = $("#gallerythumbframe .spacer").last();
+					//var el = $(imgstr)
+					var el = $(lastspacer)
+								.removeClass("spacer")
+								.css("height",
+									$("#gallerythumbframe > img.active").height())
+								.css("width",
+									$("#gallerythumbframe > img.active").width())
+					setel(el,j);
 				}
 			}
 
-			if (direction === "both" || direction === "forward") {
-				for (var j = Nshown; j < Nshown+Nlazy; j++) {
-					if ($("#gallerythumbframe img[id='" + (j+1) + "']").length > 0) {
-						console.log("loadmore(): Found thumb with id = " 
-										+ (j+1) + " in DOM.  Not setting.");
-						continue;
-					}
-					if (j == INFOjs.length) break;
-					console.log("loadmore(): Setting thumb " + (j+1));
-					console.log("Appending.");
-					var last = $("#gallerythumbframe img").last();
-					var el = $(imgstr).insertAfter(last);
-					setel(el);
-				}
-			}
-
-			function setel(el) {
+			function setel(el,j) {
 				$(el)
-					.attr("id",j+1)
-					.attr("src", VIVIZ["galleries"][galleryid]["thumbdirdecoded"] + INFOjs[j].ThumbFile)
+					.attr("id",j)
+					.addClass("gallerythumbbrowse")
+					.addClass("lazyload")
+					.attr("src", VIVIZ["galleries"][galleryid]["thumbdirdecoded"] 
+									+ INFOjs[j-1].ThumbFile)
 					.bind('click',setthumbbindings)
-					.attr("title",imgtitle(INFOjs[j]))
-					.css("height",$("#gallerythumbframe > img.firstimage").height())
-					.css("width",$("#gallerythumbframe > img.firstimage").width())
+					.attr("title",imgtitle(INFOjs[j-1]))
 					.error(function () {
+						$(this).addClass("error")
 						$(this).attr("src","css/transparent.png")
 					})
 					.load(function () {
 						var active = $(wrapper + " #gallerythumbframe img.active");
-						$(wrapper + " #gallerythumbframe").scrollTo(active, 0, {
-							duration: 80, offset: 0
-						});
+						if (!scrollEvent) {
+							$(wrapper + " #gallerythumbframe")
+								.scrollTo(active, 0, {
+									duration: 80, offset: 0
+								});
+						}
 						if ((slowwarn == false) && (new Date().getTime() - tic > 3000)) {
-							//warning("Slow-loading gallery.  See <a href='http://viviz.org/#Performace'>performace tips</a> for improving performance.",true);
 							slowwarn = true;
-							//setTimeout(function () {$('#connectionerror').html('')},5000);
 						}													
 					})
 			}
@@ -2059,7 +2210,7 @@ function viviz(VIVIZ, mode) {
 					var nowvisible = lastvisible + 1;        	
 				}
 				console.log("gallery.setcontrolbindings: Next button clicked."
-								+ " Clicking on thumbnail " + nowvisible + ".")
+								+ " Clicking on  #" + nowvisible + ".")
 				$(wrapper + " #gallerythumbframe #" + nowvisible).click();
 
 				var length = parseInt($('#gallerythumbframe').attr('data-thumb-length'));
@@ -2103,23 +2254,79 @@ function viviz(VIVIZ, mode) {
 
 		function setscrollbinding() {
 
-			console.log("gallery.setscrollbinding(): Called.  Setting scroll event.");
+			if (typeof(setscrollbinding.lastoffset) === "undefined") {
+				setscrollbinding.lastoffset = $(wrapper + " #gallerythumbframe").scrollTop().valueOf();
+			}
+			var debugscroll = false;
 
-			$('#gallerythumbframe').scroll(function(e){
-				console.log("gallery.setscrollbinding(): Scroll event.")
+			$(wrapper + ' #gallerythumbframe').scroll(function(e){
+				if (debugscroll) console.log("gallery.setscrollbinding(): Scroll event.")
+
+				var currentoffset = $(wrapper + " #gallerythumbframe").scrollTop().valueOf();
+				var rel = setscrollbinding.lastoffset - currentoffset;
+				setscrollbinding.lastoffset = currentoffset;
+
+				if (debugscroll) {
+					if (rel > 0) {
+						console.log("gallery.setscrollbinding(): Scroll put lower image #s in view.");
+					} else {
+						console.log("gallery.setscrollbinding(): Scroll put higher image #s in view.");
+					}
+				}	
 				var elem = $(this);
-				var dh = elem[0].scrollHeight - elem[0].scrollTop - elem[0].clientHeight
-				console.log("gallery.setscrollbinding(): scrollHeight - scrollTop - clientHeight = " 
-					+ elem[0].scrollHeight + "-" + elem[0].scrollTop + "-" + elem[0].clientHeight + " = " + dh)
 
-				if (dh <= 0) {
-					console.log("gallery.setscrollbinding(): Calling loadmore() because dh <= 0.")
-					loadmore()
+				var Nlazy = VIVIZ["galleries"][galleryid]["lazyLoadMax"]
+							|| VIVIZ["config"]["lazyLoadMax"]
+
+
+				var Nshown = parseInt($(wrapper + " #gallerythumbframe > img.active").attr("id"));
+	
+				// Determine number of thumbnails above active one that exist in view.
+				var activetop = $(wrapper + " #gallerythumbframe > img.active").offset().top;
+				var frametop  = $(wrapper + " #gallerythumbframe").offset().top;
+				var frameouterHeight = $(wrapper + " #gallerythumbframe").outerHeight();
+				var frameinnerHeight = $(wrapper + " #gallerythumbframe").innerHeight();
+				var framedel  = frameouterHeight - frameinnerHeight;
+				var rel2       = activetop - frametop;
+
+				var Nshown2 = Math.floor(rel2/VIVIZ["galleries"][galleryid]["thumbHeight"]);
+				if (debugscroll) {
+					console.log("gallery.setscrollbinding(): Position of active relative to top of document = " + activetop);
+					console.log("gallery.setscrollbinding(): Position of active gallerythumbframe to top of document = " + frametop);
+					console.log("gallery.setscrollbinding(): outerHeight - innerHeight of gallerythumbframe = " + frameinnerHeight + " - " + frameouterHeight + " = " + framedel);
+					console.log("gallery.setscrollbinding(): Offset of active relative to top of gallerythumbframe = " + rel);
+					console.log("gallery.setscrollbinding(): Scroll distance to top of active thumb  = " + rel);
+					console.log("gallery.setscrollbinding(): Scroll distance in units of thumbHeight = " + Nshown2);
+					}
+				if (rel < 0) {
+					if (debugscroll) console.log("gallery.setscrollbinding(): Scroll put higher image #s in view.");
+					direction = "forward"; // Need to append
+					Nshown = Nshown - Nshown2;
+					if (debugscroll) console.log("gallery.setscrollbinding(): Last image fully visible in #gallerythumbframe is #" + Nshown + ".");
+					Nlast = parseInt($("#gallerythumbframe img").not(".spacer").last().attr("id"));
+					if (debugscroll) console.log("gallery.setscrollbinding(): Last image in DOM in #gallerythumbframe is #" + Nlast + ".");
+					if ((Nlast-Nshown) < Nlazy) {
+						if (debugscroll) console.log("gallery.setscrollbinding(): Number of images below last fully visible image < Nlazy. Calling loadmore('forward', true)");
+						loadmore(direction, Nshown, true);
+					} else {
+						if (debugscroll) console.log("gallery.setscrollbinding(): Number of images below last fully visible image >= Nlazy. Not calling loadmore('forward', true)");
+					}
 				} else {
-					console.log("gallery.setscrollbinding(): Not calling loadmore() because dh > 0.")
+					if (debugscroll) console.log("gallery.setscrollbinding(): Scroll put lower image #s in view.");
+					direction = "backward"; // Scroll down. Need to prepend.
+					Nshown = Nshown - Nshown2 - 1;
+					if (debugscroll) console.log("gallery.setscrollbinding(): First image fully visible in #gallerythumbframe is #" + Nshown + ".");
+					Nfirst = parseInt($("#gallerythumbframe img").not(".spacer").first().attr("id"));
+					if (debugscroll) console.log("gallery.setscrollbinding(): First image in DOM in #gallerythumbframe is #" + Nfirst + ".");
+					if (debugscroll) console.log("gallery.setscrollbinding(): Number of images in DOM above it = " + (Nshown-Nfirst) + ".");
+					if ((Nshown-Nfirst) < Nlazy) {
+						if (debugscroll) console.log("gallery.setscrollbinding(): Number of hidden images above it < Nlazy. Calling loadmore('forwward, true')");
+						loadmore(direction, Nshown, true);
+					}
 				}
 			})
 		}
+
 	}
 
 	function thumb() {
@@ -2242,7 +2449,6 @@ function viviz(VIVIZ, mode) {
 					$(wrapper + ' #thumbbrowseoverlay').hide()
 					$(setthumbbindings.active).css("border", "solid white 3px")
 				})
-
 		}
 
 		function setthumbs() {

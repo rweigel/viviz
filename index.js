@@ -34,13 +34,17 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 	}
 }
 
+// Note: In general it is best to use $ instead of % in configuation except in
+// the scripts.  This is because sprintf=demo-%04d.png is decoded to demo-d.png,
+// so you must use demo-$04d.png.  In scripts where sprintf and strftime are used,
+// the % must be used.
 VIVIZ["catalog"] = 
 		[
 			{
 				"id": "ACE/Multi/1",
 				"title": "ACE/Multi",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
@@ -50,7 +54,7 @@ VIVIZ["catalog"] =
 				"id": "ACE/Multi/2",
 				"title": "ACE/Multi w/ no thumbdir",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/"
@@ -59,7 +63,7 @@ VIVIZ["catalog"] =
 				"id": "ACE/Multi/3",
 				"title": "ACE/Multi w/ no thumbdir & thumbWidth=0.1",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
@@ -69,7 +73,7 @@ VIVIZ["catalog"] =
 				"id": "ACE/Multi/4",
 				"title": "ACE/Multi w/ no thumbdir & thumbWidth=100",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
@@ -79,7 +83,7 @@ VIVIZ["catalog"] =
 				"id": "ACE/Multi/5",
 				"title": "ACE/Multi w/ dir, no thumbdir & thumbWidth=0.1.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"dir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
@@ -89,7 +93,7 @@ VIVIZ["catalog"] =
 				"id": "ACE/Multi/6",
 				"title": "ACE/Multi w/ dir, no thumbdir & thumbWidth=100.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"dir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
@@ -99,7 +103,7 @@ VIVIZ["catalog"] =
 				"id": "ACE/Multi/7",
 				"title": "ACE/Multi thumbdir is relative path.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
@@ -109,7 +113,7 @@ VIVIZ["catalog"] =
 				"id": "ACE/Multi/8",
 				"title": "ACE/Multi with start number and regexp.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
-				"strftime": "product_%Y%m%d.png",
+				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
 				"stop": "2012-04-30",
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
@@ -122,16 +126,16 @@ VIVIZ["catalog"] =
 				"title": "sprintf",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
-				"sprintf": "demo-%04d.png",
+				"sprintf": "demo-$04d.png",
 				"start": 1,
 				"stop": 4
 			},
 			{
 				"id": "Demo/02",
-				"title": "strfmtime",
+				"title": "strftime",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
-				"strftime": "demo-%Y.png",
+				"strftime": "demo-$Y.png",
 				"start": 2001,
 				"stop": 2004
 			},
@@ -248,24 +252,24 @@ VIVIZ["catalog"] =
 			{
 				"id": "Demo/22",
 				"title": "No dir given; images must be in same directory as index.htm",
-				"strftime": "demo-%Y.png",
+				"strftime": "demo-$Y.png",
 				"start": 2001,
 				"stop": 2002
 			},
 			{
 				"id": "Demo/23",
 				"title": "No dir given; images must be in same directory as index.htm",
-				"strftime": "demo-%Y.png",
+				"strftime": "demo-$Y.png",
 				"start": 2001,
 				"stop": 2002,
 				"fullfiles": ""
 			},
 			{
-				"id": "dir=images/full/&strftime=demo-%Y.png&start=2001&stop=2004",
+				"id": "dir=images/full/&strftime=demo-$Y.png&start=2001&stop=2004",
 				"title": "Example in documentation."
 			},
 			{
-				"id": "dir=images/full/&strftime=demo-%Y.png&start=2001&stop=2004",
+				"id": "dir=images/full/&strftime=demo-$Y.png&start=2001&stop=2004",
 				"title": "Example in documentation"
 			},
 			{
@@ -273,15 +277,15 @@ VIVIZ["catalog"] =
 				"title": "Example in documentation."
 			},
 			{
-				"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&start=1998-01-01&stop=1998-01-04",
+				"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_$Y$md.png&start=1998-01-01&stop=1998-01-04",
 				"title": "ID specified as URL in index.js."
 			},
 			{
-				"id": "dir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&start=1998-01-01&stop=1998-01-04",
+				"id": "dir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_$Y$m$d.png&start=1998-01-01&stop=1998-01-04",
 				"title": "ID specified as URL in index.js."
 			},
 			{
-				"id": "dir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_%Y%m%d.png&start=1998-01-01&stop=1998-01-04&thumbWidth=0.1",
+				"id": "dir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_$Y$m$d.png&start=1998-01-01&stop=1998-01-04&thumbWidth=0.1",
 				"title": "ID specified as URL in index.js."
 			},
 			{
