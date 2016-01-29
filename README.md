@@ -8,7 +8,7 @@ Software for browsing, sorting, and subsetting pre-generated images in a web bro
 
 If remote images are available from an HTTP address and the filenames follow a simple pattern, the images may be viewed by appending parameters to the URL `http://viviz.org/#`.  For alternative usage, including for viewing local images, see [Installation](Installation).
 
-*Example*
+**Example**
 
 The directory http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/ contains image files of the form `sunspots_512_$Y$m$d.jpg`.
 
@@ -19,15 +19,15 @@ The directory contains images of two sizes.  To specify different full and thumb
 
 http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&fullstrftime=sunspots_1024_$Y$m$d.jpg&thumbstrftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D
 
-== Performance Hints
+## Performance Hints
 
 * Use thumbnail images.
 * Use interlaced PNG encoding for large full-sized images.
 * Use [https://pngquant.org/ PNGQuant] for compressing PNG images.
 
-== Installation
+## Installation
 
-=== Basic
+### Basic
 
 * Open http://viviz.org/gallery/index.htm
 * Select `File > Save As > index.htm`
@@ -42,7 +42,7 @@ or
 :`<nowiki>index.htm#dir=file:///path/to/images/&strftime=...&start=...&stop=...</nowiki>`
 :`<nowiki>index.htm#dir=dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D</nowiki>`
 
-=== Web Server
+### Web Server
 
 In this mode, directories for the location of the directory may be relative and the parameter `list` may be a relative path.  For absolute URLs, a [[#Full Application]] installation is required.
 
@@ -50,7 +50,7 @@ In this mode, directories for the location of the directory may be relative and 
 or
  git pull http://github.com/rweigel/viviz
 
-=== Full Application
+### Full Application
 
 The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs and requires installation of [http://node.js/ Node].
 
@@ -63,7 +63,7 @@ The full application includes a web server and a proxy server that retrieves rem
 
 and open http://localhost:8002/ with a web browser.
 
-=== Configuration
+### Configuration
 
 The variable `VIVIZ` in `index.htm` contains all of the application and gallery configuation options.
 
@@ -98,7 +98,7 @@ When the list of full- or reduced-size image files cannot be desribed using the 
 
 If any of the above parameters (excluding `start` and `stop`) applies only to either the full- or reduced-sized images, the parameters should be prefixed by `full` or `thumb`, respectively.
 
-=== File List
+### File List
 
 Each image can have zero or more [[#Attributes|attributes]] that can be used to view a subset of the images.  The format is
 
@@ -116,7 +116,7 @@ where attributes that are numbers do not need to be quoted, or
 ```
 where all attributes are assumed to be strings unless they can be converted to floating point numbers.
 
-=== Script
+### Script
 
 Any Javascript code that can run in a browser is allowed and the functions [sprintf](https://github.com/alexei/sprintf.js) and [strftime](http://hacks.bluesmoon.info/strftime/strftime strftime) are available.
 
@@ -152,7 +152,7 @@ The following three examples create the same list of four files.
 	}
 ```
 
-=== Attributes and Filters
+### Attributes and Filters
 
 * Each image can have zero or more attributes and each attribute can have zero or more filters that allow for showing only a subset of images. 
 * Filters expressions can be either regular expressions (for string attributes) or logical expressions (for numeric attributes).  To refer to the value of the attribute in logical expressions, use the `this` keyword.
