@@ -56,7 +56,7 @@ or
 The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs and requires installation of [Node](http://node.js/).
 
 ```
- git pull http://github.com/rweigel/viviz
+ git clone https://github.com/rweigel/viviz
  cd viviz
  npm install
  node viviz.js --port 8002
