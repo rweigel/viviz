@@ -12,47 +12,48 @@ If remote images are available from an HTTP address and the filenames follow a s
 
 The directory http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/ contains image files of the form `sunspots_512_$Y$m$d.jpg` (see [URI_Templates](URI Templates) for information on expressing filenames and URLs as a template).
 
-Use: 
+To view this images, use the URL
 http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D
 
-The directory contains images of two sizes.  To specify different full and thumbnail images, use
+The [directory](http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/) contains images of two sizes.  To specify different full and thumbnail images, use
 
 http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&fullstrftime=sunspots_1024_$Y$m$d.jpg&thumbstrftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D
 
 ## Performance Hints
 
+If you have control over the image creation process,
 * Use thumbnail images.
 * Use interlaced PNG encoding for large full-sized images.
-* Use [https://pngquant.org/ PNGQuant] for compressing PNG images.
+* Use [https://pngquant.org/ PNGQuant] for reducing PNG image sizes significantly without visible degradation.
 
 ## Installation
 
 ### Basic
 
-* Open http://viviz.org/gallery/index.htm
+* Open http://viviz.org/index.htm
 * Select `File > Save As > index.htm`
 or
-* `curl -O <nowiki>http://viviz.org/gallery/index.htm</nowiki>`
+* `curl -O <nowiki>http://viviz.org//index.htm`
 * Open the saved `index.htm` file in a web browser
 
 To configure,
-* Modify one of the gallery [[#Configuration|configuration]] examples at the top of `index.htm` with a text editor. 
+* Modify one of the gallery [configuration](#Configuration) examples at the top of `index.htm` with a text editor. 
 or
 * Append arguments to `index.htm`, e.g., 
-:`<nowiki>index.htm#dir=file:///path/to/images/&strftime=...&start=...&stop=...</nowiki>`
-:`<nowiki>index.htm#dir=dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D</nowiki>`
+:`index.htm#dir=file:///path/to/images/&strftime=...&start=...&stop=...`
+:`index.htm#dir=dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D`
 
 ### Web Server
 
 In this mode, directories for the location of the directory may be relative and the parameter `list` may be a relative path.  For absolute URLs, a [[#Full Application]] installation is required.
 
- curl http://viviz.org/gallery/index.htm > /server/root/dir/index.htm
+ curl http://viviz.org/index.htm > /server/root/dir/index.htm
 or
  git pull http://github.com/rweigel/viviz
 
 ### Full Application
 
-The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs and requires installation of [http://node.js/ Node].
+The full application includes a web server and a proxy server that retrieves remote file lists and remote catalogs and requires installation of [Node](http://node.js/).
 
 ```
  git pull http://github.com/rweigel/viviz
