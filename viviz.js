@@ -47,7 +47,6 @@ function viviz(VIVIZ, mode) {
 		}
 	}
 
-
 	// Read and parse query string
 	var qs = $.parseQueryString()
 	if (typeof(mode) === "undefined") {
@@ -66,9 +65,6 @@ function viviz(VIVIZ, mode) {
 		}
 	}
 
-	if (qs["number"]) {
-		VIVIZ["config"]["defaultFirstImage"] = parseInt(qs["number"])
-	}
 
 	var gallerynumber = "1"
 	var wrapper = "#" + mode + gallerynumber
@@ -148,6 +144,19 @@ function viviz(VIVIZ, mode) {
 	}
 	console.log("viviz.js: galleryid = " + galleryid)
 	var GALLERYINFO = galleryinfo(galleryid)
+
+	if (qs["number"]) {
+		console.log("viviz.js: Initial query string had a number.  Using that as defaultFirstImage.")
+		VIVIZ["galleries"][galleryid]["defaultFirstImage"] = parseInt(qs["number"])
+	}
+
+	// TODO: Do this for all optional parameters.
+	if (!VIVIZ["galleries"][galleryid]["defaultFirstImage"]) {
+		console.log("viviz.js: defaultFirstImage not set in gallery configuration.  Using default.");
+		VIVIZ["galleries"][galleryid]["defaultFirstImage"] = parseInt(VIVIZ["config"]["defaultFirstImage"]);
+	} else {
+		VIVIZ["galleries"][galleryid]["defaultFirstImage"] = parseInt(VIVIZ["galleries"][galleryid]["defaultFirstImage"])
+	}
 
 	if (typeof(GALLERYINFO) === "string") {
 		console.log("viviz.js: Call to galleryinfo() failed.")
@@ -375,6 +384,18 @@ function viviz(VIVIZ, mode) {
 			if (!VIVIZ["galleries"]) VIVIZ["galleries"] = {}
 			VIVIZ["galleries"][galleryid] = {}
 
+			// Replace gallery information with values in query string.
+			for (key in qo) {
+				if (qo[key]) {
+					if (qo[key] === 'true') {qo[key] = true}
+					if (qo[key] === 'false') {qo[key] = false}
+					if ($.isNumeric(qo[key])) {qo[key] = parseFloat(qo[key])}
+					console.log("cataloginfo(): Setting " + key + " from " 
+									+ VIVIZ["galleries"][galleryid][key] + " to " + qo[key])
+					VIVIZ["catalog"][i][key] = qo[key]
+				}
+			}
+
 			if (VIVIZ["catalog"][i]["dir"] || VIVIZ["catalog"][i]["fulldir"] !== VIVIZ["catalog"][i]["thumbdir"]) {
 				// If thumbdir != fulldir in gallery configuration, set scaling of thumbs to 1.0
 				if (!VIVIZ["catalog"][i]["thumbWidth"] && !VIVIZ["catalog"][i]["thumbHeight"]) {
@@ -415,18 +436,6 @@ function viviz(VIVIZ, mode) {
 			for (key in VIVIZ["config"]) {
 				if (typeof(VIVIZ["galleries"][galleryid][key]) === 'undefined') {
 					VIVIZ["galleries"][galleryid][key] = VIVIZ["config"][key]
-				}
-			}
-
-			// Replace gallery information with values in query string.
-			for (key in qo) {
-				if (qo[key]) {
-					if (qo[key] === 'true') {qo[key] = true}
-					if (qo[key] === 'false') {qo[key] = false}
-					if ($.isNumeric(qo[key])) {qo[key] = parseFloat(qo[key])}
-					console.log("cataloginfo(): Setting " + key + " from " 
-									+ VIVIZ["galleries"][galleryid][key] + " to " + qo[key])
-					VIVIZ["galleries"][galleryid][key] = qo[key]
 				}
 			}
 
@@ -822,7 +831,7 @@ function viviz(VIVIZ, mode) {
 					}
 				}
 				if (err.status != 200) {
-					msg = msg + "<br/>Error: " + err.statusText + "; " + err.responseText;
+					msg = msg + "<br/>Error: " + err.statusText + "; " + $(err.responseText).text();
 				}
 				console.log(msg)
 			}
@@ -924,7 +933,7 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' #warning').append(spacer + msg)
 		}
 
-		if (totime != Infinity)
+		if (isFinite(totime))
 			setTimeout(function () {$(wrapper + ' #warning').html('').hide();},totime || 3000)
 	}
 
@@ -1030,6 +1039,8 @@ function viviz(VIVIZ, mode) {
 
 	function updatehash(el, val) {
 
+		var qs = $.parseQueryString()
+
 		console.log('updatehash(): Called initial hash = ' + location.hash)
 		if (!val) {
 			var val = $(wrapper + " #" + el + " option:selected").val()
@@ -1042,26 +1053,36 @@ function viviz(VIVIZ, mode) {
 			viviz.triggerhashchange = false
 		}
 
+
 		if (val !== "") {
-			var def = VIVIZ["galleries"][galleryid]["defaultRegExp"]
-			var qs = $.parseQueryString()
+			if (el === 'regexp') {
+				var def = VIVIZ["galleries"][galleryid]["defaultRegExp"]
+			}
 			if (el !== 'id') {
 				console.log("updatehash(): Setting query string object element " + el + " to " + val);
 				qs[el] = val
 				if (def) {
 					if (def === val) {
-						console.log("updatehash(): Selected is equal to defaultRegExp.  Deleting from query object.")
+						console.log("updatehash(): Selected is equal to default " + el + ". Deleting from query object.")
 						delete qs[el]	
 					}
 				} else {
 					if ($($("#" + el + " option")[1]).val() === val) {
-						console.log("updatehash(): No defaultRegExp and select = second option.  Deleting from query object.")
+						console.log("updatehash(): No default " + el + " and select = second option.  Deleting from query object.")
 						// If selected is not gallery id and is second option,
 						// it is default.  Remove from hash.
 						delete qs[el]
 					}
 				}
 			}
+			if (el === 'number') {
+				if (VIVIZ["galleries"][galleryid]["defaultFirstImage"] === VIVIZ["config"]["defaultFirstImage"]) {
+					if (parseInt(val) === VIVIZ["galleries"][galleryid]["defaultFirstImage"]) {
+						delete qs[el]
+					}
+				}
+			}
+
 
 			var hash = ""
 			if (el === 'id') {
@@ -1228,11 +1249,17 @@ function viviz(VIVIZ, mode) {
 			}
 
 			if (GALLERYINFO['attributes']["Values"][n]["Filters"].length > 1) {
-				console.log("setdropdowns(): Setting filter dropdown.")
+				console.log("setdropdowns(): Setting regexp filter dropdown.")
 				dropdown("regexp", REGEXPS, wrapper + " #dropdowns")
 			} else {
 				console.log("setdropdowns(): No regexp filters.  Not displaying drop-down.")
 				$(wrapper + " #regexp").remove()
+			}
+
+			var qs = $.parseQueryString();
+ 			if (VIVIZ["galleries"][galleryid]["defaultRegExp"] && !qs["regexp"]) {
+				console.log("setdropdowns(): Setting regexp filter value based on gallery configuration.")
+ 				$(wrapper + " #regexp").val(VIVIZ["galleries"][galleryid]["defaultRegExp"])
 			}
 
 			$(wrapper + ' #dropdowns #regexp').unbind('change')
@@ -1447,7 +1474,7 @@ function viviz(VIVIZ, mode) {
 		var qs = $.parseQueryString();
 		if (parseInt(qs["number"]) > INFOrs.length) {
 			warning("Number of images in subset < number in query string.  Resetting number to 1.", true, Infinity);
-			VIVIZ["config"]["defaultFirstImage"] = 1;
+			VIVIZ["galleries"][galleryid]["defaultFirstImage"] = 1;
 			updatehash("number",1)
 		}
 		return INFOrs
@@ -1565,8 +1592,8 @@ function viviz(VIVIZ, mode) {
 				$(wrapper + ' #attributes').html('No images in subset.')
 				return
 			}
-			
-			firstimage(VIVIZ["config"]["defaultFirstImage"]);
+		
+			firstimage(VIVIZ["galleries"][galleryid]["defaultFirstImage"]);
 
 			// TODO: (?) Detect bad images:
 			// https://github.com/desandro/imagesloaded
@@ -1579,7 +1606,7 @@ function viviz(VIVIZ, mode) {
 				console.log("gallery.firstimage(): Called."
 								+ " Setting thumb #" + (f) + " into DOM.");
 
-				if (f == VIVIZ["config"]["defaultFirstImage"]) {
+				if (f == VIVIZ["galleries"][galleryid]["defaultFirstImage"]) {
 					setcontrolbindings();
 				}
 
@@ -1592,9 +1619,11 @@ function viviz(VIVIZ, mode) {
 						// First image is bad.
 						console.log("gallery.firstimage.error(): Error event when setting thumb image " + (f) + " is bad.");
 						$(this).addClass("error")
-						warning("Thumbnail image " + (f) + " could not be loaded.", true, Infinity);
+						warning("Thumbnail image " + (f) + " could not be loaded.", true);
 
+						// This triggers .load
 						$(this).attr("src","css/transparent.png");
+
 						// Need to do this here and in .load in case error
 						// event is triggered after .load event of first non-
 						// error image.
@@ -1613,9 +1642,10 @@ function viviz(VIVIZ, mode) {
 					})
 					.load(function () {
 						
+						if ($(this).hasClass('error')) return;
 						//if (f > VIVIZ["config"]["defaultFirstImage"]) {
-							if (f == VIVIZ["config"]["defaultFirstImage"]+1) {
-								if (VIVIZ["config"]["defaultFirstImage"] > 1) {
+							if (f == VIVIZ["galleries"][galleryid]["defaultFirstImage"]+1) {
+								if (VIVIZ["galleries"][galleryid]["defaultFirstImage"] > 1) {
 									warning("The selected thumbnail image in this subset could not be loaded.", true)
 								} else {
 									warning("The first thumbnail image in this subset could not be loaded.", true)
@@ -1650,10 +1680,10 @@ function viviz(VIVIZ, mode) {
 							$(wrapper + ' #gallerythumbframe img.error').css("width",VIVIZ["galleries"][galleryid]["thumbWidth"]);
 						//}, 0);
 
-						if (VIVIZ["config"]["defaultFirstImage"] > 1) {
+						if (VIVIZ["galleries"][galleryid]["defaultFirstImage"] > 1) {
 							console.log("gallery.firstimage.load(): First image to show > 1.  Inserting spacers before first image.");
 
-							for (var i = 1; i < VIVIZ["config"]["defaultFirstImage"]; i++) {
+							for (var i = 1; i < VIVIZ["galleries"][galleryid]["defaultFirstImage"]; i++) {
 								$('<img class="spacer"/>')
 									.prependTo($(wrapper + ' #gallerythumbframe'))
 									.attr("src", "css/transparent.png")
@@ -2038,7 +2068,7 @@ function viviz(VIVIZ, mode) {
 			var Nlazy = VIVIZ["galleries"][galleryid]["lazyLoadMax"]
 						|| VIVIZ["config"]["lazyLoadMax"]
 			
-			var firstidx = parseInt(VIVIZ["config"]["defaultFirstImage"])-1;
+			var firstidx = parseInt(VIVIZ["galleries"][galleryid]["defaultFirstImage"])-1;
 			Nbefore = 0;
 			if (firstidx > 0) {
 				Nbefore = Nlazy;
@@ -2078,6 +2108,10 @@ function viviz(VIVIZ, mode) {
 									$("#gallerythumbframe > img.active").height())
 								.css("width",
 									$("#gallerythumbframe > img.active").width())
+								.css("background-image", "url(css/ajax-loader-slow.gif")
+								.css("background-repeat", "no-repeat")
+								.css("background-size","100%")
+								.css("background-position","center")
 								.insertAfter(last);
 					setel(el,j);
 				}
@@ -2103,6 +2137,10 @@ function viviz(VIVIZ, mode) {
 									$("#gallerythumbframe > img.active").height())
 								.css("width",
 									$("#gallerythumbframe > img.active").width())
+								.css("background-image", "url(css/ajax-loader-slow.gif")
+								.css("background-repeat", "no-repeat")
+								.css("background-size","100%")
+								.css("background-position","center")
 					setel(el,j);
 				}
 			}
@@ -2119,9 +2157,11 @@ function viviz(VIVIZ, mode) {
 					.error(function () {
 						$(this).addClass("error")
 						$(this).attr("src","css/transparent.png")
+						$(this).css("background-image", "")
 					})
 					.load(function () {
 						var active = $(wrapper + " #gallerythumbframe img.active");
+						$(this).css("background-image", "")
 						if (!scrollEvent) {
 							$(wrapper + " #gallerythumbframe")
 								.scrollTo(active, 0, {

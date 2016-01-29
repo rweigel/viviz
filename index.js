@@ -277,7 +277,7 @@ VIVIZ["catalog"] =
 				"title": "Example in documentation."
 			},
 			{
-				"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_$Y$md.png&start=1998-01-01&stop=1998-01-04",
+				"id": "fulldir=http://virbo.org/images/pngwalk/ACE/Multi/fulls/&strftime=product_$Y$m$d.png&start=1998-01-01&stop=1998-01-04",
 				"title": "ID specified as URL in index.js."
 			},
 			{
@@ -289,7 +289,7 @@ VIVIZ["catalog"] =
 				"title": "ID specified as URL in index.js."
 			},
 			{
-				"id": "dir=http%3A%2F%2Flocalhost%3A8004%2F%3Fcatalog%3DIMAGE%2FPT1M%26dataset%3DABK%26parameters%3DX%26return%3Dimage%26format%3Dpng%26type%3Dtimeseries%26style%3D0%26image.width%3D800%26image.height%3D200&strftime=%26start%3D-P1D%26stop%3D%24Y-%24m-%24d&start=2014-09-27T00:00:00.000Z&stop=2014-09-30",
+				"id": "dir=http%3A%2F%2Flocalhost%3A8004%2F%3Fcatalog%3DIMAGE%2FPT1M%26dataset%3DABK%26parameters%3DX%26return%3Dimage%26format%3Dpng%26type%3Dtimeseries%26style%3D0%26image.width%3D800%26image.height%3D200&strftime=%26start%3D-P1D%26stop%3D%24Y-%24m-%24d&start=2010-09-27&stop=2014-09-30",
 				"title": "ID specified as URL with encoded values in index.js."
 			},
 			{
