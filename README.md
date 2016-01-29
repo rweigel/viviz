@@ -10,7 +10,7 @@ If remote images are available from an HTTP address and the filenames follow a s
 
 **Example**
 
-The directory http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/ contains image files of the form `sunspots_512_$Y$m$d.jpg`.
+The directory http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/ contains image files of the form `sunspots_512_$Y$m$d.jpg` (see [URI_Templates](URI Templates) for information on expressing filenames and URLs as a template).
 
 Use: 
 http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D
