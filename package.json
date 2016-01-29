@@ -1,6 +1,6 @@
 {
 	"name": "viviz",
-  	"version": "0.1.0",
+  	"version": "0.2.0",
 	"dependencies":
 	{
 		"xml2js"   : "*",
@@ -13,6 +13,6 @@
 	    "vulcanize": "*"
 	},
 	"scripts": {
-		"build": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm"
+		"build": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm; python -m markdown README.md > README.html"
 	}
 }
