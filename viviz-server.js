@@ -123,6 +123,7 @@ app.use('/deps', express.static(__dirname + '/js'));
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/catalogs', express.static(__dirname + '/catalogs'));
 app.use('/dat', express.static(__dirname + '/dat'));
+app.use('/doc', express.static(__dirname + '/doc'));
 app.use('/', express.static(__dirname + '/'));
 
 // Allow directory listings of these directories

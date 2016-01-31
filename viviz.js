@@ -464,6 +464,7 @@ function viviz(VIVIZ, mode) {
 			}
 			
 			if (galleryinfo.GALLERYINFO[galleryid]) {
+				console.log("gallerinfo(): Cache hit.")
 				return galleryinfo.GALLERYINFO[galleryid]
 			}
 		}
@@ -497,10 +498,8 @@ function viviz(VIVIZ, mode) {
 			if (CATALOGINFO["files"] && !CATALOGINFO[type+"files"]) {
 				CATALOGINFO[type+"files"] = CATALOGINFO["files"]
 			}
-			if (typeof(CATALOGINFO[type+"files"]) === 'object') {
-				files = CATALOGINFO[type+"files"]
-			}
-			if (typeof(CATALOGINFO[type+"files"]) === 'string') {
+
+			if (typeof(CATALOGINFO[type+"files"]) !== 'undefined') {
 				files = extractfiles(CATALOGINFO[type+"files"])
 				if (typeof(files) === 'string') {
 					return files // Response is an error message.
@@ -600,9 +599,9 @@ function viviz(VIVIZ, mode) {
 			}
 		}
 
-		VIVIZ["galleries"][galleryid]["totalingallery"] = VIVIZ["galleries"][galleryid]["fullfiles"].length 
 		VIVIZ["galleries"][galleryid]["orders"] = extractorders()
 		VIVIZ["galleries"][galleryid]["attributes"] = extractattributes()
+		VIVIZ["galleries"][galleryid]["totalingallery"] = VIVIZ["galleries"][galleryid]["fullfiles"].length 
 
 		if (VIVIZ["config"]["useAutoAttributes"] || VIVIZ["galleries"][galleryid]["useAutoAttributes"]) {
 
@@ -615,7 +614,7 @@ function viviz(VIVIZ, mode) {
 			// Create regexps based on time information
 			if (CATALOGINFO["fullstrftime"]) {
 				VIVIZ["galleries"][galleryid]["autoattributes"] = 
-					filterlist(CATALOGINFO["fullstart"],CATALOGINFO["fullstop"],CATALOGINFO["fullstrftime"])
+					filterlist(CATALOGINFO["fullstart"], CATALOGINFO["fullstop"], decodeURIComponent(CATALOGINFO["fullstrftime"]))
 			
 				VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"] = 
 					VIVIZ["galleries"][galleryid]["autoattributes"]
@@ -656,7 +655,13 @@ function viviz(VIVIZ, mode) {
 			return ORDERS
 		}
 
-		function extractattributes(galleryid) {
+		function extractattributes() {
+
+			var files = VIVIZ["galleries"][galleryid]["fullfiles"];
+			if (VIVIZ["galleries"][galleryid]["attributes"]) {
+				console.log("galleryinfo.extractattributes(): First array element contains attribute names.")
+				var AttributeNames = VIVIZ["galleries"][galleryid]["attributes"]
+			}
 
 			ATTRIBUTES = new Object();
 			
@@ -667,63 +672,42 @@ function viviz(VIVIZ, mode) {
 			ATTRIBUTES["Values"]             = new Array()
 			ATTRIBUTES["Values"][0]          = new Object()
 			ATTRIBUTES["Values"][0]["Title"] = "Filename"
-			ATTRIBUTES["Values"][0]["Value"] = "0"
+			ATTRIBUTES["Values"][0]["Value"] = "Filename"
 
-			ATTRIBUTES["Values"][0]["Filters"]    = new Array()
-			ATTRIBUTES["Values"][0]["Filters"][0] = new Object()
-			ATTRIBUTES["Values"][0]["Filters"][0]["Title"] = "All"
-			ATTRIBUTES["Values"][0]["Filters"][0]["Value"] = ".*"
+			// If file list has attributes.
+			for (var k = 1;k < files[0].length;k++) {
+				ATTRIBUTES["Values"][k] = new Object()
+				if (AttributeNames) {
+					ATTRIBUTES["Values"][k]["Title"] = AttributeNames[k]
+					ATTRIBUTES["Values"][k]["Value"] = AttributeNames[k]
 
-			return ATTRIBUTES
-
-			xml = cataloginfo.xml;
-
-			var j = 0;
-			$(xml).find("catalog gallery[id='" + galleryid + "'] attributes attribute").each(
-					function (i) {
-							ATTRIBUTES["Values"][i] = new Object();
-							ATTRIBUTES["Values"][i]["Title"] = $(this).find('name').text();
-							ATTRIBUTES["Values"][i]["Value"] = i;
-							ATTRIBUTES["Values"][i]["Filters"] = new Array();
-							j = j+1;
-							$(this).find('filters filter').each(
-									function(j) {
-										ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
-										ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = $(this).find('title').text();
-										ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = $(this).find('value').text();
-										//console.log($(this).text());
-									})
-				});
-
-
-			for (i = 0;i<cataloginfo.json.length;i++) {
-				if (cataloginfo.json[i]["id"] === galleryid) break;
-			}
-
-			if (i < cataloginfo.json.length) {
-				if (typeof(cataloginfo.json[i]["attributes"]) !== "undefined") {
-					cataloginfo.json[i]["attributes"].forEach(
-							function (el,i) {
-								ATTRIBUTES["Values"][i] = new Object();
-								ATTRIBUTES["Values"][i]["Title"] = el.name;
-								ATTRIBUTES["Values"][i]["Value"] = i;
-								ATTRIBUTES["Values"][i]["Filters"] = new Array();
-				
-								el.filters.forEach(
-									function (el,j) {
-										ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
-										ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = el.title;
-										ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = el.value;
-									});				
-							});
+				} else {
+					ATTRIBUTES["Values"][k]["Title"] = "Attribute " + (k)
+					ATTRIBUTES["Values"][k]["Value"] = "Attribute" + (k)
 				}
 			}
-			//console.log(ATTRIBUTES)
-			if (ATTRIBUTES["Values"].length > 1) {
-				//console.log("galleryinfo.js: Attributes found in " + URLCommon);
-				//console.log(ATTRIBUTES);
-			} else {
-				//console.log("galleryinfo.js: No attributes found in " + URLCommon);
+
+			if (!VIVIZ["galleries"][galleryid]["filters"]) {
+				ATTRIBUTES["Values"][0]["Filters"]    = new Array()
+				ATTRIBUTES["Values"][0]["Filters"][0] = new Object()
+				ATTRIBUTES["Values"][0]["Filters"][0]["Title"] = "All"
+				ATTRIBUTES["Values"][0]["Filters"][0]["Value"] = ".*"
+				return ATTRIBUTES
+			}
+
+			var filters = VIVIZ["galleries"][galleryid]["filters"]
+			console.log(filters)
+			for (var i = 0; i < filters.length; i++) {
+				ATTRIBUTES["Values"][i] = new Object();
+				ATTRIBUTES["Values"][i]["Title"] = AttributeNames[i];
+				ATTRIBUTES["Values"][i]["Value"] = AttributeNames[i];
+				ATTRIBUTES["Values"][i]["Filters"] = new Array();
+				for (var j = 0; j < filters[i].length; j++) {
+					console.log(filters[i][j])
+					ATTRIBUTES["Values"][i]["Filters"][j] = new Object();
+					ATTRIBUTES["Values"][i]["Filters"][j]["Title"] = filters[i][j]["name"];
+					ATTRIBUTES["Values"][i]["Filters"][j]["Value"] = filters[i][j]["value"];
+				}
 			}
 
 			return ATTRIBUTES;
@@ -731,6 +715,10 @@ function viviz(VIVIZ, mode) {
 
 		function extractfiles(URLFiles) {
 			
+			if (typeof(URLFiles) === 'object') {
+				return URLFiles
+			}
+
 			var msg = ""
 			if (location.href.indexOf("file") == 0) {
 				msg = "Configuration variable <code>fullfiles</code> cannot be an external file (local or remote) unless this page is loaded from a web server."
@@ -744,6 +732,7 @@ function viviz(VIVIZ, mode) {
 				return fullfiles
 			}
 			
+			// fullfiles is a URL, check if proxy is needed.
 			if (URLFiles.indexOf("http") != -1) {
 				var tmparr = URLFiles.split("/");
 				var tmparrp = VIVIZ["config"]["proxyServer"].split("/");
@@ -777,7 +766,7 @@ function viviz(VIVIZ, mode) {
 			}
 
 			var FILES = new Array()
-			$("#status").text("Retrieving list of files")
+			$("#status").text("Retrieving list of files.")
 			console.log("galleryinfo.extractfiles(): Getting file list from " + URLFiles)
 			if (URLFiles.match(/\.txt$/)) {
 				$.ajax({
@@ -869,14 +858,17 @@ function viviz(VIVIZ, mode) {
 	}
 
 	function resetdom() {
+		console.log("resetdom(): Called.")
+
 		// Make copy of catalogwrapper and place in thumb container.
 		if ($("#thumb" + gallerynumber + " #catalogwrapper").length == 0) {
 			$("#gallery" + gallerynumber + " #catalogwrapper").clone().insertAfter("#thumb" + gallerynumber + " #error")
 		}
 
 		// Toggle state set when call to cataloginfo() failed.
-		$("#thumb" + gallerynumber).parent().hide()
-		$("#gallery" + gallerynumber).parent().hide()
+		// No - causes size of app to change when gallery changed.	
+		//$("#thumb" + gallerynumber).parent().hide()
+		//$("#gallery" + gallerynumber).parent().hide()
 
 		$("#thumb" + gallerynumber + " .well").show()
 		$("#gallery" + gallerynumber + " .well").show()
@@ -887,20 +879,25 @@ function viviz(VIVIZ, mode) {
 		if ($(wrapper + " #catalogopen:visible").length == 0) {
 			$(wrapper + " #catalogclose").click()
 		}
+
 		// Keep full frame width and height what it was last.  When image is
 		// loaded, proper dimensions will be set.
-		//if ($(wrapper + " #fullframe").width() > 0)
-		//$(wrapper + " #fullframe").width($(wrapper + " #fullframe").width())
-		//if ($(wrapper + " #fullframe").height() > 0)
-		//$(wrapper + " #fullframe").height($(wrapper + " #fullframe").height())
+		if (1) {
+		if ($(wrapper + " #fullframe").width() > 0)
+			$(wrapper + " #fullframe").width($(wrapper + " #fullframe").width())
+		if ($(wrapper + " #fullframe").height() > 0)
+			$(wrapper + " #fullframe").height($(wrapper + " #fullframe").height())
+		}
 
 		$(wrapper + " #fullframe").html('')
 		$(wrapper).attr('nowvisible', '').attr('lastvisible', '').attr('totalvisible', '').attr('totalingallery', '')
 		$(wrapper + " #controls").html('&nbsp;')
+		$(wrapper + " #dropdowns").html('')
 		$(wrapper + " #attributes").html('&nbsp;')
 		$(wrapper + " #filename").html('&nbsp;')
 		$(wrapper + " #error").html('').hide()
 		$(wrapper + " #warning").html('').hide()
+
 		$(wrapper + " #connectionerror").html('')
 		$(wrapper + " #catalog").html('')
 		$(wrapper + " #thumbbrowseframe").html('')
@@ -933,8 +930,9 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' #warning').append(spacer + msg)
 		}
 
-		if (isFinite(totime))
-			setTimeout(function () {$(wrapper + ' #warning').html('').hide();},totime || 3000)
+		if (isFinite(totime)) {
+			setTimeout(function () {$(wrapper + ' #warning').html('').hide();}, totime)
+		}
 	}
 
 	function setheader() {
@@ -1053,7 +1051,6 @@ function viviz(VIVIZ, mode) {
 			viviz.triggerhashchange = false
 		}
 
-
 		if (val !== "") {
 			if (el === 'regexp') {
 				var def = VIVIZ["galleries"][galleryid]["defaultRegExp"]
@@ -1133,6 +1130,8 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + " #id option[value='" + galleryid + "']").attr('selected','selected')
 
 		// Attributes drop-down
+		console.log('setting attributes drop-down.')
+
 		dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns")
 		$(wrapper + ' #dropdowns #sortby').unbind('change')
 		$(wrapper + ' #dropdowns #sortby').change(function () {
@@ -1146,9 +1145,11 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + ' #dropdowns #order').unbind('change')
 		$(wrapper + ' #dropdowns #order').change(function () {
 			console.log('setdropdowns(): Order changed.')
+			//viviz.triggerhashchange = false
+			//resetdom()
+			//gallery()
 			updatehash('order')
 		})
-
 
 		setregexps()
 		//setdownloads()
@@ -1236,24 +1237,29 @@ function viviz(VIVIZ, mode) {
 		}
 
 		function setregexps() {
+
 			var REGEXPS            = new Object();		
-			var n                  = $(wrapper + " #dropdowns #sortby option:selected").val()
+			var n                  = $(wrapper + " #dropdowns #sortby option:selected").index() || 1
 			REGEXPS["Title"]       = "Attribute filters"
 			REGEXPS["Titleshort"]  = "-Filters-"
 			REGEXPS["Values"]      = new Array()
 
-			for (i = 0; i < GALLERYINFO['attributes']["Values"][n]["Filters"].length; i++) {
-				REGEXPS["Values"][i]          = new Object()
-				REGEXPS["Values"][i]["Title"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Title"]
-				REGEXPS["Values"][i]["Value"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Value"]
-			}
-
-			if (GALLERYINFO['attributes']["Values"][n]["Filters"].length > 1) {
-				console.log("setdropdowns(): Setting regexp filter dropdown.")
-				dropdown("regexp", REGEXPS, wrapper + " #dropdowns")
-			} else {
-				console.log("setdropdowns(): No regexp filters.  Not displaying drop-down.")
-				$(wrapper + " #regexp").remove()
+			n = n-1
+			if (GALLERYINFO['attributes']["Values"][n]) {
+				if (GALLERYINFO['attributes']["Values"][n]["Filters"]) {
+					if (!(n == 0 && GALLERYINFO['attributes']["Values"][n]["Filters"].length == 1)) {
+						for (i = 0; i < GALLERYINFO['attributes']["Values"][n]["Filters"].length; i++) {
+							REGEXPS["Values"][i]          = new Object()
+							REGEXPS["Values"][i]["Title"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Title"]
+							REGEXPS["Values"][i]["Value"] = GALLERYINFO['attributes']["Values"][n]["Filters"][i]["Value"]
+						}
+						console.log("setdropdowns.setregexps(): Setting regexp filter dropdown.")
+						dropdown("regexp", REGEXPS, wrapper + " #dropdowns")
+					}
+				} else {
+					console.log("setdropdowns.setregexps(): No regexp filters.  Not displaying drop-down.")
+					$(wrapper + " #regexp").remove()
+				}
 			}
 
 			var qs = $.parseQueryString();
@@ -1264,6 +1270,8 @@ function viviz(VIVIZ, mode) {
 
 			$(wrapper + ' #dropdowns #regexp').unbind('change')
 			$(wrapper + ' #dropdowns #regexp').change(function () {
+				//alert('here')
+				//viviz.triggerhashchange = false;
 				updatehash('regexp')
 			})
 		}
@@ -1329,20 +1337,25 @@ function viviz(VIVIZ, mode) {
 		var SORTBYS  = GALLERYINFO['attributes']
 		var ORDERS   = GALLERYINFO['orders']
 
-		// http://stackoverflow.com/questions/962802/is-it-correct-to-use-javascript-array-sort-method-for-shuffling
-		function shuffle(array) { 
-			var tmp, current, top = array.length;
+		//http://stackoverflow.com/a/2450976
+		function shuffle(array) {
+		  var currentIndex = array.length, temporaryValue, randomIndex;
 
-			if(top) while(--top) {
-				current = Math.floor(Math.random() * (top + 1));
-				tmp = array[current];
-				array[current] = array[top];
-				array[top] = tmp;
-			}
+		  // While there remain elements to shuffle...
+		  while (0 !== currentIndex) {
 
-			return array;
+		    // Pick a remaining element...
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+
+		    // And swap it with the current element.
+		    temporaryValue = array[currentIndex];
+		    array[currentIndex] = array[randomIndex];
+		    array[randomIndex] = temporaryValue;
+		  }
+
+		  return array;
 		}
-
 		// http://keithdevens.com/weblog/archive/2007/Jun/07/javascript.clone
 		function clone(obj){       
 			if (obj == null || typeof(obj) != 'object') 
@@ -1364,13 +1377,14 @@ function viviz(VIVIZ, mode) {
 			// This is a confusing way to do things.
 			if (Object.keys(SORTBYS).length > 0) {
 				for (z = 0;z < SORTBYS["Values"].length;z++) {
-					INFOjs[j][z] = GALLERYINFO["fullfiles"][j][z];
+					INFOjs[j][SORTBYS["Values"][z]["Value"]] = GALLERYINFO["fullfiles"][j][z];
 				}
 			}
-
 			INFOjs[j]["ImageNumber"] = j;
 		}
 
+		console.log("---")
+		console.log(INFOjs)
 		state = galleryid+SORTBY+ORDER+regexp;
 		if (typeof(thumblist.cache) != 'object') {
 			thumblist.cache = new Object();
@@ -1383,6 +1397,7 @@ function viviz(VIVIZ, mode) {
 		I = new Array();
 		if (regexp) {
 			var REGEXP = new RegExp(regexp);
+			console.log(regexp)
 			if (typeof(INFOjs[0][SORTBY]) == "string") {
 				var k = 0;
 				for (var i = 0; i < INFOjs.length; i++) {
@@ -1393,23 +1408,17 @@ function viviz(VIVIZ, mode) {
 				}
 				console.log("thumblist(): Regexp " + REGEXP + " removed " + (INFOjs.length-k) + "/" + INFOjs.length + " images in subset.");
 			} else {
-				if (!regexp.match(regexp,'true')) {
-					regexp = regexp.replace('gt','>').replace('ge','<=').replace('lt','<').replace('le','<=');
-					regexp = regexp.replace('and','&').replace('&amp;','&');
-					regexp = regexp.replace('&lt;','<');
-					regexp = regexp.replace('&gt;','>');
-					var k = 0;
-					for (var i = 0; i < INFOjs.length; i++) {
-						var test = regexp.replace(/this/g,INFOjs[i][SORTBY]);
-						//var test = regexp.replace('this',INFOjs[i][SORTBY]);
-						//console.log('thumblist.js: Testing ' + test);
-						if (eval(test)) {
-							I[i] = k;
-							k = k+1;
-						}
+				regexp = regexp.replace('gt','>').replace('ge','<=').replace('lt','<').replace('le','<=');
+				regexp = regexp.replace('and','&').replace('&amp;','&');
+				regexp = regexp.replace('&lt;','<');
+				regexp = regexp.replace('&gt;','>');
+				var k = 0;
+				for (var i = 0; i < INFOjs.length; i++) {
+					var test = regexp.replace(/this/g, INFOjs[i][SORTBY]);
+					if (eval(test)) {
+						I[i] = k;
+						k = k+1;
 					}
-				} else {
-					var INFOrs = clone(INFOjs);
 				}
 			}
 			if (I.length > 0) {
@@ -1439,6 +1448,7 @@ function viviz(VIVIZ, mode) {
 				});
 			}
 		}
+
 		if (ORDER.match("descending")){
 			//console.log('thumblist.js: Sorting by attribute ' + SORTBY + " in descending order.")
 			if (typeof(INFOrs[0][SORTBY]) == "string") {
@@ -1454,16 +1464,9 @@ function viviz(VIVIZ, mode) {
 			}
 			//console.log('thumblist.js: First image is now ' + INFOrs[0])
 		}
-		if (ORDER.match("random")){
+		if (ORDER.match("random")) {
 			//console.log('thumblist.js: Sorting by attribute ' + SORTBY + " in random order.")
-			var idx = new Array();
-			for (i = 0;i<INFOr.length;i++) {
-				idx[i] = i;
-			}
-			var idx2 = shuffle(idx);
-			for (i = 0;i<INFOr.length;i++) {
-				INFOrs[idx2[i]] = INFOr[i];
-			}
+			INFOrs = shuffle(INFOrs);
 		}
 
 		if ((!ORDER.match("random")) & (typeof(thumblist.cache[state]) != 'object')) {
@@ -1533,10 +1536,12 @@ function viviz(VIVIZ, mode) {
 				statstr = statstr 
 							+ GALLERYINFO['attributes']["Values"][z].Title 
 							+ " = ";
+
+				var key = GALLERYINFO['attributes']["Values"][z].Value
 				if (GALLERYINFO['attributes']["Values"][z].Format) {
 					statstr = statstr + sprintf(GALLERYINFO['attributes']["Values"][z].Format, parseFloat(INFOjs[nowvisible-1][GALLERYINFO['attributes']["Values"][z].Value]));
 				} else {
-					statstr = statstr + INFOjs[nowvisible-1][GALLERYINFO['attributes']["Values"][z].Value];            		
+					statstr = statstr + INFOjs[nowvisible-1][key];
 				}
 				if (GALLERYINFO['attributes']["Values"][z].Unit) {
 					statstr = statstr 
@@ -1619,7 +1624,7 @@ function viviz(VIVIZ, mode) {
 						// First image is bad.
 						console.log("gallery.firstimage.error(): Error event when setting thumb image " + (f) + " is bad.");
 						$(this).addClass("error")
-						warning("Thumbnail image " + (f) + " could not be loaded.", true);
+						warning("Thumbnail image " + (f) + " could not be loaded.", true, 1000);
 
 						// This triggers .load
 						$(this).attr("src","css/transparent.png");
@@ -1646,9 +1651,9 @@ function viviz(VIVIZ, mode) {
 						//if (f > VIVIZ["config"]["defaultFirstImage"]) {
 							if (f == VIVIZ["galleries"][galleryid]["defaultFirstImage"]+1) {
 								if (VIVIZ["galleries"][galleryid]["defaultFirstImage"] > 1) {
-									warning("The selected thumbnail image in this subset could not be loaded.", true)
+									warning("The selected thumbnail image in this subset could not be loaded.", true, 10000)
 								} else {
-									warning("The first thumbnail image in this subset could not be loaded.", true)
+									warning("The first thumbnail image in this subset could not be loaded.", true, 10000)
 								}
 							} else {
 								//warning("The first " + (VIVIZ["config"]["defaultFirstImage"]-f+1) + " images" + " in this subset could not be loaded.",true)
@@ -1920,6 +1925,12 @@ function viviz(VIVIZ, mode) {
 						// Hide loading indicator
 						console.log("gallery.loadfull(): Hiding loading indicator.");
 						$(wrapper + ' #workingfullframe').css('visibility', 'hidden');
+
+						// Undo width and height set when dom is reset.
+						if ($(wrapper + " #fullframe").width() > 0)
+							$(wrapper + " #fullframe").width('')
+						if ($(wrapper + " #fullframe").height() > 0)
+							$(wrapper + " #fullframe").height('')
 
 						if ($("#"+id).hasClass('firstimage')) {
 

@@ -14,6 +14,6 @@
 	},
 	"scripts": {
 		"build": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm;",
-		"docs": "python -m markdown README.md > README.html"
+		"build-docs": "mkdir doc; cd doc; wget -np --cut-dirs=1 -nH --recursive --no-clobber --page-requisites --html-extension --convert-links --domains bobweigel.net http://bobweigel.net/datacache/"
 	}
 }

@@ -29,7 +29,7 @@ VIVIZ["config"] =
 // Test catalog.  Comment out next line to use above catalog.
 if (typeof(location) !== "undefined") { // To allow server-side use of this file.
 	if (location.hostname === "localhost") {
-		console.log("index.js: hostname is localhost.  Using test catalog.")
+		console.log("index.js: hostname is localhost.  Using test catalog instead of " + VIVIZ["config"]["catalog"])
 		delete VIVIZ["config"]["catalog"]
 	}
 }
@@ -41,7 +41,7 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 VIVIZ["catalog"] = 
 		[
 			{
-				"id": "ACE/Multi/1",
+				"id": "ACE/Multi/a",
 				"title": "ACE/Multi",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
@@ -51,8 +51,8 @@ VIVIZ["catalog"] =
 				"thumbdir": "http://virbo.org/images/pngwalk/ACE/Multi/thumbs400/"
 			},
 			{
-				"id": "ACE/Multi/2",
-				"title": "ACE/Multi w/ no thumbdir",
+				"id": "ACE/Multi/b",
+				"title": "ACE/Multi/a w/ no thumbdir",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
@@ -60,8 +60,8 @@ VIVIZ["catalog"] =
 				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/"
 			},
 			{
-				"id": "ACE/Multi/3",
-				"title": "ACE/Multi w/ no thumbdir & thumbWidth=0.1",
+				"id": "ACE/Multi/c",
+				"title": "ACE/Multi/b w/ no thumbdir & thumbWidth=0.1",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
@@ -70,8 +70,8 @@ VIVIZ["catalog"] =
 				"thumbWidth": 0.1
 			},
 			{
-				"id": "ACE/Multi/4",
-				"title": "ACE/Multi w/ no thumbdir & thumbWidth=100",
+				"id": "ACE/Multi/d",
+				"title": "ACE/Multi/c w/ no thumbdir & thumbWidth=100",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
@@ -80,8 +80,8 @@ VIVIZ["catalog"] =
 				"thumbWidth": 100
 			},
 			{
-				"id": "ACE/Multi/5",
-				"title": "ACE/Multi w/ dir, no thumbdir & thumbWidth=0.1.",
+				"id": "ACE/Multi/e",
+				"title": "ACE/Multi/d w/ dir, no thumbdir & thumbWidth=0.1.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
@@ -90,8 +90,8 @@ VIVIZ["catalog"] =
 				"thumbWidth": 0.1
 			},
 			{
-				"id": "ACE/Multi/6",
-				"title": "ACE/Multi w/ dir, no thumbdir & thumbWidth=100.",
+				"id": "ACE/Multi/f",
+				"title": "ACE/Multi/e w/ dir, no thumbdir & thumbWidth=100.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
@@ -100,8 +100,8 @@ VIVIZ["catalog"] =
 				"thumbWidth": 100
 			},
 			{
-				"id": "ACE/Multi/7",
-				"title": "ACE/Multi thumbdir is relative path.",
+				"id": "ACE/Multi/g",
+				"title": "ACE/Multi/f thumbdir is relative path.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
@@ -110,8 +110,19 @@ VIVIZ["catalog"] =
 				"thumbdir": "../thumbs400/"
 			},
 			{
-				"id": "ACE/Multi/8",
-				"title": "ACE/Multi with start number and regexp.",
+				"id": "ACE/Multi/h",
+				"title": "ACE/Multi/g with start number and regexp.",
+				"aboutlink": "http://virbo.org/gallery#ACE",
+				"strftime": "product_$Y$m$d.png",
+				"start": "1998-01-01",
+				"stop": "2012-04-30",
+				"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
+				"thumbdir": "../thumbs400/",
+				"defaultFirstImage": 10
+			},
+			{
+				"id": "ACE/Multi/i",
+				"title": "ACE/Multi/h with start number and regexp.",
 				"aboutlink": "http://virbo.org/gallery#ACE",
 				"strftime": "product_$Y$m$d.png",
 				"start": "1998-01-01",
@@ -154,11 +165,45 @@ VIVIZ["catalog"] =
 				"fullscript": "function() {files = [];for (i = 0; i < 4; i++) {files[i] = ['demo-' + sprintf('%04d',i+1) + '.png']};return files}"
 			},
 			{
-				"id": "Demo/05",
+				"id": "Demo/05a",
 				"title": "fullfiles as array with array elements of file information",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": [["demo-2001.png"],["demo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
+			},
+			{
+				"id": "Demo/05b",
+				"title": "Demo/05a with attribute for each image",
+				"fulldir":"images/full/",
+				"thumbdir":"images/thumb/",
+				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
+			},
+			{
+				"id": "Demo/05c",
+				"title": "Demo/05b with attribute names",
+				"fulldir": "images/full/",
+				"thumbdir": "images/thumb/",
+				"attributes": ["Filename","Age"],
+				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
+			},
+			{
+				"id": "Demo/05d",
+				"title": "Demo/05c with attribute filters",
+				"fulldir": "images/full/",
+				"thumbdir": "images/thumb/",
+				"attributes": ["Filename","Age"],
+				"filters": [[{}],[{"name": "Age is greater than 1", "value": "this > 1.0"}]],
+				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
+			},
+			{
+				"id": "Demo/05e",
+				"title": "Demo/05d with defaultFirstImage",
+				"fulldir": "images/full/",
+				"thumbdir": "images/thumb/",
+				"defaultFirstImage": 2,
+				"attributes": ["Filename","Age"],
+				"filters": [[{}],[{"name": "Age is greater than 1", "value": "this > 1.0"}]],
+				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
 				"id": "Demo/06",
@@ -210,6 +255,15 @@ VIVIZ["catalog"] =
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": [["xdemo-2001.png"],["demo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
+			},
+			{
+				"id": "Demo/15b",
+				"title": "Demo/15 with attributes and filters.",
+				"fulldir":"images/full/",
+				"thumbdir":"images/thumb/",
+				"attributes": ["Filename","Age"],
+				"filters": [[{}],[{"name": "Age is greater than 1", "value": "this > 1.0"}]],
+				"fullfiles": [["xdemo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
 				"id": "Demo/16",
@@ -265,6 +319,10 @@ VIVIZ["catalog"] =
 				"fullfiles": ""
 			},
 			{
+				"id": "dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D",
+				"title": "Example in documentation."
+			},
+			{
 				"id": "dir=images/full/&strftime=demo-$Y.png&start=2001&stop=2004",
 				"title": "Example in documentation."
 			},
@@ -289,8 +347,12 @@ VIVIZ["catalog"] =
 				"title": "ID specified as URL in index.js."
 			},
 			{
+				"id": "dir=http%3A%2F%2Flocalhost%3A8004%2F%3Fcatalog%3DIMAGE%2FPT1M%26dataset%3DABK%26parameters%3DX%26return%3Dimage%26format%3Dpng%26type%3Dtimeseries%26style%3D0%26image.width%3D800%26image.height%3D200&strftime=%26start%3D-P1D%26stop%3D%24Y-%24m-%24d&start=2014-09-01&stop=2014-09-30",
+				"title": "ID specified as URL with encoded values in index.js (28 images)."
+			},
+			{
 				"id": "dir=http%3A%2F%2Flocalhost%3A8004%2F%3Fcatalog%3DIMAGE%2FPT1M%26dataset%3DABK%26parameters%3DX%26return%3Dimage%26format%3Dpng%26type%3Dtimeseries%26style%3D0%26image.width%3D800%26image.height%3D200&strftime=%26start%3D-P1D%26stop%3D%24Y-%24m-%24d&start=2010-09-27&stop=2014-09-30",
-				"title": "ID specified as URL with encoded values in index.js."
+				"title": "ID specified as URL with encoded values in index.js (1000+ images)."
 			},
 			{
 				"id": "catalog=catalogs/demo-catalog.json",
