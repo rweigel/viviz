@@ -132,6 +132,7 @@ app.use('/deps',express.directory(__dirname + '/js'));
 app.use('/css',express.directory(__dirname + '/css'));
 app.use('/catalogs',express.directory(__dirname + '/catalogs'));
 app.use('/dat',express.directory(__dirname + '/dat'));
+app.use('/doc',express.directory(__dirname + '/doc'));
 
 //curl "http://localhost:8005/save/?id=test/test2"
 app.post('/save', function (req, res) {handleRequest(req,res)});
