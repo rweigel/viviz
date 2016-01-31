@@ -1,13 +1,13 @@
 
 //////////////////////////////
 // Begin configuation.
-// VIVIZ["config"]["catalog"] value is replaced with
-// VIVIZ["catalog"] defined after it depending on
-// location.hostname.
+// URL string is empty for Test because gallery information
+// is located in VIVIZ["catalogs"]["Test"]
 var VIVIZ = {}
 VIVIZ["config"] =
 	{
-		"catalog": "catalogs/virbo.json",
+		"catalogs": {"Test": {"URL": ""}, "ViRBO": {"URL": "catalogs/virbo.json"}},
+		"defaultCatalog": "Test",
 		"defaultMode": "gallery",
 		"showThumbstrip": true,
 		"showFileName": true,
@@ -31,19 +31,12 @@ VIVIZ["config"] =
 		"useCachedImages": false,
 	}
 
-// Test catalog.  Comment out next line to use above catalog.
-if (typeof(location) !== "undefined") { // To allow server-side use of this file.
-	if (location.hostname === "localhost") {
-		console.log("index.js: hostname is localhost.  Using test catalog instead of " + VIVIZ["config"]["catalog"])
-		delete VIVIZ["config"]["catalog"]
-	}
-}
-
 // Note: In general it is best to use $ instead of % in configuation except in
 // the scripts.  This is because sprintf=demo-%04d.png is decoded to demo-d.png,
 // so you must use demo-$04d.png.  In scripts where sprintf and strftime are used,
 // the % must be used.
-VIVIZ["catalog"] = 
+VIVIZ["catalogs"] = {};
+VIVIZ["catalogs"]["Test"] = 
 		[
 			{
 				"id": "ACE/Multi/a",
@@ -364,13 +357,10 @@ VIVIZ["catalog"] =
 				"title": "ID specified as URL with encoded values in index.js (1000+ images)."
 			},
 			{
-				"id": "catalog=catalogs/demo-catalog.json",
-				"title": "Catalog given as URL.  For testing VIVIZ['config']['catalog'] only.  Screws up back button."
-			},
-			{
 				"id": "INVALID/ID",
 				"title": "Invalid ID.  Error message is wrong because of use of configuration URL in gallery configuration. URL is assumed to be gallery configuration. Append x to id in address bar to see proper error message."
 			}
 		]
+
 // End configuration.
 //////////////////////////////		

@@ -3,7 +3,7 @@
 		"id": "ACE/Multi",
 		"title": "ACE/Multi",
 		"about": "http://virbo.org/gallery#ACE",
-		"strftime": "product_%Y%m%d.png",
+		"strftime": "product_$Y$m$d.png",
 		"start": "1998-01-01",
 		"stop": "2012-04-30",
 		"fulldir": "http://virbo.org/images/pngwalk/ACE/Multi/fulls/",
