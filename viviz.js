@@ -195,7 +195,8 @@ function viviz(VIVIZ, mode) {
 	})
 	$("#thumbbrowsebutton").unbind('click')
 	$("#thumbbrowsebutton").click(function () {
-		if (VIVIZ["config"]["defaultMode"] === "thumb") {
+		viviz.triggerhashchange = true;
+		if (VIVIZ["config"]["defaultMode"] === "thumb") {			
 			location.hash = location.hash.replace("&mode=gallery","")
 		} else {
 			// Remove any existing mode=gallery and append mode=thumb
@@ -613,6 +614,10 @@ function viviz(VIVIZ, mode) {
 
 			// Create regexps based on time information
 			if (CATALOGINFO["fullstrftime"]) {
+
+				var msg = testdecode(CATALOGINFO["fullstrftime"])
+				if (msg !== "") return msg;
+
 				VIVIZ["galleries"][galleryid]["autoattributes"] = 
 					filterlist(CATALOGINFO["fullstart"], CATALOGINFO["fullstop"], decodeURIComponent(CATALOGINFO["fullstrftime"]))
 			
@@ -627,6 +632,11 @@ function viviz(VIVIZ, mode) {
 			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Title = "All"
 			VIVIZ["galleries"][galleryid]["attributes"]["Values"][0]["Filters"][na].Value = ".*"	
 		}
+
+		var msg = testdecode(VIVIZ["galleries"][galleryid]["fulldir"])
+		if (msg !== "") return msg;
+		var msg = testdecode(VIVIZ["galleries"][galleryid]["thumbdir"])
+		if (msg !== "") return msg;
 
 		VIVIZ["galleries"][galleryid]["fulldirdecoded"] = decodeURIComponent(VIVIZ["galleries"][galleryid]["fulldir"]);
 		VIVIZ["galleries"][galleryid]["thumbdirdecoded"] = decodeURIComponent(VIVIZ["galleries"][galleryid]["thumbdir"]);
@@ -901,6 +911,20 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + " #connectionerror").html('')
 		$(wrapper + " #catalog").html('')
 		$(wrapper + " #thumbbrowseframe").html('')
+	}
+
+	function testdecode(component) {
+		try {
+			var tmp = decodeURIComponent(component)
+			return ""
+		} catch (err) {
+			var msg = "Error when evaluating decodeURIComponent('" + component + "').";
+			if (component.indexOf("%") != -1) {
+				msg = msg + "<br/>Consider using $ instead of % in strftime and sprintf."
+			}
+			console.log(msg)
+			return msg					
+		}
 	}
 
 	function error(msg, clear) {
@@ -1368,6 +1392,12 @@ function viviz(VIVIZ, mode) {
 			return temp;
 		}
 
+		// Test decoding of of first file only.
+		var msg = testdecode(GALLERYINFO["fullfiles"][0][0])
+		if (msg !== "") {error(msg, true); return;}
+		var msg = testdecode(GALLERYINFO["thumbfiles"][0][0])
+		if (msg !== "") {error(msg, true); return;}
+
 		var INFOjs = new Array();
 		for (j = 0; j < GALLERYINFO["fullfiles"].length; j++) {
 			INFOjs[j] = new Object();
@@ -1383,8 +1413,6 @@ function viviz(VIVIZ, mode) {
 			INFOjs[j]["ImageNumber"] = j;
 		}
 
-		console.log("---")
-		console.log(INFOjs)
 		state = galleryid+SORTBY+ORDER+regexp;
 		if (typeof(thumblist.cache) != 'object') {
 			thumblist.cache = new Object();

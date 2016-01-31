@@ -1,4 +1,9 @@
-// Configuation options.
+
+//////////////////////////////
+// Begin configuation.
+// VIVIZ["config"]["catalog"] value is replaced with
+// VIVIZ["catalog"] defined after it depending on
+// location.hostname.
 var VIVIZ = {}
 VIVIZ["config"] =
 	{
@@ -323,6 +328,10 @@ VIVIZ["catalog"] =
 				"title": "Example in documentation."
 			},
 			{
+				"id": "dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_%Y%m%d.jpg&start=2006-01-20&stop=P0D",
+				"title": "Example in documentation.  Should be error because % is used instead of $."
+			},
+			{
 				"id": "dir=images/full/&strftime=demo-$Y.png&start=2001&stop=2004",
 				"title": "Example in documentation."
 			},
@@ -363,3 +372,5 @@ VIVIZ["catalog"] =
 				"title": "Invalid ID.  Error message is wrong because of use of configuration URL in gallery configuration. URL is assumed to be gallery configuration. Append x to id in address bar to see proper error message."
 			}
 		]
+// End configuration.
+//////////////////////////////		
