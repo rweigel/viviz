@@ -234,6 +234,10 @@ select #gallery {
   margin:auto;
   border: 2px solid white; /*3px*/
 }
+#g-container .error {
+  border: 2px solid red;
+
+}
 #g-container .inactive {
   border: 2px solid white;
 }
@@ -262,21 +266,31 @@ select #gallery {
 #t-container #thumbbrowseoverlay {
 	z-index:1;
 }
+
 #thumbframe {
 	float: left;
 	text-align:left;
 	z-index:0;
 }
 
+#t-container .loaderror {
+    border: 2px solid red;
+}
+#t-container .active {
+    border: 2px solid blue;
+}
+#t-container .loading.thumbbrowse {
+    border: 2px solid gray;
+}
 .thumbbrowse {
-	border:solid white 3px;
+	border:solid white 2px;
 	vertical-align:top;
 	margin:auto;
 	z-index:1;
 }
 .thumbbrowsetop {
-	filter:alpha(opacity=99);
-	opacity:0.99;
+	filter:alpha(opacity=90);
+	opacity:0.90;
 	position: absolute;
 	display:none;
 	z-index:-1;

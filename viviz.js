@@ -205,7 +205,7 @@ function viviz(VIVIZ, mode) {
 			delete qo["catalog"]
 			console.log(qo)
 			qo["id"] = location.hash.replace("#","")
-			qo["title"] = location.hash.replace("#","")
+			qo["title"] = ""//location.hash.replace("#","")
 			var url = "";
 			var found = false;
 			for (var i = 0; i < VIVIZ["catalogs"][selected].length; i++) {
@@ -542,7 +542,7 @@ function viviz(VIVIZ, mode) {
 
 			if (CATALOGINFO[type+"sprintf"] || CATALOGINFO[type+"strftime"]) {
 				options.debug = false
-				//console.log(options)
+				console.log(options)
 				var xfiles = expandtemplate(options)
 				for (var i = 0; i < xfiles.length; i++) {
 					files[i] = [xfiles[i]]
@@ -932,6 +932,7 @@ function viviz(VIVIZ, mode) {
 	}
 
 	function warning(msg, clear, totime) {
+
 		$(wrapper + ' #warning').show()
 		if (clear) {
 			$(wrapper + ' #warning').html(msg);
@@ -943,8 +944,15 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' #warning').append(spacer + msg)
 		}
 
+		if (warning.lt) {
+			clearTimeout(warning.lt);
+		}
+
 		if (isFinite(totime)) {
-			setTimeout(function () {$(wrapper + ' #warning').html('').hide();}, totime)
+			warning.lt = setTimeout(
+							function () {
+								$(wrapper + ' #warning').html('').hide();
+							}, totime)
 		}
 	}
 
@@ -1021,7 +1029,7 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + " #catalogopen").unbind('click')
 		$(wrapper + " #catalogopen").click(
 				function () {
-					$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
+					//$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
 					if (GALLERYINFO["json"]["fullscript"]) {
 						// Convert function declaration to string.
 						GALLERYINFO["json"]["fullscript"] = 
@@ -1095,12 +1103,16 @@ function viviz(VIVIZ, mode) {
 
 			var hash = ""
 			if (el === 'id') {
-				// Remove everything except for id and catalog
+				// Remove everything except for id, catalog, and mode
+				var hash = ""
 				if (qs["catalog"]) {
-					hash = "catalog=" + qs["catalog"] + "&id=" + val
-				} else {
-					hash = "id=" + val
+					hash = "catalog=" + qs["catalog"]
 				}
+				var hash = hash + "&id=" + val
+				if (qs["mode"]) {
+					hash = hash + "&mode=" + qs["mode"]
+				}
+				hash = hash.replace(/^&.*/,"")
 			} else {
 				for (var key in qs) {
 					hash = hash + "&" + key + "=" + qs[key]
@@ -1131,10 +1143,10 @@ function viviz(VIVIZ, mode) {
 		}
 
 		// Catalogs drop-down
-		dropdown("catalog", CATALOGS, wrapper + " #catalogdropdown")
-		$(wrapper + ' #catalogdropdown #catalog').unbind('change')
-		$(wrapper + ' #catalogdropdown #catalog').change(function () {
-			var catalogid = $(wrapper + " #catalog option:selected").val()
+		dropdown("cataloglist", CATALOGS, wrapper + " #catalogdropdown")
+		$(wrapper + ' #catalogdropdown #cataloglist').unbind('change')
+		$(wrapper + ' #catalogdropdown #cataloglist').change(function () {
+			var catalogid = $(wrapper + " #cataloglist option:selected").val()
 			console.log('setdropdowns(): Catalog id changed to ' + catalogid)
 			viviz.triggerhashchange = true
 			location.hash = "catalog=" + catalogid;
@@ -1685,6 +1697,10 @@ function viviz(VIVIZ, mode) {
 							warning("No images could be loaded.", true, Infinity)
 							console.log("No images could be loaded.")
 							$(wrapper + " #workingfullframe").css('visibility','hidden')
+							if ($(wrapper + " #fullframe").width() > 0)
+								$(wrapper + " #fullframe").width('')
+							if ($(wrapper + " #fullframe").height() > 0)
+								$(wrapper + " #fullframe").height('')
 							return
 						}
 						firstimage(f+1)
@@ -2456,7 +2472,7 @@ function viviz(VIVIZ, mode) {
 
 				if (setthumbbindings.overlayDimensions) {
 					// If overlay dimensions known (first overlay loaded)
-					console.log("-- Overlay dimensions known.")
+					console.log("thumb.positionoverlay(): Overlay dimensions known.")
 					// Offset is relative to document.
 					// Position is relative to the offset of the parent.
 					var elo = wrapper + ' #thumbbrowseoverlay'
@@ -2479,7 +2495,6 @@ function viviz(VIVIZ, mode) {
 					if ($(el).offset().left > $(window).width()/2) {
 						var lt = [$(el).offset().left-setthumbbindings.overlayDimensions[0]+$(el).outerWidth(),$(el).position().top]						
 					}
-
 				}
 
 				return lt
@@ -2489,14 +2504,8 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' .thumbbrowse').click(function () {
 				console.log("Thumb click event.")
 
-				if ($(setthumbbindings.active).hasClass("loaderror")) {					
-					$(setthumbbindings.active).css("border", "solid red 3px")
-				} else {
-					$(setthumbbindings.active).css("border", "solid white 3px")
-				}
 				setthumbbindings.active = this
-				$(this).css("border", "solid blue 3px")
-
+				$(setthumbbindings.active).addClass("active")
 				lt = positionoverlay(this)
 				console.log(lt)
 				$(wrapper + ' #thumbbrowseoverlay').parent().prepend('<img style="position:absolute; z-index:2; display:none" id="thumboverlayloading" src="css/ajax-loader.gif"/>')
@@ -2504,13 +2513,20 @@ function viviz(VIVIZ, mode) {
 
 				// http://stackoverflow.com/questions/3877027/jquery-callback-on-image-load-even-when-the-image-is-cached
 				$(wrapper + ' #thumbbrowseoverlay').unbind('load')
+				console.log("Loading overlay.")
 				$(wrapper + ' #thumbbrowseoverlay')
 					.show()
 					.attr("src", $(this).attr("srcfull"))
 					.css("left", lt[0])
 					.css("top", lt[1])
-					.error(function () {$(wrapper + ' #thumboverlayloading').remove()})
+					.error(function () {
+						console.log("Overlay error event.")
+						$(wrapper + ' #thumboverlayloading').remove()
+						$(this).hide()
+						$(setthumbbindings.active).removeClass("active")
+					})
 					.one("load",function () {
+						console.log("Overlay load event.")
 						setthumbbindings.overlayOffset   = [$(wrapper + ' #thumbbrowseoverlay').offset().left, $(wrapper + ' #thumbbrowseoverlay').offset().top]
 						setthumbbindings.overlayPosition = [$(wrapper + ' #thumbbrowseoverlay').position().left, $(wrapper + ' #thumbbrowseoverlay').position().top]
 						setthumbbindings.overlayDimensions = [$(wrapper + ' #thumbbrowseoverlay').outerWidth(), $(wrapper + ' #thumbbrowseoverlay').height()]
@@ -2520,7 +2536,7 @@ function viviz(VIVIZ, mode) {
 						$(this).css("top", lt[1])
 						$(wrapper + ' #thumboverlayloading').remove()
 					}).each(function() {
-  						if(this.complete) $(this).load();
+  						//if(this.complete) $(this).load();
 					})
 			})
 
@@ -2529,7 +2545,7 @@ function viviz(VIVIZ, mode) {
 				console.log("Overlay clicked.")
 				$(wrapper + ' #thumbbrowseoverlay').hide()
 				console.log($(setthumbbindings.active).hasClass("loaderror"))
-				$(setthumbbindings.active).css("border", "solid white 3px")
+				$(setthumbbindings.active).removeClass("active")
 			})
 			
 			// If image is hovered on and then a hover-out event occurs, close.
@@ -2542,7 +2558,7 @@ function viviz(VIVIZ, mode) {
 					// Hover out event
 					console.log("Overlay hover out event.")
 					$(wrapper + ' #thumbbrowseoverlay').hide()
-					$(setthumbbindings.active).css("border", "solid white 3px")
+					$(setthumbbindings.active).removeClass("active")
 				})
 		}
 
@@ -2684,7 +2700,7 @@ function viviz(VIVIZ, mode) {
 				var src = VIVIZ["galleries"][galleryid]["thumbdirdecoded"] + INFOjs[i]['ThumbFile'];
 				var srcfull = VIVIZ["galleries"][galleryid]["fulldirdecoded"] + INFOjs[i]['FullFile'];
 
-				$('<img class="thumbbrowse"/>')
+				$('<img class="thumbbrowse loading"/>')
 					.width(newWidth || tw || 100)
 					.attr("src", src)
 					.attr("srcfull", srcfull)
@@ -2692,9 +2708,9 @@ function viviz(VIVIZ, mode) {
 					.css("height",newHeight || th || 100)
 					.attr("title",objToString(INFOjs[i]))
 					.error(function () {
+						$(this).removeClass("loading");
 						$(this).addClass("loaderror");
 						$(this).attr("src","css/transparent.png");
-						$(this).css("border","3px solid red");
 						$(this).width(newWidth || tw || 100);
 						$(this).height(newHeight || th || 100);
 						if (th) {
@@ -2704,6 +2720,7 @@ function viviz(VIVIZ, mode) {
 					})
 					.load(function () {
 
+						$(this).removeClass("loading");
 
 						// See caveats at https://api.jquery.com/load-event/
 						// This checks if load event was fired after error event

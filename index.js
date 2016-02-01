@@ -171,14 +171,14 @@ VIVIZ["catalogs"]["Test"] =
 			},
 			{
 				"id": "Demo/05b",
-				"title": "Demo/05a with attribute for each image",
+				"title": "Same as Demo/05a but with attribute for each image",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
 				"id": "Demo/05c",
-				"title": "Demo/05b with attribute names",
+				"title": "Same as Demo/05b but with attribute names",
 				"fulldir": "images/full/",
 				"thumbdir": "images/thumb/",
 				"attributes": ["Filename","Age"],
@@ -186,7 +186,7 @@ VIVIZ["catalogs"]["Test"] =
 			},
 			{
 				"id": "Demo/05d",
-				"title": "Demo/05c with attribute filters",
+				"title": "Same as Demo/05c but with attribute filters",
 				"fulldir": "images/full/",
 				"thumbdir": "images/thumb/",
 				"attributes": ["Filename","Age"],
@@ -195,7 +195,7 @@ VIVIZ["catalogs"]["Test"] =
 			},
 			{
 				"id": "Demo/05e",
-				"title": "Demo/05d with defaultFirstImage",
+				"title": "Same as Demo/05d but with defaultFirstImage",
 				"fulldir": "images/full/",
 				"thumbdir": "images/thumb/",
 				"defaultFirstImage": 2,

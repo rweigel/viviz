@@ -13,7 +13,7 @@
 		"id": "CRRES/PWE",
 		"title": "CRRES/PWE",
 		"aboutlink": "http://www-pw.physics.uiowa.edu/plasma-wave/crres",
-		"sprintf": "o%04d.gif",
+		"sprintf": "o$04d.gif",
 		"start": 16,
 		"stop": 1067,
 		"fulldir": "http://www-pw.physics.uiowa.edu/plasma-wave/crres/GIF/",
@@ -82,7 +82,7 @@
 		"id": "Kyoto/DstFinal",
 		"title": "Kyoto/DstFinal",
 		"aboutlink": "http://wdc.kugi.kyoto-u.ac.jp/dst_final/",
-		"strftime": "$Y$m/dst%y$m.png",
+		"strftime": "$Y$m/dst$y$m.png",
 		"start": "1957-01",
 		"stop": "P0D",
 		"fulldir": "http://wdc.kugi.kyoto-u.ac.jp/dst_final/"
@@ -91,8 +91,8 @@
 		"id": "Kyoto/DstProvisional",
 		"title": "Kyoto/DstProvisional",
 		"aboutlink": "http://wdc.kugi.kyoto-u.ac.jp/dst_provisional/",
-		"strftime": "$Y$m/dst%y$m.png",
-		"start": "-P5Y",
+		"strftime": "$Y$m/dst$y$m.png",
+		"start": "-P4Y",
 		"stop": "P0D",
 		"fulldir": "http://wdc.kugi.kyoto-u.ac.jp/dst_provisional/"
 	},
@@ -100,7 +100,7 @@
 		"id": "Kyoto/DstRealTime",
 		"title": "Kyoto/DstRealTime",
 		"about": "http://wdc.kugi.kyoto-u.ac.jp/dst_realtime/",
-		"strftime": "$Y$m/dst%y$m.png",
+		"strftime": "$Y$m/dst$y$m.png",
 		"start": "-P1Y",
 		"stop": "P0D",
 		"dir": "http://wdc.kugi.kyoto-u.ac.jp/dst_realtime/"
