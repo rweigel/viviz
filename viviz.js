@@ -875,8 +875,8 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + ' #workingfullframe').css('visibility','hidden')
 		$(wrapper + " #gallerythumbframe").html('')
 
-		if ($(wrapper + " #catalogopen:visible").length == 0) {
-			$(wrapper + " #catalogclose").click()
+		if ($(wrapper + " #galleryopen:visible").length == 0) {
+			$(wrapper + " #infoclose").click()
 		}
 
 		// Keep full frame width and height what it was last.  When image is
@@ -1025,9 +1025,24 @@ function viviz(VIVIZ, mode) {
 			}
 		}
 
-		// Gallery configuration area
 		$(wrapper + " #catalogopen").unbind('click')
 		$(wrapper + " #catalogopen").click(
+				function () {
+					$(wrapper + ' #info').width($(wrapper + ' #info').width());
+					$(wrapper + ' #info').height('200px')
+					var val = $(wrapper + " #catalog option:selected").val()
+					// Show catalog information
+					$(wrapper+' #info')
+						.html(
+							JSON.stringify(VIVIZ["catalogs"][val], null, 4)
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+						)
+					$(wrapper + ' #infoclose').css("visibility","visible")
+				})
+
+		// Gallery configuration area
+		$(wrapper + " #galleryopen").unbind('click')
+		$(wrapper + " #galleryopen").click(
 				function () {
 					//$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
 					if (GALLERYINFO["json"]["fullscript"]) {
@@ -1040,19 +1055,22 @@ function viviz(VIVIZ, mode) {
 						GALLERYINFO["json"]["thumbscript"] = 
 							"" + GALLERYINFO["json"]["thumbscript"]
 					}
-					$(wrapper+' #catalog')
+					$(wrapper+' #info')
 						.html(JSON.stringify(
-							GALLERYINFO["json"], null, 4).replace(/\n/g,"<br/>"))
-					$(wrapper + ' #catalogopen').hide()
-					$(wrapper + ' #catalogclose').show()
+							GALLERYINFO["json"], null, 4)
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+							)
+					//$(wrapper + ' #galleryopen').css("visibility","hidden")
+					$(wrapper + ' #infoclose').css("visibility","visible")
 				})
 
-		$(wrapper + " #catalogclose").unbind('click')
-		$(wrapper + " #catalogclose").click(
+		$(wrapper + " #infoclose").unbind('click')
+		$(wrapper + " #infoclose").click(
 				function () {
-					$(wrapper + " #catalog").html('')
-					$(wrapper + ' #catalogopen').show()
-					$(wrapper + ' #catalogclose').hide()
+					$(wrapper + " #info").html('')
+					$(wrapper + ' #info').height('')				
+					//$(wrapper + ' #galleryopen').css("visibility","visible")
+					$(wrapper + ' #infoclose').css("visibility","hidden")
 				})
 	}
 
@@ -1108,11 +1126,11 @@ function viviz(VIVIZ, mode) {
 				if (qs["catalog"]) {
 					hash = "catalog=" + qs["catalog"]
 				}
-				var hash = hash + "&id=" + val
+				hash = hash + "&id=" + val
 				if (qs["mode"]) {
 					hash = hash + "&mode=" + qs["mode"]
 				}
-				hash = hash.replace(/^&.*/,"")
+				hash = hash.replace(/^&/,"")
 			} else {
 				for (var key in qs) {
 					hash = hash + "&" + key + "=" + qs[key]
@@ -1143,10 +1161,10 @@ function viviz(VIVIZ, mode) {
 		}
 
 		// Catalogs drop-down
-		dropdown("cataloglist", CATALOGS, wrapper + " #catalogdropdown")
-		$(wrapper + ' #catalogdropdown #cataloglist').unbind('change')
-		$(wrapper + ' #catalogdropdown #cataloglist').change(function () {
-			var catalogid = $(wrapper + " #cataloglist option:selected").val()
+		dropdown("catalog", CATALOGS, wrapper + " #catalogdropdown")
+		$(wrapper + ' #catalogdropdown #catalog').unbind('change')
+		$(wrapper + ' #catalogdropdown #catalog').change(function () {
+			var catalogid = $(wrapper + " #catalog option:selected").val()
 			console.log('setdropdowns(): Catalog id changed to ' + catalogid)
 			viviz.triggerhashchange = true
 			location.hash = "catalog=" + catalogid;
