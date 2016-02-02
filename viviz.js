@@ -69,15 +69,23 @@ function viviz(VIVIZ, mode) {
 	var wrapper = "#" + mode + gallerynumber
 
 	function tooltip(id) {
+		if (!tooltip.titles) tooltip.titles = {}
+		
+		// Prevent native tooltip from showing
+		var title = $(wrapper + ' #'+id).attr('title')
+		$(wrapper + ' #'+id).attr('title','')
+		tooltip.titles[id] = title;
+
 		$(wrapper + ' #'+id).on('mouseenter', 
 			function () {
-				$(wrapper + ' #tooltip').html($(this).attr('title'))
-				console.log(wrapper)
+				$(wrapper + ' #'+id).attr('title','')
+				$(wrapper + ' #tooltip').html(title)
 				console.log('mouse enter')
 			})
 
 		$(wrapper + ' #'+id).on('mouseleave', 
 			function () {
+				$(this).attr('title', tooltip.titles[id])
 				$(wrapper + ' #tooltip').html('')
 				console.log(wrapper)
 				console.log('mouse leave')
