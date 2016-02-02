@@ -91,11 +91,11 @@ function viviz(VIVIZ, mode) {
 		}
 		location.hash = hash
 
-		if (viviz.triggerhashchange == false) {
-			console.log('viviz.js: viviz.triggerhashchange = false.  Not resetting application.');
-			viviz.triggerhashchange = true;
+		if (viviz.triggerreset == false) {
+			console.log('viviz.js: viviz.triggerreset = false.  Not resetting application.');
+			viviz.triggerreset = true;
 		} else {
-			console.log('viviz.js: viviz.triggerhashchange = true. Resetting application.');
+			console.log('viviz.js: viviz.triggerreset = true. Resetting application.');
 			viviz(VIVIZ)
 		}
 	})
@@ -170,7 +170,7 @@ function viviz(VIVIZ, mode) {
 	})
 	$("#thumbbrowsebutton").unbind('click')
 	$("#thumbbrowsebutton").click(function () {
-		viviz.triggerhashchange = true;
+		viviz.triggerreset = true;
 		if (VIVIZ["config"]["defaultMode"] === "thumb") {			
 			location.hash = location.hash.replace("&mode=gallery","")
 		} else {
@@ -209,8 +209,8 @@ function viviz(VIVIZ, mode) {
 			var url = "";
 			var found = false;
 			for (var i = 0; i < VIVIZ["catalogs"][selected].length; i++) {
-				console.log(VIVIZ["catalogs"][selected][i]["id"])
-				console.log(qo["id"])
+				//console.log(VIVIZ["catalogs"][selected][i]["id"])
+				//console.log(qo["id"])
 				if (VIVIZ["catalogs"][selected][i]["id"] == qo["id"]) {
 					found = true
 					break
@@ -1074,20 +1074,24 @@ function viviz(VIVIZ, mode) {
 				})
 	}
 
-	function updatehash(el, val) {
+	function updatehash(el, val, triggerreset) {
 
 		var qs = $.parseQueryString()
+
+		if (triggerreset) {
+			viviz.triggerreset = triggerreset;
+		}
 
 		console.log('updatehash(): Called initial hash = ' + location.hash)
 		if (!val) {
 			var val = $(wrapper + " #" + el + " option:selected").val()
 			console.log('updatehash(): Updating based on selected value of element ' + el + ' which is ' + val + '.');
-			viviz.triggerhashchange = true
+			if (typeof(triggerreset) === "undefined") viviz.triggerreset = true
 		} else {
 			val = "" + val;
 			console.log("updatehash(): Updating based on passed parameter for element '" 
 							+ el + "' to " + val);
-			viviz.triggerhashchange = false
+			if (typeof(triggerreset) === "undefined") viviz.triggerreset = false
 		}
 
 		if (val !== "") {
@@ -1166,7 +1170,7 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + ' #catalogdropdown #catalog').change(function () {
 			var catalogid = $(wrapper + " #catalog option:selected").val()
 			console.log('setdropdowns(): Catalog id changed to ' + catalogid)
-			viviz.triggerhashchange = true
+			viviz.triggerreset = true
 			location.hash = "catalog=" + catalogid;
 		})
 
@@ -1215,7 +1219,7 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + ' #dropdowns #order').unbind('change')
 		$(wrapper + ' #dropdowns #order').change(function () {
 			console.log('setdropdowns(): Order changed.')
-			//viviz.triggerhashchange = false
+			//viviz.triggerreset = false
 			//resetdom()
 			//gallery()
 			updatehash('order')
@@ -1341,7 +1345,7 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' #dropdowns #regexp').unbind('change')
 			$(wrapper + ' #dropdowns #regexp').change(function () {
 				//alert('here')
-				//viviz.triggerhashchange = false;
+				//viviz.triggerreset = false;
 				updatehash('regexp')
 			})
 		}
@@ -2369,15 +2373,14 @@ function viviz(VIVIZ, mode) {
 			})
 			
 			$(wrapper + " #last").unbind('click');
-			$(wrapper + ' #last').click(function(){
-				var nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").last().attr("id"));
-				$(wrapper + " #" + nowvisible).click();
+			$(wrapper + ' #last').click(function () {
+				var last = parseInt($(wrapper).attr("totalvisible"));
+				updatehash('number', last, true)
 			});
 
 			$(wrapper + " #first").unbind('click');    
 			$(wrapper + ' #first').click(function(){
-				var nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").first().attr("id"));
-				$(wrapper + " #" + nowvisible).click();
+				updatehash('number', 1, true)
 			});  
 		}
 
