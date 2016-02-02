@@ -68,6 +68,22 @@ function viviz(VIVIZ, mode) {
 	var gallerynumber = "1"
 	var wrapper = "#" + mode + gallerynumber
 
+	function tooltip(id) {
+		$(wrapper + ' #'+id).on('mouseenter', 
+			function () {
+				$(wrapper + ' #tooltip').html($(this).attr('title'))
+				console.log(wrapper)
+				console.log('mouse enter')
+			})
+
+		$(wrapper + ' #'+id).on('mouseleave', 
+			function () {
+				$(wrapper + ' #tooltip').html('')
+				console.log(wrapper)
+				console.log('mouse leave')
+			})
+	}
+
 	location.hash = location.hash.replace("id=dir","dir");
 
 	$(window).unbind('hashchange.' + mode)
@@ -1165,9 +1181,9 @@ function viviz(VIVIZ, mode) {
 		}
 
 		// Catalogs drop-down
-		dropdown("catalog", CATALOGS, wrapper + " #catalogdropdown")
-		$(wrapper + ' #catalogdropdown #catalog').unbind('change')
-		$(wrapper + ' #catalogdropdown #catalog').change(function () {
+		dropdown("catalog", CATALOGS, wrapper + " #dropdowns")
+		$(wrapper + ' #dropdowns #catalog').unbind('change')
+		$(wrapper + ' #dropdowns #catalog').change(function () {
 			var catalogid = $(wrapper + " #catalog option:selected").val()
 			console.log('setdropdowns(): Catalog id changed to ' + catalogid)
 			viviz.triggerreset = true
@@ -1247,6 +1263,7 @@ function viviz(VIVIZ, mode) {
 						'<option value="' + VALUE + '">' + TITLE + '</option>')
 				}
 			}
+			tooltip(ID);
 
 			var qs = $.parseQueryString()
 			if (qs[ID]) {
@@ -1314,7 +1331,7 @@ function viviz(VIVIZ, mode) {
 
 			var REGEXPS            = new Object();		
 			var n                  = $(wrapper + " #dropdowns #sortby option:selected").index() || 1
-			REGEXPS["Title"]       = "Attribute filters"
+			REGEXPS["Title"]       = "Show subset of images according to filter"
 			REGEXPS["Titleshort"]  = "-Filters-"
 			REGEXPS["Values"]      = new Array()
 
@@ -1562,6 +1579,8 @@ function viviz(VIVIZ, mode) {
 	}
 
 	function gallery() {
+
+		$('button').each(function () {tooltip($(this).attr('id'))})
 
 		$("#thumb" + gallerynumber).parent().hide()
 		$("#gallery" + gallerynumber).parent().show()
@@ -2462,6 +2481,9 @@ function viviz(VIVIZ, mode) {
 	}
 
 	function thumb() {
+
+		$(wrapper + ' button').each(function () {tooltip($(this).attr('id'))})
+		$(wrapper + ' select').each(function () {tooltip($(this).attr('id'))})
 
 		$("#gallery" + gallerynumber).parent().hide()
 		$("#thumb" + gallerynumber).parent().show()
