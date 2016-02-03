@@ -72,14 +72,13 @@ function viviz(VIVIZ, mode) {
 		if (!tooltip.titles) tooltip.titles = {}
 		
 		// Prevent native tooltip from showing
-		var title = $(wrapper + ' #'+id).attr('title')
+		var title = $(wrapper + ' #'+id).attr('title') || $(wrapper + ' #'+id).attr('xtitle')
 		$(wrapper + ' #'+id).attr('title','')
 		tooltip.titles[id] = title;
 
 		$(wrapper + ' #'+id).on('mouseenter', 
 			function () {
-				$(wrapper + ' #'+id).attr('title','')
-				$(wrapper + ' #tooltip').html(title)
+				$(wrapper + ' #tooltip').html(tooltip.titles[id])
 				console.log('mouse enter')
 			})
 
@@ -1339,7 +1338,7 @@ function viviz(VIVIZ, mode) {
 
 			var REGEXPS            = new Object();		
 			var n                  = $(wrapper + " #dropdowns #sortby option:selected").index() || 1
-			REGEXPS["Title"]       = "Show subset of images according to filter"
+			REGEXPS["Title"]       = "Show subset of images according to filter on attribute"
 			REGEXPS["Titleshort"]  = "-Filters-"
 			REGEXPS["Values"]      = new Array()
 
@@ -2491,7 +2490,7 @@ function viviz(VIVIZ, mode) {
 	function thumb() {
 
 		$(wrapper + ' button').each(function () {tooltip($(this).attr('id'))})
-		$(wrapper + ' select').each(function () {tooltip($(this).attr('id'))})
+		//$(wrapper + ' select').each(function () {tooltip($(this).attr('id'))})
 
 		$("#gallery" + gallerynumber).parent().hide()
 		$("#thumb" + gallerynumber).parent().show()
