@@ -174,14 +174,14 @@ VIVIZ["catalogs"]["Test"] =
 			},
 			{
 				"id": "Demo/05b",
-				"title": "Demo/05a with attribute for each image",
+				"title": "Same as Demo/05a but with attribute for each image",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
 				"id": "Demo/05c",
-				"title": "Demo/05b with attribute names",
+				"title": "Same as Demo/05b but with attribute names",
 				"fulldir": "images/full/",
 				"thumbdir": "images/thumb/",
 				"attributes": ["Filename","Age"],
@@ -189,7 +189,7 @@ VIVIZ["catalogs"]["Test"] =
 			},
 			{
 				"id": "Demo/05d",
-				"title": "Demo/05c with attribute filters",
+				"title": "Same as Demo/05c but with attribute filters",
 				"fulldir": "images/full/",
 				"thumbdir": "images/thumb/",
 				"attributes": ["Filename","Age"],
@@ -198,7 +198,7 @@ VIVIZ["catalogs"]["Test"] =
 			},
 			{
 				"id": "Demo/05e",
-				"title": "Demo/05d with defaultFirstImage",
+				"title": "Same as Demo/05d but with defaultFirstImage",
 				"fulldir": "images/full/",
 				"thumbdir": "images/thumb/",
 				"defaultFirstImage": 2,
@@ -437,6 +437,29 @@ VIVIZ["catalogs"]["Test"] =
 	var gallerynumber = "1"
 	var wrapper = "#" + mode + gallerynumber
 
+	function tooltip(id) {
+		if (!tooltip.titles) tooltip.titles = {}
+		
+		// Prevent native tooltip from showing
+		var title = $(wrapper + ' #'+id).attr('title') || $(wrapper + ' #'+id).attr('xtitle')
+		$(wrapper + ' #'+id).attr('title','')
+		tooltip.titles[id] = title;
+
+		$(wrapper + ' #'+id).on('mouseenter', 
+			function () {
+				$(wrapper + ' #tooltip').html(tooltip.titles[id])
+				console.log('mouse enter')
+			})
+
+		$(wrapper + ' #'+id).on('mouseleave', 
+			function () {
+				$(this).attr('title', tooltip.titles[id])
+				$(wrapper + ' #tooltip').html('')
+				console.log(wrapper)
+				console.log('mouse leave')
+			})
+	}
+
 	location.hash = location.hash.replace("id=dir","dir");
 
 	$(window).unbind('hashchange.' + mode)
@@ -460,11 +483,11 @@ VIVIZ["catalogs"]["Test"] =
 		}
 		location.hash = hash
 
-		if (viviz.triggerhashchange == false) {
-			console.log('viviz.js: viviz.triggerhashchange = false.  Not resetting application.');
-			viviz.triggerhashchange = true;
+		if (viviz.triggerreset == false) {
+			console.log('viviz.js: viviz.triggerreset = false.  Not resetting application.');
+			viviz.triggerreset = true;
 		} else {
-			console.log('viviz.js: viviz.triggerhashchange = true. Resetting application.');
+			console.log('viviz.js: viviz.triggerreset = true. Resetting application.');
 			viviz(VIVIZ)
 		}
 	})
@@ -539,7 +562,7 @@ VIVIZ["catalogs"]["Test"] =
 	})
 	$("#thumbbrowsebutton").unbind('click')
 	$("#thumbbrowsebutton").click(function () {
-		viviz.triggerhashchange = true;
+		viviz.triggerreset = true;
 		if (VIVIZ["config"]["defaultMode"] === "thumb") {			
 			location.hash = location.hash.replace("&mode=gallery","")
 		} else {
@@ -574,12 +597,12 @@ VIVIZ["catalogs"]["Test"] =
 			delete qo["catalog"]
 			console.log(qo)
 			qo["id"] = location.hash.replace("#","")
-			qo["title"] = location.hash.replace("#","")
+			qo["title"] = ""//location.hash.replace("#","")
 			var url = "";
 			var found = false;
 			for (var i = 0; i < VIVIZ["catalogs"][selected].length; i++) {
-				console.log(VIVIZ["catalogs"][selected][i]["id"])
-				console.log(qo["id"])
+				//console.log(VIVIZ["catalogs"][selected][i]["id"])
+				//console.log(qo["id"])
 				if (VIVIZ["catalogs"][selected][i]["id"] == qo["id"]) {
 					found = true
 					break
@@ -911,7 +934,7 @@ VIVIZ["catalogs"]["Test"] =
 
 			if (CATALOGINFO[type+"sprintf"] || CATALOGINFO[type+"strftime"]) {
 				options.debug = false
-				//console.log(options)
+				console.log(options)
 				var xfiles = expandtemplate(options)
 				for (var i = 0; i < xfiles.length; i++) {
 					files[i] = [xfiles[i]]
@@ -1244,8 +1267,8 @@ VIVIZ["catalogs"]["Test"] =
 		$(wrapper + ' #workingfullframe').css('visibility','hidden')
 		$(wrapper + " #gallerythumbframe").html('')
 
-		if ($(wrapper + " #catalogopen:visible").length == 0) {
-			$(wrapper + " #catalogclose").click()
+		if ($(wrapper + " #galleryopen:visible").length == 0) {
+			$(wrapper + " #infoclose").click()
 		}
 
 		// Keep full frame width and height what it was last.  When image is
@@ -1301,6 +1324,7 @@ VIVIZ["catalogs"]["Test"] =
 	}
 
 	function warning(msg, clear, totime) {
+
 		$(wrapper + ' #warning').show()
 		if (clear) {
 			$(wrapper + ' #warning').html(msg);
@@ -1312,8 +1336,15 @@ VIVIZ["catalogs"]["Test"] =
 			$(wrapper + ' #warning').append(spacer + msg)
 		}
 
+		if (warning.lt) {
+			clearTimeout(warning.lt);
+		}
+
 		if (isFinite(totime)) {
-			setTimeout(function () {$(wrapper + ' #warning').html('').hide();}, totime)
+			warning.lt = setTimeout(
+							function () {
+								$(wrapper + ' #warning').html('').hide();
+							}, totime)
 		}
 	}
 
@@ -1352,7 +1383,7 @@ VIVIZ["catalogs"]["Test"] =
 
 		// Set link and title for ? button.  Compute tlink for later use.
 		if (GALLERYINFO["aboutlink"]) {
-			var title = "Go to page with information about these images:\n" + GALLERYINFO["aboutlink"]
+			var title = "Gallery info:\n" + GALLERYINFO["aboutlink"]
 			var onclick = 'window.open("' + GALLERYINFO["aboutlink"] + '","_blank")'
 			var tlink = "<span style='text-decoration:underline;cursor:pointer' title='"+title+"' onclick='"+onclick+"'>"
 			if (GALLERYINFO["title"]) {
@@ -1386,11 +1417,26 @@ VIVIZ["catalogs"]["Test"] =
 			}
 		}
 
-		// Gallery configuration area
 		$(wrapper + " #catalogopen").unbind('click')
 		$(wrapper + " #catalogopen").click(
 				function () {
-					$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
+					$(wrapper + ' #info').width($(wrapper + ' #info').width());
+					$(wrapper + ' #info').height('200px')
+					var val = $(wrapper + " #catalog option:selected").val()
+					// Show catalog information
+					$(wrapper+' #info')
+						.html(
+							JSON.stringify(VIVIZ["catalogs"][val], null, 4)
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+						)
+					$(wrapper + ' #infoclose').css("visibility","visible")
+				})
+
+		// Gallery configuration area
+		$(wrapper + " #galleryopen").unbind('click')
+		$(wrapper + " #galleryopen").click(
+				function () {
+					//$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
 					if (GALLERYINFO["json"]["fullscript"]) {
 						// Convert function declaration to string.
 						GALLERYINFO["json"]["fullscript"] = 
@@ -1401,36 +1447,43 @@ VIVIZ["catalogs"]["Test"] =
 						GALLERYINFO["json"]["thumbscript"] = 
 							"" + GALLERYINFO["json"]["thumbscript"]
 					}
-					$(wrapper+' #catalog')
+					$(wrapper+' #info')
 						.html(JSON.stringify(
-							GALLERYINFO["json"], null, 4).replace(/\n/g,"<br/>"))
-					$(wrapper + ' #catalogopen').hide()
-					$(wrapper + ' #catalogclose').show()
+							GALLERYINFO["json"], null, 4)
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+							)
+					//$(wrapper + ' #galleryopen').css("visibility","hidden")
+					$(wrapper + ' #infoclose').css("visibility","visible")
 				})
 
-		$(wrapper + " #catalogclose").unbind('click')
-		$(wrapper + " #catalogclose").click(
+		$(wrapper + " #infoclose").unbind('click')
+		$(wrapper + " #infoclose").click(
 				function () {
-					$(wrapper + " #catalog").html('')
-					$(wrapper + ' #catalogopen').show()
-					$(wrapper + ' #catalogclose').hide()
+					$(wrapper + " #info").html('')
+					$(wrapper + ' #info').height('')				
+					//$(wrapper + ' #galleryopen').css("visibility","visible")
+					$(wrapper + ' #infoclose').css("visibility","hidden")
 				})
 	}
 
-	function updatehash(el, val) {
+	function updatehash(el, val, triggerreset) {
 
 		var qs = $.parseQueryString()
+
+		if (triggerreset) {
+			viviz.triggerreset = triggerreset;
+		}
 
 		console.log('updatehash(): Called initial hash = ' + location.hash)
 		if (!val) {
 			var val = $(wrapper + " #" + el + " option:selected").val()
 			console.log('updatehash(): Updating based on selected value of element ' + el + ' which is ' + val + '.');
-			viviz.triggerhashchange = true
+			if (typeof(triggerreset) === "undefined") viviz.triggerreset = true
 		} else {
 			val = "" + val;
 			console.log("updatehash(): Updating based on passed parameter for element '" 
 							+ el + "' to " + val);
-			viviz.triggerhashchange = false
+			if (typeof(triggerreset) === "undefined") viviz.triggerreset = false
 		}
 
 		if (val !== "") {
@@ -1464,12 +1517,16 @@ VIVIZ["catalogs"]["Test"] =
 
 			var hash = ""
 			if (el === 'id') {
-				// Remove everything except for id and catalog
+				// Remove everything except for id, catalog, and mode
+				var hash = ""
 				if (qs["catalog"]) {
-					hash = "catalog=" + qs["catalog"] + "&id=" + val
-				} else {
-					hash = "id=" + val
+					hash = "catalog=" + qs["catalog"]
 				}
+				hash = hash + "&id=" + val
+				if (qs["mode"]) {
+					hash = hash + "&mode=" + qs["mode"]
+				}
+				hash = hash.replace(/^&/,"")
 			} else {
 				for (var key in qs) {
 					hash = hash + "&" + key + "=" + qs[key]
@@ -1500,12 +1557,12 @@ VIVIZ["catalogs"]["Test"] =
 		}
 
 		// Catalogs drop-down
-		dropdown("catalog", CATALOGS, wrapper + " #catalogdropdown")
-		$(wrapper + ' #catalogdropdown #catalog').unbind('change')
-		$(wrapper + ' #catalogdropdown #catalog').change(function () {
+		dropdown("catalog", CATALOGS, wrapper + " #dropdowns")
+		$(wrapper + ' #dropdowns #catalog').unbind('change')
+		$(wrapper + ' #dropdowns #catalog').change(function () {
 			var catalogid = $(wrapper + " #catalog option:selected").val()
 			console.log('setdropdowns(): Catalog id changed to ' + catalogid)
-			viviz.triggerhashchange = true
+			viviz.triggerreset = true
 			location.hash = "catalog=" + catalogid;
 		})
 
@@ -1554,7 +1611,7 @@ VIVIZ["catalogs"]["Test"] =
 		$(wrapper + ' #dropdowns #order').unbind('change')
 		$(wrapper + ' #dropdowns #order').change(function () {
 			console.log('setdropdowns(): Order changed.')
-			//viviz.triggerhashchange = false
+			//viviz.triggerreset = false
 			//resetdom()
 			//gallery()
 			updatehash('order')
@@ -1582,6 +1639,7 @@ VIVIZ["catalogs"]["Test"] =
 						'<option value="' + VALUE + '">' + TITLE + '</option>')
 				}
 			}
+			tooltip(ID);
 
 			var qs = $.parseQueryString()
 			if (qs[ID]) {
@@ -1649,7 +1707,7 @@ VIVIZ["catalogs"]["Test"] =
 
 			var REGEXPS            = new Object();		
 			var n                  = $(wrapper + " #dropdowns #sortby option:selected").index() || 1
-			REGEXPS["Title"]       = "Attribute filters"
+			REGEXPS["Title"]       = "Show subset of images according to filter on attribute"
 			REGEXPS["Titleshort"]  = "-Filters-"
 			REGEXPS["Values"]      = new Array()
 
@@ -1680,7 +1738,7 @@ VIVIZ["catalogs"]["Test"] =
 			$(wrapper + ' #dropdowns #regexp').unbind('change')
 			$(wrapper + ' #dropdowns #regexp').change(function () {
 				//alert('here')
-				//viviz.triggerhashchange = false;
+				//viviz.triggerreset = false;
 				updatehash('regexp')
 			})
 		}
@@ -1898,6 +1956,8 @@ VIVIZ["catalogs"]["Test"] =
 
 	function gallery() {
 
+		$('button').each(function () {tooltip($(this).attr('id'))})
+
 		$("#thumb" + gallerynumber).parent().hide()
 		$("#gallery" + gallerynumber).parent().show()
 
@@ -2054,6 +2114,10 @@ VIVIZ["catalogs"]["Test"] =
 							warning("No images could be loaded.", true, Infinity)
 							console.log("No images could be loaded.")
 							$(wrapper + " #workingfullframe").css('visibility','hidden')
+							if ($(wrapper + " #fullframe").width() > 0)
+								$(wrapper + " #fullframe").width('')
+							if ($(wrapper + " #fullframe").height() > 0)
+								$(wrapper + " #fullframe").height('')
 							return
 						}
 						firstimage(f+1)
@@ -2704,15 +2768,14 @@ VIVIZ["catalogs"]["Test"] =
 			})
 			
 			$(wrapper + " #last").unbind('click');
-			$(wrapper + ' #last').click(function(){
-				var nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").last().attr("id"));
-				$(wrapper + " #" + nowvisible).click();
+			$(wrapper + ' #last').click(function () {
+				var last = parseInt($(wrapper).attr("totalvisible"));
+				updatehash('number', last, true)
 			});
 
 			$(wrapper + " #first").unbind('click');    
 			$(wrapper + ' #first').click(function(){
-				var nowvisible = parseInt($(wrapper + " #gallerythumbframe > img").first().attr("id"));
-				$(wrapper + " #" + nowvisible).click();
+				updatehash('number', 1, true)
 			});  
 		}
 
@@ -2795,6 +2858,9 @@ VIVIZ["catalogs"]["Test"] =
 
 	function thumb() {
 
+		$(wrapper + ' button').each(function () {tooltip($(this).attr('id'))})
+		//$(wrapper + ' select').each(function () {tooltip($(this).attr('id'))})
+
 		$("#gallery" + gallerynumber).parent().hide()
 		$("#thumb" + gallerynumber).parent().show()
 
@@ -2825,7 +2891,7 @@ VIVIZ["catalogs"]["Test"] =
 
 				if (setthumbbindings.overlayDimensions) {
 					// If overlay dimensions known (first overlay loaded)
-					console.log("-- Overlay dimensions known.")
+					console.log("thumb.positionoverlay(): Overlay dimensions known.")
 					// Offset is relative to document.
 					// Position is relative to the offset of the parent.
 					var elo = wrapper + ' #thumbbrowseoverlay'
@@ -2848,7 +2914,6 @@ VIVIZ["catalogs"]["Test"] =
 					if ($(el).offset().left > $(window).width()/2) {
 						var lt = [$(el).offset().left-setthumbbindings.overlayDimensions[0]+$(el).outerWidth(),$(el).position().top]						
 					}
-
 				}
 
 				return lt
@@ -2858,14 +2923,8 @@ VIVIZ["catalogs"]["Test"] =
 			$(wrapper + ' .thumbbrowse').click(function () {
 				console.log("Thumb click event.")
 
-				if ($(setthumbbindings.active).hasClass("loaderror")) {					
-					$(setthumbbindings.active).css("border", "solid red 3px")
-				} else {
-					$(setthumbbindings.active).css("border", "solid white 3px")
-				}
 				setthumbbindings.active = this
-				$(this).css("border", "solid blue 3px")
-
+				$(setthumbbindings.active).addClass("active")
 				lt = positionoverlay(this)
 				console.log(lt)
 				$(wrapper + ' #thumbbrowseoverlay').parent().prepend('<img style="position:absolute; z-index:2; display:none" id="thumboverlayloading" src="css/ajax-loader.gif"/>')
@@ -2873,13 +2932,20 @@ VIVIZ["catalogs"]["Test"] =
 
 				// http://stackoverflow.com/questions/3877027/jquery-callback-on-image-load-even-when-the-image-is-cached
 				$(wrapper + ' #thumbbrowseoverlay').unbind('load')
+				console.log("Loading overlay.")
 				$(wrapper + ' #thumbbrowseoverlay')
 					.show()
 					.attr("src", $(this).attr("srcfull"))
 					.css("left", lt[0])
 					.css("top", lt[1])
-					.error(function () {$(wrapper + ' #thumboverlayloading').remove()})
+					.error(function () {
+						console.log("Overlay error event.")
+						$(wrapper + ' #thumboverlayloading').remove()
+						$(this).hide()
+						$(setthumbbindings.active).removeClass("active")
+					})
 					.one("load",function () {
+						console.log("Overlay load event.")
 						setthumbbindings.overlayOffset   = [$(wrapper + ' #thumbbrowseoverlay').offset().left, $(wrapper + ' #thumbbrowseoverlay').offset().top]
 						setthumbbindings.overlayPosition = [$(wrapper + ' #thumbbrowseoverlay').position().left, $(wrapper + ' #thumbbrowseoverlay').position().top]
 						setthumbbindings.overlayDimensions = [$(wrapper + ' #thumbbrowseoverlay').outerWidth(), $(wrapper + ' #thumbbrowseoverlay').height()]
@@ -2889,7 +2955,7 @@ VIVIZ["catalogs"]["Test"] =
 						$(this).css("top", lt[1])
 						$(wrapper + ' #thumboverlayloading').remove()
 					}).each(function() {
-  						if(this.complete) $(this).load();
+  						//if(this.complete) $(this).load();
 					})
 			})
 
@@ -2898,7 +2964,7 @@ VIVIZ["catalogs"]["Test"] =
 				console.log("Overlay clicked.")
 				$(wrapper + ' #thumbbrowseoverlay').hide()
 				console.log($(setthumbbindings.active).hasClass("loaderror"))
-				$(setthumbbindings.active).css("border", "solid white 3px")
+				$(setthumbbindings.active).removeClass("active")
 			})
 			
 			// If image is hovered on and then a hover-out event occurs, close.
@@ -2911,7 +2977,7 @@ VIVIZ["catalogs"]["Test"] =
 					// Hover out event
 					console.log("Overlay hover out event.")
 					$(wrapper + ' #thumbbrowseoverlay').hide()
-					$(setthumbbindings.active).css("border", "solid white 3px")
+					$(setthumbbindings.active).removeClass("active")
 				})
 		}
 
@@ -3053,7 +3119,7 @@ VIVIZ["catalogs"]["Test"] =
 				var src = VIVIZ["galleries"][galleryid]["thumbdirdecoded"] + INFOjs[i]['ThumbFile'];
 				var srcfull = VIVIZ["galleries"][galleryid]["fulldirdecoded"] + INFOjs[i]['FullFile'];
 
-				$('<img class="thumbbrowse"/>')
+				$('<img class="thumbbrowse loading"/>')
 					.width(newWidth || tw || 100)
 					.attr("src", src)
 					.attr("srcfull", srcfull)
@@ -3061,9 +3127,9 @@ VIVIZ["catalogs"]["Test"] =
 					.css("height",newHeight || th || 100)
 					.attr("title",objToString(INFOjs[i]))
 					.error(function () {
+						$(this).removeClass("loading");
 						$(this).addClass("loaderror");
 						$(this).attr("src","css/transparent.png");
-						$(this).css("border","3px solid red");
 						$(this).width(newWidth || tw || 100);
 						$(this).height(newHeight || th || 100);
 						if (th) {
@@ -3073,6 +3139,7 @@ VIVIZ["catalogs"]["Test"] =
 					})
 					.load(function () {
 
+						$(this).removeClass("loading");
 
 						// See caveats at https://api.jquery.com/load-event/
 						// This checks if load event was fired after error event
@@ -3429,6 +3496,10 @@ select #gallery {
   margin:auto;
   border: 2px solid white; /*3px*/
 }
+#g-container .error {
+  border: 2px solid red;
+
+}
 #g-container .inactive {
   border: 2px solid white;
 }
@@ -3457,21 +3528,31 @@ select #gallery {
 #t-container #thumbbrowseoverlay {
 	z-index:1;
 }
+
 #thumbframe {
 	float: left;
 	text-align:left;
 	z-index:0;
 }
 
+#t-container .loaderror {
+    border: 2px solid red;
+}
+#t-container .active {
+    border: 2px solid blue;
+}
+#t-container .loading.thumbbrowse {
+    border: 2px solid gray;
+}
 .thumbbrowse {
-	border:solid white 3px;
+	border:solid white 2px;
 	vertical-align:top;
 	margin:auto;
 	z-index:1;
 }
 .thumbbrowsetop {
-	filter:alpha(opacity=99);
-	opacity:0.99;
+	filter:alpha(opacity=90);
+	opacity:0.90;
 	position: absolute;
 	display:none;
 	z-index:-1;
@@ -3902,6 +3983,7 @@ jQuery.extend({
   })();
   
 })(jQuery,this);</script>
+
 		<script type="text/javascript"> http://www.bennadel.com/blog/1504-Ask-Ben-Parsing-CSV-Strings-With-Javascript-Exec-Regular-Expression-Command.htm
 // This will parse a delimited string into an array of
 // arrays. The default delimiter is the comma, but this
@@ -5354,24 +5436,27 @@ if (typeof(exports) !== "undefined" && require){
 	<body>
 
 		<div id="g-container" style="display:none;text-align:center;">
-			<div id="gallery1" class="ui-widget ui-widget-content ui-corner-all" style="padding:4px;display:inline-block">
+
+			<div id="gallery1" class="ui-widget ui-widget-content ui-corner-all" style="padding:4px;display:inline-block;">
 				
 				<div id="error" class="well" style="display:none;background-color:red;"></div>
 
 				<div id="catalogwrapper" class="well" style="text-align:center">
-					<span id="catalogopen" style="float:left;cursor:pointer;text-decoration:underline">
-						Gallery configuration
-					</span>
-					<span id="catalogdropdown" style="float:center">
-					</span>
-					<span id="catalogclose" style="float:left;cursor:pointer;text-decoration:underline;display:none;">
+					<span id="infoclose" style="float:left;cursor:pointer;text-decoration:underline;visibility:hidden;">
 						x
 					</span>
-					<span id="catalogtest" style="cursor:pointer;text-decoration:underline;display:none;">Test</span>
-					<span id="catalogsave" style="cursor:pointer;text-decoration:underline;display:none;">Save</span>
+					<span style="float:left;">&nbsp;Configuration:&nbsp;</span>
+					<span id="galleryopen" style="float:left;cursor:pointer;text-decoration:underline">
+						Gallery
+					</span>
+					<span style="float:left;">&nbsp;|&nbsp;</span>
+					<span id="catalogopen" style="float:left;cursor:pointer;text-decoration:underline">
+						Catalog
+					</span>
+					<span id="tooltip" style="margin-left:1em;margin-right:1em;float:center"></span>
 					<span style="float:right"><a target="_blank" href="http://viviz.org/doc/" style="text-decoration: underline;">ViViz documentation</a></span>
 					<br>
-					<div id="catalog" style="text-align:left;overflow:auto"></div>
+					<div id="info" style="text-align:left;overflow-x:scroll;"></div>
 				</div>
 
 				<div id="dropdownswrapper" class="well">
@@ -5437,7 +5522,6 @@ if (typeof(exports) !== "undefined" && require){
 				<div id="dropdownswrapper" class="well">
 					<div style="text-align:center;">
 						<span id="dropdowns"></span>
-
 						<span>
 							<button class="btn" type="button" title="Show as gallery" id="gallerybrowsebutton">
 								<h4>|▢</h4>

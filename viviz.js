@@ -1014,7 +1014,7 @@ function viviz(VIVIZ, mode) {
 
 		// Set link and title for ? button.  Compute tlink for later use.
 		if (GALLERYINFO["aboutlink"]) {
-			var title = "Go to page with information about these images:\n" + GALLERYINFO["aboutlink"]
+			var title = "Gallery info:\n" + GALLERYINFO["aboutlink"]
 			var onclick = 'window.open("' + GALLERYINFO["aboutlink"] + '","_blank")'
 			var tlink = "<span style='text-decoration:underline;cursor:pointer' title='"+title+"' onclick='"+onclick+"'>"
 			if (GALLERYINFO["title"]) {
