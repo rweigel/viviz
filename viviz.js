@@ -133,7 +133,6 @@ function viviz(VIVIZ, mode) {
 	// Get list of galleries
 	console.log("viviz.js: Getting list of galleries.")
 	var GALLERIES = cataloginfo()
-
 	if (typeof(GALLERIES) === "string") {
 		console.log("viviz.js: Call to cataloginfo() failed.")
 		resetdom()
@@ -148,6 +147,7 @@ function viviz(VIVIZ, mode) {
 		console.log("viviz.js: galleryid = " + galleryid)
 	}
 
+	console.log("viviz.js: Getting gallery information.")
 	var GALLERYINFO = galleryinfo(galleryid)
 
 	if (typeof(GALLERYINFO) === "string") {
@@ -428,7 +428,8 @@ function viviz(VIVIZ, mode) {
 			}
 
 			console.log("cataloginfo(): Returning list of "
-						+ GALLERIES.Values.length + " galleries in catalog " + selected)
+						+ GALLERIES.Values.length 
+						+ " galleries in catalog " + selected)
 			return GALLERIES
 		}
 
@@ -588,16 +589,43 @@ function viviz(VIVIZ, mode) {
 			
 			var options = {}
 
-			if (CATALOGINFO["start"] && !CATALOGINFO[type+"start"]) {
-				CATALOGINFO[type+"start"] = CATALOGINFO["start"]
-			}	
-			if (CATALOGINFO["stop"] && !CATALOGINFO[type+"stop"]) {
-				CATALOGINFO[type+"stop"] = CATALOGINFO["stop"]
-			}
-
 			if (CATALOGINFO["strftime"] && !CATALOGINFO[type+"strftime"]) {
 				CATALOGINFO[type+"strftime"] = CATALOGINFO["strftime"]
 			}	
+			if (CATALOGINFO["sprintf"] && !CATALOGINFO[type+"sprintf"]) {
+				CATALOGINFO[type+"sprintf"] = CATALOGINFO["sprintf"]
+			}	
+
+			if (CATALOGINFO["start"] && !CATALOGINFO[type+"start"]) {
+				CATALOGINFO[type+"start"] = CATALOGINFO["start"]
+			}
+			if (("" + CATALOGINFO[type+"start"]).length == 8) {
+				if (CATALOGINFO[type+"strftime"]) {
+					console.log(CATALOGINFO[type+"start"].length)
+					// Convert dates of form YYYYMMDD to YYYY-MM-DD
+					// "" + start need to convert to string.
+					// Initial parse converts on hash does
+					// if ($.isNumeric(qo[key])) {qo[key] = parseFloat(qo[key])}
+					var starttmp = "" + CATALOGINFO[type+"start"]
+					CATALOGINFO[type+"start"] = starttmp.substring(0,4) 
+											+ "-" + starttmp.substring(4,6) 
+											+ "-" + starttmp.substring(6,8)
+				}
+			}
+
+			if (CATALOGINFO["stop"] && !CATALOGINFO[type+"stop"]) {
+				CATALOGINFO[type+"stop"] = CATALOGINFO["stop"]
+			}
+			if (("" + CATALOGINFO[type+"stop"]).length == 8) {
+				if (CATALOGINFO[type+"strftime"]) {
+					// Convert dates of form YYYYMMDD to YYYY-MM-DD
+					var stoptmp = "" + CATALOGINFO[type+"stop"]
+					CATALOGINFO[type+"stop"] = stoptmp.substring(0,4) 
+											+ "-" + stoptmp.substring(4,6) 
+											+ "-" + stoptmp.substring(6,8)
+				}
+			}
+
 			if (CATALOGINFO[type+"strftime"]) {
 				options.type = "strftime";
 				// TODO: Need to document why this try/catch is needed.
@@ -609,9 +637,6 @@ function viviz(VIVIZ, mode) {
 				options.timeRange = CATALOGINFO[type+"start"] + "/" + CATALOGINFO[type+"stop"]
 			}
 
-			if (CATALOGINFO["sprintf"] && !CATALOGINFO[type+"sprintf"]) {
-				CATALOGINFO[type+"sprintf"] = CATALOGINFO["sprintf"]
-			}	
 			if (CATALOGINFO[type+"sprintf"]) {
 				options.type = "sprintf";
 				try {

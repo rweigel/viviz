@@ -360,6 +360,10 @@ VIVIZ["catalogs"]["Test"] =
 				"title": "Invalid ID.  Error message is wrong because of use of configuration URL in gallery configuration. URL is assumed to be gallery configuration. Append x to id in address bar to see proper error message."
 			},
 			{
+				"id": "dir=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/&strftime=product_$Y$m$d.png&start=20151226&stop=20151231",
+				"title": "ID specified as URL in index.js."
+			},
+			{
 				"id": "RBSP-A/HFR-WFR_L2",
 				"title": "RBSP-A/HFR-WFR_L2",
 				"config": "http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/product.pngwalk"
