@@ -1,7 +1,17 @@
 function viviz(VIVIZ, mode) {
 
-	// Uncomment to turn of debugging.
-	// var console = {}; console.log = function(){};
+	// http://stackoverflow.com/a/13277545
+	var consoleHolder = console;
+	function debug(bool) {
+		if(!bool) {
+			consoleHolder = console;
+			console = {};
+			console.log = function(){};
+		} else {
+			console = consoleHolder;
+		}
+	}
+	debug(VIVIZ["config"]["debug"]);
 
 	console.log("viviz.js: Called.")
 
@@ -24,7 +34,6 @@ function viviz(VIVIZ, mode) {
 		"showCatalog": true,
 		"showControls": true,
 		"showAttributes": true,
-		"showCatalog": true,
 		"showDropdowns": true,
 		"showDownloads": false,
 		"useAutoAttributes": true,
@@ -78,16 +87,14 @@ function viviz(VIVIZ, mode) {
 
 		$(wrapper + ' #'+id).on('mouseenter', 
 			function () {
+				$(this).attr('title', '')
 				$(wrapper + ' #tooltip').html(tooltip.titles[id])
-				console.log('mouse enter')
 			})
 
 		$(wrapper + ' #'+id).on('mouseleave', 
 			function () {
 				$(this).attr('title', tooltip.titles[id])
 				$(wrapper + ' #tooltip').html('')
-				console.log(wrapper)
-				console.log('mouse leave')
 			})
 	}
 
@@ -214,6 +221,69 @@ function viviz(VIVIZ, mode) {
 		var qs = location.hash.replace(/^#/,'')
 		var qo = $.parseQueryString()
 
+		var selected = qo["catalog"] || VIVIZ["config"]["defaultCatalog"];
+
+		if (qo["config"]) {
+			if (qo["config"].indexOf(".pngwalk")) {
+				dataType = "text";
+			}
+			var url = VIVIZ["config"]["proxyServer"] + qo["config"]
+			try {
+				console.log("cataloginfo(): Reading " + url);
+				$.ajax({
+						type: "GET",
+						url: url,
+						async: false,
+						dataType: dataType,
+						success: 
+							function (data, textStatus, jqXHR) {
+								console.log("cataloginfo(): Finished reading " + url + ".  Contents:")
+								console.log(data)
+								if (!data) {
+									errmsg = "Problem with data returned from "
+											+ "<a style='text-decoration:underline' href='" 
+											+ url
+											+ "'>" 
+											+ url
+											+ "</a>."
+									console.log("cataloginfo(): Problem with data returned from " + url)
+								}
+								if (qo["config"].indexOf(".pngwalk")) {
+									v = data.split(/\n/)
+									console.log(v)
+									var fulldir=qo["config"].replace("product.pngwalk","") + v[1].replace("baseurl=.","")
+									console.log(v[1].replace("baseurl=."))
+									var strftime = v[2].replace('product=',"") + "_" + v[3].replace("timeFormat=","").replace(/%/g,"$") + ".png"
+									console.log(strftime)
+									ss = v[4].replace("timeRange=","").replace(" through "," ").split(" ")
+									var start = ss[0].substring(0,4) + "-" + ss[0].substring(4,6) + "-" + ss[0].substring(6,8)
+									var stop = ss[1].substring(0,4) + "-" + ss[1].substring(4,6) + "-" + ss[1].substring(6,8)
+									var id = qo["config"];
+									var gallery = {"id": id, "fulldir": fulldir, "strftime": strftime, "start": start, "stop": stop};									VIVIZ["catalogs"][selected].unshift(gallery)
+
+								}
+							},
+						error: 
+							function (xhr, textStatus, errorThrown) {
+								errmsg = "Could not read <a style='text-decoration:underline' href='" + VIVIZ['config']["catalog"] + "'>" + VIVIZ['config']["catalog"] + "</a>. Error: " + errorThrown.message.split(":")[0]
+								console.log("cataloginfo(): Could not read " + VIVIZ['config']["catalog"] + ". Error: " + errorThrown.message.split(":")[0])
+							}
+					})
+			} catch (err) {
+				// If URL returns a 404, error above is not triggered if
+				// there is text in the message body.  Instead, there is
+				// an interal error "Cannot read property split of undefined."
+				// that must be caught.
+				errmsg = "Could not read "
+						+ "<a style='text-decoration:underline' href='" 
+						+ url
+						+ "'>" 
+						+ url
+						+ "</a>."
+				console.log("cataloginfo(): Could not read " + url + ".")
+			}
+		}
+
 		var hashisgallery = false
 		if (location.hash.indexOf("dir=") != -1){
 			if (location.hash.length > 1) {
@@ -221,7 +291,6 @@ function viviz(VIVIZ, mode) {
 			}
 		}
 
-		var selected = qo["catalog"] || VIVIZ["config"]["defaultCatalog"];
 		if (hashisgallery) {
 			// Hash is query string with gallery information
 			console.log("cataloginfo(): Hash is a query string with gallery information: ")
@@ -250,7 +319,6 @@ function viviz(VIVIZ, mode) {
 			var url = VIVIZ["config"]["catalogs"][selected]["URL"]
 		}
 
-		console.log(selected)
 		var errmsg = ""
 
 		if (url !== "" && !VIVIZ["catalogs"][selected] && !hashisgallery) {
@@ -261,7 +329,7 @@ function viviz(VIVIZ, mode) {
 				if (hashisgallery == false) {
 					console.log("cataloginfo(): Problem with query string.")
 					errmsg =  "In this mode, ViViz is not allowed to read "
-							+ "external configuration file " + url 
+							+ "the external configuration file " + url 
 							+ " <a style='text-decoration:underline' href='" 
 							+ url + "'>" 
 							+ url + "</a>).<br/>"
@@ -282,7 +350,7 @@ function viviz(VIVIZ, mode) {
 							dataType: "json",
 							success: 
 								function (data, textStatus, jqXHR) {
-									console.log("cataloginfo(): Finished reading " + url)
+									console.log("cataloginfo(): Finished reading " + url + ".  Contents:")
 									console.log(data)
 									if (!data) {
 										errmsg = "Problem with data returned from "
@@ -370,7 +438,6 @@ function viviz(VIVIZ, mode) {
 			console.log("cataloginfo(): Looking for info for gallery with id = " + galleryid + " in catalog = " + selected)
 			var _CATALOGINFO = new Object()
 
-			console.log(VIVIZ["catalogs"][selected])
 			// Find gallery with matching id in json array.
 			var found = true
 			for (i = 0;i < VIVIZ["catalogs"][selected].length; i++) {
@@ -381,16 +448,16 @@ function viviz(VIVIZ, mode) {
 			}
 
 			if (found) {
-		 		var msg = "Gallery with <code>id = "+ galleryid + "</code> "
-		 			+ "not found in catalog:<br/>"
-		 			+ "<textarea style='width:40em;height:20em'>"
-		 			+ JSON.stringify(VIVIZ["catalog"], null, 4)
-		 			+ "</textarea>"
-		 		console.log("cataloginfo(): Gallery with "
-		 			+ "<code>id = "+ galleryid + "</code>"
-		 			+ " not found in catalog.")
-		 		return msg
-		 	}
+				var msg = "Gallery with <code>id = "+ galleryid + "</code> "
+					+ "not found in catalog:<br/>"
+					+ "<textarea style='width:40em;height:20em'>"
+					+ JSON.stringify(VIVIZ["catalog"], null, 4)
+					+ "</textarea>"
+				console.log("cataloginfo(): Gallery with "
+					+ "<code>id = "+ galleryid + "</code>"
+					+ " not found in catalog.")
+				return msg
+			}
 			
 			// Gallery nodes will be stored in this object so they can
 			// be referenced by id.
@@ -565,7 +632,6 @@ function viviz(VIVIZ, mode) {
 
 			if (CATALOGINFO[type+"sprintf"] || CATALOGINFO[type+"strftime"]) {
 				options.debug = false
-				console.log(options)
 				var xfiles = expandtemplate(options)
 				for (var i = 0; i < xfiles.length; i++) {
 					files[i] = [xfiles[i]]
@@ -664,15 +730,15 @@ function viviz(VIVIZ, mode) {
 		function extractorders() {
 
 			var ORDERS = {
-				    "Title": "Sort images by attribute",
-				    "Titleshort": "-Sort by-",
-				    "Class": "updatelocal",
-				    "Values": [
-				    			{"Title": "No sort", "Value": "none"},
+					"Title": "Sort images by attribute",
+					"Titleshort": "-Sort by-",
+					"Class": "updatelocal",
+					"Values": [
+								{"Title": "No sort", "Value": "none"},
 								{"Title": "Ascending", "Value": "ascending"},
-				               	{"Title": "Descending","Value": "descending"},
-				               	{"Title": "Random","Value": "random"}
-				              ]
+								{"Title": "Descending","Value": "descending"},
+								{"Title": "Random","Value": "random"}
+							  ]
 			}
 			return ORDERS
 		}
@@ -989,7 +1055,7 @@ function viviz(VIVIZ, mode) {
 			// Key name starts with "show"
 			if (key.indexOf("show") == 0) {
 				if (VIVIZ["galleries"][galleryid][key] == false) {
-					console.log("Hiding " + wrapper + " #" + key.replace("show",""))
+					console.log("setheader(): Hiding " + wrapper + " #" + key.replace("show",""))
 					$(wrapper + " #" + key.replace("show","").toLowerCase() + "wrapper").hide()
 				}
 			}
@@ -1051,6 +1117,11 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + " #catalogopen").unbind('click')
 		$(wrapper + " #catalogopen").click(
 				function () {
+					if ($(wrapper + " #infoclose").css('visibility') == "visible") {
+						$(wrapper + " #infoclose").click();
+						return
+					}
+
 					$(wrapper + ' #info').width($(wrapper + ' #info').width());
 					$(wrapper + ' #info').height('200px')
 					var val = $(wrapper + " #catalog option:selected").val()
@@ -1067,6 +1138,11 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + " #galleryopen").unbind('click')
 		$(wrapper + " #galleryopen").click(
 				function () {
+					if ($(wrapper + " #infoclose").css('visibility') == "visible") {
+						$(wrapper + " #infoclose").click();
+						return
+					}
+
 					//$(wrapper+' #catalog').width($(wrapper+' #catalog').width())
 					if (GALLERYINFO["json"]["fullscript"]) {
 						// Convert function declaration to string.
@@ -1087,12 +1163,34 @@ function viviz(VIVIZ, mode) {
 					$(wrapper + ' #infoclose').css("visibility","visible")
 				})
 
+		// Gallery configuration area
+		$(wrapper + " #applicationopen").unbind('click')
+		$(wrapper + " #applicationopen").click(
+				function () {
+
+					if ($(wrapper + " #infoclose").css('visibility') == "visible") {
+						$(wrapper + " #infoclose").click();
+						return
+					}
+
+					$(wrapper + ' #info').width($(wrapper + ' #info').width());
+					$(wrapper + ' #info').height('200px')
+					var val = $(wrapper + " #catalog option:selected").val()
+					// Show configuration information
+					$(wrapper+' #info')
+						.html(
+							JSON.stringify(VIVIZ["config"], null, 4)
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+						)
+					$(wrapper + ' #infoclose').css("visibility","visible")
+				})
+
+
 		$(wrapper + " #infoclose").unbind('click')
 		$(wrapper + " #infoclose").click(
 				function () {
 					$(wrapper + " #info").html('')
-					$(wrapper + ' #info').height('')				
-					//$(wrapper + ' #galleryopen').css("visibility","visible")
+					$(wrapper + ' #info').height('')
 					$(wrapper + ' #infoclose').css("visibility","hidden")
 				})
 	}
@@ -1102,6 +1200,7 @@ function viviz(VIVIZ, mode) {
 		var qs = $.parseQueryString()
 
 		if (triggerreset) {
+			console.log("updatehash(): triggerrest parameter given. Setting viviz.triggerreset = " + triggerreset + ".")
 			viviz.triggerreset = triggerreset;
 		}
 
@@ -1109,12 +1208,18 @@ function viviz(VIVIZ, mode) {
 		if (!val) {
 			var val = $(wrapper + " #" + el + " option:selected").val()
 			console.log('updatehash(): Updating based on selected value of element ' + el + ' which is ' + val + '.');
-			if (typeof(triggerreset) === "undefined") viviz.triggerreset = true
+			if (typeof(triggerreset) === "undefined") {
+				console.log("updatehash(): triggerrest parameter not given. Setting viviz.triggerreset = false.")
+				viviz.triggerreset = true
+			}
 		} else {
 			val = "" + val;
 			console.log("updatehash(): Updating based on passed parameter for element '" 
 							+ el + "' to " + val);
-			if (typeof(triggerreset) === "undefined") viviz.triggerreset = false
+			if (typeof(triggerreset) === "undefined") {
+				console.log("updatehash(): triggerrest parameter not given. Setting viviz.triggerreset = false.")
+				viviz.triggerreset = false
+			}
 		}
 
 		if (val !== "") {
@@ -1194,7 +1299,11 @@ function viviz(VIVIZ, mode) {
 			var catalogid = $(wrapper + " #catalog option:selected").val()
 			console.log('setdropdowns(): Catalog id changed to ' + catalogid)
 			viviz.triggerreset = true
-			location.hash = "catalog=" + catalogid;
+			hash = "catalog=" + catalogid;
+			if (qs["mode"]) {
+				hash = hash + "&mode=" + qs["mode"]
+			}
+			location.hash = hash;
 		})
 
 		// Galleries drop-down
@@ -1227,7 +1336,7 @@ function viviz(VIVIZ, mode) {
 		$(wrapper + " #id option[value='" + galleryid + "']").attr('selected','selected')
 
 		// Attributes drop-down
-		console.log('setting attributes drop-down.')
+		console.log('setdropdowns(): Setting attributes drop-down.')
 
 		dropdown("sortby", GALLERYINFO['attributes'], wrapper + " #dropdowns")
 		$(wrapper + ' #dropdowns #sortby').unbind('change')
@@ -1361,9 +1470,9 @@ function viviz(VIVIZ, mode) {
 			}
 
 			var qs = $.parseQueryString();
- 			if (VIVIZ["galleries"][galleryid]["defaultRegExp"] && !qs["regexp"]) {
+			if (VIVIZ["galleries"][galleryid]["defaultRegExp"] && !qs["regexp"]) {
 				console.log("setdropdowns(): Setting regexp filter value based on gallery configuration.")
- 				$(wrapper + " #regexp").val(VIVIZ["galleries"][galleryid]["defaultRegExp"])
+				$(wrapper + " #regexp").val(VIVIZ["galleries"][galleryid]["defaultRegExp"])
 			}
 
 			$(wrapper + ' #dropdowns #regexp').unbind('change')
@@ -1442,14 +1551,14 @@ function viviz(VIVIZ, mode) {
 		  // While there remain elements to shuffle...
 		  while (0 !== currentIndex) {
 
-		    // Pick a remaining element...
-		    randomIndex = Math.floor(Math.random() * currentIndex);
-		    currentIndex -= 1;
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
 
-		    // And swap it with the current element.
-		    temporaryValue = array[currentIndex];
-		    array[currentIndex] = array[randomIndex];
-		    array[randomIndex] = temporaryValue;
+			// And swap it with the current element.
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
 		  }
 
 		  return array;
@@ -1499,7 +1608,6 @@ function viviz(VIVIZ, mode) {
 		I = new Array();
 		if (regexp) {
 			var REGEXP = new RegExp(regexp);
-			console.log(regexp)
 			if (typeof(INFOjs[0][SORTBY]) == "string") {
 				var k = 0;
 				for (var i = 0; i < INFOjs.length; i++) {
@@ -2086,9 +2194,11 @@ function viviz(VIVIZ, mode) {
 				if (idn > INFOjs.length) {return}
 
 				var ido = idn
-				// Always have next 3 images set in DOM.
+				var Nlazy = VIVIZ["galleries"][galleryid]["lazyLoadMax"]
+							|| VIVIZ["config"]["lazyLoadMax"] || 3
+				// Always have next Nlazy full images set in DOM.
 				// TODO: If play button hit, start loading more.
-				while (idn < ido + 3) {
+				while (idn < ido + Nlazy) {
 					if (idn > INFOjs.length) {break}					
 					if ($(wrapper + " #fullframe img[id="+idn+"]").length == 0) {
 						console.log("gallery.loadfull.prepnext(): Setting full image with id = " + idn + ".");
@@ -2309,6 +2419,8 @@ function viviz(VIVIZ, mode) {
 		}
 
 		function setcontrolbindings() {
+
+			var si = false;
 			
 			// Show/Hide thumb button
 			$(wrapper + " #showhidethumb").unbind('toggle');
@@ -2329,14 +2441,13 @@ function viviz(VIVIZ, mode) {
 			})
 
 			if (VIVIZ["config"]["showThumbstrip"] == false) {
- 				if (typeof(VIVIZ["galleries"][galleryid]["showThumbstrip"]) !== "undefined") {
- 					if (VIVIZ["galleries"][galleryid]["showThumbstrip"] == false) {					
+				if (typeof(VIVIZ["galleries"][galleryid]["showThumbstrip"]) !== "undefined") {
+					if (VIVIZ["galleries"][galleryid]["showThumbstrip"] == false) {					
 						$("#showhidethumb").click()
 					}
- 				}
+				}
 			}
 			
-			var si = false;
 			$(wrapper + " #stop").unbind('click');
 			$(wrapper + " #stop").click(
 					function () {
@@ -2349,6 +2460,9 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + " #play").unbind('click');
 			$(wrapper + " #play").click(
 					function () {
+						if (typeof(si) === "number") {
+							clearInterval(si);
+						}
 						$("#next").click();
 						si = setInterval(
 								function () {
@@ -2363,10 +2477,12 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' #next').click(function(){
 
 				var lastvisible = parseInt($(wrapper).attr('lastvisible'));
-				if (lastvisible == parseInt($(wrapper).attr('totalvisible'))) {				
-					var nowvisible = parseInt($(wrapper + " #gallerythumbframe img.firstimage").attr('id'));
+				if (lastvisible == parseInt($(wrapper).attr('totalvisible'))) {
+					// This finds the first image set according to number parameter
+					// in hash, which may not be the first image in subset.			
+					var nowvisible = parseInt($(wrapper + " #gallerythumbframe img.firstimage").attr('id'));					
 				} else {
-					var nowvisible = lastvisible + 1;        	
+					var nowvisible = lastvisible + 1;	
 				}
 				console.log("gallery.setcontrolbindings: Next button clicked."
 								+ " Clicking on  #" + nowvisible + ".")
@@ -2401,11 +2517,15 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + " #last").unbind('click');
 			$(wrapper + ' #last').click(function () {
 				var last = parseInt($(wrapper).attr("totalvisible"));
+				// Need to re-set application here because clicking
+				// on a spacer does not do anything.
 				updatehash('number', last, true)
 			});
 
 			$(wrapper + " #first").unbind('click');    
 			$(wrapper + ' #first').click(function(){
+				// Need to re-set application here because clicking
+				// on a spacer does not do anything.
 				updatehash('number', 1, true)
 			});  
 		}
@@ -2489,8 +2609,9 @@ function viviz(VIVIZ, mode) {
 
 	function thumb() {
 
+		tooltip("slider1")
+		
 		$(wrapper + ' button').each(function () {tooltip($(this).attr('id'))})
-		//$(wrapper + ' select').each(function () {tooltip($(this).attr('id'))})
 
 		$("#gallery" + gallerynumber).parent().hide()
 		$("#thumb" + gallerynumber).parent().show()
@@ -2586,7 +2707,7 @@ function viviz(VIVIZ, mode) {
 						$(this).css("top", lt[1])
 						$(wrapper + ' #thumboverlayloading').remove()
 					}).each(function() {
-  						//if(this.complete) $(this).load();
+						//if(this.complete) $(this).load();
 					})
 			})
 
