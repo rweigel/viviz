@@ -10,23 +10,22 @@ VIVIZ["config"] =
 		"defaultCatalog": "Test",
 		"defaultMode": "gallery",
 		"showThumbstrip": true,
-		"showFileName": true,
-		"showAboutText": true,
-		"showCatalog": true,
-		"showControls": true,
-		"showAttributes": true,
 		"showCatalog": true,
 		"showDropdowns": true,
-		"showDownloads": true,
-		"useAutoAttributes": true,
+		"showControls": true,
+		"showAboutText": true,
+		"showAttributes": true,
+		"showFileName": true,
 		"thumbWidth": 0.25,
 		"thumbHeight": 0.25,
 		"fullWidth": 1.0,
 		"fullHeight": 1.0,
+		"useAutoAttributes": true,
 		"lazyLoadMax": 6,
 		"frameRate": 500,
 		"play": false,
 		"port": 8002,
+		"debug": true,
 		"proxyServer": "http://localhost:8002/proxy?url=",
 		"useCachedImages": false,
 	}
@@ -359,7 +358,17 @@ VIVIZ["catalogs"]["Test"] =
 			{
 				"id": "INVALID/ID",
 				"title": "Invalid ID.  Error message is wrong because of use of configuration URL in gallery configuration. URL is assumed to be gallery configuration. Append x to id in address bar to see proper error message."
-			}
+			},
+			{
+				"id": "RBSP-A/HFR-WFR_L2",
+				"title": "RBSP-A/HFR-WFR_L2",
+				"config": "http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/product.pngwalk"
+			},
+			{
+				"id": "config=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/product.pngwalk",
+				"title": "Gallery configuration in .pngwalk file"
+			},
+
 		]
 
 // End configuration.
