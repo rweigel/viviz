@@ -22,9 +22,9 @@
 		<script type="text/javascript" src="js/expandtemplate.js"></script>
 
 		<script>
-			// Do not remove the following lines.  Uncomment and place
-			// an initial hash value to set the initial gallery.
-			//location.hash = ""
+			// Set an initial hash value to set the initial gallery.
+			initialhash = ""
+			if (initialhash !== "") {location.hash = initialhash;}
 		</script>
 		<script>$( function () {viviz(VIVIZ)} )</script>
 
@@ -54,8 +54,8 @@
 					<span id="galleryopen" style="float:left;cursor:pointer;text-decoration:underline">
 						Gallery
 					</span>
-					<span id="tooltip" style="margin-left:1em;margin-right:1em;float:center"></span>
-					<span style="float:right"><a target="_blank" href="http://viviz.org/doc/" style="text-decoration: underline;">ViViz documentation</a></span>
+					<span id="tooltip" style="float:center"></span>
+					<span id="documentation" style="float:right"><a target="_blank" href="http://viviz.org/doc/" style="text-decoration: underline;">ViViz documentation</a></span>
 					<br/>
 					<div id="info" style="text-align:left;overflow-x:scroll;"></div>
 				</div>

@@ -304,11 +304,16 @@ VIVIZ["catalogs"]["Test"] =
 				"fullfiles": "http://viviz.org/demo-filelist.json"
 			},
 			{
-				"id": "Demo/22",
+				"id": "Demo/22a",
 				"title": "No dir given; images must be in same directory as index.htm",
 				"strftime": "demo-$Y.png",
 				"start": 2001,
 				"stop": 2002
+			},
+			{
+				"id": "Demo/22b",
+				"title": "Same as Demo/22a but gallery specified as hash.",
+				"id":"strftime=demo-$Y.png&start=2001&stop=2002"
 			},
 			{
 				"id": "Demo/23",
@@ -363,7 +368,7 @@ VIVIZ["catalogs"]["Test"] =
 				"title": "Invalid ID.  Error message is wrong because of use of configuration URL in gallery configuration. URL is assumed to be gallery configuration. Append x to id in address bar to see proper error message."
 			},
 			{
-				"id": "dir=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/&strftime=product_$Y$m$d.png&start=20151226&stop=20151231",
+				"id": "dir=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/&strftime=product_$Y$m$d.png&start=20151226&stop=20151228",
 				"title": "ID specified as URL in index.js."
 			},
 			{
@@ -522,11 +527,17 @@ VIVIZ["catalogs"]["Test"] =
 		return
 	}
 
-	if (location.hash.indexOf("dir") == -1) {
-		var galleryid = qs["id"] || GALLERIES["Values"][0]["Id"]
-	} else {
-		var galleryid = location.hash.replace("#","")
+	if (location.hash.indexOf("id=") == -1){
+		if (location.hash.length > 1) {
+			var hashisgallery = true
+		}
+	}
+
+	if (hashisgallery) {
+		galleryid = location.hash.replace("#","")
 		console.log("viviz.js: galleryid = " + galleryid)
+	} else {
+		galleryid = qs["id"] || GALLERIES["Values"][0]["Id"]
 	}
 
 	console.log("viviz.js: Getting gallery information.")
@@ -667,7 +678,7 @@ VIVIZ["catalogs"]["Test"] =
 		}
 
 		var hashisgallery = false
-		if (location.hash.indexOf("dir=") != -1){
+		if (location.hash.indexOf("id=") == -1){
 			if (location.hash.length > 1) {
 				hashisgallery = true
 			}
@@ -679,7 +690,6 @@ VIVIZ["catalogs"]["Test"] =
 			delete qo["catalog"]
 			console.log(qo)
 			qo["id"] = location.hash.replace("#","")
-			qo["title"] = ""//location.hash.replace("#","")
 			var url = "";
 			var found = false;
 			for (var i = 0; i < VIVIZ["catalogs"][selected].length; i++) {
@@ -5589,9 +5599,9 @@ if (typeof(exports) !== "undefined" && require){
 }</script>
 
 		<script>
-			// Do not remove the following lines.  Uncomment and place
-			// an initial hash value to set the initial gallery.
-			//location.hash = ""
+			// Set an initial hash value to set the initial gallery.
+			initialhash = "strftime=product_$Y$m$d.png&start=20121201&stop=20121203"
+			if (initialhash !== "") {location.hash = initialhash;}
 		</script>
 		<script>$( function () {viviz(VIVIZ)} )</script>
 

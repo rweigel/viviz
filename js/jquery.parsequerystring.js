@@ -2,11 +2,12 @@
 jQuery.extend({
 	  parseQueryString: function (def) {
 		var nvpair = {}
-		var qs = window.location.hash.replace(/^#/,'')
+		var qs = def || window.location.hash.replace(/^#/,'')
 		var pairs = qs.split('&')
+		if (pairs[0] === "") return nvpair
 		$.each(pairs, function(i, v){
 			var pair = v.split('=')
-			if ((typeof(pair[1]) === "undefined") && def) {
+			if ((typeof(pair[1]) === "undefined")) {
 			  nvpair[def] = pair[0]	  	
 			} else {
 				if (pair[0] !== '') {

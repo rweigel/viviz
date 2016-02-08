@@ -189,7 +189,7 @@ VIVIZ["catalogs"]["Test"] =
 				"fulldir": "images/full/",
 				"thumbdir": "images/thumb/",
 				"attributes": ["Filename","Age"],
-				"filters": [[{}],[{"name": "Age is greater than 1", "value": "this > 1.0"}]],
+				"filters": [[{}],[{"name": "All", "value": "Age >= 0"}, {"name": "Age > 1", "value": "Age > 1.0"}]],
 				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
@@ -199,7 +199,7 @@ VIVIZ["catalogs"]["Test"] =
 				"thumbdir": "images/thumb/",
 				"defaultFirstImage": 2,
 				"attributes": ["Filename","Age"],
-				"filters": [[{}],[{"name": "Age is greater than 1", "value": "this > 1.0"}]],
+				"filters": [[{}],[{"name": "Age > 1", "value": "Age > 1.0"}]],
 				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
@@ -259,7 +259,7 @@ VIVIZ["catalogs"]["Test"] =
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"attributes": ["Filename","Age"],
-				"filters": [[{}],[{"name": "Age is greater than 1", "value": "this > 1.0"}]],
+				"filters": [[{}],[{"name": "Age > 1", "value": "Age > 1.0"}]],
 				"fullfiles": [["xdemo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
@@ -301,11 +301,21 @@ VIVIZ["catalogs"]["Test"] =
 				"fullfiles": "http://viviz.org/demo-filelist.json"
 			},
 			{
-				"id": "Demo/22",
+				"id": "Demo/22a",
 				"title": "No dir given; images must be in same directory as index.htm",
 				"strftime": "demo-$Y.png",
 				"start": 2001,
 				"stop": 2002
+			},
+			{
+				"id": "Demo/22b",
+				"title": "Same as Demo/22a but gallery specified as hash.",
+				"id":"strftime=demo-$Y.png&start=2001&stop=2002"
+			},
+			{
+				"id": "Demo/22c",
+				"title": "Same as Demo/22b but gallery specified as hash with first image bad.",
+				"id":"strftime=demo-$Y.png&start=2000&stop=2002"
 			},
 			{
 				"id": "Demo/23",
@@ -320,7 +330,7 @@ VIVIZ["catalogs"]["Test"] =
 				"title": "Example in documentation."
 			},
 			{
-				"id": "dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_%Y%m%d.jpg&start=2006-01-20&stop=P0D",
+				"id": "dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D",
 				"title": "Example in documentation.  Should be error because % is used instead of $."
 			},
 			{
@@ -360,19 +370,9 @@ VIVIZ["catalogs"]["Test"] =
 				"title": "Invalid ID.  Error message is wrong because of use of configuration URL in gallery configuration. URL is assumed to be gallery configuration. Append x to id in address bar to see proper error message."
 			},
 			{
-				"id": "dir=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/&strftime=product_$Y$m$d.png&start=20151226&stop=20151231",
+				"id": "dir=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/&strftime=product_$Y$m$d.png&start=20151226&stop=20151228",
 				"title": "ID specified as URL in index.js."
-			},
-			{
-				"id": "RBSP-A/HFR-WFR_L2",
-				"title": "RBSP-A/HFR-WFR_L2",
-				"config": "http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/product.pngwalk"
-			},
-			{
-				"id": "config=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/product.pngwalk",
-				"title": "Gallery configuration in .pngwalk file"
-			},
-
+			}
 		]
 
 // End configuration.

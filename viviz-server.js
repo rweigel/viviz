@@ -160,7 +160,7 @@ app.get('/proxy', function (req, res) {
 		    console.log(msg + ". Request was from " + remoteAddress);
 		    res.status(500).send(msg)
 		    return;
-	    	// TODO: If request is not from localhost, allow if URL is in index.js.
+	    	// TODO: If request is not from localhost, allow if URL is whitelist.
 		    //VIVIZ = require("./index.js").VIVIZ;
 	    }
 
