@@ -8,7 +8,9 @@ VIVIZ["config"] =
 	{
 		"catalogs": {"Test": {"URL": ""}, "ViRBO": {"URL": "catalogs/virbo.json"}},
 		"defaultCatalog": "Test",
+		"defaultGallery": "ACE/Multi/a",
 		"defaultMode": "gallery",
+		"defaultFirstImage": 1,
 		"showThumbstrip": true,
 		"showCatalog": true,
 		"showDropdowns": true,
@@ -26,8 +28,7 @@ VIVIZ["config"] =
 		"play": false,
 		"port": 8002,
 		"debug": true,
-		"proxyServer": "http://localhost:8002/proxy?url=",
-		"useCachedImages": false,
+		"proxyServer": "http://localhost:8002/proxy?url="
 	}
 
 // Note: In general it is best to use $ instead of % in configuation except in

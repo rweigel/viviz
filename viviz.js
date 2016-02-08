@@ -72,27 +72,27 @@ function viviz(VIVIZ, mode) {
 
 	// Default configuration options
 	_VIVIZ = {
+		"defaultCatalog": "",
+		"defaultGallery": "",
 		"defaultMode": "gallery",
 		"defaultFirstImage": 1,
 		"showThumbstrip": true,
-		"showFileName": true,
-		"showAboutText": true,
 		"showCatalog": true,
-		"showControls": true,
-		"showAttributes": true,
 		"showDropdowns": true,
-		"showDownloads": false,
-		"useAutoAttributes": true,
+		"showControls": true,
+		"showAboutText": true,
+		"showAttributes": true,
+		"showFileName": true,
 		"thumbWidth": 0.25,
 		"thumbHeight": 0.25,
 		"fullWidth": 1.0,
 		"fullHeight": 1.0,
+		"useAutoAttributes": true,
 		"lazyLoadMax": 6,
 		"frameRate": 500,
 		"play": false,
 		"port": 8002,
-		"proxyServer": "http://localhost:8002/proxy?url=",
-		"useCachedImages": false
+		"proxyServer": "http://localhost:8002/proxy?url="
 	}
 
 	// If key does not exist in global or passed VIVIZ object, add it.
@@ -191,8 +191,9 @@ function viviz(VIVIZ, mode) {
 			console.log("viviz.js: id = " + qs["id"] + " given in query string. Setting using it as galleryid.")
 			galleryid = qs["id"]
 		} else {
-			console.log("viviz.js: Hash is not a gallery configuration and id not given in hash.  Using first gallery in gallery list for selected catalog.")
-			galleryid = GALLERIES["Values"][0]["Id"]
+			console.log("viviz.js: Hash is not a gallery configuration and id not given in hash.");
+			console.log("viviz.js Using defaultGallery or first gallery in gallery list for selected catalog.")
+			galleryid = VIVIZ["config"]["defaultGallery"] || GALLERIES["Values"][0]["Id"]
 		}
 	}
 
