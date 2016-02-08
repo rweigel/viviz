@@ -981,6 +981,8 @@ function viviz(VIVIZ, mode) {
 		$("#thumb" + gallerynumber + " .well").show()
 		$("#gallery" + gallerynumber + " .well").show()
 
+		$(wrapper + ' #tooltip').hide()
+		
 		$(wrapper + ' #workingfullframe').css('visibility','hidden')
 		$(wrapper + " #gallerythumbframe").html('')
 
