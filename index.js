@@ -8,7 +8,7 @@ VIVIZ["config"] =
 	{
 		"catalogs": {"Test": {"URL": ""}, "ViRBO": {"URL": "catalogs/virbo.json"}},
 		"defaultCatalog": "Test",
-		"defaultGallery": "ACE/Multi/a",
+		"defaultGallery": "",
 		"defaultMode": "gallery",
 		"defaultFirstImage": 1,
 		"showThumbstrip": true,
@@ -389,3 +389,52 @@ VIVIZ["catalogs"]["Test"] =
 
 // End configuration.
 //////////////////////////////		
+
+if (typeof(location) !== "undefined") { // To allow server-side use of this file.
+	if (location.hostname === "localhost") {
+		//console.log("index.js: hostname is localhost.  Using test catalog.")
+	}
+	if (location.hostname === "viviz.org") {
+		//console.log("index.js: hostname is localhost.  Using test catalog.")
+		//delete VIVIZ["config"]["catalog"]
+	}
+	if (location.hostname === "virbo.org") {
+		//console.log("index.js: hostname is localhost.  Using ViRBO catalog.")
+	}
+	//if (location.href.indexOf("file:") != 0) {
+	if (0) {
+		var nr = 0;
+		var l = VIVIZ["catalogs"]["Test"].length;
+		for (var j = 0; j < l; j++) {
+			var fullfiles = VIVIZ["catalogs"]["Test"][j-nr].fullfiles;
+			if (typeof(fullfiles) === "string") {
+				if (fullfiles.match(/^http/)) {
+					console.log("Removing " + VIVIZ["catalogs"]["Test"][j-nr]["id"])
+					VIVIZ["catalogs"]["Test"].splice(j-nr,1)
+					nr = nr+1
+				}
+			}
+		}
+
+		for (var j in VIVIZ["catalogs"]["Test"]) {
+			var fulldir = VIVIZ["catalogs"]["Test"][j].fulldir;
+			if (fulldir) {
+				if (fulldir.match(/^images/)) {
+				VIVIZ["catalogs"]["Test"][j].fulldir = 
+					"http://viviz.org/" + fulldir
+				}
+			}
+			var thumbdir = VIVIZ["catalogs"]["Test"][j].thumbdir;
+			if (thumbdir) {
+				if (thumbdir.match(/^images/)) {
+				VIVIZ["catalogs"]["Test"][j].thumbdir = 
+					"http://viviz.org/" + thumbdir
+				}
+			}
+
+		}
+		//console.log("index.js: href starts with file:.  Using test catalog and modifying tests.")
+		//prepend images/full and images/thumb with http://viviz.org/
+		//remove ones that require full install.
+	}
+}
