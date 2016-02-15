@@ -396,14 +396,14 @@ VIVIZ["catalogs"]["Test"] =
 
 if (typeof(location) !== "undefined") { // To allow server-side use of this file.
 	if (location.hostname === "localhost") {
-		//console.log("index.js: hostname is localhost.  Using test catalog.")
+		//console.log("---index.js: hostname is localhost.  Using test catalog.")
 	}
 	if (location.hostname === "viviz.org") {
 		//console.log("index.js: hostname is localhost.  Using test catalog.")
 		//delete VIVIZ["config"]["catalog"]
 	}
 	if (location.hostname === "virbo.org") {
-		//console.log("index.js: hostname is localhost.  Using ViRBO catalog.")
+		console.log("index.js: hostname is virbo.org.  Using ViRBO catalog.")
 		VIVIZ["config"]["defaultCatalog"] = "ViRBO";
 	}
 	//if (location.href.indexOf("file:") != 0) {

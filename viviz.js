@@ -111,7 +111,8 @@ function viviz(VIVIZ, mode) {
 			} else if (qs["mode"] === "thumb") {
 				mode = "thumb"
 			} else {
-				console.log("viviz.js: mode = " + qs["mode"] + " not recognized."
+				console.log("viviz.js: mode = " 
+					+ qs["mode"] + " not recognized."
 					+ " Should be 'thumb' or 'gallery'.")
 				mode = VIVIZ["config"]["defaultMode"]
 			}
@@ -157,14 +158,17 @@ function viviz(VIVIZ, mode) {
 
 		var hashisgallery = ishashgallery();
 		if (hashisgallery) {
-			console.log('viviz.js: Hash is a gallery configuration: ' + location.hash)
+			console.log('viviz.js: Hash is a gallery configuration: ' 
+							+ location.hash)
 		}
 
 		if (viviz.triggerreset == false) {
-			console.log('viviz.js: viviz.triggerreset = false.  Not resetting application.');
+			console.log("viviz.js: viviz.triggerreset = false." 
+							+ " Not resetting application.");
 			viviz.triggerreset = true;
 		} else {
-			console.log('viviz.js: viviz.triggerreset = true. Resetting application.');
+			console.log("viviz.js: viviz.triggerreset = true. " 
+							+ " Resetting application.");
 			viviz(VIVIZ)
 		}
 	})
@@ -183,12 +187,14 @@ function viviz(VIVIZ, mode) {
 
 	if (hashisgallery) {
 		galleryid = location.hash.replace(/^#id=|^#/,"")
-		console.log("viviz.js: hash is a gallery configuration.  Setting galleryid = " + galleryid)
+		console.log("viviz.js: hash is a gallery configuration. " 
+						+ " Setting galleryid = " + galleryid)
 		console.log("viviz.js: galleryid = " + galleryid)
 	} else {
 		console.log("viviz.js: hash is not a gallery configuration.")
 		if (qs["id"]) {
-			console.log("viviz.js: id = " + qs["id"] + " given in query string. Setting using it as galleryid.")
+			console.log("viviz.js: id = " + qs["id"] 
+				+ " given in query string. Setting using it as galleryid.")
 			galleryid = qs["id"]
 		} else {
 			console.log("viviz.js: Hash is not a gallery configuration and id not given in hash.");
@@ -274,6 +280,25 @@ function viviz(VIVIZ, mode) {
 
 		var selected = qo["catalog"] || VIVIZ["config"]["defaultCatalog"];
 
+		if (selected === VIVIZ["config"]["defaultCatalog"]) {
+			var tmpo = {}
+			// This has effect of putting defaultCatalog first in drop-down
+			// list so that catalog= is not shown in hash.  Need
+			// to make VIVIZ["config"]["catalogs"] an array as this
+			// re-ordering is probably not robust.
+			for (var key in VIVIZ["config"]["catalogs"]) {
+				if (key === VIVIZ["config"]["defaultCatalog"]) {
+					tmpo[key] = VIVIZ["config"]["catalogs"][key];
+				}
+			}
+			for (var key in VIVIZ["config"]["catalogs"]) {
+				if (key !== VIVIZ["config"]["defaultCatalog"]) {
+					tmpo[key] = VIVIZ["config"]["catalogs"][key];
+				}
+			}
+			VIVIZ["config"]["catalogs"] = tmpo
+		}
+
 		var hashisgallery = ishashgallery()
 
 		if (hashisgallery) {
@@ -325,7 +350,9 @@ function viviz(VIVIZ, mode) {
 							+ " <a style='text-decoration:underline' href='" 
 							+ url + "'>" 
 							+ url + "</a>).<br/>"
-							+ "Contents of this file must be copied into ViViz['catalogs']['" + selected + "']"
+							+ "Contents of this file must be copied into ViViz['catalogs']['" 
+							+ selected 
+							+ "']"
 							+ " in index.htm or index.htm must be viewed from a server."
 				} else {
 					VIVIZ["catalog"] = []
@@ -333,7 +360,9 @@ function viviz(VIVIZ, mode) {
 			} else {
 				console.log("cataloginfo(): Configuraton for " 
 								+ selected
-								+ " is from a URL (" + url + ") that returns JSON. Requesting it.")
+								+ " is from a URL (" 
+								+ url 
+								+ ") that returns JSON. Requesting it.")
 				try {
 					$.ajax({
 							type: "GET",
@@ -342,7 +371,8 @@ function viviz(VIVIZ, mode) {
 							dataType: "json",
 							success: 
 								function (data, textStatus, jqXHR) {
-									console.log("cataloginfo(): Finished reading " + url + ".  Contents:")
+									console.log("cataloginfo(): Finished reading " 
+													+ url + ".  Contents:")
 									console.log(data)
 									if (!data) {
 										errmsg = "Problem with data returned from "
@@ -442,7 +472,7 @@ function viviz(VIVIZ, mode) {
 
 			if (!found) {
 				var msg = "Gallery with <code>id = "+ galleryid + "</code> "
-					+ "not found in catalog:<br/>"
+					+ "not found in catalog " + selected + ":<br/>"
 					+ "<textarea style='width:40em;height:20em'>"
 					+ JSON.stringify(VIVIZ["catalogs"][selected], null, 4)
 					+ "</textarea>"
@@ -982,7 +1012,7 @@ function viviz(VIVIZ, mode) {
 		$("#gallery" + gallerynumber + " .well").show()
 
 		$(wrapper + ' #tooltip').hide()
-		
+
 		$(wrapper + ' #workingfullframe').css('visibility','hidden')
 		$(wrapper + " #gallerythumbframe").html('')
 
