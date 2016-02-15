@@ -6,7 +6,11 @@
 var VIVIZ = {}
 VIVIZ["config"] =
 	{
-		"catalogs": {"Test": {"URL": ""}, "ViRBO": {"URL": "catalogs/virbo.json"}},
+		"catalogs": {
+			"Test": {"URL": ""},
+			"ViRBO": {"URL": "catalogs/virbo.json"},
+			"Enlil": {"URL": "catalogs/enlil.json"}
+		},
 		"defaultCatalog": "Test",
 		"defaultGallery": "",
 		"defaultMode": "gallery",
@@ -400,6 +404,7 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 	}
 	if (location.hostname === "virbo.org") {
 		//console.log("index.js: hostname is localhost.  Using ViRBO catalog.")
+		VIVIZ["config"]["defaultCatalog"] = "ViRBO";
 	}
 	//if (location.href.indexOf("file:") != 0) {
 	if (0) {
