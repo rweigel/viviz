@@ -399,14 +399,14 @@ VIVIZ["catalogs"]["Test"] =
 
 if (typeof(location) !== "undefined") { // To allow server-side use of this file.
 	if (location.hostname === "localhost") {
-		//console.log("index.js: hostname is localhost.  Using test catalog.")
+		//console.log("---index.js: hostname is localhost.  Using test catalog.")
 	}
 	if (location.hostname === "viviz.org") {
 		//console.log("index.js: hostname is localhost.  Using test catalog.")
 		//delete VIVIZ["config"]["catalog"]
 	}
 	if (location.hostname === "virbo.org") {
-		//console.log("index.js: hostname is localhost.  Using ViRBO catalog.")
+		console.log("index.js: hostname is virbo.org.  Using ViRBO catalog.")
 		VIVIZ["config"]["defaultCatalog"] = "ViRBO";
 	}
 	//if (location.href.indexOf("file:") != 0) {
@@ -729,6 +729,25 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 
 		var selected = qo["catalog"] || VIVIZ["config"]["defaultCatalog"];
 
+		if (selected === VIVIZ["config"]["defaultCatalog"]) {
+			var tmpo = {}
+			// This has effect of putting defaultCatalog first in drop-down
+			// list so that catalog= is not shown in hash.  Need
+			// to make VIVIZ["config"]["catalogs"] an array as this
+			// re-ordering is probably not robust.
+			for (var key in VIVIZ["config"]["catalogs"]) {
+				if (key === VIVIZ["config"]["defaultCatalog"]) {
+					tmpo[key] = VIVIZ["config"]["catalogs"][key];
+				}
+			}
+			for (var key in VIVIZ["config"]["catalogs"]) {
+				if (key !== VIVIZ["config"]["defaultCatalog"]) {
+					tmpo[key] = VIVIZ["config"]["catalogs"][key];
+				}
+			}
+			VIVIZ["config"]["catalogs"] = tmpo
+		}
+
 		var hashisgallery = ishashgallery()
 
 		if (hashisgallery) {
@@ -902,7 +921,7 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 
 			if (!found) {
 				var msg = "Gallery with <code>id = "+ galleryid + "</code> "
-					+ "not found in catalog:<br/>"
+					+ "not found in catalog " + selected + ":<br/>"
 					+ "<textarea style='width:40em;height:20em'>"
 					+ JSON.stringify(VIVIZ["catalogs"][selected], null, 4)
 					+ "</textarea>"
