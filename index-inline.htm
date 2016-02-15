@@ -9,7 +9,11 @@
 var VIVIZ = {}
 VIVIZ["config"] =
 	{
-		"catalogs": {"Test": {"URL": ""}, "ViRBO": {"URL": "catalogs/virbo.json"}},
+		"catalogs": {
+			"Test": {"URL": ""},
+			"ViRBO": {"URL": "catalogs/virbo.json"},
+			"Enlil": {"URL": "catalogs/enlil.json"}
+		},
 		"defaultCatalog": "Test",
 		"defaultGallery": "",
 		"defaultMode": "gallery",
@@ -403,6 +407,7 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 	}
 	if (location.hostname === "virbo.org") {
 		//console.log("index.js: hostname is localhost.  Using ViRBO catalog.")
+		VIVIZ["config"]["defaultCatalog"] = "ViRBO";
 	}
 	//if (location.href.indexOf("file:") != 0) {
 	if (0) {
@@ -555,7 +560,8 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 			} else if (qs["mode"] === "thumb") {
 				mode = "thumb"
 			} else {
-				console.log("viviz.js: mode = " + qs["mode"] + " not recognized."
+				console.log("viviz.js: mode = " 
+					+ qs["mode"] + " not recognized."
 					+ " Should be 'thumb' or 'gallery'.")
 				mode = VIVIZ["config"]["defaultMode"]
 			}
@@ -601,14 +607,17 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 
 		var hashisgallery = ishashgallery();
 		if (hashisgallery) {
-			console.log('viviz.js: Hash is a gallery configuration: ' + location.hash)
+			console.log('viviz.js: Hash is a gallery configuration: ' 
+							+ location.hash)
 		}
 
 		if (viviz.triggerreset == false) {
-			console.log('viviz.js: viviz.triggerreset = false.  Not resetting application.');
+			console.log("viviz.js: viviz.triggerreset = false." 
+							+ " Not resetting application.");
 			viviz.triggerreset = true;
 		} else {
-			console.log('viviz.js: viviz.triggerreset = true. Resetting application.');
+			console.log("viviz.js: viviz.triggerreset = true. " 
+							+ " Resetting application.");
 			viviz(VIVIZ)
 		}
 	})
@@ -627,12 +636,14 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 
 	if (hashisgallery) {
 		galleryid = location.hash.replace(/^#id=|^#/,"")
-		console.log("viviz.js: hash is a gallery configuration.  Setting galleryid = " + galleryid)
+		console.log("viviz.js: hash is a gallery configuration. " 
+						+ " Setting galleryid = " + galleryid)
 		console.log("viviz.js: galleryid = " + galleryid)
 	} else {
 		console.log("viviz.js: hash is not a gallery configuration.")
 		if (qs["id"]) {
-			console.log("viviz.js: id = " + qs["id"] + " given in query string. Setting using it as galleryid.")
+			console.log("viviz.js: id = " + qs["id"] 
+				+ " given in query string. Setting using it as galleryid.")
 			galleryid = qs["id"]
 		} else {
 			console.log("viviz.js: Hash is not a gallery configuration and id not given in hash.");
@@ -769,7 +780,9 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 							+ " <a style='text-decoration:underline' href='" 
 							+ url + "'>" 
 							+ url + "</a>).<br/>"
-							+ "Contents of this file must be copied into ViViz['catalogs']['" + selected + "']"
+							+ "Contents of this file must be copied into ViViz['catalogs']['" 
+							+ selected 
+							+ "']"
 							+ " in index.htm or index.htm must be viewed from a server."
 				} else {
 					VIVIZ["catalog"] = []
@@ -777,7 +790,9 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 			} else {
 				console.log("cataloginfo(): Configuraton for " 
 								+ selected
-								+ " is from a URL (" + url + ") that returns JSON. Requesting it.")
+								+ " is from a URL (" 
+								+ url 
+								+ ") that returns JSON. Requesting it.")
 				try {
 					$.ajax({
 							type: "GET",
@@ -786,7 +801,8 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 							dataType: "json",
 							success: 
 								function (data, textStatus, jqXHR) {
-									console.log("cataloginfo(): Finished reading " + url + ".  Contents:")
+									console.log("cataloginfo(): Finished reading " 
+													+ url + ".  Contents:")
 									console.log(data)
 									if (!data) {
 										errmsg = "Problem with data returned from "
@@ -1426,7 +1442,7 @@ if (typeof(location) !== "undefined") { // To allow server-side use of this file
 		$("#gallery" + gallerynumber + " .well").show()
 
 		$(wrapper + ' #tooltip').hide()
-		
+
 		$(wrapper + ' #workingfullframe').css('visibility','hidden')
 		$(wrapper + " #gallerythumbframe").html('')
 
@@ -3796,6 +3812,7 @@ select #gallery {
 .thumbbrowsetop {
 	filter:alpha(opacity=90);
 	opacity:0.90;
+  background-color:white;
 	position: absolute;
 	display:none;
 	z-index:-1;
