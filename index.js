@@ -397,6 +397,7 @@ VIVIZ["catalogs"]["Test"] =
 if (typeof(location) !== "undefined") { // To allow server-side use of this file.
 	if (location.hostname === "localhost") {
 		//console.log("---index.js: hostname is localhost.  Using test catalog.")
+		VIVIZ["config"]["defaultCatalog"] = "ViRBO";
 	}
 	if (location.hostname === "viviz.org") {
 		//console.log("index.js: hostname is localhost.  Using test catalog.")

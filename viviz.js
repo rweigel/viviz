@@ -277,7 +277,6 @@ function viviz(VIVIZ, mode) {
 		console.log("cataloginfo(): Called with argument " + galleryid)
 		console.log("cataloginfo(): Hash: " + location.hash);
 		var qo = $.parseQueryString()
-
 		var selected = qo["catalog"] || VIVIZ["config"]["defaultCatalog"];
 
 		if (selected === VIVIZ["config"]["defaultCatalog"]) {
@@ -301,44 +300,12 @@ function viviz(VIVIZ, mode) {
 
 		var hashisgallery = ishashgallery()
 
-		if (hashisgallery) {
-			// Hash is query string with gallery information
-			console.log("cataloginfo(): Hash is a query string with gallery information: " + location.hash)
-			delete qo["catalog"]
-			console.log("cataloginfo(): Query object:")
-			console.log(qo)
-			console.log("cataloginfo(): Removing ^#id=|^# from hash and computing new query object.");
-			var qs = location.hash.replace(/^#id=|^#/,'');
-			console.log("cataloginfo(): New query string: " + qs)
-			var qo = $.parseQueryString(qs)
-			qo["id"] = qs;
-			console.log("cataloginfo(): Modified query object:")
-			console.log(qo)
-
-			var url = "";
-			var found = false;
-			console.log("cataloginfo(): Looking for " + qo["id"] + " in ids for gallery list of " + selected + ".")
-			for (var i = 0; i < VIVIZ["catalogs"][selected].length; i++) {
-				if (VIVIZ["catalogs"][selected][i]["id"] == qo["id"]) {
-					found = true
-					break
-				}
-			}
-			if (found) {
-				console.log("cataloginfo(): Hash found in gallery list of " + selected + ".")
-			} else {
-				console.log("cataloginfo(): Hash not found in gallery list of " + selected + ".")
-				console.log("cataloginfo(): Prepending gallery to gallery list of " + selected + ".")
-				VIVIZ["catalogs"][selected].unshift(qo)
-			}
-		} else {
-			console.log("cataloginfo(): Hash is not a gallery configuration.");
-			var url = VIVIZ["config"]["catalogs"][selected]["URL"]
-		}
-
 		var errmsg = ""
 
-		if (url !== "" && !VIVIZ["catalogs"][selected] && !hashisgallery) {
+		console.log("cataloginfo(): Hash is not a gallery configuration.");
+		var url = VIVIZ["config"]["catalogs"][selected]["URL"]
+
+		if (url !== "" && !VIVIZ["catalogs"][selected]) {
 			if (location.href.match(/^file/)) {
 				console.log("cataloginfo(): Application cannot read " 
 						+ url 
@@ -404,6 +371,38 @@ function viviz(VIVIZ, mode) {
 							+ "</a>."
 					console.log("cataloginfo(): Could not read " + url + ".")
 				}
+			}
+		}
+
+		if (hashisgallery) {
+			// Hash is query string with gallery information
+			console.log("cataloginfo(): Hash is a query string with gallery information: " + location.hash)
+			delete qo["catalog"]
+			console.log("cataloginfo(): Query object:")
+			console.log(qo)
+			console.log("cataloginfo(): Removing ^#id=|^# from hash and computing new query object.");
+			var qs = location.hash.replace(/^#id=|^#/,'');
+			console.log("cataloginfo(): New query string: " + qs)
+			var qo = $.parseQueryString(qs)
+			qo["id"] = qs;
+			console.log("cataloginfo(): Modified query object:")
+			console.log(qo)
+
+			var url = "";
+			var found = false;
+			console.log("cataloginfo(): Looking for " + qo["id"] + " in ids for gallery list of " + selected + ".")
+			for (var i = 0; i < VIVIZ["catalogs"][selected].length; i++) {
+				if (VIVIZ["catalogs"][selected][i]["id"] == qo["id"]) {
+					found = true
+					break
+				}
+			}
+			if (found) {
+				console.log("cataloginfo(): Hash found in gallery list of " + selected + ".")
+			} else {
+				console.log("cataloginfo(): Hash not found in gallery list of " + selected + ".")
+				console.log("cataloginfo(): Prepending gallery to gallery list of " + selected + ".")
+				VIVIZ["catalogs"][selected].unshift(qo)
 			}
 		}
 
@@ -1308,7 +1307,15 @@ function viviz(VIVIZ, mode) {
 				var hashisgallery = ishashgallery(val)
 				if (hashisgallery) {
 					console.log("updatehash(): Selected value is a gallery configuration.")
-					hash = val
+					var cat = qs["catalog"] || $(wrapper + " #catalog option:selected").val()
+					if (cat === VIVIZ["config"]["defaultCatalog"]) {
+						cat = "";
+					}
+					if (cat) {
+						hash = "catalog=" + cat + "&" + val
+					} else {
+						hash = val
+					}
 				} else {
 					console.log("updatehash(): Removing everything except id, catalog, and mode.")
 					var hash = ""

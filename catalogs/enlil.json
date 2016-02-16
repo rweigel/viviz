@@ -1,0 +1,42 @@
+[
+    {
+        "id": "IPSBD-ENLIL/Velocity/1",
+        "title": "IPSBD-ENLIL Velocity 1",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/vel3/ipsbd_vel3-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "24",
+        "stop": "360"
+    },
+    {
+        "id": "IPSBD-ENLIL/Velocity/2",
+        "title": "IPSBD-ENLIL Velocity 1",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/vel1e4/ipsbd_vel1e4-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "24",
+        "stop": "360"
+    },
+    {
+        "id": "IPSBD-ENLIL/Density/1",
+        "title": "IPSBD-ENLIL Density 1",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/den3/ipsbd_den3-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "24",
+        "stop": "360"
+    },
+    {
+        "id": "IPSBD-ENLIL/Density/2",
+        "title": "IPSBD-ENLIL Density 2",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/den1e4/ipsbd_den1e4-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "3",
+        "stop": "360"
+    }
+]
