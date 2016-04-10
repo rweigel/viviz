@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Exec=/usr/bin/google-chrome-stable  --allow-file-access-from-files file:///home/osboxes/Desktop/viviz/index.htm
+Icon=/home/osboxes/Desktop/viviz/css/favicon.png
+Type=Application
+Terminal=false
+Comment=Online and Local Gallery Viewer
+Name=ViViz 1.0
+GenericName=viviz-1.0
+StartupNotify=false
+Categories=Education;
