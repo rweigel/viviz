@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=620">
+    <title>File Upload</title>
+    </head>
+<body>
+    <p>
+        <input type="file" id="file" style="color:transparent"></input>
+        <label for="file"></label>
+    </p>
+    <div id="holder">
+    </div>
+</body>
+<script>
+    var upload = document.getElementsByTagName('input')[0];
+    var holder = document.getElementById('holder');
+ 
+    upload.onchange = function (e) {
+        e.preventDefault();
+
+        var file = upload.files[0];
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            content = event.target.result;
+            holder.innerHTML = 'content';
+        };
+        reader.readAsDataURL(file);
+
+        return false;
+    };
+</script>
+</html>
