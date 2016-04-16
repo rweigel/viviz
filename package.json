@@ -5,12 +5,14 @@
 	{
 		"xml2js"   : "*",
 		"request"  : "2.9.203",
-		"express"  : "3.1.0",
+		"express"  : "4.1.0",
+		"serve-index": "*",
 		"mkdirp"   : "*",
 		"readdirp" : "*",
 		"cli-color": "*",
 	    "yargs"    : "*",
-	    "vulcanize": "*"
+	    "vulcanize": "*",
+	    "dirwalk": "https://github.com/rweigel/dirwalk/tarball/master"
 	},
 	"scripts": {
 		"build": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm;"
