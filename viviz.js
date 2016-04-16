@@ -1165,10 +1165,14 @@ function viviz(VIVIZ, mode) {
 			}
 		}
 
+		if ($(wrapper + " #infoclose").css('visibility') == "visible") {
+			$(wrapper + ' #infoclose').click()
+		}
+
 		$(wrapper + " #catalogopen").unbind('click')
 		$(wrapper + " #catalogopen").click(
 				function () {
-					if ($(wrapper + " #infoclose").css('visibility') == "visible") {
+					if ($(wrapper + " #infoclose").css('visibility') === "visible") {
 						$(wrapper + " #infoclose").click();
 						return
 					}
@@ -1251,7 +1255,7 @@ function viviz(VIVIZ, mode) {
 		var qs = $.parseQueryString()
 
 		if (triggerreset) {
-			console.log("updatehash(): triggerrest parameter given. Setting viviz.triggerreset = " + triggerreset + ".")
+			console.log("updatehash(): triggerreset parameter given. Setting viviz.triggerreset = " + triggerreset + ".")
 			viviz.triggerreset = triggerreset;
 		}
 
@@ -2687,7 +2691,6 @@ function viviz(VIVIZ, mode) {
 				}
 			})
 		}
-
 	}
 
 	function thumb() {

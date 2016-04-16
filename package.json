@@ -15,6 +15,7 @@
 	    "dirwalk": "https://github.com/rweigel/dirwalk/tarball/master"
 	},
 	"scripts": {
+		"start": "node viviz-server.js --port 8002",
 		"build": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm;"
 	}
 }

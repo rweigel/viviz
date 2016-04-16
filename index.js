@@ -227,13 +227,13 @@ VIVIZ["catalogs"]["Test"] =
 			},
 			{
 				"id": "Demo/09",
-				"title": "fullfiles as string with relative path to text file. (Will not work for simple installation.)",
+				"title": "fullfiles as string with relative path to text file. (Requires web server or full application installation.)",
 				"fulldir": "images/full/",
 				"fullfiles": "catalogs/lists/demo-filelist.txt"
 			},
 			{
 				"id": "Demo/10",
-				"title": "fullfiles as string with relative path to JavaScript file. (Will not work for simple installation.)",
+				"title": "fullfiles as string with relative path to JavaScript file. (Requires web server or full application installation.)",
 				"fulldir": "images/full/",
 				"fullfiles": "catalogs/lists/demo-filelist.json"
 			},
