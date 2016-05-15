@@ -9,7 +9,7 @@ VIVIZ["config"] =
 		"catalogs": {
 			"Test": {"URL": ""},
 			"ViRBO": {"URL": "catalogs/virbo.json"},
-			"Enlil": {"URL": "catalogs/enlil.json"}
+			"Solar": {"URL": "catalogs/solar.json"}
 		},
 		"defaultCatalog": "Test",
 		"defaultGallery": "",
@@ -219,58 +219,95 @@ VIVIZ["catalogs"]["Test"] =
 				"fullfiles": [["demo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
-				"id": "Demo/06",
+				"id": "Demo/06a",
 				"title": "fullfiles as string with file information separated by newlines",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": "demo-2001.png\ndemo-2002.png\ndemo-2003.png\ndemo-2004.png"
 			},
 			{
-				"id": "Demo/09",
+				"id": "Demo/06b",
 				"title": "fullfiles as string with relative path to text file. (Requires web server or full application installation.)",
 				"fulldir": "images/full/",
 				"fullfiles": "catalogs/lists/demo-filelist.txt"
 			},
 			{
-				"id": "Demo/10",
+				"id": "Demo/06d",
 				"title": "fullfiles as string with relative path to JavaScript file. (Requires web server or full application installation.)",
 				"fulldir": "images/full/",
 				"fullfiles": "catalogs/lists/demo-filelist.json"
 			},
 			{
-				"id": "Demo/11",
+				"id": "Demo/06e",
 				"title": "fullfiles as localhost URL to text file. (Requires full application install)",
 				"aboutlink": "http://viviz.org/",
 				"fulldir": "images/full/",
 				"fullfiles": "http://localhost:"+VIVIZ["config"]["port"]+"/catalogs/lists/demo-filelist.txt"
 			},
 			{
-				"id": "Demo/12",
+				"id": "Demo/06f",
 				"title": "fullfiles as localhost URL to file with JavaScript array. (Requires full application install)",
 				"fulldir": "images/full/",
 				"fullfiles": "http://localhost:"+VIVIZ["config"]["port"]+"/catalogs/lists/demo-filelist.json"
 			},
 			{
-				"id": "Demo/13",
+				"id": "Demo/06g",
 				"title": "fullfiles as remote URL to text file. (Requires full application install.)",
 				"fulldir": "images/full/",
 				"fullfiles": "https://raw.githubusercontent.com/rweigel/viviz/master/catalogs/lists/demo-filelist.txt"
 			},
 			{
-				"id": "Demo/14",
+				"id": "Demo/07a",
 				"title": "fullfiles as remote URL to file with JavaScript array. (Requires full application install.)",
 				"fulldir": "images/full/",
 				"fullfiles": "https://raw.githubusercontent.com/rweigel/viviz/master/catalogs/lists/demo-filelist.json"
 			},
 			{
-				"id": "Demo/15",
+				"id": "Demo/07b",
+				"title": "fullfiles as remote URL to service that returns a JavaScript array. (Requires full application install.)",
+				"fulldir": "images/time/full/",
+				"fullfiles": "http://localhost:9002/?url=http://localhost:8002/images/time/full/"
+			},
+			{
+				"id": "Demo/07c",
+				"title": "fullfiles as remote URL to service that returns a JavaScript array. (Requires full application install.)",
+				"fulldir": "images/full/",
+				"fullfiles": "http://localhost:9002/?url=http://localhost:8002/images/full/%26filepattern=demo-"
+			},
+			{
+				"id": "Demo/08a",
+				"title": "No dir given; images must be in same directory as index.htm",
+				"strftime": "demo-$Y.png",
+				"start": 2001,
+				"stop": 2002
+			},
+			{
+				"id": "Demo/08b",
+				"title": "Same as previous demo but gallery specified as hash.",
+				"id":"strftime=demo-$Y.png&start=2001&stop=2002"
+			},
+			{
+				"id": "Demo/08c",
+				"title": "Same as previous demo but gallery specified as hash with first image bad.",
+				"id":"strftime=demo-$Y.png&start=2000&stop=2002"
+			},
+			{
+				"id": "Demo/09d",
+				"title": "No dir given; images must be in same directory as index.htm",
+				"strftime": "demo-$Y.png",
+				"start": 2001,
+				"stop": 2002,
+				"fullfiles": ""
+			},
+			{
+				"id": "Demo/09e",
 				"title": "First image is 404.",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": [["xdemo-2001.png"],["demo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
 			},
 			{
-				"id": "Demo/15b",
+				"id": "Demo/09f",
 				"title": "Demo/15 with attributes and filters.",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
@@ -279,67 +316,18 @@ VIVIZ["catalogs"]["Test"] =
 				"fullfiles": [["xdemo-2001.png",1],["demo-2002.png",2],["demo-2003.png",3],["demo-2004.png",4]]
 			},
 			{
-				"id": "Demo/16",
+				"id": "Demo/09g",
 				"title": "First two images are 404.",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": [["xdemo-2001.png"],["xdemo-2002.png"],["demo-2003.png"],["demo-2004.png"]]
 			},
 			{
-				"id": "Demo/17",
+				"id": "Demo/09h",
 				"title": "All images are 404.",
 				"fulldir":"images/full/",
 				"thumbdir":"images/thumb/",
 				"fullfiles": [["xdemo-2001.png"],["xdemo-2002.png"],["xdemo-2003.png"],["xdemo-2004.png"]]
-			},
-			{
-				"id": "Demo/18",
-				"title": "Should always fail. Response is 404.",
-				"fulldir": "images/full/",
-				"fullfiles": "http://mag.gmu.edu/demo-filelist.txt"
-			},
-			{
-				"id": "Demo/19",
-				"title": "Should always fail. Response is 404.",
-				"fulldir": "images/full/",
-				"fullfiles": "http://mag.gmu.edu/demo-filelist.json"
-			},
-			{
-				"id": "Demo/20",
-				"title": "Should always fail.  Site returns html instead of 404.",
-				"fulldir": "images/full/",
-				"fullfiles": "http://viviz.org/demo-filelist.txt"
-			},
-			{
-				"id": "Demo/21",
-				"title": "fullfiles as remote URL to file with JavaScript array. (Requires full application install.)",
-				"title": "Should always fail.  Site returns html instead of 404.",
-				"fullfiles": "http://viviz.org/demo-filelist.json"
-			},
-			{
-				"id": "Demo/22a",
-				"title": "No dir given; images must be in same directory as index.htm",
-				"strftime": "demo-$Y.png",
-				"start": 2001,
-				"stop": 2002
-			},
-			{
-				"id": "Demo/22b",
-				"title": "Same as Demo/22a but gallery specified as hash.",
-				"id":"strftime=demo-$Y.png&start=2001&stop=2002"
-			},
-			{
-				"id": "Demo/22c",
-				"title": "Same as Demo/22b but gallery specified as hash with first image bad.",
-				"id":"strftime=demo-$Y.png&start=2000&stop=2002"
-			},
-			{
-				"id": "Demo/23",
-				"title": "No dir given; images must be in same directory as index.htm",
-				"strftime": "demo-$Y.png",
-				"start": 2001,
-				"stop": 2002,
-				"fullfiles": ""
 			},
 			{
 				"id": "dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D",
@@ -388,13 +376,38 @@ VIVIZ["catalogs"]["Test"] =
 			{
 				"id": "dir=http://emfisis.physics.uiowa.edu/pngwalk/RBSP-A/HFR-WFR_L2/&strftime=product_$Y$m$d.png&start=20151226&stop=20151228",
 				"title": "ID specified as URL in index.js."
+			},
+			{
+				"id": "Demo/99a",
+				"title": "Should always fail. Response is 404.",
+				"fulldir": "images/full/",
+				"fullfiles": "http://mag.gmu.edu/demo-filelist.txt"
+			},
+			{
+				"id": "Demo/99b",
+				"title": "Should always fail. Response is 404.",
+				"fulldir": "images/full/",
+				"fullfiles": "http://mag.gmu.edu/demo-filelist.json"
+			},
+			{
+				"id": "Demo/99c",
+				"title": "Should always fail.  Site returns html instead of 404.",
+				"fulldir": "images/full/",
+				"fullfiles": "http://viviz.org/demo-filelist.txt"
+			},
+			{
+				"id": "Demo/99d",
+				"title": "fullfiles as remote URL to file with JavaScript array. (Requires full application install.)",
+				"title": "Should always fail.  Site returns html instead of 404.",
+				"fullfiles": "http://viviz.org/demo-filelist.json"
 			}
 		]
 
 // End configuration.
 //////////////////////////////		
 
-if (typeof(location) !== "undefined") { // To allow server-side use of this file.
+// To allow server-side use of this file.
+if (typeof(location) !== "undefined") { // Browser
 	if (location.hostname === "localhost") {
 		//console.log("---index.js: hostname is localhost.  Using test catalog.")
 		VIVIZ["config"]["defaultCatalog"] = "ViRBO";

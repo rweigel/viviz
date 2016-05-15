@@ -12,7 +12,6 @@ var xml2js   = require('xml2js');
 var mkdirp   = require("mkdirp");
 var readdirp = require("readdirp");
 var clc      = require('cli-color');
-var dirwalk  = require('./node_modules/dirwalk/dirwalk.js').dirwalk;
 
 var argv    = require('yargs')
 				.default
@@ -21,6 +20,9 @@ var argv    = require('yargs')
 					'port': "8002"
 				})
 				.argv
+
+//var dirwalk  = require('./node_modules/dirwalk/dirwalk.js').dirwalk;
+var dirwalk  = require('../dirwalk/dirwalk.js').dirwalk;
 
 eval(require('fs').readFileSync('./index.js', 'utf8'))
 
@@ -67,7 +69,7 @@ app.get('/proxy', function (req, res) {
 		// Remote address
 		var remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 	    var u = req.query.url
-
+	    console.log(req.originalUrl)
 	    if (!u) {
 	        res.end("No URL found")
 	    }

@@ -1,0 +1,152 @@
+[
+	{
+		"id": "EIT/Synoptic/171A/sinlat",
+		"title": "EIT/Synoptic/171A/sinlat",
+		"titleshort": "EIT/Synoptic/171A/sinlat",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"fulldir": "http://sun.stanford.edu/synop/EIT/"
+	},
+	{
+		"id": "EIT/Synoptic/171A",
+		"title": "EIT/Synoptic/171A",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"fulldir": "http://sun.stanford.edu/synop/EIT/",
+		"thumbdir": "http://sun.stanford.edu/synop/EIT/"
+	},
+	{
+		"id": "EIT/Synoptic/195A/sinlat",
+		"title": "EIT/Synoptic/195A/sinlat",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"dir": "http://sun.stanford.edu/synop/EIT/"
+	},
+	{
+		"id": "EIT/Synoptic/195A",
+		"title": "EIT/Synoptic/195A",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"dir": "http://sun.stanford.edu/synop/EIT/"
+	},
+	{
+		"id": "EIT/Synoptic/284A/sinlat",
+		"title": "EIT/Synoptic/284A/sinlat",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"dir": "http://sun.stanford.edu/synop/EIT/"
+	},
+	{
+		"id": "EIT/Synoptic/284A",
+		"title": "EIT/Synoptic/284A",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"fulldir": "http://sun.stanford.edu/synop/EIT/",
+		"thumbdir": "http://sun.stanford.edu/synop/EIT/"
+	},
+	{
+		"id": "EIT/Synoptic/304A/sinlat",
+		"title": "EIT/Synoptic/304A/sinlat",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"dir": "http://sun.stanford.edu/synop/EIT/"
+	},
+	{
+		"id": "EIT/Synoptic/304A",
+		"title": "EIT/Synoptic/304A",
+		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
+		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
+		"dir": "http://sun.stanford.edu/synop/EIT/"
+	},
+    {
+        "id": "ENLIL/IPSBD/Velocity/1",
+        "title": "IPSBD-ENLIL Velocity 1",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/vel3/ipsbd_vel3-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "24",
+        "stop": "360"
+    },
+    {
+        "id": "ENLIL/IPSBD/Velocity/2",
+        "title": "IPSBD-ENLIL Velocity 1",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/vel1e4/ipsbd_vel1e4-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "24",
+        "stop": "360"
+    },
+    {
+        "id": "ENLIL/IPSBD/Density/1",
+        "title": "IPSBD-ENLIL Density 1",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/den3/ipsbd_den3-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "24",
+        "stop": "360"
+    },
+    {
+        "id": "ENLIL/IPSBD/Density/2",
+        "title": "IPSBD-ENLIL Density 2",
+        "about": "http://spaceweather.gmu.edu/projects/enlil/",
+        "fulldir": "http://spaceweather.gmu.edu/projects/enlil/models/ipsbd/den1e4/ipsbd_den1e4-earth_",
+        "sprintf": "$04d.gif",
+        "start": "0",
+        "delta": "3",
+        "stop": "360"
+    },
+	{
+		"id": "NSO/Magnetogram/BigBear/2016/05",
+		"title": "NSO/Magnetogram/BigBear/2016/05",
+		"aboutlink": "http://gong2.nso.edu/products/tableView/table.php?configFile=configs/averageMagnetogram10min.cfg",
+		"note": "Created with node dirwalk.js --url ftp://gong2.nso.edu/oQR/zqa/201605 --dirpattern bbzqa > catalogs/lists/NSO_Magnetogram_BigBear-2016-05.json",
+		"dir": "ftp://gong2.nso.edu/oQR/zqa/201605/",
+		"fullfiles": "catalogs/lists/NSO_Magnetogram_BigBear_2016_05.json"
+	},
+	{
+		"id": "SOHO/Sunspots",
+		"title": "",
+		"aboutlink": "http://sohowww.nascom.nasa.gov/sunspots/",
+		"strftime": "$Y$m$d.jpg",
+		"fulldir": "http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/sunspots_1024_",
+		"thumbdir": "http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/sunspots_512_",
+		"thumbWidth": 256,
+		"start": "2006-01-20",
+		"stop": "P0D"
+	},
+	{
+		"id": "SDO/HMIB/2015/01",
+		"title": "SDO/HMIB/2015/01",
+		"aboutlink": "http://sdo.gsfc.nasa.gov/",
+		"note": "List created with node dirwalk.js --url http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/ --filepattern '_512_HMIB.jpg'",
+		"dir": "http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/",
+		"fullfiles": "catalogs/lists/SDO_HMIB_2015_01.json"
+	},	
+	{
+		"id": "SDO/HMIBC/2015/01",
+		"title": "SDO/HMIBC/2015/01",
+		"aboutlink": "http://sdo.gsfc.nasa.gov/",
+		"note": "List created with node dirwalk.js --url http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/ --filepattern '_512_HMIBC.jpg'",
+		"dir": "http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/",
+		"fullfiles": "catalogs/lists/SDO_HMIBC_2015_01.json"
+	},	
+	{
+		"id": "SDO/HMIIC/2015/01",
+		"title": "SDO/HMIIC/2015/01",
+		"aboutlink": "http://sdo.gsfc.nasa.gov/",
+		"note": "List created with node dirwalk.js --url http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/ --filepattern '_512_HMIIC.jpg'",
+		"dir": "http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/",
+		"fullfiles": "catalogs/lists/SDO_HMIIC_2015_01.json"
+	},
+	{
+		"id": "SDO//HMIIF/2015/01",
+		"title": "SDO/HMIIF/2015/01",
+		"aboutlink": "http://sdo.gsfc.nasa.gov/",
+		"note": "List created with node dirwalk.js --url http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/ --filepattern '_512_HMIIF.jpg'",
+		"dir": "http://sdo.gsfc.nasa.gov/assets/img/browse/2015/01/",
+		"fullfiles": "catalogs/lists/SDO_HMIIF_2015_01.json"
+	}
+]

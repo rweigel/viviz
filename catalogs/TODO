@@ -1,58 +1,65 @@
+{
+        "id": "OMNI/OMNI2",
+        "title": "",
+        "sprintf": "file:///home/weigel/figures/OMNI/OMNI2/allyears/OMNI_OMNI2_spectrogram_%02d.png",
+        "start": "1",
+        "stop": "54"
+},
+{
+        "id": "OMNI/OMNI2/ByYear",
+        "title": "",
+        "sprintf": "file:///home/weigel/figures/OMNI/OMNI2/yearlys/OMNI_OMNI2_spectrogram_%d_40.png.png",
+        "start": "1963",
+        "stop": "2011"
+},
+
+http://sd-www.jhuapl.edu/datashop/filefinder/v2/VSPO_display_finders.txt
+
+http://sd-www.jhuapl.edu/datashop/filefinder/v2
+
 http://gong.nso.edu/
+
+http://farside.nso.edu/
 
 ftp://ftp.ngdc.noaa.gov/STP/space-weather/solar-data/solar-imagery/composites/full-sun-drawings/boulder/1972/12/
 
-Start caching Full images when idle.
-
-http://viviz.org/gen?
-
-If ID collision, create virbo.org/images-1, virbo.org/images-2, etc.
-
-catalogs-posted.xml
-catalogs.xml
 http://soi.stanford.edu/cgi-bin/mdi/gif_dir.pl?Directory=/synoptic/gifs/magnetograms/1997/05
 
---
-convert make progressive png
---
+http://swhv.oma.be/user_manual/#images_sun
+
+http://jsoc.stanford.edu/data/farside/Composite_Seismic_Magnetic_Maps/
+
 http://sd-www.jhuapl.edu/AMPTE/summary_images/summary_image_files/1984/DOY229/hpce01_4229p.gif
---
+
 http://satdat.ngdc.noaa.gov/sxi/archive/browse/goes12/2001/08/13/SXI_20010813_163410387_AA_12.PNG
---
+
 Multiple PDF files!
 http://satdat.ngdc.noaa.gov/sem/goes/data/plots/1986/GOES-198601.pdf
+
 More plots:
 http://satdat.ngdc.noaa.gov/sem/goes/data/
---
+
 Need to read response html page to get image name.
 http://www.intermagnet.org/apps/plt/dataplot_e.php?plot_type=b_plot
---
+
 Need to read response to get image name.
 http://supermag.jhuapl.edu/script/plot.png.mag?cli=guest+20070101+00%3A00+24%3A00+-s+BLC+-delta%20none+-baseline+all+-imfgsm+-ncol+ff333333+-smlcol+ff666666+-smucol+ff999999+-auto
---
+
 Link not working?
 http://www.srl.caltech.edu/ACE/ASC/browse/view_browse_data.html
---
-http://sd-www.jhuapl.edu/datashop/filefinder/v2/VSPO_display_finders.txt
-http://sd-www.jhuapl.edu/datashop/filefinder/v2
----
-http://satdat.ngdc.noaa.gov/sem/poes/data/plots/maps/png/
-Need to write a urltemplate | grep
-2001-2005-06 days06
-2005-07-2009 days04
-2009-03-2012-07 days03
+
+
 http://satdat.ngdc.noaa.gov/sem/poes/data/plots/maps/mpg/
----
-Junk
-http://www.swpc.noaa.gov/tiger/
----
+
 http://superdarn.jhuapl.edu/legacy/shfvec/index.html?795628800.north
----
+
 http://cdaweb.gsfc.nasa.gov/cgi-bin/gif_walk
 
-if (title =~ / KP /) {ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/}
-if (title =~ / MP /) {ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/other/documentation/THEMIS_DescriptionMCD.pdf}
-if (title =~ / Orbit /) {ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/}
+ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/
+
+ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/other/documentation/THEMIS_DescriptionMCD.pdf}
+
+ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/orbits/}
 
 ACE Daily KP Survey, ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/ace/pdf/ac_200707600-200707700.pdf
 ACE 27 Day KP Survey,ftp://cdaweb.gsfc.nasa.gov/pub/pre_generated_plots/kp_plots/ace27/pdf/ac27_crn2054_200706300-200709000.pdf

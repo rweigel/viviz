@@ -1,0 +1,992 @@
+[
+    {
+        "id": "OpenGGCM/Bz/early",
+        "title": "&nbsp;&nbsp;Bz: OpenGGCM early",
+        "about": "http://ccmc.gsfc.nasa.gov/results/viewrun.php?domain=GM&runnumber=Brian_Curtis_042213_1",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "thumbdir": "http://imgconvert.org/convert.cgi?width=200&in=http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/Bz/late",
+        "title": "&nbsp;&nbsp;Bz: OpenGGCM late",
+        "about": "http://ccmc.gsfc.nasa.gov/results/viewrun.php?domain=GM&runnumber=Brian_Curtis_042213_5",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/OpenGGCM/Bz",
+        "title": "&nbsp;&nbsp;&Delta;Bz: OpenGGCM early - OpenGGCM late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "BATSRUS/Bz/early",
+        "title": "&nbsp;&nbsp;Bz: BATS-R-US early",
+        "about": "http://ccmc.gsfc.nasa.gov/results/viewrun.php?domain=GM&runnumber=Brian_Curtis_042213_2",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Bz/late",
+        "title": "&nbsp;&nbsp;Bz: BATS-R-US late",
+        "about": "http://ccmc.gsfc.nasa.gov/results/viewrun.php?domain=GM&runnumber=Brian_Curtis_042213_6",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/BATSRUS/Bz",
+        "title": "&nbsp;&nbsp;&Delta;Bz: BATS-R-US early - BATS-R-US late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "SWMF/Bz/early",
+        "title": "&nbsp;&nbsp;Bz: SWMF early",
+        "about": "http://ccmc.gsfc.nasa.gov/results/viewrun.php?domain=GM&runnumber=Brian_Curtis_042213_3",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Bz/late",
+        "title": "&nbsp;&nbsp;Bz: SWMF late",
+        "about": "http://ccmc.gsfc.nasa.gov/results/viewrun.php?domain=GM&runnumber=Brian_Curtis_042213_7",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/SWMF/Bz",
+        "title": "&nbsp;&nbsp;&Delta;Bz SWMF early - SWMF late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "OpenGGCM/Jx/early",
+        "title": "&nbsp;&nbsp;Jx: OpenGGCM early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/Jx/late",
+        "title": "&nbsp;&nbsp;Jx: OpenGGCM late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/OpenGGCM/Jx",
+        "title": "&nbsp;&nbsp;&Delta;Jx: OpenGGCM early - OpenGGCM late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "BATSRUS/Jx/early",
+        "title": "&nbsp;&nbsp;Jx: BATS-R-US early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Jx/late",
+        "title": "&nbsp;&nbsp;Jx: BATS-R-US late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/BATSRUS/Jx",
+        "title": "&nbsp;&nbsp;&Delta;Jx: BATS-R-US early - BATS-R-US late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "SWMF/Jx/early",
+        "title": "&nbsp;&nbsp;Jx: SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Jx/late",
+        "title": "&nbsp;&nbsp;Jx: SWMF late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/SWMF/Jx",
+        "title": "&nbsp;&nbsp;&Delta;Jx SWMF early - SWMF late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "OpenGGCM/rho/early",
+        "title": "&nbsp;&nbsp;&rho;: OpenGGCM early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/rho/late",
+        "title": "&nbsp;&nbsp;&rho;: OpenGGCM late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/OpenGGCM/rho",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: OpenGGCM early - OpenGGCM late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "BATSRUS/rho/early",
+        "title": "&nbsp;&nbsp;&rho;: BATS-R-US early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/rho/late",
+        "title": "&nbsp;&nbsp;&rho;: BATS-R-US late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/BATSRUS/rho",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: BATS-R-US early - BATS-R-US late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "SWMF/rho/early",
+        "title": "&nbsp;&nbsp;&rho;: SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/rho/late",
+        "title": "&nbsp;&nbsp;&rho;: SWMF late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/SWMF/rho",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: SWMF early - SWMF late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "OpenGGCM/Ux/early",
+        "title": "&nbsp;&nbsp;Ux: OpenGGCM early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_1/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/Ux/late",
+        "title": "&nbsp;&nbsp;Ux: OpenGGCM late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_5/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/OpenGGCM/Ux",
+        "title": "&nbsp;&nbsp;&Delta;Ux: OpenGGCM early - OpenGGCM late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/0_3/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "BATSRUS/Ux/early",
+        "title": "&nbsp;&nbsp;Ux: BATS-R-US early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_2/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Ux/late",
+        "title": "&nbsp;&nbsp;Ux: BATS-R-US late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_6/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "Precondition/BATSRUS/Ux",
+        "title": "&nbsp;&nbsp;&Delta;Ux: BATS-R-US early - BATS-R-US late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/1_4/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "SWMF/Ux/early",
+        "title": "&nbsp;&nbsp;Ux: SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_3/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Ux/late",
+        "title": "&nbsp;&nbsp;Ux: SWMF late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042213_7/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Precondition/SWMF/Ux",
+        "title": "&nbsp;&nbsp;&Delta;Ux: SWMF early - SWMF late",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Precondition/Results/2_5/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "31"
+    },
+    {
+        "id": "null",
+        "title": "Inter-Model Comparison: Ave. Conditions",
+        "about": "",
+        "fulldir": "",
+        "thumbdir": "",
+        "sprintf": "",
+        "sprintfstart": "",
+        "sprintfstop": ""
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Bz",
+        "title": "&nbsp;&nbsp;&Delta;Bz OpenGGCM early - BATS-R-US early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Bz",
+        "title": "&nbsp;&nbsp;&Delta;Bz OpenGGCM early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Bz",
+        "title": "&nbsp;&nbsp;&Delta;Bz BATS-R-US early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Jx",
+        "title": "&nbsp;&nbsp;&Delta;Jx OpenGGCM early - BATS-R-US early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Jx",
+        "title": "&nbsp;&nbsp;&Delta;Jx OpenGGCM early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Jx",
+        "title": "&nbsp;&nbsp;&Delta;Jx BATS-R-US early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/rho",
+        "title": "&nbsp;&nbsp;&Delta;&rho; OpenGGCM early - BATS-R-US early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/rho",
+        "title": "&nbsp;&nbsp;&Delta;&rho; OpenGGCM early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/rho",
+        "title": "&nbsp;&nbsp;&Delta;&rho; BATS-R-US early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Ux",
+        "title": "&nbsp;&nbsp;&Delta;Ux OpenGGCM early - BATS-R-US early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_1/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Ux",
+        "title": "&nbsp;&nbsp; &Delta;Ux OpenGGCM early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/0_2/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Ux",
+        "title": "&nbsp;&nbsp;&Delta;Ux BATS-R-US early - SWMF early",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/1_2/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "null",
+        "title": "Inter-Model Comparison: High Compression",
+        "about": "",
+        "fulldir": "",
+        "thumbdir": "",
+        "sprintf": "",
+        "sprintfstart": "",
+        "sprintfstop": ""
+    },
+    {
+        "id": "OpenGGCM/Bz/HighCompression",
+        "title": "&nbsp;&nbsp;Bz: OpenGGCM High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Bz/HighCompression",
+        "title": "&nbsp;&nbsp;Bz: BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Bz/HighCompression",
+        "title": "&nbsp;&nbsp;Bz: SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Bz/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Bz: OpenGGCM - BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Bz/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Bz: OpenGGCM - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Bz/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Bz: BATS-R-US - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/Jx/HighCompression",
+        "title": "&nbsp;&nbsp;Jx: OpenGGCM High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Jx/HighCompression",
+        "title": "&nbsp;&nbsp;Jx: BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Jx/HighCompression",
+        "title": "&nbsp;&nbsp;Jx: SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Jx/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Jx: OpenGGCM - BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Jx/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Jx: OpenGGCM - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Jx/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Jx: BATS-R-US - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/rho/HighCompression",
+        "title": "&nbsp;&nbsp;&rho;: OpenGGCM High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/rho/HighCompression",
+        "title": "&nbsp;&nbsp;&rho;: BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/rho/HighCompression",
+        "title": "&nbsp;&nbsp;&rho;: SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/rho/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: OpenGGCM - BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/rho/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: OpenGGCM - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/rho/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: BATS-R-US - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/Ux/HighCompression",
+        "title": "&nbsp;&nbsp;Ux: OpenGGCM High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_1/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Ux/HighCompression",
+        "title": "&nbsp;&nbsp;Ux: BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_2/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Ux/HighCompression",
+        "title": "&nbsp;&nbsp;Ux: SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_3/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Ux/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Ux: OpenGGCM - BATS-R-US High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_9/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Ux/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Ux: OpenGGCM - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/8_10/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Ux/HighCompression",
+        "title": "&nbsp;&nbsp;&Delta;Ux: BATS-R-US - SWMF High Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/9_10/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "null",
+        "title": "Inter-Model Comparison: Low Compression",
+        "about": "",
+        "fulldir": "",
+        "thumbdir": "",
+        "sprintf": "",
+        "sprintfstart": "",
+        "sprintfstop": ""
+    },
+    {
+        "id": "OpenGGCM/Bz/LowCompression",
+        "title": "&nbsp;&nbsp;Bz: OpenGGCM Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Bz/LowCompression",
+        "title": "&nbsp;&nbsp;Bz: BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Bz/LowCompression",
+        "title": "&nbsp;&nbsp;Bz: SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "sprintf": "Bz_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Bz/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Bz: OpenGGCM - BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Bz/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Bz: OpenGGCM - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Bz/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Bz: BATS-R-US - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "sprintf": "Bz_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/Jx/LowCompression",
+        "title": "&nbsp;&nbsp;Jx: OpenGGCM Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Jx/LowCompression",
+        "title": "&nbsp;&nbsp;Jx: BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Jx/LowCompression",
+        "title": "&nbsp;&nbsp;Jx: SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "sprintf": "Jx_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Jx/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Jx: OpenGGCM - BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Jx/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Jx: OpenGGCM - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Jx/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Jx: BATS-R-US - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "sprintf": "Jx_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/rho/LowCompression",
+        "title": "&nbsp;&nbsp;&rho;: OpenGGCM Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/rho/LowCompression",
+        "title": "&nbsp;&nbsp;&rho;: BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/rho/LowCompression",
+        "title": "&nbsp;&nbsp;&rho;: SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "sprintf": "rho_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/rho/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: OpenGGCM - BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/rho/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: OpenGGCM - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/rho/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;&rho;: BATS-R-US - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "sprintf": "rho_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "OpenGGCM/Ux/LowCompression",
+        "title": "&nbsp;&nbsp;Ux: OpenGGCM Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_5/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "BATSRUS/Ux/LowCompression",
+        "title": "&nbsp;&nbsp;Ux: BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_6/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "SWMF/Ux/LowCompression",
+        "title": "&nbsp;&nbsp;Ux: SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Brian_Curtis_042413_7/Results/images/",
+        "sprintf": "Ux_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-BATSRUS/Ux/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Ux: OpenGGCM - BATS-R-US Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_13/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/OpenGGCM-SWMF/Ux/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Ux: OpenGGCM - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/12_14/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    },
+    {
+        "id": "Difference/BATSRUS-SWMF/Ux/LowCompression",
+        "title": "&nbsp;&nbsp;&Delta;Ux: BATS-R-US - SWMF Low Compression",
+        "about": "",
+        "fulldir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "thumbdir": "http://mag.gmu.edu/aurora/~bcurtis/ImageBackups/Results/13_14/images/",
+        "sprintf": "Ux_Diff_File%d.png",
+        "sprintfstart": "0",
+        "sprintfstop": "71"
+    }
+]

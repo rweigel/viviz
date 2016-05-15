@@ -20,65 +20,6 @@
 		"thumbdir": "http://www-pw.physics.uiowa.edu/plasma-wave/crres/GIF/thumbs400/"
 	},
 	{
-		"id": "EIT/Synoptic/171A/sinlat",
-		"title": "EIT/Synoptic/171A/sinlat",
-		"titleshort": "EIT/Synoptic/171A/sinlat",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"fulldir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
-		"id": "EIT/Synoptic/171A",
-		"title": "EIT/Synoptic/171A",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"171A/CR\" + sprintf('%4d',i) + \"_171A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"fulldir": "http://sun.stanford.edu/synop/EIT/",
-		"thumbdir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
-		"id": "EIT/Synoptic/195A/sinlat",
-		"title": "EIT/Synoptic/195A/sinlat",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"dir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
-		"id": "EIT/Synoptic/195A",
-		"title": "EIT/Synoptic/195A",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"195A/CR\" + sprintf('%4d',i) + \"_195A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"dir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
-		"id": "EIT/Synoptic/284A/sinlat",
-		"title": "EIT/Synoptic/284A/sinlat",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"dir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
-		"id": "EIT/Synoptic/284A",
-		"title": "EIT/Synoptic/284A",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"284A/CR\" + sprintf('%4d',i) + \"_284A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"fulldir": "http://sun.stanford.edu/synop/EIT/",
-		"thumbdir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
-		"id": "EIT/Synoptic/304A/sinlat",
-		"title": "EIT/Synoptic/304A/sinlat",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_sinlat_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_sinlat_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_sinlat_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"dir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
-		"id": "EIT/Synoptic/304A",
-		"title": "EIT/Synoptic/304A",
-		"aboutlink": "http://sun.stanford.edu/synop/EIT/",
-		"script": "\n\t\t\t\n\t\t\t\t(function () {\n\t\t\t\t\tfiles = new Array();\n\t\t\t\t\tvar k = 0;\n\t\t\t\t\tfor (i = 1911; i < 1976; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_a.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1976; i < 1990; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_b.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\tfor (i = 1990; i < 2056; i++) {\n\t\t\t\t\t\tfiles[k] = [\"304A/CR\" + sprintf('%4d',i) + \"_304A_c.gif\",i];\n\t\t\t\t\t\tk = k+1;\n\t\t\t\t\t}\n\t\t\t\t\treturn files;\t\t\t\t\t\t\n\t\t\t\t})\n\t\t\t\n\t\t",
-		"dir": "http://sun.stanford.edu/synop/EIT/"
-	},
-	{
 		"id": "Kyoto/DstFinal",
 		"title": "Kyoto/DstFinal",
 		"aboutlink": "http://wdc.kugi.kyoto-u.ac.jp/dst_final/",
@@ -1013,70 +954,11 @@
 		"thumbdir": "thumb/"
 	},
 	{
-		"id": "SDO/20131017/HMIIC",
-		"title": "SDO/20131017/HMIIC",
-		"titleshort": "SDO/20131017/HMIIC",
-		"files": "",
-		"about": "http://sdo.gsfc.nasa.gov/",
-		"aboutlink": "http://sdo.gsfc.nasa.gov/assets/img/browse/",
-		"script": "",
-		"strftime": "",
-		"strftimestart": "",
-		"strftimestop": "",
-		"sprintf": "",
-		"sprintfstart": "",
-		"sprintfstop": "",
-		"fullfiles": "http://localhost:8001/lsremote.js?pattern=256_HMIIC.jpg&recursive=false&dir=http://sdo.gsfc.nasa.gov/assets/img/browse/2013/10/17/",
-		"fulldir": "",
-		"thumbdir": "",
-		"thumbfiles": "http://localhost:8001/lsremote.js?pattern=512_HMIIC.jpg&recursive=false&dir=http://sdo.gsfc.nasa.gov/assets/img/browse/2013/10/17/",
-		"fullpreprocess": "",
-		"thumbpreprocess": "",
-		"fullpostprocess": "",
-		"thumbpostprocess": ""
-	},
-	{
-		"id": "SOHO/Sunspots",
-		"title": "",
-		"aboutlink": "http://sohowww.nascom.nasa.gov/sunspots/",
-		"strftime": "$Y$m$d.jpg",
-		"fulldir": "http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/sunspots_1024_",
-		"thumbdir": "http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/sunspots_512_",
-		"thumbWidth": 256,
-		"start": "2006-01-20",
-		"stop": "P0D"
-	},
-	{
-		"id": "SOHO/HMI",
-		"title": "",
-		"aboutlink": "http://soi.stanford.edu/magnetic/index5.html",
-		"fullstrftime": "$Y/$m/$d/$Y$m$d_000000_M_1k.jpg",
-		"thumbstrftime": "$Y/$m/$d/$Y$m$d_000000_M_256.jpg",
-		"dir": "http://jsoc.stanford.edu/data/hmi/images/",
-		"start": "2010-05-01",
-		"stop": "P0D"
-	},
-	{
-		"id": "Storms/ALL",
-		"title": "Storms/ALL",
-		"titleshort": "Storms/ALL",
-		"files": "xml/Storms-filelist-long.json",
-		"about": "",
-		"aboutlink": "",
-		"script": "",
-		"strftime": "",
-		"strftimestart": "",
-		"strftimestop": "",
-		"sprintf": "",
-		"sprintfstart": "",
-		"sprintfstop": "",
-		"fullfiles": "",
-		"fulldir": "http://aurora.gmu.edu/viviz/demo/images/storms/",
-		"thumbdir": "http://aurora.gmu.edu/viviz/demo/images/storms/",
-		"thumbfiles": "",
-		"fullpreprocess": "http://aurora.gmu.edu/imgconvert/cgi-bin/convert.cgi?width=600&in=",
-		"thumbpreprocess": "",
-		"fullpostprocess": "",
-		"thumbpostprocess": ""
+		"id": "Storms",
+		"title": "Storms",
+		"files": "catalog/lists/Storms.json",
+		"aboutlink": "http://dx.doi.org/10.1029/2009JA015062",
+		"fulldir": "http://virbo.org/ftp/users/weigel/2009_JGR/figures/full/",
+		"thumbdir": "http://virbo.org/ftp/users/weigel2009_JGR/figures/thumb/"
 	}
 ]
