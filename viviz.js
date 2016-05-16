@@ -303,8 +303,12 @@ function viviz(VIVIZ, mode) {
 		var errmsg = ""
 
 		console.log("cataloginfo(): Hash is not a gallery configuration.");
-		var url = VIVIZ["config"]["catalogs"][selected]["URL"]
-
+		if (VIVIZ["config"]["catalogs"][selected]) {
+			url = VIVIZ["config"]["catalogs"][selected]["URL"] || ""
+		} else {
+			url = qo["catalog"]
+		}
+		
 		if (url !== "" && !VIVIZ["catalogs"][selected]) {
 			if (location.href.match(/^file/)) {
 				console.log("cataloginfo(): Application cannot read " 
@@ -858,9 +862,12 @@ function viviz(VIVIZ, mode) {
 
 			var msg = ""
 			if (location.href.indexOf("file") == 0) {
-				msg = "Configuration variable <code>fullfiles</code> cannot be an external file (local or remote) unless this page is loaded from a web server."
-				console.log(msg)
-				return msg
+				if (URLFiles.indexOf("\n") == -1) {
+					// If gallery has one image in file list without trailing newline, this error will throw when it should not.
+					msg = "Configuration variable <code>fullfiles</code> cannot be an external file (local or remote) unless this page is loaded from a web server."
+					console.log(msg)
+					return msg
+				}
 			}
 
 			// fullfiles is a string with newlines

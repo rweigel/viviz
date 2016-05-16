@@ -8,6 +8,7 @@ VIVIZ["config"] =
 	{
 		"catalogs": {
 			"Test": {"URL": ""},
+			"User": {"URL": ""},
 			"ViRBO": {"URL": "catalogs/virbo.json"},
 			"Solar": {"URL": "catalogs/solar.json"}
 		},
