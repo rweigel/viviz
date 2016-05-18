@@ -3,6 +3,7 @@ jQuery.extend({
 	  parseQueryString: function (def) {
 		var nvpair = {}
 		var qs = def || window.location.hash.replace(/^#/,'')
+		qs = qs.replace(/^&/,"")
 		var pairs = qs.split('&')
 		if (pairs[0] === "") return nvpair
 		$.each(pairs, function(i, v){

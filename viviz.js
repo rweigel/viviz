@@ -104,6 +104,7 @@ function viviz(VIVIZ, mode) {
 
 	// Read and parse query string
 	var qs = $.parseQueryString()
+
 	if (typeof(mode) === "undefined") {
 		if (qs["mode"]) {
 			if (qs["mode"] === "gallery") {
@@ -308,7 +309,7 @@ function viviz(VIVIZ, mode) {
 		} else {
 			url = qo["catalog"]
 		}
-		
+
 		if (url !== "" && !VIVIZ["catalogs"][selected]) {
 			if (location.href.match(/^file/)) {
 				console.log("cataloginfo(): Application cannot read " 
@@ -1556,7 +1557,6 @@ function viviz(VIVIZ, mode) {
 
 			$(wrapper + ' #dropdowns #regexp').unbind('change')
 			$(wrapper + ' #dropdowns #regexp').change(function () {
-				//alert('here')
 				//viviz.triggerreset = false;
 				updatehash('regexp')
 			})
