@@ -279,6 +279,9 @@ select #gallery {
 #t-container .active {
     border: 2px solid blue;
 }
+#t-container .initial {
+    border: 2px solid yellow;
+}
 #t-container .loading.thumbbrowse {
     border: 2px solid gray;
 }

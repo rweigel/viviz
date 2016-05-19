@@ -3000,13 +3000,22 @@ function viviz(VIVIZ, mode) {
 
 							// Set thumbWidth and Height in VIVIZ["galleries"][galleryid]
 							var tmp = setWH(this, 'thumb')
-
 							tw = VIVIZ["galleries"][galleryid]["thumbWidth"]
 							th = VIVIZ["galleries"][galleryid]["thumbHeight"]
 
 							setslider()
 						} else {
 							console.log("thumb.setthumbs.loadone(): Thumbnail loaded.")
+						}
+							//$(this).click().click()
+						qs = $.parseQueryString()
+						if (qs["number"]) {
+							var initial = parseInt(qs["number"]);
+						}
+						if (i == initial-1) {
+							//xx
+							$(window).scrollTo(this,0)
+							$(this).addClass('initial')
 						}
 
 						$(this).width(newWidth || tw)
