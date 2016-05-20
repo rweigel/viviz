@@ -57,7 +57,7 @@ def viviz(files):
     # File must be named user.json.
     print "Saving ../catalogs/user.json"
     file = open("../catalogs/user.json", "w")
-    file.write('VIVIZ["catalogs"]["User"] =' + dataj)
+    file.write('VIVIZ["catalogs"]["User"] = ' + dataj)
     file.close()
     
     cwd = os.path.dirname(os.path.realpath(__file__))
@@ -67,7 +67,7 @@ def viviz(files):
 
 if __name__=='__main__':
     from pylab import *
-    N = 1
+    N = 101
     Ci = linspace(0,1,N)
     n = 0;
     files = []

@@ -1,4 +1,3 @@
-
 //////////////////////////////
 // Begin configuation.
 // URL string is empty for Test because gallery information
