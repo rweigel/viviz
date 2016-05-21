@@ -67,7 +67,7 @@ def viviz(files):
 
 if __name__=='__main__':
     from pylab import *
-    N = 101
+    N = 1
     Ci = linspace(0,1,N)
     n = 0;
     files = []
