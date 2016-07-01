@@ -933,7 +933,7 @@
 		"dir": "http://virbo.org/ftp/RBSP/RPS/images/",
 		"strftime": "rpsa_L21min_Energy_Spectrogram_TimeSeries_$Y$m$d.png",
 		"start": "2014-01-01",
-		"stop": "2014-02-01"
+		"stop": "2014-02-28"
 	},
 	{
 		"id": "RBSP/B/RPS",
@@ -941,7 +941,7 @@
 		"dir": "http://virbo.org/ftp/RBSP/RPS/images/",
 		"strftime": "rpsb_L21min_Energy_Spectrogram_TimeSeries_$Y$m$d.png",
 		"start": "2014-01-01",
-		"stop": "2014-02-01"
+		"stop": "2014-02-28"
 	},
 	{
 		"id": "SAMPEX/ELO/PT1H",
