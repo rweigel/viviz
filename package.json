@@ -1,21 +1,26 @@
 {
-	"name": "viviz",
+	"name": "Viviz-0.2.0",
   	"version": "0.2.0",
+  	"main": "viviz-server.js",
 	"dependencies":
 	{
 		"xml2js"   : "*",
 		"request"  : "2.9.203",
-		"express"  : "4.1.0",
-		"serve-index": "*",
+		"express"  : "3.1.0",
 		"mkdirp"   : "*",
 		"readdirp" : "*",
 		"cli-color": "*",
-	    "yargs"    : "*",
-	    "vulcanize": "*",
-	    "dirwalk": "https://github.com/rweigel/dirwalk/tarball/master"
+	    "yargs"    : "*"
 	},
 	"scripts": {
 		"start": "node viviz-server.js --port 8002",
-		"build": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm;"
+		"build-inline": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm;",
+		"build-darwin": "npm install --only=development; electron-packager . --platform=darwin --arch=x64 --overwrite --icon=css/Icons8-Windows-8-Data-Grid.icns",
+		"build-darwin-test": "node_modules/electron/dist/Electron.app/Contents/MacOS/Electron viviz-server"
+	},
+	"devDependencies": {
+		"electron": "^1.4.1",
+		"electron-packager":"*",
+	    "vulcanize": "*"
 	}
 }
