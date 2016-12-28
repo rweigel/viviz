@@ -201,9 +201,8 @@ app.get('/embed.htm', function (req, res) {
 	res.end();
 });
 
-const electron = require('electron')
 
-if (electron.app) {
+if (fs.existsSync(__dirname + "/node_modules/electron")) {
 	// If launched using Electron binary
 	server.listen(port, startapp);
 } else {
@@ -212,6 +211,7 @@ if (electron.app) {
 console.log((new Date()).toISOString() + " [viviz] Listening on port " + port)
 
 function startapp() {
+	const electron = require('electron')
 
 	const eapp = electron.app
 	// Module to create native browser window.
