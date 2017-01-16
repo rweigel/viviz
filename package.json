@@ -1,5 +1,5 @@
 {
-	"name": "Viviz-0.2.0",
+	"name": "viviz",
   	"version": "0.2.0",
   	"main": "viviz-server.js",
 	"dependencies":
