@@ -201,13 +201,13 @@ app.get('/embed.htm', function (req, res) {
 	res.end();
 });
 
-
-if (fs.existsSync(__dirname + "/node_modules/electron")) {
-	// If launched using Electron binary
-	server.listen(port, startapp);
+if (process.versions['electron']) {
+		// If launched using Electron binary
+		server.listen(port, startapp);
 } else {
 	server.listen(port);
 }
+
 console.log((new Date()).toISOString() + " [viviz] Listening on port " + port)
 
 function startapp() {
