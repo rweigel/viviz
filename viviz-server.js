@@ -108,8 +108,7 @@ app.get('/', function (req, res) {
 		res.write(fs.readFileSync(__dirname+"/"+file,"utf8"));
 		res.end();
 	} else {
-		options = parseOptions(req);
-		dirl();
+		res.send(400);
 	}
 });
 
@@ -118,6 +117,10 @@ console.log((new Date()).toISOString() + " [viviz] Listening on port " + port)
 
 function parseOptions(req) {
 	var options = {};
+
+	if (!req.query || !req.body) {
+		return options;
+	}
     
 	function s2b(str) {if (str === "true") {return true} else {return false}}
 	function s2i(str) {return parseInt(str)}
@@ -125,17 +128,4 @@ function parseOptions(req) {
 	options.dir = req.query.dir || req.body.dir || "";
 	
 	return options;
-}
-
-function dirl() {
-	url = "http://localhost:9999/images/full/"
-	//url = "http://mag.gmu.edu/tmp/";
-	var opts = {id: 0, url: url, dirpattern: "", filepattern: "", debug: true, debugcache: false};
-	dirwalk(opts, function (error, list, flat, nested) {
-		if (error) {
-			console.log(error);
-		} else {
-			console.log(list);
-		}
-	})
 }
