@@ -148,7 +148,7 @@ app.get('/proxy', function (req, res) {
 	        res.end("No URL found")
 	    }
 
-		console.log("Proxy request from " + remoteAddress + " for " + u)
+		console.log("Proxy request from " + remoteAddress + ": " + u)
 		if (req.headers['x-forwarded-for']) {
 			console.log("x-forwarded-for = " + req.headers['x-forwarded-for'])
 			console.log("remoteAddress = " + req.connection.remoteAddress)
@@ -192,7 +192,6 @@ app.get('/catalogs', function (req, res) {
 })
 
 app.get('/', function (req, res) {
-<<<<<<< HEAD
 	if (Object.keys(req.query).length === 0) {
 		res.setHeader('content-type','text/html');
 		res.write(fs.readFileSync(__dirname+"/"+file,"utf8"));
@@ -200,11 +199,6 @@ app.get('/', function (req, res) {
 	} else {
 		res.send(400);
 	}
-=======
-	res.setHeader('content-type','text/html');
-	res.write(fs.readFileSync(__dirname+"/"+file,"utf8"));
-	res.end();
->>>>>>> 37691df4651d32c096f3a472b38cc838b8bc5229
 });
 app.get('/embed.htm', function (req, res) {
 	res.write(fs.readFileSync(__dirname+"/embed.htm","utf8"));
@@ -220,7 +214,6 @@ if (process.versions['electron']) {
 
 console.log((new Date()).toISOString() + " [viviz] Listening on port " + port)
 
-<<<<<<< HEAD
 function parseOptions(req) {
 	var options = {};
 
@@ -235,7 +228,7 @@ function parseOptions(req) {
 	
 	return options;
 }
-=======
+
 function startapp() {
 	const electron = require('electron')
 
@@ -263,4 +256,3 @@ function startapp() {
 
 	eapp.on('ready', createWindow)
 }
->>>>>>> 37691df4651d32c096f3a472b38cc838b8bc5229
