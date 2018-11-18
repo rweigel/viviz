@@ -430,7 +430,7 @@ function viviz(VIVIZ, mode) {
 			GALLERIES["Titleshort"] = "-Galleries-"
 			GALLERIES["Class"]      = "updatelglobal"
 			GALLERIES["Values"]     = new Array()
-
+			console.log(selected)
 			VIVIZ["catalogs"][selected]
 				.forEach(
 					function (el,i) {
@@ -1003,6 +1003,8 @@ function viviz(VIVIZ, mode) {
 	}
 
 	function resetdom() {
+		//window.location.reload();
+
 		console.log("resetdom(): Called.")
 
 		// Make copy of catalogwrapper and place in thumb container.
@@ -1784,6 +1786,16 @@ function viviz(VIVIZ, mode) {
 
 		setthumbs()
 
+		var resizeTimer;
+		$(window).on('resize', function(e) {
+
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(function() {
+				settabledims();        
+		  	}, 250);
+
+		});
+
 		// Actions to take when a thumbnail is clicked.
 		function setthumbbindings() {
 
@@ -2035,134 +2047,55 @@ function viviz(VIVIZ, mode) {
 			// http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
 			$.scrollbarWidth=function(){var a,b,c;if(c===undefined){a=$('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');b=a.children();c=b.innerWidth()-b.height(99).innerWidth();a.remove()}return c};
 
-			if (el) {
-				// Don't get border-width by querying DOM for first thumbnail, because it may not be in 
-				// DOM already.  Instead, get it from function parameter.
-				var bw = 2*parseFloat($(el).css('border-width').replace("px",''));
-				if (isNaN(bw)) {
-					bw = $(wrapper + ' #gallerythumbframe img:first')
-							.outerWidth() - VIVIZ["galleries"][galleryid]["thumbWidth"];
-				}
-				if  (isNaN(bw)) {
-					bw = 2;
-				}
-				var w = VIVIZ["galleries"][galleryid]["thumbWidth"] 
-							+ $.scrollbarWidth() + bw + 8; // Why 8?
-				console.log("gallery.settabledims(): Setting #gallerythumbframe "
-					+ "width to = " + w + ".");
-				$(wrapper + ' #gallerythumbframe').width(w);
-			}
+			// Set height of thumb strip to be full height of image.
+			$(wrapper + ' #gallerythumbframe')
+				.height(VIVIZ["galleries"][galleryid]["fullHeight"]);
 
-			console.log("gallery.settabledims(): Full img natural dimensions = " 
-				+ VIVIZ["galleries"][galleryid]["fullNaturalWidth"] 
-				+ "x" 
-				+ VIVIZ["galleries"][galleryid]["fullNaturalHeight"])
-			console.log("gallery.settabledims(): Full img scaled dimensions  = " 
-				+ VIVIZ["galleries"][galleryid]["fullWidth"] 
-				+ "x" 
-				+ VIVIZ["galleries"][galleryid]["fullHeight"])
+			$('#filename').hide()
+
+			tw = VIVIZ["galleries"][galleryid]["thumbWidth"];
+			th = VIVIZ["galleries"][galleryid]["thumbHeight"];
+			fw = VIVIZ["galleries"][galleryid]["fullWidth"];
+			fh = VIVIZ["galleries"][galleryid]["fullHeight"];
+
+			// hc = height of controls
+			hc  = $("#gallery1").outerHeight()-$("#fullframe img").outerHeight(); // height of controls
+			ho  = $("#gallery1").outerHeight() - hc;
+			hf  = $(window).height() - hc;
+			wo  = $("#gallery1").outerWidth();
+			wf  = $(window).width();
+
+			console.log('height: wrapper = ' + ho + '; window = ' + hf);
+			console.log('width:  wrapper = ' + wo + '; window = ' + wf);
+
+			sfh = hf/ho; // height scale factor
+			sfw = wf/wo; // width scale factor
+
+			console.log('height: win/body = ' + sfh);
+			console.log('width:  win/body = ' + sfw);
+
+			sf = Math.min(sfw,sfh);
 			
-			// Set heights of thumbframe and fullframe. When first image is loaded, fullNaturalHeight is set.
-			if (VIVIZ["galleries"][galleryid]["fullHeight"] > 0) {
-				
-				// Aspect ratio;
-				var ar = VIVIZ["galleries"][galleryid]["fullWidth"]/VIVIZ["galleries"][galleryid]["fullHeight"];
-				console.log("gallery.settabledims(): Full image aspect ratio = " + ar + ".");
+			// d = extra space for border
+			d = $('#gallerythumbframe img').outerWidth() - $('#gallerythumbframe img').width();
+			
+			$('#gallerythumbframe').height(sf*fh);
+			$('#gallerythumbframe').width(sf*tw+2*d);
 
-				// Force outer frame to stay the same size after image is
-				// removed and before new image is inserted.
-				//$(wrapper + " #fullframe").width($(wrapper + " #fullframe").width())
-				
-				// Set height of thumb strip to be full height of image.
-				$(wrapper + ' #gallerythumbframe')
-					.height(VIVIZ["galleries"][galleryid]["fullHeight"]);
+			$('#fullframe img').width(Math.floor(sf*fw));
+			$('#fullframe img').height(Math.floor(sf*fh));
 
-				// For iframe?
-				//enclosure = $(wrapper).parents().filter('body')[0];
-				enclosure = "body";
+			$('#gallerythumbframe img').width(Math.floor(sf*tw));
+			$('#gallerythumbframe img').height(Math.floor(sf*th));
 
-				console.log("gallery.settabledims(): Window dimensions: " 
-					+ $(window).width() + "x" + $(window).height())
-				console.log("gallery.settabledims(): Client dimensions: " 
-					+ document.documentElement.clientWidth 
-					+ "x"
-					+ document.documentElement.clientHeight + ".");
-				console.log("gallery.settabledims(): Document dimensions: "
-					+  $(document).width() + "x" + $(document).height())
-				console.log("gallery.settabledims(): Body element dimensions: " 
-					+ $(enclosure).width() + "x" + $(enclosure).height() + ".")
+			VIVIZ["galleries"][galleryid]["thumbWidth"] = Math.floor(sf*tw);
+			VIVIZ["galleries"][galleryid]["thumbHeight"] = Math.floor(sf*th);
+			VIVIZ["galleries"][galleryid]["fullWidth"] = Math.floor(sf*fw);
+			VIVIZ["galleries"][galleryid]["fullHeight"] = Math.floor(sf*fh);
 
-				// Amount height needs to shrink so that no scrollbar appears.
-				dh = $(enclosure).height() - $(window).height();
-
-				if (dh > 0) {
-					console.log("gallery.settabledims(): Amount full image "
-						+ "height needs to decrease so that no scrollbar appears: dh = "+dh);
-					console.log("gallery.settabledims(): Reducing height "
-						+ "and width of #fullframe img.")
-					var newh = VIVIZ["galleries"][galleryid]["fullHeight"]-dh
-					$(wrapper + ' #fullframe img').height(newh)
-					$(wrapper + ' #fullframe img').width(newh*ar)
-					console.log("gallery.settabledims(): Shrinking height "
-						+ "of #gallerythumbframe to "+(VIVIZ["galleries"][galleryid]["fullHeight"]-dh + "."));
-					$(wrapper + ' #gallerythumbframe').height(newh);
-					VIVIZ["galleries"][galleryid]['fullHeight'] = newh;
-					VIVIZ["galleries"][galleryid]['fullWidth']  = newh*ar
-				} else {
-					console.log("gallery.settabledims(): Full image does not "
-						+ " need to be reduced in height to prevent vertical scrollbar.")
-					console.log("gallery.settabledims(): Setting " 
-						+ "#gallerythumbframe height to be height of full "
-						+ "image = " + VIVIZ["galleries"][galleryid]["fullHeight"] + ".");
-					$(wrapper + " #gallerythumbframe")
-						.height(VIVIZ["galleries"][galleryid]["fullHeight"]);
-				}
-
-				console.log("gallery.settabledims(): Window dimensions: " 
-					+ $(window).width() + "x" + $(window).height())
-				console.log("gallery.settabledims(): Client dimensions: " 
-					+ document.documentElement.clientWidth 
-					+ "x" 
-					+ document.documentElement.clientHeight)
-				console.log("gallery.settabledims(): Document dimensions: "
-					+  $(document).width() + "x" + $(document).height())
-				console.log("gallery.settabledims(): Enclosing Body dimensions: " 
-					+ $(enclosure).width() + "x" + $(enclosure).height())
-
-				dw = $(document).width()-$(enclosure).width();
-
-				if (dw > 0) {
-					console.log("gallery.settabledims(): Document width is larger than body element width by dw = " + dw + ".");
-					if (dh > 0) {
-						newh = VIVIZ["galleries"][galleryid]["fullNaturalHeight"] - dh - dw/ar;
-					} else {
-						newh = VIVIZ["galleries"][galleryid]["fullNaturalHeight"]- dw/ar;
-					}
-					newh = newh - 1;
-					console.log("gallery.settabledims(): Shrinking height of #fullframe img and #gallerythumbframe because dw > 0.  New height: " + newh + ".");
-					$(wrapper + ' #fullframe img').height(newh)
-					$(wrapper + ' #gallerythumbframe').height(newh);
-					$(wrapper + ' #fullframe img').width(newh*ar)
-					VIVIZ["galleries"][galleryid]['fullHeight'] = newh;
-					VIVIZ["galleries"][galleryid]['fullWidth'] = newh*ar;
-				} 
-
-
-				dh = $(enclosure).height() - $(window).height() - parseInt($(wrapper).css('margin-top'))
-				if (dh < 0) {
-					console.log("gallery.settabledims(): Setting top margin to "
-									+ (-dh/2) + ".");
-					$(wrapper).css('margin-top', -dh/2);
-				}	
-			} else {
-				console.log("gallery.settabledims(): Full image height unknown "
-					+ " but thumb height known.");
-				var a = 4*VIVIZ["galleries"][galleryid]["thumbHeight"];
-				console.log("gallery.settabledims(): Setting thumb frame height "
-					+ " to be 4*(first thumb outer height) = " + a + ".");
-				console.log("gallery.settabledims(): First thumbnail height = " 
-					+ $('#gallerythumbframe img').eq(0).height());
-				$(wrapper + ' #gallerythumbframe').height("" + a);
+			if (!settabledims.called) {
+				settabledims.called = 1;
+				settabledims();
 			}
 
 			if (VIVIZ["galleries"][galleryid]["play"] || VIVIZ["play"]) {
@@ -2767,7 +2700,12 @@ function viviz(VIVIZ, mode) {
 			// Overlay on click.
 			$(wrapper + ' .thumbbrowse').click(function () {
 				console.log("Thumb click event.")
-
+				// When switching form gallery to thumb view
+				// last active image in gallery is given a class
+				// of initial so it is easier to see where one left off.
+				// This removes the class when an image is clicked in 
+				// the thumbnail view.
+				$(wrapper + " .initial").removeClass('initial');
 				setthumbbindings.active = this
 				$(setthumbbindings.active).addClass("active")
 				lt = positionoverlay(this)
@@ -2828,7 +2766,9 @@ function viviz(VIVIZ, mode) {
 
 		function setthumbs() {
 
-			window.onresize = function onresize() {console.log("thumb.setthumbs(): Zoom or resize event.")}
+			window.onresize = function onresize() {
+				console.log("thumb.setthumbs(): Zoom or resize event.");
+			}
 			
 			thumb.Nset = 0; 	// # Set in DOM.
 			thumb.Nloaded = 0;  // # For which load event triggered.
@@ -2885,10 +2825,11 @@ function viviz(VIVIZ, mode) {
 			}
 
 			function setslider() {
+
 				$( "#slider1" ).change(function () {
 					console.log("thumb.setslider(): Slider value changed to " + this.value)
 					newWidth = tw*this.value/4;
-					newHeight = th*this.value/4
+					newHeight = th*this.value/4;
 					$('.thumbbrowse').css('width', newWidth);
 					$('.thumbbrowse').css('height', newHeight);
 					setpadding()
@@ -2898,57 +2839,73 @@ function viviz(VIVIZ, mode) {
 
 			function setpadding(el) {
 
+				return;
+
+				// This never worked well, so 
+				// #thumbbrowseframe text-align:center was used.
+				// If one tries, I would use text-align:center
+				// then calculate the b = (offset of the first image
+				// relative to left of #thumbbrowseframe), change
+				// #text-align:left, and then 
+				// $("#thumbbrowseframe").css('padding-left', Math.floor(b/2))
+				// The problem with the following is that the calculated
+				// images per row does not always match what is actually
+				// in browser. I don't know why.
+
 				// Set left padding so that block of images is centered.
-				// Could avoid this call if text-alignment:center was used,
+				// Could avoid this call if #thumbbrowseframe text-align:center was used,
 				// except that if there is an un-filled last row
 				// the images will be centered instead of left-justified.
-				if (el) {
+				img_ow = $(wrapper + " #thumbbrowseframe img:first").outerWidth()
+				if (!img_ow) {
 					// Use actual element instead of querying DOM.
 					// (Element may be loaded, setpadding() called, but
 					// element may not yet be in DOM.)
-					x = $(el).outerWidth()
+					img_ow = $(el).outerWidth()
+					console.log("thumb.setpadding(): Image " + $(el).attr('id') + " outer width = " + img_ow)
 				} else {
-					x = $(wrapper + " #thumbbrowseframe img:first").outerWidth()
+					console.log("thumb.setpadding(): First image outer width = " + img_ow)
 				}
-				var iw = $("#thumbbrowseframe").innerWidth()
+				var frame_iw = $("#thumbbrowseframe").innerWidth()
+				console.log("thumb.setpadding(): Inner width of thumbbrowseframe = " + frame_iw)
 
 				// Only modify padding of #thumbbrowseframe if first image
 				// size has changed or innerWidth has changed.  
-				if (typeof(setpadding.lastx) !== 'undefined') {
-					// Only modify padding if iw has changed.
-					if (setpadding.lastiw == iw)  {
-						return
+				if (typeof(setpadding.last_frame_ow) !== 'undefined') {
+					// Only modify padding if iw or x has changed.
+					if ((setpadding.last_frame_ow == frame_ow) && (setpadding.last_img_ow == img_ow)) {
+						return;
 					}
 				}
 
-				console.log("thumb.setpadding(): First image outer width = " + x)
-				console.log("thumb.setpadding(): Inner width of thumbbrowseframe = " + iw)
-
-				setpadding.lastx = x
-				setpadding.lastiw = iw
+				setpadding.last_frame_iw = frame_iw;
+				setpadding.last_img_ow = img_ow;
 
 				var pl = parseInt($("#thumbbrowseframe").css('padding-left').replace('px',""))
 				var pr = parseInt($("#thumbbrowseframe").css('padding-right').replace('px',""))
 
 				console.log("thumb.setpadding(): padding-left/right of thumbbrowseframe = " + pl + "/" + pr)
 
-				a = (iw)/x
-				console.log("thumb.setpadding(): Max # images per row = " + a);
-				b = (a - Math.floor(a))*x
-
+				a = frame_iw/img_ow
+				console.log("thumb.setpadding(): Expected # images per row = " + Math.floor(a));
+				b = (a - Math.floor(a))*img_ow
+				if (b < 1) {
+					// Sometimes # images per row calculated does not match actual.
+					// This only sometimes fixes this.
+					//console.log("thumb.setpadding(): Probable # images per row = " + Math.floor(a)-1);
+					//b = img_ow
+				}
 
 				if (INFOjs.length < Math.floor(a)) {
 					// # of images is less than number of images possible per row.
 					console.log('thumb.setpadding(): Total # images in row ' + INFOjs.length)
-					b =  iw - x*INFOjs.length
+					b =  frame_iw - img_ow*INFOjs.length
 				}
 
 				console.log("thumb.setpadding(): Total extra space = " + b);
 				console.log("thumb.setpadding(): Setting left padding to " +  Math.floor(b/2))
 				$("#thumbbrowseframe").css('padding-left', Math.floor(b/2))
 
-				if (el)
-					fillrow(el)
 			}
 			
 			function loadone(i) {
@@ -2979,9 +2936,12 @@ function viviz(VIVIZ, mode) {
 						$(this).width(newWidth || tw || 100);
 						$(this).height(newHeight || th || 100);
 						if (th) {
-							$('.loaderror').css('height',th);
+							//$('.loaderror').css('height',th);
 						}
-						if (tw > 0 && !fixed) {fixed = true;$(".loaderror").width(tw)}
+						if (tw > 0 && !fixed) {
+							//fixed = true;
+							//$(".loaderror").width(tw);
+						}
 					})
 					.load(function () {
 
@@ -3018,8 +2978,11 @@ function viviz(VIVIZ, mode) {
 							$(this).addClass('initial')
 						}
 
-						$(this).width(newWidth || tw)
-						$(this).height(newHeight || th)
+						w = Math.floor(newWidth) || tw
+						h = Math.floor(newHeight) || th
+						console.log('thumb.loadone(): Setting width and height of ' + $(this).attr('id') + ' to ' + w + ' and ' + h );
+						$(this).width(w)
+						$(this).height(h)
 						
 						setpadding(this)
 						loadmore()
@@ -3037,9 +3000,20 @@ function viviz(VIVIZ, mode) {
 				if (loadone.first) {
 					console.log("thumb.setthumbs.fillrow(): #thumbbrowseframe "
 						+ "innerWidth:" + $("#thumbbrowseframe").innerWidth())
+					img_ow = $(wrapper + " #thumbbrowseframe img:first").outerWidth()
 					console.log("thumb.setthumbs.fillrow(): #thumbbrowseframe "
-						+ "img:first outerWidth:" + $(el).outerWidth())
+						+ "img:first outerWidth:" + img_ow)
 
+					if (!img_ow) {
+						// Use actual element instead of querying DOM.
+						// (Element may be loaded, setpadding() called, but
+						// element may not yet be in DOM.)
+						img_ow = $(el).outerWidth()
+						console.log("thumb.fillrow(): Image " + $(el).attr('id') + " outer width = " + img_ow)
+					} else {
+						console.log("thumb.fillrow(): First image outer width = " + img_ow)
+					}
+		
 					var a = Math.floor($("#thumbbrowseframe").innerWidth()/$(el).outerWidth())
 
 					console.log("thumb.setthumbs.fillrow(): Images per row = " + a)

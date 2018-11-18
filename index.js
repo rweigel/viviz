@@ -410,14 +410,14 @@ VIVIZ["catalogs"]["Test"] =
 if (typeof(location) !== "undefined") { // Browser
 	if (location.hostname === "localhost") {
 		//console.log("---index.js: hostname is localhost.  Using test catalog.")
-		VIVIZ["config"]["defaultCatalog"] = "ViRBO";
+		VIVIZ["config"]["defaultCatalog"] = "Test";
 	}
 	if (location.hostname === "viviz.org") {
 		//console.log("index.js: hostname is localhost.  Using test catalog.")
-		//delete VIVIZ["config"]["catalog"]
+		VIVIZ["config"]["defaultCatalog"] = "Test";
 	}
 	if (location.hostname === "virbo.org") {
-		console.log("index.js: hostname is virbo.org.  Using ViRBO catalog.")
+	        //console.log("index.js: hostname is virbo.org.  Using ViRBO catalog.")
 		VIVIZ["config"]["defaultCatalog"] = "ViRBO";
 	}
 	//if (location.href.indexOf("file:") != 0) {
@@ -434,7 +434,7 @@ if (typeof(location) !== "undefined") { // Browser
 				}
 			}
 		}
-
+                
 		for (var j in VIVIZ["catalogs"]["Test"]) {
 			var fulldir = VIVIZ["catalogs"]["Test"][j].fulldir;
 			if (fulldir) {
