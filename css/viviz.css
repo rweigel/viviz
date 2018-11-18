@@ -273,6 +273,9 @@ select #gallery {
 	z-index:0;
 }
 
+#t-container #thumbbrowseframe {
+  text-align:center  
+}
 #t-container .loaderror {
     border: 2px solid red;
 }
@@ -280,17 +283,19 @@ select #gallery {
     border: 2px solid blue;
 }
 #t-container .initial {
-    border: 2px solid yellow;
+    border: 2px solid blue;
 }
 #t-container .loading.thumbbrowse {
     border: 2px solid gray;
 }
+
 .thumbbrowse {
 	border:solid white 2px;
 	vertical-align:top;
 	margin:auto;
 	z-index:1;
 }
+
 .thumbbrowsetop {
 	filter:alpha(opacity=90);
 	opacity:0.90;

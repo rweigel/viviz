@@ -2071,8 +2071,8 @@ function viviz(VIVIZ, mode) {
 			sfh = hf/ho; // height scale factor
 			sfw = wf/wo; // width scale factor
 
-			console.log('height: win/body = ' + sfh;
-			console.log('width:  win/body = ' + sfw;
+			console.log('height: win/body = ' + sfh);
+			console.log('width:  win/body = ' + sfw);
 
 			sf = Math.min(sfw,sfh);
 			
