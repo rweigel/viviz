@@ -20,7 +20,7 @@ var argv    = require('yargs')
 
 eval(require('fs').readFileSync(__dirname + '/index.js', 'utf8'))
 
-var port = VIVIZ["port"] || 8002;
+var port = argv.port || 8002;
 var file = argv.file;
 
 // Log to console with color
