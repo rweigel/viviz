@@ -1194,7 +1194,7 @@ function viviz(VIVIZ, mode) {
 					$(wrapper+' #info')
 						.html(
 							JSON.stringify(VIVIZ["catalogs"][val], null, 4)
-							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;").replace(/&param/g,"&amp;param")
 						)
 					$(wrapper + ' #infoclose').css("visibility","visible")
 					$(wrapper + ' #info').css('overflow','auto');
@@ -1223,7 +1223,7 @@ function viviz(VIVIZ, mode) {
 					$(wrapper+' #info')
 						.html(JSON.stringify(
 							GALLERYINFO["json"], null, 4)
-							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;").replace(/&param/g,"&amp;param")
 							)
 					//$(wrapper + ' #galleryopen').css("visibility","hidden")
 					$(wrapper + ' #infoclose').css("visibility","visible")
@@ -1247,7 +1247,7 @@ function viviz(VIVIZ, mode) {
 					$(wrapper+' #info')
 						.html(
 							JSON.stringify(VIVIZ["config"], null, 4)
-							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;")
+							.replace(/\n/g,"<br/>").replace(/ /g,"&nbsp;").replace(/&param/g,"&amp;param")
 						)
 					$(wrapper + ' #infoclose').css("visibility","visible")
 					$(wrapper + ' #info').css('overflow','auto');
@@ -1774,7 +1774,7 @@ function viviz(VIVIZ, mode) {
 
 		var qs = $.parseQueryString();
 		if (parseInt(qs["number"]) > INFOrs.length) {
-			warning("Number of images in subset < number in query string.  Resetting number to 1.", true, Infinity);
+			warning("Number of images in subset < number in query string.  Resetting number to 1.", true, 1000);
 			VIVIZ["galleries"][galleryid]["defaultFirstImage"] = 1;
 			updatehash("number",1)
 		}
@@ -2340,9 +2340,15 @@ function viviz(VIVIZ, mode) {
 			var tic = new Date().getTime()
 			var slowwarn = false
 			var imgstr = '<img class="gallerythumbbrowse lazyload"/>';
+			
+			Nx = 1+Math.min(Nshown + Nlazy, INFOjs.length);
+			if (Nshown + Nlazy > INFOjs.length) {
+				Nlazy = INFOjs.length - (Nshown + Nlazy) + 2;
+				console.log("---" + Nshown + " " + Nlazy + " " + VIVIZ["galleries"][galleryid].fullfiles.length + " " + INFOjs.length)
+			}
 
 			if (direction === "both" || direction === "forward") {
-				for (var j = Nshown + 1; j < Nshown + Nlazy; j++) {
+				for (var j = Nshown + 1; j < Nx; j++) {
 					if ($("#gallerythumbframe img[id='" + (j) + "']").length > 0) {
 						console.log("gallery.loadmore(): Found thumb with id = " 
 										+ (j) + " in DOM.  Not appending.");
