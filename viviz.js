@@ -1921,6 +1921,7 @@ function viviz(VIVIZ, mode) {
 				console.log("gallery.firstimage(): Called."
 								+ " Setting thumb #" + (f) + " into DOM.");
 
+				$("#status").text("Requesting images.")
 				if (f == VIVIZ["galleries"][galleryid]["defaultFirstImage"]) {
 					setcontrolbindings();
 				}
