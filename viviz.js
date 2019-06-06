@@ -2055,7 +2055,7 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' #gallerythumbframe')
 				.height(VIVIZ["galleries"][galleryid]["fullHeight"]);
 
-			$('#filename').hide()
+			//$('#filename').hide()
 
 			tw = VIVIZ["galleries"][galleryid]["thumbWidth"];
 			th = VIVIZ["galleries"][galleryid]["thumbHeight"];
