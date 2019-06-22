@@ -362,6 +362,15 @@ VIVIZ["catalogs"]["Test"] =
 				"title": "ID specified as URL in index.js."
 			},
 			{
+				"id": "scalar",
+				"title": "Long URLs",
+				"strftime": "time.min=$Y-$m-$dT00:00:00.000Z&time.max=$Y-$m-$dT23:59:59.999Z",
+				"start": "1970-01-02",
+				"stop": "2016-12-30",
+				"fulldir": "http://hapi-server.org/plot?server=http://hapi-server.org/servers/TestData/hapi&id=dataset1&parameters=scalar&usecache=true&format=png&",
+				"thumbdir": "http://hapi-server.org/plot?server=http://hapi-server.org/servers/TestData/hapi&id=dataset1&parameters=scalar&usecache=true&format=png&dpi=72&"
+			},
+			{
 				"id": "dir=http%3A%2F%2Flocalhost%3A8004%2F%3Fcatalog%3DIMAGE%2FPT1M%26dataset%3DABK%26parameters%3DX%26return%3Dimage%26format%3Dpng%26type%3Dtimeseries%26style%3D0%26image.width%3D800%26image.height%3D200&strftime=%26start%3D-P1D%26stop%3D%24Y-%24m-%24d&start=2014-09-01&stop=2014-09-30",
 				"title": "ID specified as URL with encoded values in index.js (28 images)."
 			},

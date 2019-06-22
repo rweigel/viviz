@@ -1571,22 +1571,22 @@ function viviz(VIVIZ, mode) {
 
 	function setWH(el, type) {
 
-		console.log("setWH(): Computing width and height of " 
-			+ type + " images based on image size and options.")
+		console.log("gallery.setWH(): Computing width and height of " 
+					+ type + " images based on image size and options.")
 
 		var ar = el.naturalWidth/el.naturalHeight
 
 		// Compute pixels if given fractions.
 		if (VIVIZ["galleries"][galleryid][type+"Width"]) {
 			if (VIVIZ["galleries"][galleryid][type+"Width"] <= 1.0) {
-				console.log('setWH(): Converting ' + type + 'Width to pixels.')
+				console.log('gallery.setWH(): Converting ' + type + 'Width to pixels.')
 				VIVIZ["galleries"][galleryid][type+"Width"] = 
 					el.naturalWidth*VIVIZ["galleries"][galleryid][type+"Width"]
 			}
 		}
 		if (VIVIZ["galleries"][galleryid][type+"Height"]) {
 			if (VIVIZ["galleries"][galleryid][type+"Height"] <= 1.0) {
-				console.log('setWH(): Converting ' + type + 'Height to pixels.')
+				console.log('gallery.setWH(): Converting ' + type + 'Height to pixels.')
 				VIVIZ["galleries"][galleryid][type+"Height"] = 
 					el.naturalHeight*VIVIZ["galleries"][galleryid][type+"Height"]
 			}
@@ -2056,7 +2056,7 @@ function viviz(VIVIZ, mode) {
 			$(wrapper + ' #gallerythumbframe')
 				.height(VIVIZ["galleries"][galleryid]["fullHeight"]);
 
-			//$('#filename').hide()
+			//$('#filename').hide();
 
 			tw = VIVIZ["galleries"][galleryid]["thumbWidth"];
 			th = VIVIZ["galleries"][galleryid]["thumbHeight"];
@@ -2064,20 +2064,20 @@ function viviz(VIVIZ, mode) {
 			fh = VIVIZ["galleries"][galleryid]["fullHeight"];
 
 			// hc = height of controls
-			hc  = $("#gallery1").outerHeight()-$("#fullframe img").outerHeight(); // height of controls
+			hc  = $("#gallery1").outerHeight()-$("#fullframe img").outerHeight();
 			ho  = $("#gallery1").outerHeight() - hc;
 			hf  = $(window).height() - hc;
 			wo  = $("#gallery1").outerWidth();
 			wf  = $(window).width();
 
-			console.log('height: wrapper = ' + ho + '; window = ' + hf);
-			console.log('width:  wrapper = ' + wo + '; window = ' + wf);
+			console.log('gallery.settabledims(): height: wrapper = ' + ho + '; window = ' + hf);
+			console.log('gallery.settabledims(): width:  wrapper = ' + wo + '; window = ' + wf);
 
 			sfh = hf/ho; // height scale factor
 			sfw = wf/wo; // width scale factor
 
-			console.log('height: win/body = ' + sfh);
-			console.log('width:  win/body = ' + sfw);
+			console.log('gallery.settabledims(): height: win/body = ' + sfh);
+			console.log('gallery.settabledims(): width:  win/body = ' + sfw);
 
 			sf = Math.min(sfw,sfh);
 			
@@ -2092,6 +2092,8 @@ function viviz(VIVIZ, mode) {
 
 			$('#gallerythumbframe img').width(Math.floor(sf*tw));
 			$('#gallerythumbframe img').height(Math.floor(sf*th));
+
+			setfilename();
 
 			VIVIZ["galleries"][galleryid]["thumbWidth"] = Math.floor(sf*tw);
 			VIVIZ["galleries"][galleryid]["thumbHeight"] = Math.floor(sf*th);
@@ -2109,6 +2111,57 @@ function viviz(VIVIZ, mode) {
 
 			if (callback) {
 				callback();
+			}
+		}
+
+		function setfilename(id) {
+			
+			console.log("gallery.loadfull.setfilename(): Called.");
+
+			if (arguments.length == 0) {
+				var fname = $(wrapper + " #filename").text();
+			} else {
+				var href = VIVIZ["galleries"][galleryid]["fulldirdecoded"] 
+							+ INFOjs[parseInt(id-1)]["FullFile"];
+				var fname = INFOjs[parseInt(id-1)]["FullFile"];
+				if (fname.match("&")) {					
+					fname = href; // URL is not a file but a URL with query parameters.
+				}					
+			}
+
+			$(wrapper + " #filename").html('');				
+			
+			var wo = $(wrapper).width()
+
+			$(wrapper + " #filename").append("<a>");
+			$(wrapper + " #filename a")
+				.attr('href', href)
+				.css("white-space", "nowrap")
+				.html(fname.replace(/&param/g,"&amp;param"));
+
+			var wx = $(wrapper + " #filename").width();
+
+			while (wx > wo) {
+
+				console.log("gallery.loadfull.setfilename(): " + wrapper + " width " + wo);
+				console.log("gallery.loadfull.setfilename(): " + "#filename div width " + wx);
+
+				// r = fraction to remove. 0.9 is to account for nonuniformity of charcter width.
+				r = 0.9*wo/wx
+				console.log("gallery.loadfull.setfilename(): " 
+							+ "Reduction factor: 0.9*" + wo + "/" + wx)
+				l = fname.length
+				nr = l-r*l
+				console.log("gallery.loadfull.setfilename(): "
+							+ "Number of characters to remove: " + nr)
+				c = l/2
+				console.log("gallery.loadfull.setfilename(): Center value: " + c);
+				console.log("gallery.loadfull.setfilename(): " + "# of chars to keep: " + nr);
+				fnamer = fname.substr(0,Math.floor(c-nr/2)) 
+							+ " ... " 
+							+ fname.substr(Math.ceil(c+nr/2),l)
+				$(wrapper + " #filename a").text(fnamer);
+				wx = $(wrapper + " #filename").width();
 			}
 		}
 
@@ -2264,54 +2317,6 @@ function viviz(VIVIZ, mode) {
 				}
 			}
 
-			function setfilename(id) {
-				console.log("gallery.loadfull.setfilename(): Called.");
-				$(wrapper + " #filename").html('');
-				var wo = $(wrapper).width()
-
-				$(wrapper + " #filename").append("<a>");
-				var href = VIVIZ["galleries"][galleryid]["fulldirdecoded"] 
-							+ INFOjs[parseInt(id-1)]["FullFile"];
-				var fname = INFOjs[parseInt(id-1)]["FullFile"];
-				if (fname.match("&")) {
-					// URL is not a file but a URL with query parameters.
-					fname = href;
-				}
-				
-				$(wrapper + " #filename a")
-					.attr('href', href)
-					.css("white-space", "nowrap")
-					.html(fname);
-
-				var wx = $(wrapper + " #filename").width();
-
-				while (wx > wo) {
-
-					console.log("gallery.loadfull.setfilename(): "
-									+ wrapper + " width "+wo)
-					console.log("gallery.loadfull.setfilename(): "
-									+ "#filename div width "+wx)
-
-					// Fraction to remove. 0.9 is to account for nonuniformity
-					// of charcter width.
-					r = 0.9*wo/wx
-					console.log("gallery.loadfull.setfilename(): " 
-								+ "Reduction factor: 0.9*" + wo + "/" + wx)
-					l = fname.length
-					nr = l-r*l
-					console.log("gallery.loadfull.setfilename(): "
-								+ "Number of characters to remove: " + nr)
-					c = l/2
-					console.log("gallery.loadfull.setfilename(): Center value: " + c)
-					console.log("gallery.loadfull.setfilename(): "
-							+ "Number of characters to keep: " + nr)
-					fnamer = fname.substr(0,Math.floor(c-nr/2)) 
-								+ " ... " 
-								+ fname.substr(Math.ceil(c+nr/2),l)
-					$(wrapper + " #filename a").text(fnamer);
-					wx = $(wrapper + " #filename").width();
-				}
-			}
 		}
 
 		function loadmore(direction, Nshown, scrollEvent) {
@@ -2668,7 +2673,11 @@ function viviz(VIVIZ, mode) {
 			function setfilename(jq) {
 				$(wrapper + " #filename").html('');
 				$(wrapper + " #filename").append("<a>");
-				$(wrapper + " #filename a").attr('href',jq.src.replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir'])).text(jq.src.replace(GALLERYINFO['thumbdir'],""));
+				$(wrapper + " #filename a")
+										.attr('href',jq.src.replace(GALLERYINFO['thumbdir'],GALLERYINFO['fulldir']))
+										.text(jq.src.replace(GALLERYINFO['thumbdir'].replace(/&param/g,"&amp;param"),""))
+										
+
 			}
 
 			function positionoverlay(el) {
