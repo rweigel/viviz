@@ -6,12 +6,12 @@ Software for browsing, sorting, and subsetting pre-generated images in a web bro
 
 **Table of Contents**
 
-1. [Useage Examples](#Useage_Examples)
+1. [Usage Examples](#Usage_Examples)
 2. [Installation](#Installation)
 3. [Configuration](#Configuration)
 4. [Performance Hints](#Performance_Hints)
 
-<a name="Useage_Examples"></a>
+<a name="Usage_Examples"></a>
 # 1. Use Examples
 
 If remote images are available from an HTTP address and their URLs follow a simple pattern, the images can be viewed by appending a configuration string to the URL `http://viviz.org/#`.  For alternative usage, including for viewing local images, see the [Installation](#Installation) section below.
