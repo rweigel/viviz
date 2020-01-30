@@ -268,5 +268,5 @@ See the configuration for [http://viviz.org/#catalog=Test&id=Demo/05d](http://vi
 
 * Use thumbnail images.
 * Use interlaced PNG encoding for large full-sized images.
-* Use [PNGQuant](https://pngquant.org/ PNGQuant) for compressing PNG images.
+* Use [https://pngquant.org/](PNGQuant) for compressing PNG images.
 * In gallery mode, the configuration variable `lazyLoadMax` controls how many thumbnail images are pre-loaded before and after the active thumbnail.  It also controls how many full-sized images are pre-loaded.  For small values of the parameter `frameRate`, which controls the frame rate (in milliseconds) when the play button is pressed, you may need to increase `lazyLoadMax` if blank images are shown as the animation progresses.
