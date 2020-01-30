@@ -20,7 +20,7 @@ If remote images are available from an HTTP address and their URLs follow a simp
 
 The directory [http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/](http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/) contains image files with a pattern that can be represented by a [template](http://tsds.org/uri_templates_v1) `sunspots_512_$Y$m$d.jpg`. Browse them using ViViz using the link
 
-[http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots\_earth/&strftime=sunspots\_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D]([http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D])
+[http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots\_earth/&strftime=sunspots\_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D](http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&strftime=sunspots_512_$Y$m$d.jpg&start=2006-01-20&stop=P0D)
 
 The parameters passed to ViViz are
 
