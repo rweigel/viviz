@@ -196,7 +196,7 @@ If any of the above parameters (excluding `start` and `stop`) applies only to ei
 <a name="Script"></a>
 ## 3.3 Scripts
 
-Any Javascript code that can run in a browser is allowed and the functions [sprintf](https://github.com/alexei/sprintf.js sprintf) and [strftime](http://hacks.bluesmoon.info/strftime/strftime ) are available.
+Any Javascript code that can run in a browser is allowed and the functions [https://github.com/alexei/sprintf.js](sprintf) and [strftime](http://hacks.bluesmoon.info/strftime/strftime ) are available.
 
 The following three examples create the same list of four files. Note that `%` instead of `$` must be used when using `sprintf` or `strftime` in a script.  For the non-script parameters above, `$` must be used.
 
