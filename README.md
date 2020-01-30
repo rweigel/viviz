@@ -59,8 +59,9 @@ If images to view are not accessible from a public web page, installation is req
 
 or
 
-**B.** on the command line, enter 
+**B.** On the command line, enter 
 `curl http://viviz.org/index-inline.htm > /tmp/index.htm`
+
 and then open `file:///tmp/index.htm` in a web browser.
 
 The drop-down menus can be modified by editing the configuration near the top of `index.htm` with a text editor.
@@ -84,7 +85,7 @@ If you have a directory of images and would like to allow them to be easily brow
 </html>
 ```
 
-When selected, the user would be redirected to 
+When a user enters the directory URL into a brwser address bar, they are redirected to 
 
 [http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots\_earth/&fullstrftime=sunspots_1024_$Y$m$d](http://viviz.org/#dir=http://sohowww.nascom.nasa.gov/data/synoptic/sunspots_earth/&fullstrftime=sunspots_1024_$Y$m$d)
 
