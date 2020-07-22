@@ -20,7 +20,7 @@
 		"build-darwin-test": "node_modules/electron/dist/Electron.app/Contents/MacOS/Electron viviz-server"
 	},
 	"devDependencies": {
-		"electron": "^1.4.1",
+		"electron": "^7.2.4",
 		"electron-packager": "*"
 	}
 }
