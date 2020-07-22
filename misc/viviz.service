@@ -1,0 +1,23 @@
+# Not tested
+[Unit]
+Description=ViViz
+Documentation=https://github.com/rweigel/viviz
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=[Unit]
+Description=https://github.com/rweigel/viviz
+Documentation=https://github.com/rweigel/viviz
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/viviz
+ExecStart=/home/ubuntu/.nvm/versions/node/v8.17.0/bin/node viviz-server.js --port 8002 2>&1 | logger -t viviz
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

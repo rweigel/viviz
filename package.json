@@ -13,6 +13,7 @@
 	},
 	"scripts": {
 		"start": "node viviz-server.js --port 8002",
+		"server": "nohup forever viviz-server.js --port 8002",
 		"build-inline-note": "Problems installing vulcanize with node 6.9.2 and npm 3.10.9, so removed from deps and devDeps.",
 		"build-inline": "vulcanize --exclude \"catalogs/\" --inline-scripts --inline-css index.htm | grep -v \"domain && iframe_doc.write\" > index-inline.htm;",
 		"build-darwin": "npm install --development; electron-packager . --platform=darwin --arch=x64 --overwrite --icon=css/Icons8-Windows-8-Data-Grid.icns",
