@@ -4,7 +4,7 @@
 	"main": "viviz-server.js",
 	"dependencies": {
 		"xml2js": "*",
-		"request": "2.9.203",
+		"request": "2.47.0",
 		"express": "3.1.0",
 		"mkdirp": "*",
 		"readdirp": "*",
