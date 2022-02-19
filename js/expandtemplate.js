@@ -2,7 +2,8 @@ function expandtemplate(options,callback) {
 
 	// Interpretation of timeRanges:
 	// DATE/DURATION       = DATE/now+DURATION
-	// DURATION/DATE       = DATE+DURATION/DATE
+	// DURATION/DATE       = DATE/DATE+DURATION
+	// -DURATION/DATE      = DATE-DURATION/DATE
 	// DATE1/DATE2         = DATE1/DATE2
 	// DURATION1/DURATION2 = now+DURATION1/now+DURATION2
 
@@ -44,47 +45,6 @@ function expandtemplate(options,callback) {
 		}
 	}
 
-	if (Start.length == 13) {
-		Start = Start + ":00:00";
-		if (debug) {
-			if (log) {
-				logstr = logstr + "," + "Start: " + Start;
-			} else {
-				console.log("Start: " + Start);
-			}
-		}
-	}
-	if (Stop.length == 13) {
-		Stop = Stop + ":00:00";
-		if (debug) {
-			if (log) {
-				logstr = logstr + "," + "Stop: " + Stop;
-			} else {
-				console.log("Stop: " + Stop);
-			}
-		}
-	}
-	if (Start.length == 16) {
-		Start = Start + ":00";
-		if (debug) {
-			if (log) {
-				logstr = logstr + "," + "Start: " + Start;
-			} else {
-				console.log("Start: " + Start);
-			}
-		}
-	}
-	if (Stop.length == 16) {
-		Stop = Stop + ":00";
-		if (debug) {
-			if (log) {
-				logstr = logstr + "," + "Stop: " + Stop;
-			} else {
-				console.log("Stop: " + Stop);
-			}
-		}
-	}
-
 	var tic = new Date().getTime();
 	var files   = [];
 	var headers = [];
@@ -116,37 +76,65 @@ function expandtemplate(options,callback) {
 	}
 
 	if (type == "strftime") {
-			
-		// Allow identifiers to be a %.  Internally use $.
-		template = template.replace(/\%/g,'$');
 
+		// YYYY-MM-DD is interpreted as GMT in later versions of Javascript Date()
+		// YYYY-MM-DDT00 is interpreted as having local timezone.
+		Start = pad(Start);
+		Stop = pad(Stop);
+
+		//Start = Start + "Z";
+		//Stop = Stop + "Z";
 		// Date('YYYY-MM-DDZ') is invalid in Firefox. Remove all trailing Zs
 		// (internally dates and times are always assumed to be UT)
 		Start = Start.replace(/Z$/,''); 
 		Stop = Stop.replace(/Z$/,'');
+			
+		// Allow identifiers to be a %.  Internally use $.
+		template = template.replace(/\%/g,'$');
+
 
 		if (debug) {
 			if (log) {
 				//logstr = logstr + ",template = " + template;
 			} else {
 				console.log("template = " + template);
+				console.log("Start:");
+				console.log(Start);
+				console.log("Stop:");
+				console.log(Stop);
+				console.log("Step:");
+				console.log(Step);
 			}
 		}
 
-		// Remove time zone ("GMT") with substr(0,25).		
-		var START_dateinc  = new Date(new Date(Start).toUTCString().substr(0, 25));
-		var START_dateoff  = new Date(new Date(Start).toUTCString().substr(0, 25));
-		var STOP_date      = new Date(new Date(Stop).toUTCString().substr(0, 25));
+		// Remove time zone ("GMT") with substr(0,25).
+		var START_dateinc = new Date(new Date(Start).toUTCString().substr(0, 25));
+		var START_dateoff = new Date(new Date(Start).toUTCString().substr(0, 25));
+		var STOP_date     = new Date(new Date(Stop).toUTCString().substr(0, 25));
 
+		var START_dateinc = new Date(Start);
+		var START_dateoff = new Date(Start);
+		var STOP_date     = new Date(Stop);
+		
 		if (debug) {
 			if (log) {
 				logstr = logstr + "," + "START_dateinc: " + START_dateinc;
-				logstr = logstr + "," + "STOP_dateoff:  " + START_dateoff;
-				logstr = logstr + "," + "Step:  " + Step;
+				logstr = logstr + "," + "START_dateoff: " + START_dateoff;
+				logstr = logstr + "," + "STOP_date:     " + STOP_date;
+				logstr = logstr + "," + "Step:          " + Step;
 			} else {
-				console.log("START_dateinc: " + START_dateinc);
-				console.log("STOP_dateoff:  " + START_dateoff);
-				console.log("Step:  " + Step);				
+				console.log("Start:")
+				console.log(Start);
+				console.log("START_dateinc:")
+				console.log(START_dateinc);
+				console.log("START_dateoff:");
+				console.log(START_dateoff);
+				console.log("Stop:");
+				console.log(Stop);
+				console.log("STOP_date:");
+				console.log(STOP_date);
+				console.log("Step:");
+				console.log(Step);
 			}
 		}
 
@@ -197,8 +185,13 @@ function expandtemplate(options,callback) {
 				console.log(addinc);
 				console.log("template");
 				console.log(template);
-				console.log("START_dateinc");
-				console.log(START_dateinc);				
+				console.log("START_dateinc:");
+				console.log(START_dateinc);
+				console.log("START_dateoff:");
+				console.log(START_dateoff);
+				console.log("STOP_date:");
+				console.log(STOP_date);				
+				console.log("--------------")
 			}
 		}
 		
@@ -239,7 +232,7 @@ function expandtemplate(options,callback) {
 
 		}	
 		if (!callback) {
-//			return files;
+			//return files;
 		}
 		if (check) return head(files,proxy,headcomplete);
 		if (!check) return finished();
@@ -291,6 +284,21 @@ function expandtemplate(options,callback) {
 		
 }
 
+function pad(dt) {
+	if (dt.length == 10) {
+		// YYYY-MM-DD
+		dt = dt + "T00:00:00";
+	}
+	if (dt.length == 13) {
+		// YYYY-MM-DDT00
+		dt = dt + ":00:00";
+	}
+	if (dt.length == 16) {
+		// YYYY-MM-DDT00:00
+		dt = dt + ":00";
+	}
+	return dt
+}
 
 function expandISO8601Duration(timeRange,options) {
 
@@ -378,10 +386,9 @@ if (typeof(exports) !== "undefined" && require){
 		require(__dirname+"/../deps/strftime");
 		require(__dirname+"/../deps/date");
 		var sp = require(__dirname+"/../deps/sprintf-0.7-beta1");
-	}	
-
-	sprintf = sp.sprintf;
-	vsprintf = sp.vsprintf;
+	}
+	var sprintf = sp.sprintf;
+	var vsprintf = sp.vsprintf;
 
 	exports.expandtemplate = expandtemplate;
 	exports.expandISO8601Duration = expandISO8601Duration;
