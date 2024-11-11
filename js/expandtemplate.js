@@ -76,6 +76,14 @@ function expandtemplate(options,callback) {
 	}
 
 	if (type == "strftime") {
+		console.log("------")
+		console.log(template)
+		files = URITemplate.formatRange(template, Start, Stop)
+		if (check) return head(files,proxy,headcomplete);
+		if (!check) return finished();
+	}
+
+	if (type == "xstrftime") {
 
 		// YYYY-MM-DD is interpreted as GMT in later versions of Javascript Date()
 		// YYYY-MM-DDT00 is interpreted as having local timezone.
