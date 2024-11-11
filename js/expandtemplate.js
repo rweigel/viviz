@@ -1,3 +1,10 @@
+function expandtemplate_test() {
+	options = {...}
+	expandtemplate(options,function(files,headers,options) {
+		console.log(files)
+	})
+}
+
 function expandtemplate(options,callback) {
 
 	// Interpretation of timeRanges:
@@ -54,7 +61,7 @@ function expandtemplate(options,callback) {
 		if (debug) console.log("expandtemplate.js: No wildcards")
 		return finished();
 	}
-	
+
 	if (type == "sprintf") {
 
 		// Allow identifiers to be a $.  Internally use %.
@@ -79,6 +86,7 @@ function expandtemplate(options,callback) {
 		console.log("------")
 		console.log(template)
 		files = URITemplate.formatRange(template, Start, Stop)
+		console.log(files)
 		if (check) return head(files,proxy,headcomplete);
 		if (!check) return finished();
 	}
