@@ -5,7 +5,7 @@
 	"dependencies": {
 		"xml2js": "*",
 		"request": "2.9.203",
-		"express": "3.1.0",
+		"express": "4.17.3",
 		"mkdirp": "*",
 		"readdirp": "*",
 		"cli-color": "*",
